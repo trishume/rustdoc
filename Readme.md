@@ -1,0 +1,1 @@
+Auto-generated rust docs

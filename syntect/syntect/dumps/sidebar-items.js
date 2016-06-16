@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["dump_binary",""],["dump_to_file",""],["from_binary","Returns a fully loaded and linked syntax set from a binary dump. Panics if the dump is invalid."],["from_dump_file","Returns a fully loaded and linked syntax set from a binary dump file."]]});

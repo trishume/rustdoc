@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `highlighting` mod in crate `syntect`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, highlighting">
+
+    <title>syntect::highlighting - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>syntect</a></p><script>window.sidebarCurrent = {name: 'highlighting', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content mod">
+<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>syntect</a>::<wbr><a class='mod' href=''>highlighting</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-14' class='srclink' href='../../src/syntect/src/highlighting/mod.rs.html#1-17' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>Everything having to do with turning parsed text into styled text.
+You might want to check out <code>Theme</code> for its handy text-editor related
+settings like selection colour, <code>ThemeSet</code> for loading themes,
+as well as things starting with <code>Highlight</code> for how to highlight text.</p>
+</div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.Color.html'
+                                  title='syntect::highlighting::Color'>Color</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.FontStyle.html'
+                                  title='syntect::highlighting::FontStyle'>FontStyle</a></td>
+                           <td class='docblock short'>
+                                <p>This can be a combination of <code>FONT_STYLE_BOLD</code>, <code>FONT_STYLE_UNDERLINE</code> and <code>FONT_STYLE_ITALIC</code></p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.HighlightIterator.html'
+                                  title='syntect::highlighting::HighlightIterator'>HighlightIterator</a></td>
+                           <td class='docblock short'>
+                                <p>Highlights a line of parsed code given a <code>HighlightState</code>
+and line of changes from the parser.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.HighlightState.html'
+                                  title='syntect::highlighting::HighlightState'>HighlightState</a></td>
+                           <td class='docblock short'>
+                                <p>Keeps a stack of scopes and styles as state between highlighting different lines.
+If you are highlighting an entire file you create one of these at the start and use it
+all the way to the end.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.Highlighter.html'
+                                  title='syntect::highlighting::Highlighter'>Highlighter</a></td>
+                           <td class='docblock short'>
+                                <p>Basically a wrapper around a <code>Theme</code> preparing it to be used for highlighting.
+This is part of the API to preserve the possibility of caching
+matches of the selectors of the theme on various scope paths
+or setting up some kind of accelerator structure.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.ScopeSelector.html'
+                                  title='syntect::highlighting::ScopeSelector'>ScopeSelector</a></td>
+                           <td class='docblock short'>
+                                <p>A single selector consisting of a stack to match and a possible stack to exclude from being matched.
+You probably want <code>ScopeSelectors</code> which is this but with union support.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.ScopeSelectors.html'
+                                  title='syntect::highlighting::ScopeSelectors'>ScopeSelectors</a></td>
+                           <td class='docblock short'>
+                                <p>A selector set that matches anything matched by any of its component selectors.
+See <a href="https://manual.macromates.com/en/scope_selectors">The TextMate Docs</a> for how these
+work.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.Style.html'
+                                  title='syntect::highlighting::Style'>Style</a></td>
+                           <td class='docblock short'>
+                                <p>The foreground, background and font style</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.StyleModifier.html'
+                                  title='syntect::highlighting::StyleModifier'>StyleModifier</a></td>
+                           <td class='docblock short'>
+                                <p>A change to a <code>Style</code> applied incrementally by a theme rule.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.Theme.html'
+                                  title='syntect::highlighting::Theme'>Theme</a></td>
+                           <td class='docblock short'>
+                                <p>A theme parsed from a <code>.tmTheme</code> file.
+Contains fields useful for a theme list as well as <code>settings</code> for styling your editor.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.ThemeItem.html'
+                                  title='syntect::highlighting::ThemeItem'>ThemeItem</a></td>
+                           <td class='docblock short'>
+                                <p>A component of a theme meant to highlight a specific thing (e.g string literals)
+in a certain way.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.ThemeSet.html'
+                                  title='syntect::highlighting::ThemeSet'>ThemeSet</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.ThemeSettings.html'
+                                  title='syntect::highlighting::ThemeSettings'>ThemeSettings</a></td>
+                           <td class='docblock short'>
+                                <p>Various properties meant to be used to style a text editor.
+Basically all the styles that aren&#39;t directly applied to text like selection colour.
+Use this to make your editor UI match the highlighted text.</p>
+                           </td>
+                       </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.ParseThemeError.html'
+                                  title='syntect::highlighting::ParseThemeError'>ParseThemeError</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.Settings.html'
+                                  title='syntect::highlighting::Settings'>Settings</a></td>
+                           <td class='docblock short'>
+                                <p>Represents a json value</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.SettingsError.html'
+                                  title='syntect::highlighting::SettingsError'>SettingsError</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.UnderlineOption.html'
+                                  title='syntect::highlighting::UnderlineOption'>UnderlineOption</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr></table><h2 id='constants' class='section-header'><a href="#constants">Constants</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.BLACK.html'
+                                  title='syntect::highlighting::BLACK'>BLACK</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.FONT_STYLE_BOLD.html'
+                                  title='syntect::highlighting::FONT_STYLE_BOLD'>FONT_STYLE_BOLD</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.FONT_STYLE_ITALIC.html'
+                                  title='syntect::highlighting::FONT_STYLE_ITALIC'>FONT_STYLE_ITALIC</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.FONT_STYLE_UNDERLINE.html'
+                                  title='syntect::highlighting::FONT_STYLE_UNDERLINE'>FONT_STYLE_UNDERLINE</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.WHITE.html'
+                                  title='syntect::highlighting::WHITE'>WHITE</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='trait' href='trait.FromSettings.html'
+                                  title='syntect::highlighting::FromSettings'>FromSettings</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='trait' href='trait.ParseSettings.html'
+                                  title='syntect::highlighting::ParseSettings'>ParseSettings</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.read_plist.html'
+                                  title='syntect::highlighting::read_plist'>read_plist</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr></table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='type' href='type.SettingsArray.html'
+                                  title='syntect::highlighting::SettingsArray'>SettingsArray</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='type' href='type.SettingsObject.html'
+                                  title='syntect::highlighting::SettingsObject'>SettingsObject</a></td>
+                           <td class='docblock short'>
+                                
+                           </td>
+                       </tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "syntect";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["HighlightFile","Convenience struct containing everything you need to highlight a file. Use the `reader` to get the lines of the file and the `highlight_lines` to highlight them. See the `new` method docs for more information."],["HighlightLines","Simple way to go directly from lines of text to coloured tokens."]]});

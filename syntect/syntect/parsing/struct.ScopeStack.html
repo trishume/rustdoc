@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `ScopeStack` struct in crate `syntect`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, ScopeStack">
+
+    <title>syntect::parsing::ScopeStack - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>syntect</a>::<wbr><a href='index.html'>parsing</a></p><script>window.sidebarCurrent = {name: 'ScopeStack', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>syntect</a>::<wbr><a href='index.html'>parsing</a>::<wbr><a class='struct' href=''>ScopeStack</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-2408' class='srclink' href='../../src/syntect/src/parsing/scope.rs.html#59-61' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct ScopeStack {
+    // some fields omitted
+}</pre><div class='docblock'><p>A stack/sequence of scopes. This is used both to represent hierarchies for a given
+token of text, as well as in <code>ScopeSelectors</code>. Press <code>ctrl+shift+p</code> in Sublime Text
+to see the scope stack at a given point.
+Also see <a href="https://manual.macromates.com/en/scope_selectors">the TextMate docs</a>.</p>
+
+<p>Example for a JS string inside a script tag in a Rails <code>ERB</code> file:
+<code>text.html.ruby text.html.basic source.js.embedded.html string.quoted.double.js</code></p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../syntect/parsing/struct.ScopeStack.html' title='syntect::parsing::ScopeStack'>ScopeStack</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2640' class='srclink' href='../../src/syntect/src/parsing/scope.rs.html#275-361' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>() -&gt; <a class='struct' href='../../syntect/parsing/struct.ScopeStack.html' title='syntect::parsing::ScopeStack'>ScopeStack</a></code></h4>
+<h4 id='method.from_vec' class='method'><code>fn <a href='#method.from_vec' class='fnname'>from_vec</a>(v: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../syntect/parsing/struct.Scope.html' title='syntect::parsing::Scope'>Scope</a>&gt;) -&gt; <a class='struct' href='../../syntect/parsing/struct.ScopeStack.html' title='syntect::parsing::ScopeStack'>ScopeStack</a></code></h4>
+<h4 id='method.push' class='method'><code>fn <a href='#method.push' class='fnname'>push</a>(&amp;mut self, s: <a class='struct' href='../../syntect/parsing/struct.Scope.html' title='syntect::parsing::Scope'>Scope</a>)</code></h4>
+<h4 id='method.pop' class='method'><code>fn <a href='#method.pop' class='fnname'>pop</a>(&amp;mut self)</code></h4>
+<h4 id='method.apply' class='method'><code>fn <a href='#method.apply' class='fnname'>apply</a>(&amp;mut self, op: &amp;<a class='enum' href='../../syntect/parsing/enum.ScopeStackOp.html' title='syntect::parsing::ScopeStackOp'>ScopeStackOp</a>)</code></h4>
+<h4 id='method.debug_print' class='method'><code>fn <a href='#method.debug_print' class='fnname'>debug_print</a>(&amp;self, repo: &amp;<a class='struct' href='../../syntect/parsing/struct.ScopeRepository.html' title='syntect::parsing::ScopeRepository'>ScopeRepository</a>)</code></h4>
+<h4 id='method.bottom_n' class='method'><code>fn <a href='#method.bottom_n' class='fnname'>bottom_n</a>(&amp;self, n: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[</a><a class='struct' href='../../syntect/parsing/struct.Scope.html' title='syntect::parsing::Scope'>Scope</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a></code></h4>
+<div class='docblock'><p>Return the bottom n elements of the stack.
+Equivalent to &amp;scopes[0..n] on a Vec</p>
+</div><h4 id='method.as_slice' class='method'><code>fn <a href='#method.as_slice' class='fnname'>as_slice</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[</a><a class='struct' href='../../syntect/parsing/struct.Scope.html' title='syntect::parsing::Scope'>Scope</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a></code></h4>
+<div class='docblock'><p>Return a slice of the scopes in this stack</p>
+</div><h4 id='method.len' class='method'><code>fn <a href='#method.len' class='fnname'>len</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a></code></h4>
+<div class='docblock'><p>Return the height/length of this stack</p>
+</div><h4 id='method.does_match' class='method'><code>fn <a href='#method.does_match' class='fnname'>does_match</a>(&amp;self, stack: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[</a><a class='struct' href='../../syntect/parsing/struct.Scope.html' title='syntect::parsing::Scope'>Scope</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../syntect/parsing/struct.MatchPower.html' title='syntect::parsing::MatchPower'>MatchPower</a>&gt;</code></h4>
+<div class='docblock'><p>checks if this stack as a selector matches the given stack
+if so it returns a match score, higher match scores are stronger
+matches. Scores are ordered according to the rules found
+at <a href="https://manual.macromates.com/en/scope_selectors">https://manual.macromates.com/en/scope_selectors</a></p>
+
+<p>It accomplishes this ordering through some floating point math
+ensuring deeper and longer matches matter.
+Unfortunately it is only guaranteed to return perfectly accurate results
+up to stack depths of 17, but it should be reasonably good even afterwards.
+Textmate has the exact same limitation, dunno about Sublime.</p>
+
+<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
+<pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>syntect</span>::<span class='ident'>parsing</span>::{<span class='ident'>ScopeStack</span>, <span class='ident'>MatchPower</span>};
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>;
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c e.f&quot;</span>).<span class='ident'>unwrap</span>()
+    .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d e.f.g&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
+    <span class='prelude-val'>Some</span>(<span class='ident'>MatchPower</span>(<span class='number'>0o212u64</span> <span class='kw'>as</span> <span class='ident'>f64</span>)));
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a c.d.e&quot;</span>).<span class='ident'>unwrap</span>()
+    .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d e.f.g&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
+    <span class='prelude-val'>None</span>);</pre>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/str/trait.FromStr.html' title='core::str::FromStr'>FromStr</a> for <a class='struct' href='../../syntect/parsing/struct.ScopeStack.html' title='syntect::parsing::ScopeStack'>ScopeStack</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2678' class='srclink' href='../../src/syntect/src/parsing/scope.rs.html#363-373' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='associatedtype.Err' class='type'><code>type <a href='https://doc.rust-lang.org/nightly/core/str/trait.FromStr.html#associatedtype.Err' class='type'>Err</a> = <a class='enum' href='../../syntect/parsing/enum.ParseScopeError.html' title='syntect::parsing::ParseScopeError'>ParseScopeError</a></code></h4>
+<div class='docblock'><p>The associated error which can be returned from parsing.</p>
+</div><h4 id='method.from_str' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/str/trait.FromStr.html#tymethod.from_str' class='fnname'>from_str</a>(s: &amp;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../../syntect/parsing/struct.ScopeStack.html' title='syntect::parsing::ScopeStack'>ScopeStack</a>,&nbsp;<a class='enum' href='../../syntect/parsing/enum.ParseScopeError.html' title='syntect::parsing::ParseScopeError'>ParseScopeError</a>&gt;</code></h4>
+<div class='docblock'><p>Parses a string <code>s</code> to return a value of this type. <a href="https://doc.rust-lang.org/nightly/core/str/trait.FromStr.html#tymethod.from_str">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html' title='core::fmt::Display'>Display</a> for <a class='struct' href='../../syntect/parsing/struct.ScopeStack.html' title='syntect::parsing::ScopeStack'>ScopeStack</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2686' class='srclink' href='../../src/syntect/src/parsing/scope.rs.html#375-382' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../../rustc_serialize/serialize/trait.Decodable.html' title='rustc_serialize::serialize::Decodable'>Decodable</a> for <a class='struct' href='../../syntect/parsing/struct.ScopeStack.html' title='syntect::parsing::ScopeStack'>ScopeStack</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2410' class='srclink' href='../../src/syntect/src/parsing/scope.rs.html#58' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.decode' class='method'><code>fn <a href='../../rustc_serialize/serialize/trait.Decodable.html#tymethod.decode' class='fnname'>decode</a>&lt;__D:&nbsp;<a class='trait' href='../../rustc_serialize/serialize/trait.Decoder.html' title='rustc_serialize::serialize::Decoder'>Decoder</a>&gt;(__arg_0: &amp;mut __D) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../../syntect/parsing/struct.ScopeStack.html' title='syntect::parsing::ScopeStack'>ScopeStack</a>,&nbsp;__D::Error&gt;</code></h4>
+</div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../../rustc_serialize/serialize/trait.Encodable.html' title='rustc_serialize::serialize::Encodable'>Encodable</a> for <a class='struct' href='../../syntect/parsing/struct.ScopeStack.html' title='syntect::parsing::ScopeStack'>ScopeStack</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2418' class='srclink' href='../../src/syntect/src/parsing/scope.rs.html#58' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.encode' class='method'><code>fn <a href='../../rustc_serialize/serialize/trait.Encodable.html#tymethod.encode' class='fnname'>encode</a>&lt;__S:&nbsp;<a class='trait' href='../../rustc_serialize/serialize/trait.Encoder.html' title='rustc_serialize::serialize::Encoder'>Encoder</a>&gt;(&amp;self, __arg_0: &amp;mut __S) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>,&nbsp;__S::Error&gt;</code></h4>
+</div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/default/trait.Default.html' title='core::default::Default'>Default</a> for <a class='struct' href='../../syntect/parsing/struct.ScopeStack.html' title='syntect::parsing::ScopeStack'>ScopeStack</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2428' class='srclink' href='../../src/syntect/src/parsing/scope.rs.html#58' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.default' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/default/trait.Default.html#tymethod.default' class='fnname'>default</a>() -&gt; <a class='struct' href='../../syntect/parsing/struct.ScopeStack.html' title='syntect::parsing::ScopeStack'>ScopeStack</a></code></h4>
+<div class='docblock'><p>Returns the &quot;default value&quot; for a type. <a href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html#tymethod.default">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html' title='core::cmp::Eq'>Eq</a> for <a class='struct' href='../../syntect/parsing/struct.ScopeStack.html' title='syntect::parsing::ScopeStack'>ScopeStack</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2430' class='srclink' href='../../src/syntect/src/parsing/scope.rs.html#58' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> for <a class='struct' href='../../syntect/parsing/struct.ScopeStack.html' title='syntect::parsing::ScopeStack'>ScopeStack</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2434' class='srclink' href='../../src/syntect/src/parsing/scope.rs.html#58' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.eq' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq' class='fnname'>eq</a>(&amp;self, __arg_0: &amp;<a class='struct' href='../../syntect/parsing/struct.ScopeStack.html' title='syntect::parsing::ScopeStack'>ScopeStack</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>This method tests for <code>self</code> and <code>other</code> values to be equal, and is used by <code>==</code>. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq">Read more</a></p>
+</div><h4 id='method.ne' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, __arg_0: &amp;<a class='struct' href='../../syntect/parsing/struct.ScopeStack.html' title='syntect::parsing::ScopeStack'>ScopeStack</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>This method tests for <code>!=</code>.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../syntect/parsing/struct.ScopeStack.html' title='syntect::parsing::ScopeStack'>ScopeStack</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2445' class='srclink' href='../../src/syntect/src/parsing/scope.rs.html#58' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../../syntect/parsing/struct.ScopeStack.html' title='syntect::parsing::ScopeStack'>ScopeStack</a></code></h4>
+<div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
+</div><h4 id='method.clone_from' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></h4>
+<div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../syntect/parsing/struct.ScopeStack.html' title='syntect::parsing::ScopeStack'>ScopeStack</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2449' class='srclink' href='../../src/syntect/src/parsing/scope.rs.html#58' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt-1' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "syntect";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

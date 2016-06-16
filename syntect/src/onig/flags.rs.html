@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/git/checkouts/rust-onig-85f5f88d73c08e30/master/src/flags.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/onig-0.6.0/src/flags.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>flags.rs.html -- source</title>
@@ -297,7 +297,7 @@
 
 <span class='macro'>bitflags</span><span class='macro'>!</span> {
     <span class='doccomment'>/// Regex parsing and compilation options.</span>
-    <span class='ident'>flags</span> <span class='ident'>RegexOptions</span>: <span class='ident'>onig_sys</span>::<span class='ident'>OnigOptionType</span> {
+    <span class='kw'>pub</span> <span class='ident'>flags</span> <span class='ident'>RegexOptions</span>: <span class='ident'>onig_sys</span>::<span class='ident'>OnigOptionType</span> {
         <span class='doccomment'>/// Default options.</span>
         <span class='kw'>const</span> <span class='ident'>REGEX_OPTION_NONE</span>
             <span class='op'>=</span> <span class='ident'>onig_sys</span>::<span class='ident'>ONIG_OPTION_NONE</span>,
@@ -335,7 +335,7 @@
 
 <span class='macro'>bitflags</span><span class='macro'>!</span> {
     <span class='doccomment'>/// Regex evaluation options.</span>
-    <span class='ident'>flags</span> <span class='ident'>SearchOptions</span>: <span class='ident'>onig_sys</span>::<span class='ident'>OnigOptionType</span> {
+    <span class='kw'>pub</span> <span class='ident'>flags</span> <span class='ident'>SearchOptions</span>: <span class='ident'>onig_sys</span>::<span class='ident'>OnigOptionType</span> {
         <span class='doccomment'>/// Default options.</span>
         <span class='kw'>const</span> <span class='ident'>SEARCH_OPTION_NONE</span>
             <span class='op'>=</span> <span class='ident'>onig_sys</span>::<span class='ident'>ONIG_OPTION_NONE</span>,
@@ -349,7 +349,7 @@
 }
 
 <span class='macro'>bitflags</span><span class='macro'>!</span> {
-    <span class='ident'>flags</span> <span class='ident'>SyntaxOperator</span>: <span class='ident'>u64</span> {
+    <span class='kw'>pub</span> <span class='ident'>flags</span> <span class='ident'>SyntaxOperator</span>: <span class='ident'>u64</span> {
         <span class='doccomment'>/// `.`</span>
         <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_DOT_ANYCHAR</span>
             <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP_DOT_ANYCHAR</span> <span class='kw'>as</span> <span class='ident'>u64</span>),
@@ -495,7 +495,7 @@
 }
 
 <span class='macro'>bitflags</span><span class='macro'>!</span> {
-    <span class='ident'>flags</span> <span class='ident'>SyntaxBehavior</span>: <span class='ident'>onig_sys</span>::<span class='ident'>OnigSyntaxBehavior</span> {
+    <span class='kw'>pub</span> <span class='ident'>flags</span> <span class='ident'>SyntaxBehavior</span>: <span class='ident'>onig_sys</span>::<span class='ident'>OnigSyntaxBehavior</span> {
         <span class='doccomment'>/// `?, *, +, {n,m}`</span>
         <span class='kw'>const</span> <span class='ident'>SYNTAX_BEHAVIOR_CONTEXT_INDEP_REPEAT_OPS</span>
             <span class='op'>=</span> <span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_CONTEXT_INDEP_REPEAT_OPS</span>,

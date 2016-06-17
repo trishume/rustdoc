@@ -172,7 +172,15 @@
 <span id="128">128</span>
 <span id="129">129</span>
 <span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
 </pre><pre class='rust '>
+<span class='doccomment'>//! API wrappers for common use cases like highlighting strings and</span>
+<span class='doccomment'>//! files without caring about intermediate semantic representation</span>
+<span class='doccomment'>//! and caching.</span>
+
 <span class='kw'>use</span> <span class='ident'>parsing</span>::{<span class='ident'>ScopeStack</span>, <span class='ident'>ParseState</span>, <span class='ident'>SyntaxDefinition</span>, <span class='ident'>SyntaxSet</span>};
 <span class='kw'>use</span> <span class='ident'>highlighting</span>::{<span class='ident'>Highlighter</span>, <span class='ident'>HighlightState</span>, <span class='ident'>HighlightIterator</span>, <span class='ident'>Theme</span>, <span class='ident'>Style</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>BufReader</span>, <span class='self'>self</span>};

@@ -344,6 +344,8 @@
 <span id="300">300</span>
 <span id="301">301</span>
 <span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! This module contains data structures for representing syntax definitions.</span>
 <span class='doccomment'>//! Everything is public because I want this library to be useful in super</span>
@@ -493,6 +495,7 @@
 }
 
 <span class='kw'>impl</span> <span class='ident'>Context</span> {
+    <span class='doccomment'>/// Returns the match pattern at an index, panics if the thing isn&#39;t a match pattern</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>match_at</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>index</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>MatchPattern</span> {
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>patterns</span>[<span class='ident'>index</span>] {
             <span class='ident'>Pattern</span>::<span class='ident'>Match</span>(<span class='kw-2'>ref</span> <span class='ident'>match_pat</span>) <span class='op'>=&gt;</span> <span class='ident'>match_pat</span>,
@@ -500,6 +503,7 @@
         }
     }
 
+    <span class='doccomment'>/// Returns a mutable reference, otherwise like `match_at`</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>match_at_mut</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>index</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>MatchPattern</span> {
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>patterns</span>[<span class='ident'>index</span>] {
             <span class='ident'>Pattern</span>::<span class='ident'>Match</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>match_pat</span>) <span class='op'>=&gt;</span> <span class='ident'>match_pat</span>,

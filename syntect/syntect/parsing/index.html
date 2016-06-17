@@ -87,7 +87,8 @@ all the way to the end.</p>
                            <td><a class='struct' href='struct.SCOPE_REPO.html'
                                   title='syntect::parsing::SCOPE_REPO'>SCOPE_REPO</a></td>
                            <td class='docblock short'>
-                                
+                                <p>The global scope repo, exposed in case you want to minimize locking and unlocking.
+Shouldn&#39;t be necessary for you to use. See the <code>ScopeRepository</code> docs.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -104,7 +105,10 @@ By convention atoms are all lowercase alphanumeric.</p>
                            <td><a class='struct' href='struct.ScopeRepository.html'
                                   title='syntect::parsing::ScopeRepository'>ScopeRepository</a></td>
                            <td class='docblock short'>
-                                
+                                <p>The structure used to keep of the mapping between scope atom numbers
+and their string names. It is only exposed in case you want to lock
+<code>SCOPE_REPO</code> and then allocate a whole bunch of scopes at once
+without thrashing the lock. It is recommended you just use <code>Scope::new()</code></p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -130,7 +134,7 @@ loading them and the crucial operation of <em>linking</em>.</p>
                            <td><a class='enum' href='enum.ParseScopeError.html'
                                   title='syntect::parsing::ParseScopeError'>ParseScopeError</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Not all strings are valid scopes</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>

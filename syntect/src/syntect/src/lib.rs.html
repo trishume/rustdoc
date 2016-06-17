@@ -112,6 +112,13 @@
 <span id="68">68</span>
 <span id="69">69</span>
 <span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Welcome to the syntect docs.</span>
 <span class='doccomment'>//! These are still a work in progress but a lot of the important things have</span>
@@ -152,11 +159,18 @@
 <span class='doccomment'>/// Common error type used by syntax and theme loading</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>LoadingError</span> {
+    <span class='doccomment'>/// error finding all the files in a directory</span>
     <span class='ident'>WalkDir</span>(<span class='ident'>walkdir</span>::<span class='ident'>Error</span>),
+    <span class='doccomment'>/// error reading a file</span>
     <span class='ident'>Io</span>(<span class='ident'>IoError</span>),
+    <span class='doccomment'>/// a syntax file was invalid in some way</span>
     <span class='ident'>ParseSyntax</span>(<span class='ident'>ParseSyntaxError</span>),
+    <span class='doccomment'>/// a theme file was invalid in some way</span>
     <span class='ident'>ParseTheme</span>(<span class='ident'>ParseThemeError</span>),
+    <span class='doccomment'>/// a theme&#39;s Plist syntax was invalid in some way</span>
     <span class='ident'>ReadSettings</span>(<span class='ident'>SettingsError</span>),
+    <span class='doccomment'>/// A path given to a method was invalid.</span>
+    <span class='doccomment'>/// Possibly because it didn&#39;t reference a file or wasn&#39;t UTF-8.</span>
     <span class='ident'>BadPath</span>,
 }
 

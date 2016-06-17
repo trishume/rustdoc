@@ -47,21 +47,32 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-2892' class='srclink' href='../../src/syntect/src/dumps.rs.html#1-98' title='goto source code'>[src]</a></span></h1>
-<h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+               </span><a id='src-2892' class='srclink' href='../../src/syntect/src/dumps.rs.html#1-111' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>Methods for dumping serializable structs to a compressed binary format
+These are used to load and store the dumps used for fast startup times.</p>
+
+<p>Currently syntect serializes <code>SyntaxSet</code> structs with <code>dump_to_file</code>
+into <code>.packdump</code> files and likewise <code>ThemeSet</code> structs to <code>.themedump</code> files.</p>
+
+<p>You can use these methods to manage your own caching of compiled syntaxes and
+themes. And even your own rustc_serialize::Encodable structures if you want to
+be consistent with your format.</p>
+</div><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
 <table>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.dump_binary.html'
                                   title='syntect::dumps::dump_binary'>dump_binary</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Dumps an object to a binary array in the same format as <code>dump_to_file</code></p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.dump_to_file.html'
                                   title='syntect::dumps::dump_to_file'>dump_to_file</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Dumps an encodable object to a file at a given path. If a file already exists at that path
+it will be overwritten. The files created are encoded with the <code>bincode</code> crate and then
+compressed with the <code>flate2</code> crate.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>

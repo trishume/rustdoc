@@ -520,6 +520,28 @@
 <span id="476">476</span>
 <span id="477">477</span>
 <span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
 </pre><pre class='rust '>
 <span class='comment'>// see DESIGN.md</span>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
@@ -532,6 +554,8 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cmp</span>::<span class='ident'>Ordering</span>;
 
 <span class='macro'>lazy_static</span><span class='macro'>!</span> {
+    <span class='doccomment'>/// The global scope repo, exposed in case you want to minimize locking and unlocking.</span>
+    <span class='doccomment'>/// Shouldn&#39;t be necessary for you to use. See the `ScopeRepository` docs.</span>
     <span class='kw'>pub</span> <span class='kw'>static</span> <span class='kw-2'>ref</span> <span class='ident'>SCOPE_REPO</span>: <span class='ident'>Mutex</span><span class='op'>&lt;</span><span class='ident'>ScopeRepository</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>Mutex</span>::<span class='ident'>new</span>(<span class='ident'>ScopeRepository</span>::<span class='ident'>new</span>());
 }
 
@@ -555,6 +579,7 @@
     <span class='ident'>b</span>: <span class='ident'>u64</span>,
 }
 
+<span class='doccomment'>/// Not all strings are valid scopes</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ParseScopeError</span> {
     <span class='doccomment'>/// Due to a limitation of the current optimized internal representation</span>
@@ -565,6 +590,12 @@
     <span class='ident'>TooManyAtoms</span>,
 }
 
+<span class='doccomment'>/// The structure used to keep of the mapping between scope atom numbers</span>
+<span class='doccomment'>/// and their string names. It is only exposed in case you want to lock</span>
+<span class='doccomment'>/// `SCOPE_REPO` and then allocate a whole bunch of scopes at once</span>
+<span class='doccomment'>/// without thrashing the lock. It is recommended you just use `Scope::new()`</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// Only `Scope`s created by the same repository have valid comparison results.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ScopeRepository</span> {
     <span class='ident'>atoms</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>,
@@ -662,11 +693,16 @@
 }
 
 <span class='kw'>impl</span> <span class='ident'>Scope</span> {
+    <span class='doccomment'>/// Parses a `Scope` from a series of atoms separated by</span>
+    <span class='doccomment'>/// `.` characters. Example: `Scope::new(&quot;meta.rails.controller&quot;)`</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Scope</span>, <span class='ident'>ParseScopeError</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>repo</span> <span class='op'>=</span> <span class='ident'>SCOPE_REPO</span>.<span class='ident'>lock</span>().<span class='ident'>unwrap</span>();
         <span class='ident'>repo</span>.<span class='ident'>build</span>(<span class='ident'>s</span>.<span class='ident'>trim</span>())
     }
 
+    <span class='doccomment'>/// Gets the atom number at a given index.</span>
+    <span class='doccomment'>/// I can&#39;t think of any reason you&#39;d find this useful.</span>
+    <span class='doccomment'>/// It is used internally for turning a scope back into a string.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>atom_at</span>(<span class='self'>self</span>, <span class='ident'>index</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='ident'>u16</span> {
         <span class='kw'>let</span> <span class='ident'>shifted</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>index</span> <span class='op'>&lt;</span> <span class='number'>4</span> {
             (<span class='self'>self</span>.<span class='ident'>a</span> <span class='op'>&gt;&gt;</span> ((<span class='number'>3</span> <span class='op'>-</span> <span class='ident'>index</span>) <span class='op'>*</span> <span class='number'>16</span>))
@@ -808,6 +844,10 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>pop</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
         <span class='self'>self</span>.<span class='ident'>scopes</span>.<span class='ident'>pop</span>();
     }
+
+    <span class='doccomment'>/// Modifies this stack according to the operation given</span>
+    <span class='doccomment'>/// use this to create a stack from a `Vec` of changes</span>
+    <span class='doccomment'>/// given by the parser.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>apply</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>op</span>: <span class='kw-2'>&amp;</span><span class='ident'>ScopeStackOp</span>) {
         <span class='kw'>match</span> <span class='ident'>op</span> {
             <span class='kw-2'>&amp;</span><span class='ident'>ScopeStackOp</span>::<span class='ident'>Push</span>(<span class='ident'>scope</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>scopes</span>.<span class='ident'>push</span>(<span class='ident'>scope</span>),
@@ -819,6 +859,9 @@
             <span class='kw-2'>&amp;</span><span class='ident'>ScopeStackOp</span>::<span class='ident'>Noop</span> <span class='op'>=&gt;</span> (),
         }
     }
+
+    <span class='doccomment'>/// Prints out each scope in the stack separated by spaces</span>
+    <span class='doccomment'>/// and then a newline. Top of the stack at the end.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>debug_print</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>repo</span>: <span class='kw-2'>&amp;</span><span class='ident'>ScopeRepository</span>) {
         <span class='kw'>for</span> <span class='ident'>s</span> <span class='kw'>in</span> <span class='self'>self</span>.<span class='ident'>scopes</span>.<span class='ident'>iter</span>() {
             <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot;{} &quot;</span>, <span class='ident'>repo</span>.<span class='ident'>to_string</span>(<span class='op'>*</span><span class='ident'>s</span>));
@@ -886,6 +929,7 @@
 <span class='kw'>impl</span> <span class='ident'>FromStr</span> <span class='kw'>for</span> <span class='ident'>ScopeStack</span> {
     <span class='kw'>type</span> <span class='prelude-val'>Err</span> <span class='op'>=</span> <span class='ident'>ParseScopeError</span>;
 
+    <span class='doccomment'>/// Parses a scope stack from a whitespace separated list of scopes.</span>
     <span class='kw'>fn</span> <span class='ident'>from_str</span>(<span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>ScopeStack</span>, <span class='ident'>ParseScopeError</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>scopes</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
         <span class='kw'>for</span> <span class='ident'>name</span> <span class='kw'>in</span> <span class='ident'>s</span>.<span class='ident'>split_whitespace</span>() {

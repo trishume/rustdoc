@@ -58,7 +58,10 @@ as well as things starting with <code>Highlight</code> for how to highlight text
                            <td><a class='struct' href='struct.Color.html'
                                   title='syntect::highlighting::Color'>Color</a></td>
                            <td class='docblock short'>
-                                
+                                <p>RGBA colour, these numbers come directly from the theme so
+for now you might have to do your own colour space conversion if you are outputting
+a different colour space from the theme. This can be a problem because some Sublime
+themes use sRGB and some don&#39;t. This is specified in an attribute syntect doesn&#39;t parse yet.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -167,17 +170,10 @@ Use this to make your editor UI match the highlighted text.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='enum' href='enum.Settings.html'
-                                  title='syntect::highlighting::Settings'>Settings</a></td>
-                           <td class='docblock short'>
-                                <p>Represents a json value</p>
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
                            <td><a class='enum' href='enum.SettingsError.html'
                                   title='syntect::highlighting::SettingsError'>SettingsError</a></td>
                            <td class='docblock short'>
-                                
+                                <p>An error parsing a settings file</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -192,73 +188,35 @@ Use this to make your editor UI match the highlighted text.</p>
                            <td><a class='constant' href='constant.BLACK.html'
                                   title='syntect::highlighting::BLACK'>BLACK</a></td>
                            <td class='docblock short'>
-                                
+                                <p>Pre-defined convenience colour</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='constant' href='constant.FONT_STYLE_BOLD.html'
                                   title='syntect::highlighting::FONT_STYLE_BOLD'>FONT_STYLE_BOLD</a></td>
                            <td class='docblock short'>
-                                
+                                <p>A bitfield constant FontStyle</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='constant' href='constant.FONT_STYLE_ITALIC.html'
                                   title='syntect::highlighting::FONT_STYLE_ITALIC'>FONT_STYLE_ITALIC</a></td>
                            <td class='docblock short'>
-                                
+                                <p>A bitfield constant FontStyle</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='constant' href='constant.FONT_STYLE_UNDERLINE.html'
                                   title='syntect::highlighting::FONT_STYLE_UNDERLINE'>FONT_STYLE_UNDERLINE</a></td>
                            <td class='docblock short'>
-                                
+                                <p>A bitfield constant FontStyle</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='constant' href='constant.WHITE.html'
                                   title='syntect::highlighting::WHITE'>WHITE</a></td>
                            <td class='docblock short'>
-                                
-                           </td>
-                       </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
-<table>
-                       <tr class=' module-item'>
-                           <td><a class='trait' href='trait.FromSettings.html'
-                                  title='syntect::highlighting::FromSettings'>FromSettings</a></td>
-                           <td class='docblock short'>
-                                
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class='trait' href='trait.ParseSettings.html'
-                                  title='syntect::highlighting::ParseSettings'>ParseSettings</a></td>
-                           <td class='docblock short'>
-                                
-                           </td>
-                       </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
-<table>
-                       <tr class=' module-item'>
-                           <td><a class='fn' href='fn.read_plist.html'
-                                  title='syntect::highlighting::read_plist'>read_plist</a></td>
-                           <td class='docblock short'>
-                                
-                           </td>
-                       </tr></table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
-<table>
-                       <tr class=' module-item'>
-                           <td><a class='type' href='type.SettingsArray.html'
-                                  title='syntect::highlighting::SettingsArray'>SettingsArray</a></td>
-                           <td class='docblock short'>
-                                
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class='type' href='type.SettingsObject.html'
-                                  title='syntect::highlighting::SettingsObject'>SettingsObject</a></td>
-                           <td class='docblock short'>
-                                
+                                <p>Pre-defined convenience colour</p>
                            </td>
                        </tr></table></section>
     <section id='search' class="content hidden"></section>

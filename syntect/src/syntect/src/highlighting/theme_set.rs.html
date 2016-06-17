@@ -126,6 +126,7 @@
 <span id="82">82</span>
 <span id="83">83</span>
 <span id="84">84</span>
+<span id="85">85</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>theme</span>::<span class='ident'>Theme</span>;
 <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>settings</span>::<span class='op'>*</span>;
@@ -141,6 +142,7 @@
     <span class='kw'>pub</span> <span class='ident'>themes</span>: <span class='ident'>BTreeMap</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>Theme</span><span class='op'>&gt;</span>,
 }
 
+<span class='doccomment'>/// A set of themes, includes convenient methods for loading and discovering themes.</span>
 <span class='kw'>impl</span> <span class='ident'>ThemeSet</span> {
     <span class='doccomment'>/// Returns all the themes found in a folder, good for enumerating before loading one with get_theme</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>discover_theme_paths</span><span class='op'>&lt;</span><span class='ident'>P</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>Path</span><span class='op'>&gt;&gt;</span>(<span class='ident'>folder</span>: <span class='ident'>P</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>PathBuf</span><span class='op'>&gt;</span>, <span class='ident'>LoadingError</span><span class='op'>&gt;</span> {

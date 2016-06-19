@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/plist-0.0.13/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-88ac128001ac3a9a/plist-0.0.13/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
@@ -826,7 +826,7 @@
     <span class='kw'>fn</span> <span class='ident'>fmt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>fmt</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>fmt</span>::<span class='ident'>Formatter</span>) <span class='op'>-&gt;</span> <span class='ident'>fmt</span>::<span class='prelude-ty'>Result</span> {
         <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
             <span class='ident'>Error</span>::<span class='ident'>Io</span>(<span class='kw-2'>ref</span> <span class='ident'>err</span>) <span class='op'>=&gt;</span> <span class='ident'>err</span>.<span class='ident'>fmt</span>(<span class='ident'>fmt</span>),
-            _ <span class='op'>=&gt;</span> <span class='op'>&lt;</span><span class='self'>Self</span> <span class='kw'>as</span> ::<span class='ident'>std</span>::<span class='ident'>error</span>::<span class='ident'>Error</span><span class='op'>&gt;</span>::<span class='ident'>description</span>(<span class='self'>self</span>).<span class='ident'>fmt</span>(<span class='ident'>fmt</span>),
+            _ <span class='op'>=&gt;</span> <span class='op'>&lt;</span><span class='kw'>Self</span> <span class='kw'>as</span> ::<span class='ident'>std</span>::<span class='ident'>error</span>::<span class='ident'>Error</span><span class='op'>&gt;</span>::<span class='ident'>description</span>(<span class='self'>self</span>).<span class='ident'>fmt</span>(<span class='ident'>fmt</span>),
         }
     }
 }
@@ -857,9 +857,9 @@
         <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>reader</span>.<span class='ident'>seek</span>(<span class='ident'>SeekFrom</span>::<span class='ident'>Start</span>(<span class='number'>0</span>)));
 
         <span class='prelude-val'>Ok</span>(<span class='kw'>if</span> <span class='kw-2'>&amp;</span><span class='ident'>magic</span> <span class='op'>==</span> <span class='string'>b&quot;bplist00&quot;</span> {
-            <span class='bool-val'>true</span>
+            <span class='boolval'>true</span>
         } <span class='kw'>else</span> {
-            <span class='bool-val'>false</span>
+            <span class='boolval'>false</span>
         })
     }
 }
@@ -875,8 +875,8 @@
         };
 
         <span class='kw'>let</span> <span class='ident'>event_reader</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>EventReader</span>::<span class='ident'>is_binary</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>reader</span>) {
-            <span class='prelude-val'>Ok</span>(<span class='bool-val'>true</span>) <span class='op'>=&gt;</span> <span class='ident'>EventReaderInner</span>::<span class='ident'>Binary</span>(<span class='ident'>binary</span>::<span class='ident'>EventReader</span>::<span class='ident'>new</span>(<span class='ident'>reader</span>)),
-            <span class='prelude-val'>Ok</span>(<span class='bool-val'>false</span>) <span class='op'>=&gt;</span> <span class='ident'>EventReaderInner</span>::<span class='ident'>Xml</span>(<span class='ident'>xml</span>::<span class='ident'>EventReader</span>::<span class='ident'>new</span>(<span class='ident'>reader</span>)),
+            <span class='prelude-val'>Ok</span>(<span class='boolval'>true</span>) <span class='op'>=&gt;</span> <span class='ident'>EventReaderInner</span>::<span class='ident'>Binary</span>(<span class='ident'>binary</span>::<span class='ident'>EventReader</span>::<span class='ident'>new</span>(<span class='ident'>reader</span>)),
+            <span class='prelude-val'>Ok</span>(<span class='boolval'>false</span>) <span class='op'>=&gt;</span> <span class='ident'>EventReaderInner</span>::<span class='ident'>Xml</span>(<span class='ident'>xml</span>::<span class='ident'>EventReader</span>::<span class='ident'>new</span>(<span class='ident'>reader</span>)),
             <span class='prelude-val'>Err</span>(<span class='ident'>err</span>) <span class='op'>=&gt;</span> {
                 ::<span class='ident'>std</span>::<span class='ident'>mem</span>::<span class='ident'>replace</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='number'>0</span>, <span class='ident'>EventReaderInner</span>::<span class='ident'>Uninitialized</span>(<span class='prelude-val'>Some</span>(<span class='ident'>reader</span>)));
                 <span class='kw'>return</span> <span class='prelude-val'>Some</span>(<span class='prelude-val'>Err</span>(<span class='ident'>err</span>));
@@ -910,7 +910,7 @@
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
 <span class='kw'>mod</span> <span class='ident'>tests</span> {
-    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>Plist</span>;
+    <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>Plist</span>;
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
     <span class='kw'>fn</span> <span class='ident'>test_plist_access</span>() {
@@ -928,7 +928,7 @@
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>dict</span>.<span class='ident'>as_dictionary</span>(), <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='ident'>map</span>.<span class='ident'>clone</span>()));
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>dict</span>.<span class='ident'>as_dictionary_mut</span>(), <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>map</span>.<span class='ident'>clone</span>()));
 
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>Plist</span>::<span class='ident'>Boolean</span>(<span class='bool-val'>true</span>).<span class='ident'>as_boolean</span>(), <span class='prelude-val'>Some</span>(<span class='bool-val'>true</span>));
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>Plist</span>::<span class='ident'>Boolean</span>(<span class='boolval'>true</span>).<span class='ident'>as_boolean</span>(), <span class='prelude-val'>Some</span>(<span class='boolval'>true</span>));
 
         <span class='kw'>let</span> <span class='ident'>slice</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>u8</span>] <span class='op'>=</span> <span class='kw-2'>&amp;</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>];
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>Plist</span>::<span class='ident'>Data</span>(<span class='ident'>slice</span>.<span class='ident'>to_vec</span>()).<span class='ident'>as_data</span>(), <span class='prelude-val'>Some</span>(<span class='ident'>slice</span>));
@@ -967,8 +967,6 @@
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 

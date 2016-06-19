@@ -448,8 +448,8 @@
 <span id="404">404</span>
 <span id="405">405</span>
 </pre><pre class='rust '>
-<span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>syntax_definition</span>::<span class='op'>*</span>;
-<span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>scope</span>::<span class='op'>*</span>;
+<span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>syntax_definition</span>::<span class='op'>*</span>;
+<span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>scope</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='ident'>onig</span>::{<span class='self'>self</span>, <span class='ident'>Region</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>usize</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>i32</span>;
@@ -504,7 +504,7 @@
         };
         <span class='ident'>ParseState</span> {
             <span class='ident'>stack</span>: <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>start_state</span>],
-            <span class='ident'>first_line</span>: <span class='bool-val'>true</span>,
+            <span class='ident'>first_line</span>: <span class='boolval'>true</span>,
         }
     }
 
@@ -529,7 +529,7 @@
             <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>context</span>.<span class='ident'>meta_content_scope</span>.<span class='ident'>is_empty</span>() {
                 <span class='ident'>res</span>.<span class='ident'>push</span>((<span class='number'>0</span>, <span class='ident'>ScopeStackOp</span>::<span class='ident'>Push</span>(<span class='ident'>context</span>.<span class='ident'>meta_content_scope</span>[<span class='number'>0</span>])));
             }
-            <span class='self'>self</span>.<span class='ident'>first_line</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
+            <span class='self'>self</span>.<span class='ident'>first_line</span> <span class='op'>=</span> <span class='boolval'>false</span>;
         }
 
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>regions</span> <span class='op'>=</span> <span class='ident'>Region</span>::<span class='ident'>with_capacity</span>(<span class='number'>8</span>);
@@ -562,7 +562,7 @@
             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>overall_index</span> <span class='op'>=</span> <span class='number'>0</span>;
             <span class='kw'>for</span> <span class='ident'>ctx</span> <span class='kw'>in</span> <span class='ident'>context_chain</span> {
                 <span class='kw'>for</span> (<span class='ident'>pat_context_ptr</span>, <span class='ident'>pat_index</span>) <span class='kw'>in</span> <span class='ident'>context_iter</span>(<span class='ident'>ctx</span>) {
-                    <span class='kw'>if</span> <span class='ident'>overall_index</span> <span class='op'>&lt;</span> <span class='ident'>cache</span>.<span class='ident'>len</span>() <span class='op'>&amp;&amp;</span> <span class='ident'>cache</span>[<span class='ident'>overall_index</span>] <span class='op'>==</span> <span class='bool-val'>false</span> {
+                    <span class='kw'>if</span> <span class='ident'>overall_index</span> <span class='op'>&lt;</span> <span class='ident'>cache</span>.<span class='ident'>len</span>() <span class='op'>&amp;&amp;</span> <span class='ident'>cache</span>[<span class='ident'>overall_index</span>] <span class='op'>==</span> <span class='boolval'>false</span> {
                         <span class='ident'>overall_index</span> <span class='op'>+=</span> <span class='number'>1</span>;
                         <span class='kw'>continue</span>; <span class='comment'>// we&#39;ve determined this pattern doesn&#39;t match this line anywhere</span>
                     }
@@ -595,7 +595,7 @@
                         <span class='comment'>// this is necessary to avoid infinite looping on dumb patterns</span>
                         <span class='kw'>let</span> <span class='ident'>does_something</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>match_pat</span>.<span class='ident'>operation</span> {
                             <span class='ident'>MatchOperation</span>::<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>match_start</span> <span class='op'>!=</span> <span class='ident'>match_end</span>,
-                            _ <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
+                            _ <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
                         };
                         <span class='kw'>if</span> <span class='ident'>match_start</span> <span class='op'>&lt;</span> <span class='ident'>min_start</span> <span class='op'>&amp;&amp;</span> <span class='ident'>does_something</span> {
                             <span class='ident'>min_start</span> <span class='op'>=</span> <span class='ident'>match_start</span>;
@@ -621,9 +621,9 @@
             <span class='kw'>if</span> <span class='ident'>stack_changed</span> {
                 <span class='ident'>cache</span>.<span class='ident'>clear</span>();
             }
-            <span class='bool-val'>true</span>
+            <span class='boolval'>true</span>
         } <span class='kw'>else</span> {
-            <span class='bool-val'>false</span>
+            <span class='boolval'>false</span>
         }
     }
 
@@ -640,7 +640,7 @@
         <span class='kw'>let</span> <span class='ident'>level_context</span> <span class='op'>=</span> <span class='ident'>level_context_ptr</span>.<span class='ident'>borrow</span>();
         <span class='comment'>// println!(&quot;running pattern {:?}&quot;, pat);</span>
 
-        <span class='self'>self</span>.<span class='ident'>push_meta_ops</span>(<span class='bool-val'>true</span>, <span class='ident'>match_start</span>, <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>level_context</span>, <span class='kw-2'>&amp;</span><span class='ident'>pat</span>.<span class='ident'>operation</span>, <span class='ident'>ops</span>);
+        <span class='self'>self</span>.<span class='ident'>push_meta_ops</span>(<span class='boolval'>true</span>, <span class='ident'>match_start</span>, <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>level_context</span>, <span class='kw-2'>&amp;</span><span class='ident'>pat</span>.<span class='ident'>operation</span>, <span class='ident'>ops</span>);
         <span class='kw'>for</span> <span class='ident'>s</span> <span class='kw'>in</span> <span class='ident'>pat</span>.<span class='ident'>scope</span>.<span class='ident'>iter</span>() {
             <span class='comment'>// println!(&quot;pushing {:?} at {}&quot;, s, match_start);</span>
             <span class='ident'>ops</span>.<span class='ident'>push</span>((<span class='ident'>match_start</span>, <span class='ident'>ScopeStackOp</span>::<span class='ident'>Push</span>(<span class='ident'>s</span>.<span class='ident'>clone</span>())));
@@ -667,7 +667,7 @@
         <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>pat</span>.<span class='ident'>scope</span>.<span class='ident'>is_empty</span>() {
             <span class='ident'>ops</span>.<span class='ident'>push</span>((<span class='ident'>match_end</span>, <span class='ident'>ScopeStackOp</span>::<span class='ident'>Pop</span>(<span class='ident'>pat</span>.<span class='ident'>scope</span>.<span class='ident'>len</span>())));
         }
-        <span class='self'>self</span>.<span class='ident'>push_meta_ops</span>(<span class='bool-val'>false</span>, <span class='ident'>match_end</span>, <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>level_context</span>, <span class='kw-2'>&amp;</span><span class='ident'>pat</span>.<span class='ident'>operation</span>, <span class='ident'>ops</span>);
+        <span class='self'>self</span>.<span class='ident'>push_meta_ops</span>(<span class='boolval'>false</span>, <span class='ident'>match_end</span>, <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>level_context</span>, <span class='kw-2'>&amp;</span><span class='ident'>pat</span>.<span class='ident'>operation</span>, <span class='ident'>ops</span>);
 
         <span class='self'>self</span>.<span class='ident'>perform_op</span>(<span class='ident'>line</span>, <span class='kw-2'>&amp;</span><span class='ident'>reg_match</span>.<span class='ident'>regions</span>, <span class='ident'>pat</span>)
     }
@@ -679,10 +679,10 @@
                      <span class='ident'>match_op</span>: <span class='kw-2'>&amp;</span><span class='ident'>MatchOperation</span>,
                      <span class='ident'>ops</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Vec</span><span class='op'>&lt;</span>(<span class='ident'>usize</span>, <span class='ident'>ScopeStackOp</span>)<span class='op'>&gt;</span>) {
         <span class='kw'>let</span> <span class='ident'>involves_pop</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>match_op</span> {
-            <span class='kw-2'>&amp;</span><span class='ident'>MatchOperation</span>::<span class='ident'>Pop</span> <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
-            <span class='kw-2'>&amp;</span><span class='ident'>MatchOperation</span>::<span class='ident'>Set</span>(_) <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
-            <span class='kw-2'>&amp;</span><span class='ident'>MatchOperation</span>::<span class='ident'>Push</span>(_) <span class='op'>=&gt;</span> <span class='bool-val'>false</span>,
-            <span class='kw-2'>&amp;</span><span class='ident'>MatchOperation</span>::<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='bool-val'>false</span>,
+            <span class='kw-2'>&amp;</span><span class='ident'>MatchOperation</span>::<span class='ident'>Pop</span> <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
+            <span class='kw-2'>&amp;</span><span class='ident'>MatchOperation</span>::<span class='ident'>Set</span>(_) <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
+            <span class='kw-2'>&amp;</span><span class='ident'>MatchOperation</span>::<span class='ident'>Push</span>(_) <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+            <span class='kw-2'>&amp;</span><span class='ident'>MatchOperation</span>::<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
         };
         <span class='comment'>// println!(&quot;metas ops for {:?}, is pop: {}, initial: {}&quot;,</span>
         <span class='comment'>//          match_op,</span>
@@ -730,9 +730,9 @@
             }
             <span class='ident'>MatchOperation</span>::<span class='ident'>Pop</span> <span class='op'>=&gt;</span> {
                 <span class='self'>self</span>.<span class='ident'>stack</span>.<span class='ident'>pop</span>();
-                <span class='kw'>return</span> <span class='bool-val'>true</span>;
+                <span class='kw'>return</span> <span class='boolval'>true</span>;
             }
-            <span class='ident'>MatchOperation</span>::<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='bool-val'>false</span>,
+            <span class='ident'>MatchOperation</span>::<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='boolval'>false</span>,
         };
         <span class='kw'>for</span> (<span class='ident'>i</span>, <span class='ident'>r</span>) <span class='kw'>in</span> <span class='ident'>ctx_refs</span>.<span class='ident'>iter</span>().<span class='ident'>enumerate</span>() {
             <span class='kw'>let</span> <span class='ident'>proto</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>i</span> <span class='op'>==</span> <span class='number'>0</span> {
@@ -755,13 +755,13 @@
                 <span class='ident'>captures</span>: <span class='ident'>captures</span>,
             });
         }
-        <span class='bool-val'>true</span>
+        <span class='boolval'>true</span>
     }
 }
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
 <span class='kw'>mod</span> <span class='ident'>tests</span> {
-    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='op'>*</span>;
+    <span class='kw'>use</span> <span class='ident'>super</span>::<span class='op'>*</span>;
     <span class='kw'>use</span> <span class='ident'>parsing</span>::{<span class='ident'>SyntaxSet</span>, <span class='ident'>Scope</span>, <span class='ident'>ScopeStack</span>};
     <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>debug_print_ops</span>;
 
@@ -877,8 +877,6 @@
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 

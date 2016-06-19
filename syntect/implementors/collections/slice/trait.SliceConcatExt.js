@@ -1,5 +1,5 @@
 (function() {var implementors = {};
-implementors["regex_syntax"] = [];implementors["onig"] = [];implementors["serde"] = [];implementors["syntect"] = [];
+implementors['regex_syntax'] = [];implementors['serde'] = [];implementors['onig'] = [];implementors['syntect'] = [];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);

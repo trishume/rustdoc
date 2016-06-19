@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["ScopeSelector","A single selector consisting of a stack to match and a possible stack to exclude from being matched. You probably want `ScopeSelectors` which is this but with union support."],["ScopeSelectors","A selector set that matches anything matched by any of its component selectors. See The TextMate Docs for how these work."]]});

@@ -1,5 +1,5 @@
 (function() {var implementors = {};
-implementors["onig"] = [];
+implementors['onig'] = [];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);

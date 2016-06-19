@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-678' class='srclink' href='../../src/syntect/src/highlighting/theme.rs.html#27-95' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-689' class='srclink' href='../../src/syntect/src/highlighting/theme.rs.html#27-95' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct ThemeSettings {
     pub foreground: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../syntect/highlighting/struct.Color.html' title='syntect::highlighting::Color'>Color</a>&gt;,
     pub background: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../syntect/highlighting/struct.Color.html' title='syntect::highlighting::Color'>Color</a>&gt;,
@@ -76,77 +76,72 @@
 }</pre><div class='docblock'><p>Various properties meant to be used to style a text editor.
 Basically all the styles that aren&#39;t directly applied to text like selection colour.
 Use this to make your editor UI match the highlighted text.</p>
-</div><h2 class='fields'>Fields</h2><span id='structfield.foreground' class='structfield'><code>foreground: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../syntect/highlighting/struct.Color.html' title='syntect::highlighting::Color'>Color</a>&gt;</code>
-                           </span><span class='stab '></span><div class='docblock'><p>Foreground color for the view.</p>
-</div><span id='structfield.background' class='structfield'><code>background: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../syntect/highlighting/struct.Color.html' title='syntect::highlighting::Color'>Color</a>&gt;</code>
-                           </span><span class='stab '></span><div class='docblock'><p>Backgound color of the view.</p>
-</div><span id='structfield.caret' class='structfield'><code>caret: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../syntect/highlighting/struct.Color.html' title='syntect::highlighting::Color'>Color</a>&gt;</code>
-                           </span><span class='stab '></span><div class='docblock'><p>Color of the caret.</p>
-</div><span id='structfield.line_highlight' class='structfield'><code>line_highlight: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../syntect/highlighting/struct.Color.html' title='syntect::highlighting::Color'>Color</a>&gt;</code>
-                           </span><span class='stab '></span><div class='docblock'><p>Color of the line the caret is in.
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                             <td id='structfield.foreground'><code>foreground</code></td><td><div class='docblock'><p>Foreground color for the view.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.background'><code>background</code></td><td><div class='docblock'><p>Backgound color of the view.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.caret'><code>caret</code></td><td><div class='docblock'><p>Color of the caret.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.line_highlight'><code>line_highlight</code></td><td><div class='docblock'><p>Color of the line the caret is in.
 Only used when the <code>higlight_line</code> setting is set to <code>true</code>.</p>
-</div><span id='structfield.bracket_contents_foreground' class='structfield'><code>bracket_contents_foreground: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../syntect/highlighting/struct.Color.html' title='syntect::highlighting::Color'>Color</a>&gt;</code>
-                           </span><span class='stab '></span><div class='docblock'><p>Color of bracketed sections of text when the caret is in a bracketed section.
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.bracket_contents_foreground'><code>bracket_contents_foreground</code></td><td><div class='docblock'><p>Color of bracketed sections of text when the caret is in a bracketed section.
 Only applied when the <code>match_brackets</code> setting is set to <code>true</code>.</p>
-</div><span id='structfield.bracket_contents_options' class='structfield'><code>bracket_contents_options: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='enum' href='../../syntect/highlighting/enum.UnderlineOption.html' title='syntect::highlighting::UnderlineOption'>UnderlineOption</a>&gt;</code>
-                           </span><span class='stab '></span><div class='docblock'><p>Controls certain options when the caret is in a bracket section.
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.bracket_contents_options'><code>bracket_contents_options</code></td><td><div class='docblock'><p>Controls certain options when the caret is in a bracket section.
 Only applied when the <code>match_brackets</code> setting is set to <code>true</code>.</p>
-</div><span id='structfield.brackets_foreground' class='structfield'><code>brackets_foreground: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../syntect/highlighting/struct.Color.html' title='syntect::highlighting::Color'>Color</a>&gt;</code>
-                           </span><span class='stab '></span><div class='docblock'><p>Foreground color of the brackets when the caret is next to a bracket.
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.brackets_foreground'><code>brackets_foreground</code></td><td><div class='docblock'><p>Foreground color of the brackets when the caret is next to a bracket.
 Only applied when the <code>match_brackets</code> setting is set to <code>true</code>.</p>
-</div><span id='structfield.brackets_background' class='structfield'><code>brackets_background: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../syntect/highlighting/struct.Color.html' title='syntect::highlighting::Color'>Color</a>&gt;</code>
-                           </span><span class='stab '></span><div class='docblock'><p>Background color of the brackets when the caret is next to a bracket.
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.brackets_background'><code>brackets_background</code></td><td><div class='docblock'><p>Background color of the brackets when the caret is next to a bracket.
 Only applied when the <code>match_brackets</code> setting is set to <code>true</code>.</p>
-</div><span id='structfield.brackets_options' class='structfield'><code>brackets_options: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='enum' href='../../syntect/highlighting/enum.UnderlineOption.html' title='syntect::highlighting::UnderlineOption'>UnderlineOption</a>&gt;</code>
-                           </span><span class='stab '></span><div class='docblock'><p>Controls certain options when the caret is next to a bracket.
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.brackets_options'><code>brackets_options</code></td><td><div class='docblock'><p>Controls certain options when the caret is next to a bracket.
 Only applied when the match_brackets setting is set to <code>true</code>.</p>
-</div><span id='structfield.tags_foreground' class='structfield'><code>tags_foreground: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../syntect/highlighting/struct.Color.html' title='syntect::highlighting::Color'>Color</a>&gt;</code>
-                           </span><span class='stab '></span><div class='docblock'><p>Color of tags when the caret is next to a tag.
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.tags_foreground'><code>tags_foreground</code></td><td><div class='docblock'><p>Color of tags when the caret is next to a tag.
 Only used when the <code>match_tags</code> setting is set to <code>true</code>.</p>
-</div><span id='structfield.tags_options' class='structfield'><code>tags_options: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='enum' href='../../syntect/highlighting/enum.UnderlineOption.html' title='syntect::highlighting::UnderlineOption'>UnderlineOption</a>&gt;</code>
-                           </span><span class='stab '></span><div class='docblock'><p>Controls certain options when the caret is next to a tag.
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.tags_options'><code>tags_options</code></td><td><div class='docblock'><p>Controls certain options when the caret is next to a tag.
 Only applied when the match_tags setting is set to <code>true</code>.</p>
-</div><span id='structfield.find_highlight' class='structfield'><code>find_highlight: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../syntect/highlighting/struct.Color.html' title='syntect::highlighting::Color'>Color</a>&gt;</code>
-                           </span><span class='stab '></span><div class='docblock'><p>Background color of regions matching the current search.</p>
-</div><span id='structfield.find_highlight_foreground' class='structfield'><code>find_highlight_foreground: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../syntect/highlighting/struct.Color.html' title='syntect::highlighting::Color'>Color</a>&gt;</code>
-                           </span><span class='stab '></span><div class='docblock'><p>Background color of regions matching the current search.</p>
-</div><span id='structfield.gutter' class='structfield'><code>gutter: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../syntect/highlighting/struct.Color.html' title='syntect::highlighting::Color'>Color</a>&gt;</code>
-                           </span><span class='stab '></span><div class='docblock'><p>Background color of the gutter.</p>
-</div><span id='structfield.gutter_foreground' class='structfield'><code>gutter_foreground: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../syntect/highlighting/struct.Color.html' title='syntect::highlighting::Color'>Color</a>&gt;</code>
-                           </span><span class='stab '></span><div class='docblock'><p>Foreground color of the gutter.</p>
-</div><span id='structfield.selection' class='structfield'><code>selection: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../syntect/highlighting/struct.Color.html' title='syntect::highlighting::Color'>Color</a>&gt;</code>
-                           </span><span class='stab '></span><div class='docblock'><p>Color of the selection regions.</p>
-</div><span id='structfield.selection_background' class='structfield'><code>selection_background: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../syntect/highlighting/struct.Color.html' title='syntect::highlighting::Color'>Color</a>&gt;</code>
-                           </span><span class='stab '></span><div class='docblock'><p>Background color of the selection regions.</p>
-</div><span id='structfield.selection_border' class='structfield'><code>selection_border: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../syntect/highlighting/struct.Color.html' title='syntect::highlighting::Color'>Color</a>&gt;</code>
-                           </span><span class='stab '></span><div class='docblock'><p>Color of the selection regions border.</p>
-</div><span id='structfield.inactive_selection' class='structfield'><code>inactive_selection: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../syntect/highlighting/struct.Color.html' title='syntect::highlighting::Color'>Color</a>&gt;</code>
-                           </span><span class='stab '></span><div class='docblock'><p>Color of inactive selections (inactive view).</p>
-</div><span id='structfield.guide' class='structfield'><code>guide: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../syntect/highlighting/struct.Color.html' title='syntect::highlighting::Color'>Color</a>&gt;</code>
-                           </span><span class='stab '></span><div class='docblock'><p>Color of the guides displayed to indicate nesting levels.</p>
-</div><span id='structfield.active_guide' class='structfield'><code>active_guide: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../syntect/highlighting/struct.Color.html' title='syntect::highlighting::Color'>Color</a>&gt;</code>
-                           </span><span class='stab '></span><div class='docblock'><p>Color of the guide lined up with the caret.
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.find_highlight'><code>find_highlight</code></td><td><div class='docblock'><p>Background color of regions matching the current search.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.find_highlight_foreground'><code>find_highlight_foreground</code></td><td><div class='docblock'><p>Background color of regions matching the current search.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.gutter'><code>gutter</code></td><td><div class='docblock'><p>Background color of the gutter.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.gutter_foreground'><code>gutter_foreground</code></td><td><div class='docblock'><p>Foreground color of the gutter.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.selection'><code>selection</code></td><td><div class='docblock'><p>Color of the selection regions.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.selection_background'><code>selection_background</code></td><td><div class='docblock'><p>Background color of the selection regions.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.selection_border'><code>selection_border</code></td><td><div class='docblock'><p>Color of the selection regions border.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.inactive_selection'><code>inactive_selection</code></td><td><div class='docblock'><p>Color of inactive selections (inactive view).</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.guide'><code>guide</code></td><td><div class='docblock'><p>Color of the guides displayed to indicate nesting levels.</p>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.active_guide'><code>active_guide</code></td><td><div class='docblock'><p>Color of the guide lined up with the caret.
 Only applied if the <code>indent_guide_options</code> setting is set to <code>draw_active</code>.</p>
-</div><span id='structfield.stack_guide' class='structfield'><code>stack_guide: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../syntect/highlighting/struct.Color.html' title='syntect::highlighting::Color'>Color</a>&gt;</code>
-                           </span><span class='stab '></span><div class='docblock'><p>Color of the current guide’s parent guide level.
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.stack_guide'><code>stack_guide</code></td><td><div class='docblock'><p>Color of the current guide’s parent guide level.
 Only used if the <code>indent_guide_options</code> setting is set to <code>draw_active</code>.</p>
-</div><span id='structfield.highlight' class='structfield'><code>highlight: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../syntect/highlighting/struct.Color.html' title='syntect::highlighting::Color'>Color</a>&gt;</code>
-                           </span><span class='stab '></span><div class='docblock'><p>Background color for regions added via <code>sublime.add_regions()</code>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.highlight'><code>highlight</code></td><td><div class='docblock'><p>Background color for regions added via <code>sublime.add_regions()</code>
 with the <code>sublime.DRAW_OUTLINED</code> flag added.</p>
-</div><span id='structfield.highlight_foreground' class='structfield'><code>highlight_foreground: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../syntect/highlighting/struct.Color.html' title='syntect::highlighting::Color'>Color</a>&gt;</code>
-                           </span><span class='stab '></span><div class='docblock'><p>Foreground color for regions added via <code>sublime.add_regions()</code>
+</div></td></tr><tr class='stab '>
+                             <td id='structfield.highlight_foreground'><code>highlight_foreground</code></td><td><div class='docblock'><p>Foreground color for regions added via <code>sublime.add_regions()</code>
 with the <code>sublime.DRAW_OUTLINED</code> flag added.</p>
-</div><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../../rustc_serialize/serialize/trait.Decodable.html' title='rustc_serialize::serialize::Decodable'>Decodable</a> for <a class='struct' href='../../syntect/highlighting/struct.ThemeSettings.html' title='syntect::highlighting::ThemeSettings'>ThemeSettings</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-703' class='srclink' href='../../src/syntect/src/highlighting/theme.rs.html#26' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.decode' class='method'><code>fn <a href='../../rustc_serialize/serialize/trait.Decodable.html#tymethod.decode' class='fnname'>decode</a>&lt;__D:&nbsp;<a class='trait' href='../../rustc_serialize/serialize/trait.Decoder.html' title='rustc_serialize::serialize::Decoder'>Decoder</a>&gt;(__arg_0: &amp;mut __D) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../../syntect/highlighting/struct.ThemeSettings.html' title='syntect::highlighting::ThemeSettings'>ThemeSettings</a>,&nbsp;__D::Error&gt;</code></h4>
-</div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='../../rustc_serialize/serialize/trait.Encodable.html' title='rustc_serialize::serialize::Encodable'>Encodable</a> for <a class='struct' href='../../syntect/highlighting/struct.ThemeSettings.html' title='syntect::highlighting::ThemeSettings'>ThemeSettings</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-757' class='srclink' href='../../src/syntect/src/highlighting/theme.rs.html#26' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.encode' class='method'><code>fn <a href='../../rustc_serialize/serialize/trait.Encodable.html#tymethod.encode' class='fnname'>encode</a>&lt;__S:&nbsp;<a class='trait' href='../../rustc_serialize/serialize/trait.Encoder.html' title='rustc_serialize::serialize::Encoder'>Encoder</a>&gt;(&amp;self, __arg_0: &amp;mut __S) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>,&nbsp;__S::Error&gt;</code></h4>
-</div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/default/trait.Default.html' title='core::default::Default'>Default</a> for <a class='struct' href='../../syntect/highlighting/struct.ThemeSettings.html' title='syntect::highlighting::ThemeSettings'>ThemeSettings</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-882' class='srclink' href='../../src/syntect/src/highlighting/theme.rs.html#26' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.default' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/default/trait.Default.html#tymethod.default' class='fnname'>default</a>() -&gt; <a class='struct' href='../../syntect/highlighting/struct.ThemeSettings.html' title='syntect::highlighting::ThemeSettings'>ThemeSettings</a></code></h4>
-<div class='docblock'><p>Returns the &quot;default value&quot; for a type. <a href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html#tymethod.default">Read more</a></p>
-</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../syntect/highlighting/struct.ThemeSettings.html' title='syntect::highlighting::ThemeSettings'>ThemeSettings</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-884' class='srclink' href='../../src/syntect/src/highlighting/theme.rs.html#26' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
-<div class='docblock'><p>Formats the value using the given formatter.</p>
-</div></div></section>
+</div></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='../../rustc_serialize/serialize/trait.Decodable.html' title='rustc_serialize::serialize::Decodable'>Decodable</a> for <a class='struct' href='../../syntect/highlighting/struct.ThemeSettings.html' title='syntect::highlighting::ThemeSettings'>ThemeSettings</a></code></h3><div class='impl-items'><h4 id='method.decode' class='method'><code>fn <a href='../../rustc_serialize/serialize/trait.Decodable.html#tymethod.decode' class='fnname'>decode</a>&lt;__D: <a class='trait' href='../../rustc_serialize/serialize/trait.Decoder.html' title='rustc_serialize::serialize::Decoder'>Decoder</a>&gt;(__arg_0: &amp;mut __D) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../../syntect/highlighting/struct.ThemeSettings.html' title='syntect::highlighting::ThemeSettings'>ThemeSettings</a>, __D::Error&gt;</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../../rustc_serialize/serialize/trait.Encodable.html' title='rustc_serialize::serialize::Encodable'>Encodable</a> for <a class='struct' href='../../syntect/highlighting/struct.ThemeSettings.html' title='syntect::highlighting::ThemeSettings'>ThemeSettings</a></code></h3><div class='impl-items'><h4 id='method.encode' class='method'><code>fn <a href='../../rustc_serialize/serialize/trait.Encodable.html#tymethod.encode' class='fnname'>encode</a>&lt;__S: <a class='trait' href='../../rustc_serialize/serialize/trait.Encoder.html' title='rustc_serialize::serialize::Encoder'>Encoder</a>&gt;(&amp;self, __arg_0: &amp;mut __S) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, __S::Error&gt;</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/default/trait.Default.html' title='core::default::Default'>Default</a> for <a class='struct' href='../../syntect/highlighting/struct.ThemeSettings.html' title='syntect::highlighting::ThemeSettings'>ThemeSettings</a></code></h3><div class='impl-items'><h4 id='method.default' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/default/trait.Default.html#tymethod.default' class='fnname'>default</a>() -&gt; <a class='struct' href='../../syntect/highlighting/struct.ThemeSettings.html' title='syntect::highlighting::ThemeSettings'>ThemeSettings</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../syntect/highlighting/struct.ThemeSettings.html' title='syntect::highlighting::ThemeSettings'>ThemeSettings</a></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
+</div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
@@ -169,8 +164,6 @@ with the <code>sublime.DRAW_OUTLINED</code> flag added.</p>
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
-                    <dt>+</dt>
-                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 

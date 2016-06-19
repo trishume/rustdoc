@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Settings","Represents a json value"],["SettingsError","An error parsing a settings file"]],"type":[["SettingsArray",""],["SettingsObject",""]]});

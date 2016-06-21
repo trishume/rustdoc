@@ -73,6 +73,9 @@ I can&#39;t think of any reason you&#39;d find this useful.
 It is used internally for turning a scope back into a string.</p>
 </div><h4 id='method.len' class='method'><code>fn <a href='#method.len' class='fnname'>len</a>(self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a></code></h4>
 <div class='docblock'><p>return the number of atoms in the scope</p>
+</div><h4 id='method.build_string' class='method'><code>fn <a href='#method.build_string' class='fnname'>build_string</a>(self) -&gt; <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a></code></h4>
+<div class='docblock'><p>returns a string representation of this scope, this requires locking a
+global repo and shouldn&#39;t be done frequently.</p>
 </div><h4 id='method.is_prefix_of' class='method'><code>fn <a href='#method.is_prefix_of' class='fnname'>is_prefix_of</a>(self, s: <a class='struct' href='../../syntect/parsing/struct.Scope.html' title='syntect::parsing::Scope'>Scope</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
 <div class='docblock'><p>Tests if this scope is a prefix of another scope.
 Note that the empty scope is always a prefix.</p>

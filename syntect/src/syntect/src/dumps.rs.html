@@ -153,6 +153,10 @@
 <span id="109">109</span>
 <span id="110">110</span>
 <span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Methods for dumping serializable structs to a compressed binary format</span>
 <span class='doccomment'>//! These are used to load and store the dumps used for fast startup times.</span>
@@ -241,7 +245,11 @@
 
 <span class='kw'>impl</span> <span class='ident'>ThemeSet</span> {
     <span class='doccomment'>/// Loads the set of default themes</span>
-    <span class='doccomment'>/// Currently includes Solarized light/dark, Base16 ocean/mocha/eighties and InspiredGithub</span>
+    <span class='doccomment'>/// Currently includes (these are the keys for the map):</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// - `base16-ocean.dark`,`base16-eighties.dark`,`base16-mocha.dark`,`base16-ocean.light`</span>
+    <span class='doccomment'>/// - `InspiredGitHub` from [here](https://github.com/sethlopezme/InspiredGitHub.tmtheme)</span>
+    <span class='doccomment'>/// - `Solarized (dark)` and `Solarized (light)`</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>load_defaults</span>() <span class='op'>-&gt;</span> <span class='ident'>ThemeSet</span> {
         <span class='ident'>from_binary</span>(<span class='macro'>include_bytes</span><span class='macro'>!</span>(<span class='string'>&quot;../assets/default.themedump&quot;</span>))
     }

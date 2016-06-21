@@ -176,6 +176,7 @@
 <span id="132">132</span>
 <span id="133">133</span>
 <span id="134">134</span>
+<span id="135">135</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! API wrappers for common use cases like highlighting strings and</span>
 <span class='doccomment'>//! files without caring about intermediate semantic representation</span>
@@ -237,6 +238,7 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>highlight</span><span class='op'>&lt;</span><span class='lifetime'>&#39;b</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>line</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;b</span> <span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span>(<span class='ident'>Style</span>, <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;b</span> <span class='ident'>str</span>)<span class='op'>&gt;</span> {
         <span class='comment'>// println!(&quot;{}&quot;, self.highlight_state.path);</span>
         <span class='kw'>let</span> <span class='ident'>ops</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>parse_state</span>.<span class='ident'>parse_line</span>(<span class='kw-2'>&amp;</span><span class='ident'>line</span>);
+        <span class='comment'>// use util::debug_print_ops;</span>
         <span class='comment'>// debug_print_ops(line, &amp;ops);</span>
         <span class='kw'>let</span> <span class='ident'>iter</span> <span class='op'>=</span>
             <span class='ident'>HighlightIterator</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>highlight_state</span>, <span class='kw-2'>&amp;</span><span class='ident'>ops</span>[..], <span class='ident'>line</span>, <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>highlighter</span>);

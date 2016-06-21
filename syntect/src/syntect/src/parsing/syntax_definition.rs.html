@@ -346,6 +346,7 @@
 <span id="302">302</span>
 <span id="303">303</span>
 <span id="304">304</span>
+<span id="305">305</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! This module contains data structures for representing syntax definitions.</span>
 <span class='doccomment'>//! Everything is public because I want this library to be useful in super</span>
@@ -561,6 +562,7 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>compile_regex</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
+        <span class='comment'>// TODO don&#39;t panic on invalid regex</span>
         <span class='kw'>let</span> <span class='ident'>compiled</span> <span class='op'>=</span> <span class='ident'>Regex</span>::<span class='ident'>with_options</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>regex_str</span>,
                                            <span class='ident'>onig</span>::<span class='ident'>REGEX_OPTION_CAPTURE_GROUP</span>,
                                            <span class='ident'>Syntax</span>::<span class='ident'>default</span>())

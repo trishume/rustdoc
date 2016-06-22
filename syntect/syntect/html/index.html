@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-3074' class='srclink' href='../../src/syntect/src/html.rs.html#1-123' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-3074' class='srclink' href='../../src/syntect/src/html.rs.html#1-240' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>Rendering highlighted code as HTML+CSS</p>
 </div><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
 <table>
@@ -58,8 +58,42 @@
                                 <p>Only one style for now, I may add more class styles later.
 Just here so I don&#39;t have to change the API</p>
                            </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='enum' href='enum.IncludeBackground.html'
+                                  title='syntect::html::IncludeBackground'>IncludeBackground</a></td>
+                           <td class='docblock short'>
+                                <p>Determines how background colour attributes are generated</p>
+                           </td>
                        </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
 <table>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.highlighted_snippet_for_file.html'
+                                  title='syntect::html::highlighted_snippet_for_file'>highlighted_snippet_for_file</a></td>
+                           <td class='docblock short'>
+                                <p>Convenience method that combines <code>start_coloured_html_snippet</code>, <code>styles_to_coloured_html</code>
+and <code>HighlightFile</code> from <code>syntect::easy</code> to create a full highlighted HTML snippet for
+a file.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.highlighted_snippet_for_string.html'
+                                  title='syntect::html::highlighted_snippet_for_string'>highlighted_snippet_for_string</a></td>
+                           <td class='docblock short'>
+                                <p>Convenience method that combines <code>start_coloured_html_snippet</code>, <code>styles_to_coloured_html</code>
+and <code>HighlightLines</code> from <code>syntect::easy</code> to create a full highlighted HTML snippet for
+a string (which can contain many lines).</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.start_coloured_html_snippet.html'
+                                  title='syntect::html::start_coloured_html_snippet'>start_coloured_html_snippet</a></td>
+                           <td class='docblock short'>
+                                <p>Returns a <code>&lt;pre style=&quot;...&quot;&gt;\n</code> tag with the correct background color for the given theme.
+This is for if you want to roll your own HTML output, you probably just want to use
+<code>highlighted_snippet_for_string</code>.</p>
+                           </td>
+                       </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.styles_to_coloured_html.html'
                                   title='syntect::html::styles_to_coloured_html'>styles_to_coloured_html</a></td>
@@ -67,7 +101,7 @@ Just here so I don&#39;t have to change the API</p>
                                 <p>Output HTML for a line of code with <code>&lt;span&gt;</code> elements using inline
 <code>style</code> attributes to set the correct font attributes.
 The <code>bg</code> attribute determines if the spans will have the <code>background-color</code>
-attribute set. This adds a lot more text but allows different backgrounds.</p>
+attribute set. See the <code>IncludeBackground</code> enum&#39;s docs.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>

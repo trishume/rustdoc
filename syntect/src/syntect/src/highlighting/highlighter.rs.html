@@ -412,8 +412,8 @@
     <span class='doccomment'>/// Basically what plain text gets highlighted as.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_default</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Style</span> {
         <span class='ident'>Style</span> {
-            <span class='ident'>foreground</span>: <span class='self'>self</span>.<span class='ident'>theme</span>.<span class='ident'>settings</span>.<span class='ident'>foreground</span>.<span class='ident'>unwrap_or</span>(<span class='ident'>WHITE</span>),
-            <span class='ident'>background</span>: <span class='self'>self</span>.<span class='ident'>theme</span>.<span class='ident'>settings</span>.<span class='ident'>background</span>.<span class='ident'>unwrap_or</span>(<span class='ident'>BLACK</span>),
+            <span class='ident'>foreground</span>: <span class='self'>self</span>.<span class='ident'>theme</span>.<span class='ident'>settings</span>.<span class='ident'>foreground</span>.<span class='ident'>unwrap_or</span>(<span class='ident'>BLACK</span>),
+            <span class='ident'>background</span>: <span class='self'>self</span>.<span class='ident'>theme</span>.<span class='ident'>settings</span>.<span class='ident'>background</span>.<span class='ident'>unwrap_or</span>(<span class='ident'>WHITE</span>),
             <span class='ident'>font_style</span>: <span class='ident'>FontStyle</span>::<span class='ident'>empty</span>(),
         }
     }

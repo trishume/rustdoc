@@ -177,6 +177,13 @@
 <span id="133">133</span>
 <span id="134">134</span>
 <span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! API wrappers for common use cases like highlighting strings and</span>
 <span class='doccomment'>//! files without caring about intermediate semantic representation</span>
@@ -184,7 +191,7 @@
 
 <span class='kw'>use</span> <span class='ident'>parsing</span>::{<span class='ident'>ScopeStack</span>, <span class='ident'>ParseState</span>, <span class='ident'>SyntaxDefinition</span>, <span class='ident'>SyntaxSet</span>};
 <span class='kw'>use</span> <span class='ident'>highlighting</span>::{<span class='ident'>Highlighter</span>, <span class='ident'>HighlightState</span>, <span class='ident'>HighlightIterator</span>, <span class='ident'>Theme</span>, <span class='ident'>Style</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>BufReader</span>, <span class='self'>self</span>};
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='self'>self</span>, <span class='ident'>BufReader</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
 <span class='comment'>// use util::debug_print_ops;</span>
@@ -277,13 +284,17 @@
     <span class='doccomment'>///     println!(&quot;{}&quot;, as_24_bit_terminal_escaped(&amp;regions[..], true));</span>
     <span class='doccomment'>/// }</span>
     <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span><span class='op'>&lt;</span><span class='ident'>P</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>Path</span><span class='op'>&gt;&gt;</span>(<span class='ident'>path_obj</span>: <span class='ident'>P</span>, <span class='ident'>ss</span>: <span class='kw-2'>&amp;</span><span class='ident'>SyntaxSet</span>, <span class='ident'>theme</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Theme</span>) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>HighlightFile</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span><span class='op'>&lt;</span><span class='ident'>P</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>Path</span><span class='op'>&gt;&gt;</span>(<span class='ident'>path_obj</span>: <span class='ident'>P</span>,
+                               <span class='ident'>ss</span>: <span class='kw-2'>&amp;</span><span class='ident'>SyntaxSet</span>,
+                               <span class='ident'>theme</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Theme</span>)
+                               <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>HighlightFile</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>Path</span> <span class='op'>=</span> <span class='ident'>path_obj</span>.<span class='ident'>as_ref</span>();
         <span class='kw'>let</span> <span class='ident'>extension</span> <span class='op'>=</span> <span class='ident'>path</span>.<span class='ident'>extension</span>().<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span>.<span class='ident'>to_str</span>()).<span class='ident'>unwrap_or</span>(<span class='string'>&quot;&quot;</span>);
         <span class='kw'>let</span> <span class='ident'>f</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>File</span>::<span class='ident'>open</span>(<span class='ident'>path</span>));
         <span class='kw'>let</span> <span class='ident'>reader</span> <span class='op'>=</span> <span class='ident'>BufReader</span>::<span class='ident'>new</span>(<span class='ident'>f</span>);
         <span class='comment'>// TODO use first line detection</span>
-        <span class='kw'>let</span> <span class='ident'>syntax</span> <span class='op'>=</span> <span class='ident'>ss</span>.<span class='ident'>find_syntax_by_extension</span>(<span class='ident'>extension</span>).<span class='ident'>unwrap_or_else</span>(<span class='op'>||</span> <span class='ident'>ss</span>.<span class='ident'>find_syntax_plain_text</span>());
+        <span class='kw'>let</span> <span class='ident'>syntax</span> <span class='op'>=</span> <span class='ident'>ss</span>.<span class='ident'>find_syntax_by_extension</span>(<span class='ident'>extension</span>)
+            .<span class='ident'>unwrap_or_else</span>(<span class='op'>||</span> <span class='ident'>ss</span>.<span class='ident'>find_syntax_plain_text</span>());
         <span class='prelude-val'>Ok</span>(<span class='ident'>HighlightFile</span> {
             <span class='ident'>reader</span>: <span class='ident'>reader</span>,
             <span class='ident'>highlight_lines</span>: <span class='ident'>HighlightLines</span>::<span class='ident'>new</span>(<span class='ident'>syntax</span>, <span class='ident'>theme</span>),
@@ -310,7 +321,10 @@
     <span class='kw'>fn</span> <span class='ident'>can_highlight_file</span>() {
         <span class='kw'>let</span> <span class='ident'>ss</span> <span class='op'>=</span> <span class='ident'>SyntaxSet</span>::<span class='ident'>load_defaults_nonewlines</span>();
         <span class='kw'>let</span> <span class='ident'>ts</span> <span class='op'>=</span> <span class='ident'>ThemeSet</span>::<span class='ident'>load_defaults</span>();
-        <span class='ident'>HighlightFile</span>::<span class='ident'>new</span>(<span class='string'>&quot;testdata/highlight_test.erb&quot;</span>, <span class='kw-2'>&amp;</span><span class='ident'>ss</span>, <span class='kw-2'>&amp;</span><span class='ident'>ts</span>.<span class='ident'>themes</span>[<span class='string'>&quot;base16-ocean.dark&quot;</span>]).<span class='ident'>unwrap</span>();
+        <span class='ident'>HighlightFile</span>::<span class='ident'>new</span>(<span class='string'>&quot;testdata/highlight_test.erb&quot;</span>,
+                           <span class='kw-2'>&amp;</span><span class='ident'>ss</span>,
+                           <span class='kw-2'>&amp;</span><span class='ident'>ts</span>.<span class='ident'>themes</span>[<span class='string'>&quot;base16-ocean.dark&quot;</span>])
+            .<span class='ident'>unwrap</span>();
     }
 }
 </pre>

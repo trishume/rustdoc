@@ -282,14 +282,36 @@
 <span id="238">238</span>
 <span id="239">239</span>
 <span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Rendering highlighted code as HTML+CSS</span>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Write</span>;
 <span class='kw'>use</span> <span class='ident'>parsing</span>::{<span class='ident'>ScopeStackOp</span>, <span class='ident'>Scope</span>, <span class='ident'>SyntaxDefinition</span>, <span class='ident'>SyntaxSet</span>, <span class='ident'>SCOPE_REPO</span>};
 <span class='kw'>use</span> <span class='ident'>easy</span>::{<span class='ident'>HighlightLines</span>, <span class='ident'>HighlightFile</span>};
-<span class='kw'>use</span> <span class='ident'>highlighting</span>::{<span class='ident'>Style</span>, <span class='ident'>Theme</span>, <span class='ident'>Color</span>, <span class='self'>self</span>};
+<span class='kw'>use</span> <span class='ident'>highlighting</span>::{<span class='self'>self</span>, <span class='ident'>Style</span>, <span class='ident'>Theme</span>, <span class='ident'>Color</span>};
 <span class='kw'>use</span> <span class='ident'>escape</span>::<span class='ident'>Escape</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>BufRead</span>, <span class='self'>self</span>};
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='self'>self</span>, <span class='ident'>BufRead</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
 
 <span class='doccomment'>/// Only one style for now, I may add more class styles later.</span>
@@ -327,7 +349,12 @@
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>output</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>new</span>();
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>highlighter</span> <span class='op'>=</span> <span class='ident'>HighlightLines</span>::<span class='ident'>new</span>(<span class='ident'>syntax</span>, <span class='ident'>theme</span>);
     <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>theme</span>.<span class='ident'>settings</span>.<span class='ident'>background</span>.<span class='ident'>unwrap_or</span>(<span class='ident'>highlighting</span>::<span class='ident'>WHITE</span>);
-    <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>output</span>, <span class='string'>&quot;&lt;pre style=\&quot;background-color:#{:02x}{:02x}{:02x};\&quot;&gt;\n&quot;</span>, <span class='ident'>c</span>.<span class='ident'>r</span>, <span class='ident'>c</span>.<span class='ident'>g</span>, <span class='ident'>c</span>.<span class='ident'>b</span>).<span class='ident'>unwrap</span>();
+    <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>output</span>,
+           <span class='string'>&quot;&lt;pre style=\&quot;background-color:#{:02x}{:02x}{:02x};\&quot;&gt;\n&quot;</span>,
+           <span class='ident'>c</span>.<span class='ident'>r</span>,
+           <span class='ident'>c</span>.<span class='ident'>g</span>,
+           <span class='ident'>c</span>.<span class='ident'>b</span>)
+        .<span class='ident'>unwrap</span>();
     <span class='kw'>for</span> <span class='ident'>line</span> <span class='kw'>in</span> <span class='ident'>s</span>.<span class='ident'>lines</span>() {
         <span class='kw'>let</span> <span class='ident'>regions</span> <span class='op'>=</span> <span class='ident'>highlighter</span>.<span class='ident'>highlight</span>(<span class='ident'>line</span>);
         <span class='kw'>let</span> <span class='ident'>html</span> <span class='op'>=</span> <span class='ident'>styles_to_coloured_html</span>(<span class='kw-2'>&amp;</span><span class='ident'>regions</span>[..], <span class='ident'>IncludeBackground</span>::<span class='ident'>IfDifferent</span>(<span class='ident'>c</span>));
@@ -345,12 +372,20 @@
 <span class='doccomment'>/// Note that the `syntax` passed in must be from a `SyntaxSet` compiled for no newline characters.</span>
 <span class='doccomment'>/// This is easy to get with `SyntaxSet::load_defaults_nonewlines()`. If you think this is the wrong</span>
 <span class='doccomment'>/// choice of `SyntaxSet` to accept, I&#39;m not sure of it either, email me.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>highlighted_snippet_for_file</span><span class='op'>&lt;</span><span class='ident'>P</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>Path</span><span class='op'>&gt;&gt;</span>(<span class='ident'>path</span>: <span class='ident'>P</span>, <span class='ident'>ss</span>: <span class='kw-2'>&amp;</span><span class='ident'>SyntaxSet</span>, <span class='ident'>theme</span>: <span class='kw-2'>&amp;</span><span class='ident'>Theme</span>) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span> {
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>highlighted_snippet_for_file</span><span class='op'>&lt;</span><span class='ident'>P</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>Path</span><span class='op'>&gt;&gt;</span>(<span class='ident'>path</span>: <span class='ident'>P</span>,
+                                                    <span class='ident'>ss</span>: <span class='kw-2'>&amp;</span><span class='ident'>SyntaxSet</span>,
+                                                    <span class='ident'>theme</span>: <span class='kw-2'>&amp;</span><span class='ident'>Theme</span>)
+                                                    <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span> {
     <span class='comment'>// TODO reduce code duplication with highlighted_snippet_for_string</span>
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>output</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>new</span>();
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>highlighter</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>HighlightFile</span>::<span class='ident'>new</span>(<span class='ident'>path</span>, <span class='ident'>ss</span>, <span class='ident'>theme</span>));
     <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>theme</span>.<span class='ident'>settings</span>.<span class='ident'>background</span>.<span class='ident'>unwrap_or</span>(<span class='ident'>highlighting</span>::<span class='ident'>WHITE</span>);
-    <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>output</span>, <span class='string'>&quot;&lt;pre style=\&quot;background-color:#{:02x}{:02x}{:02x};\&quot;&gt;\n&quot;</span>, <span class='ident'>c</span>.<span class='ident'>r</span>, <span class='ident'>c</span>.<span class='ident'>g</span>, <span class='ident'>c</span>.<span class='ident'>b</span>).<span class='ident'>unwrap</span>();
+    <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>output</span>,
+           <span class='string'>&quot;&lt;pre style=\&quot;background-color:#{:02x}{:02x}{:02x};\&quot;&gt;\n&quot;</span>,
+           <span class='ident'>c</span>.<span class='ident'>r</span>,
+           <span class='ident'>c</span>.<span class='ident'>g</span>,
+           <span class='ident'>c</span>.<span class='ident'>b</span>)
+        .<span class='ident'>unwrap</span>();
     <span class='kw'>for</span> <span class='ident'>maybe_line</span> <span class='kw'>in</span> <span class='ident'>highlighter</span>.<span class='ident'>reader</span>.<span class='ident'>lines</span>() {
         <span class='kw'>let</span> <span class='ident'>line</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>maybe_line</span>);
         <span class='kw'>let</span> <span class='ident'>regions</span> <span class='op'>=</span> <span class='ident'>highlighter</span>.<span class='ident'>highlight_lines</span>.<span class='ident'>highlight</span>(<span class='kw-2'>&amp;</span><span class='ident'>line</span>);
@@ -370,8 +405,11 @@
 <span class='doccomment'>/// For this to work correctly you must concatenate all the lines in a `&lt;pre&gt;`</span>
 <span class='doccomment'>/// tag since some span tags opened on a line may not be closed on that line</span>
 <span class='doccomment'>/// and later lines may close tags from previous lines.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>tokens_to_classed_html</span>(<span class='ident'>line</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>ops</span>: <span class='kw-2'>&amp;</span>[(<span class='ident'>usize</span>, <span class='ident'>ScopeStackOp</span>)], <span class='ident'>style</span>: <span class='ident'>ClassStyle</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span> {
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>with_capacity</span>(<span class='ident'>line</span>.<span class='ident'>len</span>()<span class='op'>+</span><span class='ident'>ops</span>.<span class='ident'>len</span>()<span class='op'>*</span><span class='number'>8</span>); <span class='comment'>// a guess</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>tokens_to_classed_html</span>(<span class='ident'>line</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>,
+                              <span class='ident'>ops</span>: <span class='kw-2'>&amp;</span>[(<span class='ident'>usize</span>, <span class='ident'>ScopeStackOp</span>)],
+                              <span class='ident'>style</span>: <span class='ident'>ClassStyle</span>)
+                              <span class='op'>-&gt;</span> <span class='ident'>String</span> {
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>with_capacity</span>(<span class='ident'>line</span>.<span class='ident'>len</span>() <span class='op'>+</span> <span class='ident'>ops</span>.<span class='ident'>len</span>() <span class='op'>*</span> <span class='number'>8</span>); <span class='comment'>// a guess</span>
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>cur_index</span> <span class='op'>=</span> <span class='number'>0</span>;
     <span class='kw'>for</span> <span class='kw-2'>&amp;</span>(<span class='ident'>i</span>, <span class='kw-2'>ref</span> <span class='ident'>op</span>) <span class='kw'>in</span> <span class='ident'>ops</span> {
         <span class='kw'>if</span> <span class='ident'>i</span> <span class='op'>&gt;</span> <span class='ident'>cur_index</span> {
@@ -383,13 +421,13 @@
                 <span class='ident'>s</span>.<span class='ident'>push_str</span>(<span class='string'>&quot;&lt;span class=\&quot;&quot;</span>);
                 <span class='ident'>scope_to_classes</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>s</span>, <span class='ident'>scope</span>, <span class='ident'>style</span>);
                 <span class='ident'>s</span>.<span class='ident'>push_str</span>(<span class='string'>&quot;\&quot;&gt;&quot;</span>);
-            },
+            }
             <span class='kw-2'>&amp;</span><span class='ident'>ScopeStackOp</span>::<span class='ident'>Pop</span>(<span class='ident'>n</span>) <span class='op'>=&gt;</span> {
                 <span class='kw'>for</span> _ <span class='kw'>in</span> <span class='number'>0</span>..<span class='ident'>n</span> {
                     <span class='ident'>s</span>.<span class='ident'>push_str</span>(<span class='string'>&quot;&lt;/span&gt;&quot;</span>);
                 }
-            },
-            <span class='kw-2'>&amp;</span><span class='ident'>ScopeStackOp</span>::<span class='ident'>Noop</span> <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;ops shouldn&#39;t have no-ops&quot;</span>)
+            }
+            <span class='kw-2'>&amp;</span><span class='ident'>ScopeStackOp</span>::<span class='ident'>Noop</span> <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;ops shouldn&#39;t have no-ops&quot;</span>),
         }
     }
     <span class='ident'>s</span>
@@ -433,7 +471,7 @@
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>styles_to_coloured_html</span>(<span class='ident'>v</span>: <span class='kw-2'>&amp;</span>[(<span class='ident'>Style</span>, <span class='kw-2'>&amp;</span><span class='ident'>str</span>)], <span class='ident'>bg</span>: <span class='ident'>IncludeBackground</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span> {
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>s</span>: <span class='ident'>String</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>new</span>();
     <span class='kw'>for</span> <span class='kw-2'>&amp;</span>(<span class='kw-2'>ref</span> <span class='ident'>style</span>, <span class='ident'>text</span>) <span class='kw'>in</span> <span class='ident'>v</span>.<span class='ident'>iter</span>() {
-        <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>s</span>,<span class='string'>&quot;&lt;span style=\&quot;&quot;</span>).<span class='ident'>unwrap</span>();
+        <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>s</span>, <span class='string'>&quot;&lt;span style=\&quot;&quot;</span>).<span class='ident'>unwrap</span>();
         <span class='kw'>let</span> <span class='ident'>include_bg</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>bg</span> {
             <span class='ident'>IncludeBackground</span>::<span class='ident'>Yes</span> <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
             <span class='ident'>IncludeBackground</span>::<span class='ident'>No</span> <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
@@ -478,7 +516,10 @@
 <span class='doccomment'>/// helper for that :-)</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>start_coloured_html_snippet</span>(<span class='ident'>t</span>: <span class='kw-2'>&amp;</span><span class='ident'>Theme</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span> {
     <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>t</span>.<span class='ident'>settings</span>.<span class='ident'>background</span>.<span class='ident'>unwrap_or</span>(<span class='ident'>highlighting</span>::<span class='ident'>WHITE</span>);
-    <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;&lt;pre style=\&quot;background-color:#{:02x}{:02x}{:02x}\&quot;&gt;\n&quot;</span>, <span class='ident'>c</span>.<span class='ident'>r</span>, <span class='ident'>c</span>.<span class='ident'>g</span>, <span class='ident'>c</span>.<span class='ident'>b</span>)
+    <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;&lt;pre style=\&quot;background-color:#{:02x}{:02x}{:02x}\&quot;&gt;\n&quot;</span>,
+            <span class='ident'>c</span>.<span class='ident'>r</span>,
+            <span class='ident'>c</span>.<span class='ident'>g</span>,
+            <span class='ident'>c</span>.<span class='ident'>b</span>)
 }
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
@@ -519,7 +560,10 @@
         <span class='kw'>let</span> <span class='ident'>html</span> <span class='op'>=</span> <span class='ident'>highlighted_snippet_for_string</span>(<span class='ident'>s</span>, <span class='ident'>syntax</span>, <span class='kw-2'>&amp;</span><span class='ident'>ts</span>.<span class='ident'>themes</span>[<span class='string'>&quot;base16-ocean.dark&quot;</span>]);
         <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>html</span>);
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>html</span>, <span class='macro'>include_str</span><span class='macro'>!</span>(<span class='string'>&quot;../testdata/test3.html&quot;</span>));
-        <span class='kw'>let</span> <span class='ident'>html2</span> <span class='op'>=</span> <span class='ident'>highlighted_snippet_for_file</span>(<span class='string'>&quot;testdata/highlight_test.erb&quot;</span>, <span class='kw-2'>&amp;</span><span class='ident'>ss</span>, <span class='kw-2'>&amp;</span><span class='ident'>ts</span>.<span class='ident'>themes</span>[<span class='string'>&quot;base16-ocean.dark&quot;</span>]).<span class='ident'>unwrap</span>();
+        <span class='kw'>let</span> <span class='ident'>html2</span> <span class='op'>=</span> <span class='ident'>highlighted_snippet_for_file</span>(<span class='string'>&quot;testdata/highlight_test.erb&quot;</span>,
+                                                 <span class='kw-2'>&amp;</span><span class='ident'>ss</span>,
+                                                 <span class='kw-2'>&amp;</span><span class='ident'>ts</span>.<span class='ident'>themes</span>[<span class='string'>&quot;base16-ocean.dark&quot;</span>])
+            .<span class='ident'>unwrap</span>();
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>html2</span>, <span class='ident'>html</span>);
     }
 }

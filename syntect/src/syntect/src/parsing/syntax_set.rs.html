@@ -274,6 +274,132 @@
 <span id="230">230</span>
 <span id="231">231</span>
 <span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>syntax_definition</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>scope</span>::<span class='op'>*</span>;
@@ -281,12 +407,15 @@
 
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
 <span class='kw'>use</span> <span class='ident'>walkdir</span>::<span class='ident'>WalkDir</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>Read</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>Read</span>, <span class='self'>self</span>, <span class='ident'>BufRead</span>, <span class='ident'>BufReader</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ops</span>::<span class='ident'>DerefMut</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>mem</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rc</span>::<span class='ident'>Rc</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ascii</span>::<span class='ident'>AsciiExt</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>Mutex</span>;
+<span class='kw'>use</span> <span class='ident'>onig</span>::<span class='ident'>Regex</span>;
+<span class='kw'>use</span> <span class='ident'>rustc_serialize</span>::{<span class='ident'>Encodable</span>, <span class='ident'>Encoder</span>, <span class='ident'>Decodable</span>, <span class='ident'>Decoder</span>};
 
 <span class='doccomment'>/// A syntax set holds a bunch of syntaxes and manages</span>
 <span class='doccomment'>/// loading them and the crucial operation of *linking*.</span>
@@ -295,10 +424,11 @@
 <span class='doccomment'>/// pointers. See `link_syntaxes` for more.</span>
 <span class='doccomment'>/// Linking, followed by adding more unlinked syntaxes with `load_syntaxes`</span>
 <span class='doccomment'>/// and then linking again is allowed.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>RustcEncodable</span>, <span class='ident'>RustcDecodable</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>SyntaxSet</span> {
-    <span class='kw'>pub</span> <span class='ident'>syntaxes</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>SyntaxDefinition</span><span class='op'>&gt;</span>,
+    <span class='ident'>syntaxes</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>SyntaxDefinition</span><span class='op'>&gt;</span>,
     <span class='kw'>pub</span> <span class='ident'>is_linked</span>: <span class='ident'>bool</span>,
+    <span class='ident'>first_line_cache</span>: <span class='ident'>Mutex</span><span class='op'>&lt;</span><span class='ident'>FirstLineCache</span><span class='op'>&gt;</span>,
 }
 
 <span class='kw'>fn</span> <span class='ident'>load_syntax_file</span>(<span class='ident'>p</span>: <span class='kw-2'>&amp;</span><span class='ident'>Path</span>,
@@ -316,6 +446,7 @@
         <span class='ident'>SyntaxSet</span> {
             <span class='ident'>syntaxes</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
             <span class='ident'>is_linked</span>: <span class='boolval'>true</span>,
+            <span class='ident'>first_line_cache</span>: <span class='ident'>Mutex</span>::<span class='ident'>new</span>(<span class='ident'>FirstLineCache</span>::<span class='ident'>new</span>()),
         }
     }
 
@@ -357,6 +488,18 @@
         <span class='prelude-val'>Ok</span>(())
     }
 
+    <span class='doccomment'>/// Add a syntax to the set. If the set was linked it is now only partially linked</span>
+    <span class='doccomment'>/// and you&#39;ll have to link it again for full linking.</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>add_syntax</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>syntax</span>: <span class='ident'>SyntaxDefinition</span>) {
+        <span class='self'>self</span>.<span class='ident'>is_linked</span> <span class='op'>=</span> <span class='boolval'>false</span>;
+        <span class='self'>self</span>.<span class='ident'>syntaxes</span>.<span class='ident'>push</span>(<span class='ident'>syntax</span>);
+    }
+
+    <span class='doccomment'>/// The list of syntaxes in the set</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>syntaxes</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span>[<span class='ident'>SyntaxDefinition</span>] {
+        <span class='kw'>return</span> <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>syntaxes</span>[..];
+    }
+
     <span class='doccomment'>/// Rarely useful method that loads in a syntax with no highlighting rules for plain text.</span>
     <span class='doccomment'>/// Exists mainly for adding the plain text syntax to syntax set dumps, because for some</span>
     <span class='doccomment'>/// reason the default Sublime plain text syntax is still in `.tmLanguage` format.</span>
@@ -394,6 +537,52 @@
         }
         <span class='kw'>let</span> <span class='ident'>lower</span> <span class='op'>=</span> <span class='ident'>s</span>.<span class='ident'>to_ascii_lowercase</span>();
         <span class='self'>self</span>.<span class='ident'>syntaxes</span>.<span class='ident'>iter</span>().<span class='ident'>find</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span><span class='ident'>s</span><span class='op'>|</span> <span class='ident'>lower</span> <span class='op'>==</span> <span class='ident'>s</span>.<span class='ident'>name</span>.<span class='ident'>to_ascii_lowercase</span>())
+    }
+
+    <span class='doccomment'>/// Try to find the syntax for a file based on its first line.</span>
+    <span class='doccomment'>/// This uses regexes that come with some sublime syntax grammars</span>
+    <span class='doccomment'>/// for matching things like shebangs and mode lines like `-*- Mode: C -*-`</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>find_syntax_by_first_line</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='self'>self</span>, <span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>SyntaxDefinition</span><span class='op'>&gt;</span> {
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>cache</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>first_line_cache</span>.<span class='ident'>lock</span>().<span class='ident'>unwrap</span>();
+        <span class='ident'>cache</span>.<span class='ident'>ensure_filled</span>(<span class='self'>self</span>.<span class='ident'>syntaxes</span>());
+        <span class='kw'>for</span> <span class='kw-2'>&amp;</span>(<span class='kw-2'>ref</span> <span class='ident'>reg</span>, <span class='ident'>i</span>) <span class='kw'>in</span> <span class='ident'>cache</span>.<span class='ident'>regexes</span>.<span class='ident'>iter</span>() {
+            <span class='kw'>if</span> <span class='ident'>reg</span>.<span class='ident'>find</span>(<span class='ident'>s</span>).<span class='ident'>is_some</span>() {
+                <span class='kw'>return</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>syntaxes</span>[<span class='ident'>i</span>]);
+            }
+        }
+        <span class='prelude-val'>None</span>
+    }
+
+    <span class='doccomment'>/// Convenience method that tries to find the syntax for a file path,</span>
+    <span class='doccomment'>/// first by extension and then by first line of the file if that doesn&#39;t work.</span>
+    <span class='doccomment'>/// May IO Error because it sometimes tries to read the first line of the file.</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// # Examples</span>
+    <span class='doccomment'>/// When determining how to highlight a file, use this in combination with a fallback to plain text:</span>
+    <span class='doccomment'>///</span>
+    <span class='doccomment'>/// ```</span>
+    <span class='doccomment'>/// use syntect::parsing::SyntaxSet;</span>
+    <span class='doccomment'>/// let ss = SyntaxSet::load_defaults_nonewlines();</span>
+    <span class='doccomment'>/// let syntax = ss.find_syntax_for_file(&quot;testdata/highlight_test.erb&quot;)</span>
+    <span class='doccomment'>///     .unwrap() // for IO errors, you may want to use try!() or another plain text fallback</span>
+    <span class='doccomment'>///     .unwrap_or_else(|| ss.find_syntax_plain_text());</span>
+    <span class='doccomment'>/// assert_eq!(syntax.name, &quot;HTML (Rails)&quot;);</span>
+    <span class='doccomment'>/// ```</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>find_syntax_for_file</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>P</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>Path</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='self'>self</span>, <span class='ident'>path_obj</span>: <span class='ident'>P</span>) <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>SyntaxDefinition</span><span class='op'>&gt;&gt;</span> {
+        <span class='kw'>let</span> <span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>Path</span> <span class='op'>=</span> <span class='ident'>path_obj</span>.<span class='ident'>as_ref</span>();
+        <span class='kw'>let</span> <span class='ident'>extension</span> <span class='op'>=</span> <span class='ident'>path</span>.<span class='ident'>extension</span>().<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span>.<span class='ident'>to_str</span>()).<span class='ident'>unwrap_or</span>(<span class='string'>&quot;&quot;</span>);
+        <span class='kw'>let</span> <span class='ident'>ext_syntax</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>find_syntax_by_extension</span>(<span class='ident'>extension</span>);
+        <span class='kw'>let</span> <span class='ident'>line_syntax</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>ext_syntax</span>.<span class='ident'>is_none</span>() {
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>line</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>new</span>();
+            <span class='kw'>let</span> <span class='ident'>f</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>File</span>::<span class='ident'>open</span>(<span class='ident'>path</span>));
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>line_reader</span> <span class='op'>=</span> <span class='ident'>BufReader</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='ident'>f</span>);
+            <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>line_reader</span>.<span class='ident'>read_line</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>line</span>));
+            <span class='self'>self</span>.<span class='ident'>find_syntax_by_first_line</span>(<span class='kw-2'>&amp;</span><span class='ident'>line</span>)
+        } <span class='kw'>else</span> {
+            <span class='prelude-val'>None</span>
+        };
+        <span class='kw'>let</span> <span class='ident'>syntax</span> <span class='op'>=</span> <span class='ident'>ext_syntax</span>.<span class='ident'>or</span>(<span class='ident'>line_syntax</span>);
+        <span class='prelude-val'>Ok</span>(<span class='ident'>syntax</span>)
     }
 
     <span class='doccomment'>/// Finds a syntax for plain text, which usually has no highlighting rules.</span>
@@ -486,6 +675,64 @@
     }
 }
 
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
+<span class='kw'>struct</span> <span class='ident'>FirstLineCache</span> {
+    <span class='doccomment'>/// (first line regex, syntax index) pairs for all syntaxes with a first line regex</span>
+    <span class='doccomment'>/// built lazily on first use of `find_syntax_by_first_line`.</span>
+    <span class='ident'>regexes</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span>(<span class='ident'>Regex</span>, <span class='ident'>usize</span>)<span class='op'>&gt;</span>,
+    <span class='doccomment'>/// To what extent the first line cache has been built</span>
+    <span class='ident'>cached_until</span>: <span class='ident'>usize</span>,
+}
+
+<span class='kw'>impl</span> <span class='ident'>FirstLineCache</span> {
+    <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='ident'>FirstLineCache</span> {
+        <span class='ident'>FirstLineCache</span> {
+            <span class='ident'>regexes</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
+            <span class='ident'>cached_until</span>: <span class='number'>0</span>,
+        }
+    }
+
+    <span class='kw'>fn</span> <span class='ident'>ensure_filled</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>syntaxes</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>SyntaxDefinition</span>]) {
+        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>cached_until</span> <span class='op'>&gt;=</span> <span class='ident'>syntaxes</span>.<span class='ident'>len</span>() {
+            <span class='kw'>return</span>;
+        }
+
+        <span class='kw'>for</span> (<span class='ident'>i</span>, <span class='ident'>syntax</span>) <span class='kw'>in</span> <span class='ident'>syntaxes</span>[<span class='self'>self</span>.<span class='ident'>cached_until</span>..].<span class='ident'>iter</span>().<span class='ident'>enumerate</span>() {
+            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>reg_str</span>) <span class='op'>=</span> <span class='ident'>syntax</span>.<span class='ident'>first_line_match</span> {
+                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(<span class='ident'>reg</span>) <span class='op'>=</span> <span class='ident'>Regex</span>::<span class='ident'>new</span>(<span class='ident'>reg_str</span>) {
+                    <span class='self'>self</span>.<span class='ident'>regexes</span>.<span class='ident'>push</span>((<span class='ident'>reg</span>,<span class='ident'>i</span>));
+                }
+            }
+        }
+
+        <span class='self'>self</span>.<span class='ident'>cached_until</span> <span class='op'>=</span> <span class='ident'>syntaxes</span>.<span class='ident'>len</span>();
+    }
+}
+
+<span class='kw'>impl</span> <span class='ident'>Encodable</span> <span class='kw'>for</span> <span class='ident'>SyntaxSet</span> {
+    <span class='kw'>fn</span> <span class='ident'>encode</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>Encoder</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), <span class='ident'>S</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> {
+        <span class='ident'>s</span>.<span class='ident'>emit_struct</span>(<span class='string'>&quot;SyntaxSet&quot;</span>, <span class='number'>2</span>, <span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> {
+            <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>s</span>.<span class='ident'>emit_struct_field</span>(<span class='string'>&quot;syntaxes&quot;</span>, <span class='number'>0</span>, <span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='self'>self</span>.<span class='ident'>syntaxes</span>.<span class='ident'>encode</span>(<span class='ident'>s</span>)));
+            <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>s</span>.<span class='ident'>emit_struct_field</span>(<span class='string'>&quot;is_linked&quot;</span>, <span class='number'>1</span>, <span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='self'>self</span>.<span class='ident'>is_linked</span>.<span class='ident'>encode</span>(<span class='ident'>s</span>)));
+            <span class='prelude-val'>Ok</span>(())
+        })
+    }
+}
+
+<span class='kw'>impl</span> <span class='ident'>Decodable</span> <span class='kw'>for</span> <span class='ident'>SyntaxSet</span> {
+    <span class='kw'>fn</span> <span class='ident'>decode</span><span class='op'>&lt;</span><span class='ident'>D</span>: <span class='ident'>Decoder</span><span class='op'>&gt;</span>(<span class='ident'>d</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>D</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='kw'>Self</span>, <span class='ident'>D</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> {
+        <span class='ident'>d</span>.<span class='ident'>read_struct</span>(<span class='string'>&quot;SyntaxSet&quot;</span>, <span class='number'>2</span>, <span class='op'>|</span><span class='ident'>d</span><span class='op'>|</span> {
+            <span class='kw'>let</span> <span class='ident'>ss</span> <span class='op'>=</span> <span class='ident'>SyntaxSet</span> {
+                <span class='ident'>syntaxes</span>: <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>read_struct_field</span>(<span class='string'>&quot;syntaxes&quot;</span>, <span class='number'>0</span>, <span class='ident'>Decodable</span>::<span class='ident'>decode</span>)),
+                <span class='ident'>is_linked</span>: <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>read_struct_field</span>(<span class='string'>&quot;is_linked&quot;</span>, <span class='number'>1</span>, <span class='ident'>Decodable</span>::<span class='ident'>decode</span>)),
+                <span class='ident'>first_line_cache</span>: <span class='ident'>Mutex</span>::<span class='ident'>new</span>(<span class='ident'>FirstLineCache</span>::<span class='ident'>new</span>()),
+            };
+
+            <span class='prelude-val'>Ok</span>(<span class='ident'>ss</span>)
+        })
+    }
+}
+
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
 <span class='kw'>mod</span> <span class='ident'>tests</span> {
     <span class='kw'>use</span> <span class='ident'>super</span>::<span class='op'>*</span>;
@@ -493,12 +740,17 @@
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
     <span class='kw'>fn</span> <span class='ident'>can_load</span>() {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ps</span> <span class='op'>=</span> <span class='ident'>SyntaxSet</span>::<span class='ident'>load_from_folder</span>(<span class='string'>&quot;testdata/Packages&quot;</span>).<span class='ident'>unwrap</span>();
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='ident'>ps</span>.<span class='ident'>find_syntax_by_first_line</span>(<span class='string'>&quot;#!/usr/bin/env node&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>name</span>, <span class='string'>&quot;JavaScript&quot;</span>);
         <span class='ident'>ps</span>.<span class='ident'>load_plain_text_syntax</span>();
         <span class='kw'>let</span> <span class='ident'>rails_scope</span> <span class='op'>=</span> <span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;source.ruby.rails&quot;</span>).<span class='ident'>unwrap</span>();
         <span class='kw'>let</span> <span class='ident'>syntax</span> <span class='op'>=</span> <span class='ident'>ps</span>.<span class='ident'>find_syntax_by_name</span>(<span class='string'>&quot;Ruby on Rails&quot;</span>).<span class='ident'>unwrap</span>();
         <span class='ident'>ps</span>.<span class='ident'>find_syntax_plain_text</span>();
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='ident'>ps</span>.<span class='ident'>find_syntax_by_extension</span>(<span class='string'>&quot;rake&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>name</span>, <span class='string'>&quot;Ruby&quot;</span>);
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='ident'>ps</span>.<span class='ident'>find_syntax_by_token</span>(<span class='string'>&quot;ruby&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>name</span>, <span class='string'>&quot;Ruby&quot;</span>);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='ident'>ps</span>.<span class='ident'>find_syntax_by_first_line</span>(<span class='string'>&quot;lol -*- Mode: C -*- such line&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>name</span>, <span class='string'>&quot;C&quot;</span>);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='ident'>ps</span>.<span class='ident'>find_syntax_for_file</span>(<span class='string'>&quot;testdata/parser.rs&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>unwrap</span>().<span class='ident'>name</span>, <span class='string'>&quot;Rust&quot;</span>);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='ident'>ps</span>.<span class='ident'>find_syntax_for_file</span>(<span class='string'>&quot;testdata/test_first_line.test&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>unwrap</span>().<span class='ident'>name</span>, <span class='string'>&quot;Go&quot;</span>);
+        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='ident'>ps</span>.<span class='ident'>find_syntax_by_first_line</span>(<span class='string'>&quot;derp derp hi lol&quot;</span>).<span class='ident'>is_none</span>());
         <span class='comment'>// println!(&quot;{:#?}&quot;, syntax);</span>
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>syntax</span>.<span class='ident'>scope</span>, <span class='ident'>rails_scope</span>);
         <span class='comment'>// assert!(false);</span>

@@ -47,10 +47,10 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-2221' class='srclink' href='../../src/syntect/src/parsing/syntax_set.rs.html#22-25' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-2224' class='srclink' href='../../src/syntect/src/parsing/syntax_set.rs.html#25-29' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct SyntaxSet {
-    pub syntaxes: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../syntect/parsing/syntax_definition/struct.SyntaxDefinition.html' title='syntect::parsing::syntax_definition::SyntaxDefinition'>SyntaxDefinition</a>&gt;,
     pub is_linked: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
+    // some fields omitted
 }</pre><div class='docblock'><p>A syntax set holds a bunch of syntaxes and manages
 loading them and the crucial operation of <em>linking</em>.</p>
 
@@ -60,7 +60,6 @@ Linking, followed by adding more unlinked syntaxes with <code>load_syntaxes</cod
 and then linking again is allowed.</p>
 </div><h2 class='fields'>Fields</h2>
 <table><tr class='stab '>
-                             <td id='structfield.syntaxes'><code>syntaxes</code></td><td></td></tr><tr class='stab '>
                              <td id='structfield.is_linked'><code>is_linked</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../syntect/parsing/struct.SyntaxSet.html' title='syntect::parsing::SyntaxSet'>SyntaxSet</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>() -&gt; <a class='struct' href='../../syntect/parsing/struct.SyntaxSet.html' title='syntect::parsing::SyntaxSet'>SyntaxSet</a></code></h4>
 <h4 id='method.load_from_folder' class='method'><code>fn <a href='#method.load_from_folder' class='fnname'>load_from_folder</a>&lt;P: <a class='trait' href='https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html' title='core::convert::AsRef'>AsRef</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/std/path/struct.Path.html' title='std::path::Path'>Path</a>&gt;&gt;(folder: P) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../../syntect/parsing/struct.SyntaxSet.html' title='syntect::parsing::SyntaxSet'>SyntaxSet</a>, <a class='enum' href='../../syntect/enum.LoadingError.html' title='syntect::LoadingError'>LoadingError</a>&gt;</code></h4>
 <div class='docblock'><p>Convenience constructor calling <code>new</code> and then <code>load_syntaxes</code> on the resulting set
@@ -80,6 +79,11 @@ match regexes that seem to work for the default syntax set, but may not work for
 
 <p>In the future I might include a &quot;slow mode&quot; that copies the lines passed in and appends a newline if there isn&#39;t one.
 but in the interest of performance currently this hacky fix will have to do.</p>
+</div><h4 id='method.add_syntax' class='method'><code>fn <a href='#method.add_syntax' class='fnname'>add_syntax</a>(&amp;mut self, syntax: <a class='struct' href='../../syntect/parsing/syntax_definition/struct.SyntaxDefinition.html' title='syntect::parsing::syntax_definition::SyntaxDefinition'>SyntaxDefinition</a>)</code></h4>
+<div class='docblock'><p>Add a syntax to the set. If the set was linked it is now only partially linked
+and you&#39;ll have to link it again for full linking.</p>
+</div><h4 id='method.syntaxes' class='method'><code>fn <a href='#method.syntaxes' class='fnname'>syntaxes</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[</a><a class='struct' href='../../syntect/parsing/syntax_definition/struct.SyntaxDefinition.html' title='syntect::parsing::syntax_definition::SyntaxDefinition'>SyntaxDefinition</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a></code></h4>
+<div class='docblock'><p>The list of syntaxes in the set</p>
 </div><h4 id='method.load_plain_text_syntax' class='method'><code>fn <a href='#method.load_plain_text_syntax' class='fnname'>load_plain_text_syntax</a>(&amp;mut self)</code></h4>
 <div class='docblock'><p>Rarely useful method that loads in a syntax with no highlighting rules for plain text.
 Exists mainly for adding the plain text syntax to syntax set dumps, because for some
@@ -94,6 +98,25 @@ because there aren&#39;t many syntaxes, but don&#39;t think you can call it a ba
 <div class='docblock'><p>Searches for a syntax first by extension and then by case-insensitive name
 useful for things like Github-flavoured-markdown code block highlighting where
 all you have to go on is a short token given by the user</p>
+</div><h4 id='method.find_syntax_by_first_line' class='method'><code>fn <a href='#method.find_syntax_by_first_line' class='fnname'>find_syntax_by_first_line</a>&lt;'a&gt;(&amp;'a self, s: &amp;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;'a <a class='struct' href='../../syntect/parsing/syntax_definition/struct.SyntaxDefinition.html' title='syntect::parsing::syntax_definition::SyntaxDefinition'>SyntaxDefinition</a>&gt;</code></h4>
+<div class='docblock'><p>Try to find the syntax for a file based on its first line.
+This uses regexes that come with some sublime syntax grammars
+for matching things like shebangs and mode lines like <code>-*- Mode: C -*-</code></p>
+</div><h4 id='method.find_syntax_for_file' class='method'><code>fn <a href='#method.find_syntax_for_file' class='fnname'>find_syntax_for_file</a>&lt;'a, P: <a class='trait' href='https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html' title='core::convert::AsRef'>AsRef</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/std/path/struct.Path.html' title='std::path::Path'>Path</a>&gt;&gt;(&amp;'a self, path_obj: P) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/std/io/error/type.Result.html' title='std::io::error::Result'>Result</a>&lt;<a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;'a <a class='struct' href='../../syntect/parsing/syntax_definition/struct.SyntaxDefinition.html' title='syntect::parsing::syntax_definition::SyntaxDefinition'>SyntaxDefinition</a>&gt;&gt;</code></h4>
+<div class='docblock'><p>Convenience method that tries to find the syntax for a file path,
+first by extension and then by first line of the file if that doesn&#39;t work.
+May IO Error because it sometimes tries to read the first line of the file.</p>
+
+<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
+<p>When determining how to highlight a file, use this in combination with a fallback to plain text:</p>
+
+<pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>syntect</span>::<span class='ident'>parsing</span>::<span class='ident'>SyntaxSet</span>;
+<span class='kw'>let</span> <span class='ident'>ss</span> <span class='op'>=</span> <span class='ident'>SyntaxSet</span>::<span class='ident'>load_defaults_nonewlines</span>();
+<span class='kw'>let</span> <span class='ident'>syntax</span> <span class='op'>=</span> <span class='ident'>ss</span>.<span class='ident'>find_syntax_for_file</span>(<span class='string'>&quot;testdata/highlight_test.erb&quot;</span>)
+    .<span class='ident'>unwrap</span>() <span class='comment'>// for IO errors, you may want to use try!() or another plain text fallback</span>
+    .<span class='ident'>unwrap_or_else</span>(<span class='op'>||</span> <span class='ident'>ss</span>.<span class='ident'>find_syntax_plain_text</span>());
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>syntax</span>.<span class='ident'>name</span>, <span class='string'>&quot;HTML (Rails)&quot;</span>);</pre>
 </div><h4 id='method.find_syntax_plain_text' class='method'><code>fn <a href='#method.find_syntax_plain_text' class='fnname'>find_syntax_plain_text</a>&lt;'a&gt;(&amp;'a self) -&gt; &amp;'a <a class='struct' href='../../syntect/parsing/syntax_definition/struct.SyntaxDefinition.html' title='syntect::parsing::syntax_definition::SyntaxDefinition'>SyntaxDefinition</a></code></h4>
 <div class='docblock'><p>Finds a syntax for plain text, which usually has no highlighting rules.
 Good as a fallback when you can&#39;t find another syntax but you still want
@@ -102,7 +125,7 @@ to use the same highlighting pipeline code.</p>
 <p>This syntax should always be present, if not this method will panic.
 If the way you load syntaxes doesn&#39;t create one, use <code>load_plain_text_syntax</code>.</p>
 
-<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
+<h1 id='examples-1' class='section-header'><a href='#examples-1'>Examples</a></h1>
 <pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>syntect</span>::<span class='ident'>parsing</span>::<span class='ident'>SyntaxSet</span>;
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ss</span> <span class='op'>=</span> <span class='ident'>SyntaxSet</span>::<span class='ident'>new</span>();
@@ -132,9 +155,9 @@ the bincode crate to cache dumps of additional syntaxes yourself.</p>
 <div class='docblock'><p>Same as <code>load_defaults_nonewlines</code> but for parsing line strings with newlines at the end.
 These are separate methods because thanks to linker garbage collection, only the serialized
 dumps for the method(s) you call will be included in the binary (each is ~200kb for now).</p>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='../../rustc_serialize/serialize/trait.Decodable.html' title='rustc_serialize::serialize::Decodable'>Decodable</a> for <a class='struct' href='../../syntect/parsing/struct.SyntaxSet.html' title='syntect::parsing::SyntaxSet'>SyntaxSet</a></code></h3><div class='impl-items'><h4 id='method.decode' class='method'><code>fn <a href='../../rustc_serialize/serialize/trait.Decodable.html#tymethod.decode' class='fnname'>decode</a>&lt;__D: <a class='trait' href='../../rustc_serialize/serialize/trait.Decoder.html' title='rustc_serialize::serialize::Decoder'>Decoder</a>&gt;(__arg_0: &amp;mut __D) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../../syntect/parsing/struct.SyntaxSet.html' title='syntect::parsing::SyntaxSet'>SyntaxSet</a>, __D::Error&gt;</code></h4>
-</div><h3 class='impl'><code>impl <a class='trait' href='../../rustc_serialize/serialize/trait.Encodable.html' title='rustc_serialize::serialize::Encodable'>Encodable</a> for <a class='struct' href='../../syntect/parsing/struct.SyntaxSet.html' title='syntect::parsing::SyntaxSet'>SyntaxSet</a></code></h3><div class='impl-items'><h4 id='method.encode' class='method'><code>fn <a href='../../rustc_serialize/serialize/trait.Encodable.html#tymethod.encode' class='fnname'>encode</a>&lt;__S: <a class='trait' href='../../rustc_serialize/serialize/trait.Encoder.html' title='rustc_serialize::serialize::Encoder'>Encoder</a>&gt;(&amp;self, __arg_0: &amp;mut __S) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, __S::Error&gt;</code></h4>
-</div><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../syntect/parsing/struct.SyntaxSet.html' title='syntect::parsing::SyntaxSet'>SyntaxSet</a></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../../rustc_serialize/serialize/trait.Encodable.html' title='rustc_serialize::serialize::Encodable'>Encodable</a> for <a class='struct' href='../../syntect/parsing/struct.SyntaxSet.html' title='syntect::parsing::SyntaxSet'>SyntaxSet</a></code></h3><div class='impl-items'><h4 id='method.encode' class='method'><code>fn <a href='../../rustc_serialize/serialize/trait.Encodable.html#tymethod.encode' class='fnname'>encode</a>&lt;S: <a class='trait' href='../../rustc_serialize/serialize/trait.Encoder.html' title='rustc_serialize::serialize::Encoder'>Encoder</a>&gt;(&amp;self, s: &amp;mut S) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, S::Error&gt;</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../../rustc_serialize/serialize/trait.Decodable.html' title='rustc_serialize::serialize::Decodable'>Decodable</a> for <a class='struct' href='../../syntect/parsing/struct.SyntaxSet.html' title='syntect::parsing::SyntaxSet'>SyntaxSet</a></code></h3><div class='impl-items'><h4 id='method.decode' class='method'><code>fn <a href='../../rustc_serialize/serialize/trait.Decodable.html#tymethod.decode' class='fnname'>decode</a>&lt;D: <a class='trait' href='../../rustc_serialize/serialize/trait.Decoder.html' title='rustc_serialize::serialize::Decoder'>Decoder</a>&gt;(d: &amp;mut D) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;Self, D::Error&gt;</code></h4>
+</div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../syntect/parsing/struct.SyntaxSet.html' title='syntect::parsing::SyntaxSet'>SyntaxSet</a></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
 </div></section>
     <section id='search' class="content hidden"></section>
 

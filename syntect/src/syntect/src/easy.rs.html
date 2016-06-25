@@ -182,8 +182,6 @@
 <span id="138">138</span>
 <span id="139">139</span>
 <span id="140">140</span>
-<span id="141">141</span>
-<span id="142">142</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! API wrappers for common use cases like highlighting strings and</span>
 <span class='doccomment'>//! files without caring about intermediate semantic representation</span>
@@ -289,14 +287,12 @@
                                <span class='ident'>theme</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Theme</span>)
                                <span class='op'>-&gt;</span> <span class='ident'>io</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>HighlightFile</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>Path</span> <span class='op'>=</span> <span class='ident'>path_obj</span>.<span class='ident'>as_ref</span>();
-        <span class='kw'>let</span> <span class='ident'>extension</span> <span class='op'>=</span> <span class='ident'>path</span>.<span class='ident'>extension</span>().<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span>.<span class='ident'>to_str</span>()).<span class='ident'>unwrap_or</span>(<span class='string'>&quot;&quot;</span>);
         <span class='kw'>let</span> <span class='ident'>f</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>File</span>::<span class='ident'>open</span>(<span class='ident'>path</span>));
-        <span class='kw'>let</span> <span class='ident'>reader</span> <span class='op'>=</span> <span class='ident'>BufReader</span>::<span class='ident'>new</span>(<span class='ident'>f</span>);
-        <span class='comment'>// TODO use first line detection</span>
-        <span class='kw'>let</span> <span class='ident'>syntax</span> <span class='op'>=</span> <span class='ident'>ss</span>.<span class='ident'>find_syntax_by_extension</span>(<span class='ident'>extension</span>)
+        <span class='kw'>let</span> <span class='ident'>syntax</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>ss</span>.<span class='ident'>find_syntax_for_file</span>(<span class='ident'>path</span>))
             .<span class='ident'>unwrap_or_else</span>(<span class='op'>||</span> <span class='ident'>ss</span>.<span class='ident'>find_syntax_plain_text</span>());
+
         <span class='prelude-val'>Ok</span>(<span class='ident'>HighlightFile</span> {
-            <span class='ident'>reader</span>: <span class='ident'>reader</span>,
+            <span class='ident'>reader</span>: <span class='ident'>BufReader</span>::<span class='ident'>new</span>(<span class='ident'>f</span>),
             <span class='ident'>highlight_lines</span>: <span class='ident'>HighlightLines</span>::<span class='ident'>new</span>(<span class='ident'>syntax</span>, <span class='ident'>theme</span>),
         })
     }

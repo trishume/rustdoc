@@ -267,7 +267,7 @@
 
         <span class='kw'>let</span> <span class='ident'>bin</span> <span class='op'>=</span> <span class='ident'>dump_binary</span>(<span class='kw-2'>&amp;</span><span class='ident'>ps</span>);
         <span class='kw'>let</span> <span class='ident'>ps2</span>: <span class='ident'>SyntaxSet</span> <span class='op'>=</span> <span class='ident'>from_binary</span>(<span class='kw-2'>&amp;</span><span class='ident'>bin</span>[..]);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ps</span>.<span class='ident'>syntaxes</span>.<span class='ident'>len</span>(), <span class='ident'>ps2</span>.<span class='ident'>syntaxes</span>.<span class='ident'>len</span>());
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ps</span>.<span class='ident'>syntaxes</span>().<span class='ident'>len</span>(), <span class='ident'>ps2</span>.<span class='ident'>syntaxes</span>().<span class='ident'>len</span>());
 
         <span class='kw'>let</span> <span class='ident'>themes</span> <span class='op'>=</span> <span class='ident'>ThemeSet</span>::<span class='ident'>load_defaults</span>();
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>themes</span>.<span class='ident'>themes</span>.<span class='ident'>len</span>() <span class='op'>&gt;</span> <span class='number'>4</span>);

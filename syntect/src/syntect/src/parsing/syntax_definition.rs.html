@@ -347,6 +347,10 @@
 <span id="303">303</span>
 <span id="304">304</span>
 <span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! This module contains data structures for representing syntax definitions.</span>
 <span class='doccomment'>//! Everything is public because I want this library to be useful in super</span>
@@ -457,6 +461,10 @@
             <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>ctx_stack</span>.<span class='ident'>is_empty</span>() {
                 <span class='kw'>return</span> <span class='prelude-val'>None</span>;
             }
+            <span class='comment'>// uncomment for debugging infinite recursion</span>
+            <span class='comment'>// println!(&quot;{:?}&quot;, self.index_stack);</span>
+            <span class='comment'>// use std::thread::sleep_ms;</span>
+            <span class='comment'>// sleep_ms(500);</span>
             <span class='kw'>let</span> <span class='ident'>last_index</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>ctx_stack</span>.<span class='ident'>len</span>() <span class='op'>-</span> <span class='number'>1</span>;
             <span class='kw'>let</span> <span class='ident'>context_ref</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>ctx_stack</span>[<span class='ident'>last_index</span>].<span class='ident'>clone</span>();
             <span class='kw'>let</span> <span class='ident'>context</span> <span class='op'>=</span> <span class='ident'>context_ref</span>.<span class='ident'>borrow</span>();

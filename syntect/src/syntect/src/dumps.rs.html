@@ -157,6 +157,9 @@
 <span id="113">113</span>
 <span id="114">114</span>
 <span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Methods for dumping serializable structs to a compressed binary format</span>
 <span class='doccomment'>//! These are used to load and store the dumps used for fast startup times.</span>
@@ -217,7 +220,10 @@
     <span class='doccomment'>/// Instantiates a new syntax set from a binary dump of</span>
     <span class='doccomment'>/// Sublime Text&#39;s default open source syntax definitions and then links it.</span>
     <span class='doccomment'>/// These dumps are included in this library&#39;s binary for convenience.</span>
+    <span class='doccomment'>///</span>
     <span class='doccomment'>/// This method loads the version for parsing line strings with no `\n` characters at the end.</span>
+    <span class='doccomment'>/// If you&#39;re able to efficiently include newlines at the end of strings, use `load_defaults_newlines`</span>
+    <span class='doccomment'>/// since it works better. See `SyntaxSet#load_syntaxes` for more info on this issue.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// This is the recommended way of creating a syntax set for</span>
     <span class='doccomment'>/// non-advanced use cases. It is also significantly faster than loading the YAML files.</span>

@@ -453,6 +453,11 @@
 <span id="409">409</span>
 <span id="410">410</span>
 <span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>syntax_definition</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>scope</span>::<span class='op'>*</span>;
@@ -560,9 +565,14 @@
             <span class='kw'>let</span> <span class='ident'>cur_level</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>stack</span>[<span class='self'>self</span>.<span class='ident'>stack</span>.<span class='ident'>len</span>() <span class='op'>-</span> <span class='number'>1</span>];
             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>min_start</span> <span class='op'>=</span> <span class='ident'>usize</span>::<span class='ident'>MAX</span>;
             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>cur_match</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>RegexMatch</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='prelude-val'>None</span>;
+            <span class='kw'>let</span> <span class='ident'>prototype</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>ContextPtr</span><span class='op'>&gt;</span> <span class='op'>=</span> {
+                <span class='kw'>let</span> <span class='ident'>ctx_ref</span> <span class='op'>=</span> <span class='ident'>cur_level</span>.<span class='ident'>context</span>.<span class='ident'>borrow</span>();
+                <span class='ident'>ctx_ref</span>.<span class='ident'>prototype</span>.<span class='ident'>clone</span>()
+            };
             <span class='kw'>let</span> <span class='ident'>context_chain</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>stack</span>
                 .<span class='ident'>iter</span>()
                 .<span class='ident'>filter_map</span>(<span class='op'>|</span><span class='ident'>lvl</span><span class='op'>|</span> <span class='ident'>lvl</span>.<span class='ident'>prototype</span>.<span class='ident'>as_ref</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span>.<span class='ident'>clone</span>()))
+                .<span class='ident'>chain</span>(<span class='ident'>prototype</span>.<span class='ident'>into_iter</span>())
                 .<span class='ident'>chain</span>(<span class='prelude-val'>Some</span>(<span class='ident'>cur_level</span>.<span class='ident'>context</span>.<span class='ident'>clone</span>()).<span class='ident'>into_iter</span>());
             <span class='comment'>// println!(&quot;{:#?}&quot;, cur_level);</span>
             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>overall_index</span> <span class='op'>=</span> <span class='number'>0</span>;
@@ -644,7 +654,7 @@
         <span class='kw'>let</span> <span class='ident'>context</span> <span class='op'>=</span> <span class='ident'>reg_match</span>.<span class='ident'>context</span>.<span class='ident'>borrow</span>();
         <span class='kw'>let</span> <span class='ident'>pat</span> <span class='op'>=</span> <span class='ident'>context</span>.<span class='ident'>match_at</span>(<span class='ident'>reg_match</span>.<span class='ident'>pat_index</span>);
         <span class='kw'>let</span> <span class='ident'>level_context</span> <span class='op'>=</span> <span class='ident'>level_context_ptr</span>.<span class='ident'>borrow</span>();
-        <span class='comment'>// println!(&quot;running pattern {:?}&quot;, pat);</span>
+        <span class='comment'>// println!(&quot;running pattern {:?} on &#39;{}&#39; at {}&quot;, pat.regex_str, line, match_start);</span>
 
         <span class='self'>self</span>.<span class='ident'>push_meta_ops</span>(<span class='boolval'>true</span>, <span class='ident'>match_start</span>, <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>level_context</span>, <span class='kw-2'>&amp;</span><span class='ident'>pat</span>.<span class='ident'>operation</span>, <span class='ident'>ops</span>);
         <span class='kw'>for</span> <span class='ident'>s</span> <span class='kw'>in</span> <span class='ident'>pat</span>.<span class='ident'>scope</span>.<span class='ident'>iter</span>() {

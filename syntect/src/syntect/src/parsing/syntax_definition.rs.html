@@ -351,6 +351,14 @@
 <span id="307">307</span>
 <span id="308">308</span>
 <span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! This module contains data structures for representing syntax definitions.</span>
 <span class='doccomment'>//! Everything is public because I want this library to be useful in super</span>
@@ -382,6 +390,8 @@
     <span class='kw'>pub</span> <span class='ident'>scope</span>: <span class='ident'>Scope</span>,
     <span class='kw'>pub</span> <span class='ident'>first_line_match</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>,
     <span class='kw'>pub</span> <span class='ident'>hidden</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// Filled in at link time to avoid serializing it multiple times</span>
+    <span class='kw'>pub</span> <span class='ident'>prototype</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>ContextPtr</span><span class='op'>&gt;</span>,
 
     <span class='kw'>pub</span> <span class='ident'>variables</span>: <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>String</span><span class='op'>&gt;</span>,
     <span class='kw'>pub</span> <span class='ident'>contexts</span>: <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>ContextPtr</span><span class='op'>&gt;</span>,
@@ -391,7 +401,13 @@
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Context</span> {
     <span class='kw'>pub</span> <span class='ident'>meta_scope</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Scope</span><span class='op'>&gt;</span>,
     <span class='kw'>pub</span> <span class='ident'>meta_content_scope</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Scope</span><span class='op'>&gt;</span>,
+    <span class='doccomment'>/// This being set false in the syntax file implies this field being set false,</span>
+    <span class='doccomment'>/// but it can also be set falso for contexts that don&#39;t include the prototype for other reasons</span>
     <span class='kw'>pub</span> <span class='ident'>meta_include_prototype</span>: <span class='ident'>bool</span>,
+    <span class='doccomment'>/// This is filled in by the linker at link time</span>
+    <span class='doccomment'>/// for contexts that have `meta_include_prototype==true`</span>
+    <span class='doccomment'>/// and are not included from the prototype.</span>
+    <span class='kw'>pub</span> <span class='ident'>prototype</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>ContextPtr</span><span class='op'>&gt;</span>,
     <span class='kw'>pub</span> <span class='ident'>uses_backrefs</span>: <span class='ident'>bool</span>,
 
     <span class='kw'>pub</span> <span class='ident'>patterns</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Pattern</span><span class='op'>&gt;</span>,

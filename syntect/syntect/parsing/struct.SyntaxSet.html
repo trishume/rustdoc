@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-2224' class='srclink' href='../../src/syntect/src/parsing/syntax_set.rs.html#25-29' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-2245' class='srclink' href='../../src/syntect/src/parsing/syntax_set.rs.html#25-29' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct SyntaxSet {
     pub is_linked: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
     // some fields omitted
@@ -141,8 +141,11 @@ This operation is idempotent, but takes time even on already linked syntax sets.
 </div></div><h3 class='impl'><code>impl <a class='struct' href='../../syntect/parsing/struct.SyntaxSet.html' title='syntect::parsing::SyntaxSet'>SyntaxSet</a></code></h3><div class='impl-items'><h4 id='method.load_defaults_nonewlines' class='method'><code>fn <a href='#method.load_defaults_nonewlines' class='fnname'>load_defaults_nonewlines</a>() -&gt; <a class='struct' href='../../syntect/parsing/struct.SyntaxSet.html' title='syntect::parsing::SyntaxSet'>SyntaxSet</a></code></h4>
 <div class='docblock'><p>Instantiates a new syntax set from a binary dump of
 Sublime Text&#39;s default open source syntax definitions and then links it.
-These dumps are included in this library&#39;s binary for convenience.
-This method loads the version for parsing line strings with no <code>\n</code> characters at the end.</p>
+These dumps are included in this library&#39;s binary for convenience.</p>
+
+<p>This method loads the version for parsing line strings with no <code>\n</code> characters at the end.
+If you&#39;re able to efficiently include newlines at the end of strings, use <code>load_defaults_newlines</code>
+since it works better. See <code>SyntaxSet#load_syntaxes</code> for more info on this issue.</p>
 
 <p>This is the recommended way of creating a syntax set for
 non-advanced use cases. It is also significantly faster than loading the YAML files.</p>

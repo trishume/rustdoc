@@ -304,6 +304,27 @@
 <span id="260">260</span>
 <span id="261">261</span>
 <span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Rendering highlighted code as HTML+CSS</span>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Write</span>;
@@ -558,13 +579,34 @@
         <span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='macro'>include_str</span><span class='macro'>!</span>(<span class='string'>&quot;../testdata/highlight_test.erb&quot;</span>);
         <span class='kw'>let</span> <span class='ident'>syntax</span> <span class='op'>=</span> <span class='ident'>ss</span>.<span class='ident'>find_syntax_by_extension</span>(<span class='string'>&quot;erb&quot;</span>).<span class='ident'>unwrap</span>();
         <span class='kw'>let</span> <span class='ident'>html</span> <span class='op'>=</span> <span class='ident'>highlighted_snippet_for_string</span>(<span class='ident'>s</span>, <span class='ident'>syntax</span>, <span class='kw-2'>&amp;</span><span class='ident'>ts</span>.<span class='ident'>themes</span>[<span class='string'>&quot;base16-ocean.dark&quot;</span>]);
-        <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>html</span>);
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>html</span>, <span class='macro'>include_str</span><span class='macro'>!</span>(<span class='string'>&quot;../testdata/test3.html&quot;</span>));
         <span class='kw'>let</span> <span class='ident'>html2</span> <span class='op'>=</span> <span class='ident'>highlighted_snippet_for_file</span>(<span class='string'>&quot;testdata/highlight_test.erb&quot;</span>,
                                                  <span class='kw-2'>&amp;</span><span class='ident'>ss</span>,
                                                  <span class='kw-2'>&amp;</span><span class='ident'>ts</span>.<span class='ident'>themes</span>[<span class='string'>&quot;base16-ocean.dark&quot;</span>])
             .<span class='ident'>unwrap</span>();
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>html2</span>, <span class='ident'>html</span>);
+
+        <span class='comment'>// YAML is a tricky syntax and InspiredGitHub is a fancy theme, this is basically an integration test</span>
+        <span class='kw'>let</span> <span class='ident'>html3</span> <span class='op'>=</span> <span class='ident'>highlighted_snippet_for_file</span>(<span class='string'>&quot;testdata/Packages/Rust/Cargo.sublime-syntax&quot;</span>,
+                                                 <span class='kw-2'>&amp;</span><span class='ident'>ss</span>,
+                                                 <span class='kw-2'>&amp;</span><span class='ident'>ts</span>.<span class='ident'>themes</span>[<span class='string'>&quot;InspiredGitHub&quot;</span>])
+            .<span class='ident'>unwrap</span>();
+        <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>html3</span>);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>html3</span>, <span class='macro'>include_str</span><span class='macro'>!</span>(<span class='string'>&quot;../testdata/test4.html&quot;</span>));
+    }
+
+    <span class='attribute'>#[<span class='ident'>test</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>tricky_test_syntax</span>() {
+        <span class='comment'>// This syntax I wrote tests edge cases of prototypes</span>
+        <span class='comment'>// I verified the output HTML against what ST3 does with the same syntax and file</span>
+        <span class='kw'>let</span> <span class='ident'>ss</span> <span class='op'>=</span> <span class='ident'>SyntaxSet</span>::<span class='ident'>load_from_folder</span>(<span class='string'>&quot;testdata&quot;</span>).<span class='ident'>unwrap</span>();
+        <span class='kw'>let</span> <span class='ident'>ts</span> <span class='op'>=</span> <span class='ident'>ThemeSet</span>::<span class='ident'>load_defaults</span>();
+        <span class='kw'>let</span> <span class='ident'>html</span> <span class='op'>=</span> <span class='ident'>highlighted_snippet_for_file</span>(<span class='string'>&quot;testdata/testing-syntax.testsyntax&quot;</span>,
+                                                <span class='kw-2'>&amp;</span><span class='ident'>ss</span>,
+                                                <span class='kw-2'>&amp;</span><span class='ident'>ts</span>.<span class='ident'>themes</span>[<span class='string'>&quot;base16-ocean.dark&quot;</span>])
+            .<span class='ident'>unwrap</span>();
+        <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>html</span>);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>html</span>, <span class='macro'>include_str</span><span class='macro'>!</span>(<span class='string'>&quot;../testdata/test5.html&quot;</span>));
     }
 }
 </pre>

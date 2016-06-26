@@ -182,6 +182,9 @@
 <span id="138">138</span>
 <span id="139">139</span>
 <span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! API wrappers for common use cases like highlighting strings and</span>
 <span class='doccomment'>//! files without caring about intermediate semantic representation</span>
@@ -264,6 +267,9 @@
     <span class='doccomment'>/// Auto-detects the syntax from the extension and constructs a `HighlightLines` with the correct syntax and theme.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Examples</span>
+    <span class='doccomment'>/// This example uses `reader.lines()` to get lines without a newline character.</span>
+    <span class='doccomment'>/// See the `syncat` example for an example of reading lines with a newline character, which gets slightly more robust</span>
+    <span class='doccomment'>/// and fast syntax highlighting, at the cost of a couple extra lines of code.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// ```</span>
     <span class='doccomment'>/// use syntect::parsing::SyntaxSet;</span>

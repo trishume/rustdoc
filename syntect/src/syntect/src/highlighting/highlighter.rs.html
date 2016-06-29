@@ -266,6 +266,7 @@
 <span id="222">222</span>
 <span id="223">223</span>
 <span id="224">224</span>
+<span id="225">225</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Iterators and data structures for transforming parsing information into styled text.</span>
 
@@ -383,6 +384,7 @@
         <span class='kw'>match</span> <span class='ident'>command</span> {
             <span class='ident'>ScopeStackOp</span>::<span class='ident'>Push</span>(<span class='ident'>scope</span>) <span class='op'>=&gt;</span> {
                 <span class='self'>self</span>.<span class='ident'>state</span>.<span class='ident'>path</span>.<span class='ident'>push</span>(<span class='ident'>scope</span>);
+                <span class='comment'>// println!(&quot;{}&quot;, self.state.path);</span>
                 <span class='self'>self</span>.<span class='ident'>state</span>
                     .<span class='ident'>styles</span>
                     .<span class='ident'>push</span>(<span class='ident'>style</span>.<span class='ident'>apply</span>(<span class='self'>self</span>.<span class='ident'>highlighter</span>.<span class='ident'>get_style</span>(<span class='self'>self</span>.<span class='ident'>state</span>.<span class='ident'>path</span>.<span class='ident'>as_slice</span>())));

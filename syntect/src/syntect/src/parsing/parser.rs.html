@@ -477,6 +477,9 @@
 <span id="433">433</span>
 <span id="434">434</span>
 <span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>syntax_definition</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>scope</span>::<span class='op'>*</span>;
@@ -484,6 +487,8 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>usize</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>i32</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>hash</span>::<span class='ident'>BuildHasherDefault</span>;
+<span class='kw'>use</span> <span class='ident'>fnv</span>::<span class='ident'>FnvHasher</span>;
 
 <span class='doccomment'>/// Keeps the current parser state (the internal syntax interpreter stack) between lines of parsing.</span>
 <span class='doccomment'>/// If you are parsing an entire file you create one of these at the start and use it</span>
@@ -522,7 +527,7 @@
 }
 
 <span class='doccomment'>/// maps the pattern to the start index, which is -1 if not found.</span>
-<span class='kw'>type</span> <span class='ident'>SearchCache</span> <span class='op'>=</span> <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='op'>*</span><span class='kw'>const</span> <span class='ident'>MatchPattern</span>,<span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Region</span><span class='op'>&gt;&gt;</span>;
+<span class='kw'>type</span> <span class='ident'>SearchCache</span> <span class='op'>=</span> <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='op'>*</span><span class='kw'>const</span> <span class='ident'>MatchPattern</span>,<span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Region</span><span class='op'>&gt;</span>,<span class='ident'>BuildHasherDefault</span><span class='op'>&lt;</span><span class='ident'>FnvHasher</span><span class='op'>&gt;&gt;</span>;
 
 <span class='kw'>impl</span> <span class='ident'>ParseState</span> {
     <span class='doccomment'>/// Create a state from a syntax, keeps its own reference counted</span>
@@ -564,7 +569,8 @@
         }
 
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>regions</span> <span class='op'>=</span> <span class='ident'>Region</span>::<span class='ident'>with_capacity</span>(<span class='number'>8</span>);
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>search_cache</span>: <span class='ident'>SearchCache</span> <span class='op'>=</span> <span class='ident'>HashMap</span>::<span class='ident'>with_capacity</span>(<span class='number'>128</span>); <span class='comment'>// TODO find the best capacity</span>
+        <span class='kw'>let</span> <span class='ident'>fnv</span> <span class='op'>=</span> <span class='ident'>BuildHasherDefault</span>::<span class='op'>&lt;</span><span class='ident'>FnvHasher</span><span class='op'>&gt;</span>::<span class='ident'>default</span>();
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>search_cache</span>: <span class='ident'>SearchCache</span> <span class='op'>=</span> <span class='ident'>HashMap</span>::<span class='ident'>with_capacity_and_hasher</span>(<span class='number'>128</span>, <span class='ident'>fnv</span>);
         <span class='kw'>while</span> <span class='self'>self</span>.<span class='ident'>parse_next_token</span>(<span class='ident'>line</span>,
                                     <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>match_start</span>,
                                     <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>search_cache</span>,

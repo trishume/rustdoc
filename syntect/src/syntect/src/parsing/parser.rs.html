@@ -480,6 +480,10 @@
 <span id="436">436</span>
 <span id="437">437</span>
 <span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>syntax_definition</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>scope</span>::<span class='op'>*</span>;
@@ -527,7 +531,7 @@
 }
 
 <span class='doccomment'>/// maps the pattern to the start index, which is -1 if not found.</span>
-<span class='kw'>type</span> <span class='ident'>SearchCache</span> <span class='op'>=</span> <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='op'>*</span><span class='kw'>const</span> <span class='ident'>MatchPattern</span>,<span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Region</span><span class='op'>&gt;</span>,<span class='ident'>BuildHasherDefault</span><span class='op'>&lt;</span><span class='ident'>FnvHasher</span><span class='op'>&gt;&gt;</span>;
+<span class='kw'>type</span> <span class='ident'>SearchCache</span> <span class='op'>=</span> <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='op'>*</span><span class='kw'>const</span> <span class='ident'>MatchPattern</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Region</span><span class='op'>&gt;</span>, <span class='ident'>BuildHasherDefault</span><span class='op'>&lt;</span><span class='ident'>FnvHasher</span><span class='op'>&gt;&gt;</span>;
 
 <span class='kw'>impl</span> <span class='ident'>ParseState</span> {
     <span class='doccomment'>/// Create a state from a syntax, keeps its own reference counted</span>
@@ -559,6 +563,7 @@
                 <span class='string'>&quot;Somehow main context was popped from the stack&quot;</span>);
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>match_start</span> <span class='op'>=</span> <span class='number'>0</span>;
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>res</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
+
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>first_line</span> {
             <span class='kw'>let</span> <span class='ident'>cur_level</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>stack</span>[<span class='self'>self</span>.<span class='ident'>stack</span>.<span class='ident'>len</span>() <span class='op'>-</span> <span class='number'>1</span>];
             <span class='kw'>let</span> <span class='ident'>context</span> <span class='op'>=</span> <span class='ident'>cur_level</span>.<span class='ident'>context</span>.<span class='ident'>borrow</span>();
@@ -571,13 +576,15 @@
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>regions</span> <span class='op'>=</span> <span class='ident'>Region</span>::<span class='ident'>with_capacity</span>(<span class='number'>8</span>);
         <span class='kw'>let</span> <span class='ident'>fnv</span> <span class='op'>=</span> <span class='ident'>BuildHasherDefault</span>::<span class='op'>&lt;</span><span class='ident'>FnvHasher</span><span class='op'>&gt;</span>::<span class='ident'>default</span>();
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>search_cache</span>: <span class='ident'>SearchCache</span> <span class='op'>=</span> <span class='ident'>HashMap</span>::<span class='ident'>with_capacity_and_hasher</span>(<span class='number'>128</span>, <span class='ident'>fnv</span>);
+
         <span class='kw'>while</span> <span class='self'>self</span>.<span class='ident'>parse_next_token</span>(<span class='ident'>line</span>,
                                     <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>match_start</span>,
                                     <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>search_cache</span>,
                                     <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>regions</span>,
                                     <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>res</span>) {
         }
-        <span class='kw'>return</span> <span class='ident'>res</span>;
+
+        <span class='ident'>res</span>
     }
 
     <span class='kw'>fn</span> <span class='ident'>parse_next_token</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>,
@@ -597,7 +604,7 @@
             };
             <span class='kw'>let</span> <span class='ident'>context_chain</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>stack</span>
                 .<span class='ident'>iter</span>()
-                .<span class='ident'>filter_map</span>(<span class='op'>|</span><span class='ident'>lvl</span><span class='op'>|</span> <span class='ident'>lvl</span>.<span class='ident'>prototype</span>.<span class='ident'>as_ref</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span>.<span class='ident'>clone</span>()))
+                .<span class='ident'>filter_map</span>(<span class='op'>|</span><span class='ident'>lvl</span><span class='op'>|</span> <span class='ident'>lvl</span>.<span class='ident'>prototype</span>.<span class='ident'>as_ref</span>().<span class='ident'>cloned</span>())
                 .<span class='ident'>chain</span>(<span class='ident'>prototype</span>.<span class='ident'>into_iter</span>())
                 .<span class='ident'>chain</span>(<span class='prelude-val'>Some</span>(<span class='ident'>cur_level</span>.<span class='ident'>context</span>.<span class='ident'>clone</span>()).<span class='ident'>into_iter</span>());
             <span class='comment'>// println!(&quot;{:#?}&quot;, cur_level);</span>
@@ -608,7 +615,8 @@
                     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>match_pat</span> <span class='op'>=</span> <span class='ident'>pat_context</span>.<span class='ident'>match_at_mut</span>(<span class='ident'>pat_index</span>);
                     <span class='comment'>// println!(&quot;{} - {:?} - {:?}&quot;, match_pat.regex_str, match_pat.has_captures, cur_level.captures.is_some());</span>
 
-                    <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>maybe_region</span>) <span class='op'>=</span> <span class='ident'>search_cache</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span>(<span class='ident'>match_pat</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>MatchPattern</span>)) {
+                    <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>maybe_region</span>) <span class='op'>=</span>
+                           <span class='ident'>search_cache</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span>(<span class='ident'>match_pat</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>MatchPattern</span>)) {
                         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>valid_entry</span> <span class='op'>=</span> <span class='boolval'>true</span>;
                         <span class='kw'>if</span> <span class='kw'>let</span> <span class='kw-2'>&amp;</span><span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>region</span>) <span class='op'>=</span> <span class='ident'>maybe_region</span> {
                             <span class='kw'>let</span> <span class='ident'>match_start</span> <span class='op'>=</span> <span class='ident'>region</span>.<span class='ident'>pos</span>(<span class='number'>0</span>).<span class='ident'>unwrap</span>().<span class='number'>0</span>;
@@ -701,7 +709,7 @@
         <span class='comment'>// println!(&quot;running pattern {:?} on &#39;{}&#39; at {}&quot;, pat.regex_str, line, match_start);</span>
 
         <span class='self'>self</span>.<span class='ident'>push_meta_ops</span>(<span class='boolval'>true</span>, <span class='ident'>match_start</span>, <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>level_context</span>, <span class='kw-2'>&amp;</span><span class='ident'>pat</span>.<span class='ident'>operation</span>, <span class='ident'>ops</span>);
-        <span class='kw'>for</span> <span class='ident'>s</span> <span class='kw'>in</span> <span class='ident'>pat</span>.<span class='ident'>scope</span>.<span class='ident'>iter</span>() {
+        <span class='kw'>for</span> <span class='ident'>s</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='ident'>pat</span>.<span class='ident'>scope</span> {
             <span class='comment'>// println!(&quot;pushing {:?} at {}&quot;, s, match_start);</span>
             <span class='ident'>ops</span>.<span class='ident'>push</span>((<span class='ident'>match_start</span>, <span class='ident'>ScopeStackOp</span>::<span class='ident'>Push</span>(<span class='ident'>s</span>.<span class='ident'>clone</span>())));
         }
@@ -744,11 +752,11 @@
                      <span class='ident'>cur_context</span>: <span class='kw-2'>&amp;</span><span class='ident'>Context</span>,
                      <span class='ident'>match_op</span>: <span class='kw-2'>&amp;</span><span class='ident'>MatchOperation</span>,
                      <span class='ident'>ops</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Vec</span><span class='op'>&lt;</span>(<span class='ident'>usize</span>, <span class='ident'>ScopeStackOp</span>)<span class='op'>&gt;</span>) {
-        <span class='kw'>let</span> <span class='ident'>involves_pop</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>match_op</span> {
-            <span class='kw-2'>&amp;</span><span class='ident'>MatchOperation</span>::<span class='ident'>Pop</span> <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-            <span class='kw-2'>&amp;</span><span class='ident'>MatchOperation</span>::<span class='ident'>Set</span>(_) <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-            <span class='kw-2'>&amp;</span><span class='ident'>MatchOperation</span>::<span class='ident'>Push</span>(_) <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
-            <span class='kw-2'>&amp;</span><span class='ident'>MatchOperation</span>::<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+        <span class='kw'>let</span> <span class='ident'>involves_pop</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>match_op</span> {
+            <span class='ident'>MatchOperation</span>::<span class='ident'>Pop</span> <span class='op'>|</span>
+            <span class='ident'>MatchOperation</span>::<span class='ident'>Set</span>(_) <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
+            <span class='ident'>MatchOperation</span>::<span class='ident'>Push</span>(_) <span class='op'>|</span>
+            <span class='ident'>MatchOperation</span>::<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
         };
         <span class='comment'>// println!(&quot;metas ops for {:?}, is pop: {}, initial: {}&quot;,</span>
         <span class='comment'>//          match_op,</span>

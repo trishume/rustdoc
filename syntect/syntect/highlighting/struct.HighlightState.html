@@ -62,7 +62,7 @@ You could also do something fancy like only highlight a bit past the end of a us
 highlighting when they scroll down on large files.</p>
 
 <p>Alternatively you can save space by caching only the <code>path</code> field of this struct
-then re-create the HighlightState when needed by passing that stack as the <code>initial_stack</code>
+then re-create the <code>HighlightState</code> when needed by passing that stack as the <code>initial_stack</code>
 parameter to the <code>new</code> method. This takes less space but a small amount of time to re-create the style stack.</p>
 
 <p><strong>Note:</strong> Caching is for advanced users who have tons of time to maximize performance or want to do so eventually.

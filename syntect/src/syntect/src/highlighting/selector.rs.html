@@ -176,6 +176,14 @@
 <span id="132">132</span>
 <span id="133">133</span>
 <span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
 </pre><pre class='rust '>
 <span class='doccomment'>/// Code based on https://github.com/defuz/sublimate/blob/master/src/core/syntax/scope.rs</span>
 <span class='doccomment'>/// released under the MIT license by @defuz</span>
@@ -208,6 +216,14 @@
             <span class='kw'>return</span> <span class='prelude-val'>None</span>;
         }
         <span class='self'>self</span>.<span class='ident'>path</span>.<span class='ident'>does_match</span>(<span class='ident'>stack</span>)
+    }
+
+    <span class='doccomment'>/// If this selector is really just a single scope, return it</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>extract_single_scope</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Scope</span><span class='op'>&gt;</span> {
+        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>path</span>.<span class='ident'>len</span>() <span class='op'>&gt;</span> <span class='number'>1</span> <span class='op'>||</span> <span class='self'>self</span>.<span class='ident'>exclude</span>.<span class='ident'>is_some</span>() <span class='op'>||</span> <span class='self'>self</span>.<span class='ident'>path</span>.<span class='ident'>is_empty</span>() {
+            <span class='kw'>return</span> <span class='prelude-val'>None</span>;
+        }
+        <span class='prelude-val'>Some</span>(<span class='self'>self</span>.<span class='ident'>path</span>.<span class='ident'>as_slice</span>()[<span class='number'>0</span>])
     }
 }
 

@@ -267,6 +267,63 @@
 <span id="223">223</span>
 <span id="224">224</span>
 <span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Iterators and data structures for transforming parsing information into styled text.</span>
 
@@ -275,7 +332,8 @@
 
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>iter</span>::<span class='ident'>Iterator</span>;
 
-<span class='kw'>use</span> <span class='ident'>parsing</span>::{<span class='ident'>Scope</span>, <span class='ident'>ScopeStack</span>, <span class='ident'>ScopeStackOp</span>};
+<span class='kw'>use</span> <span class='ident'>parsing</span>::{<span class='ident'>Scope</span>, <span class='ident'>ScopeStack</span>, <span class='ident'>ScopeStackOp</span>, <span class='ident'>MatchPower</span>, <span class='ident'>ATOM_LEN_BITS</span>};
+<span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>selector</span>::<span class='ident'>ScopeSelector</span>;
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>theme</span>::<span class='ident'>Theme</span>;
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>style</span>::{<span class='ident'>Style</span>, <span class='ident'>StyleModifier</span>, <span class='ident'>FontStyle</span>, <span class='ident'>BLACK</span>, <span class='ident'>WHITE</span>};
 
@@ -288,7 +346,12 @@
 <span class='doccomment'>/// highlighting runs it will preserve its cache.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Highlighter</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
-    <span class='ident'>theme</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Theme</span>, <span class='comment'>// TODO add caching or accelerator structure</span>
+    <span class='ident'>theme</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Theme</span>,
+    <span class='doccomment'>/// Cache of the selectors in the theme that are only one scope</span>
+    <span class='doccomment'>/// In most themes this is the majority, hence the usefullness</span>
+    <span class='ident'>single_selectors</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span>(<span class='ident'>Scope</span>, <span class='ident'>StyleModifier</span>)<span class='op'>&gt;</span>,
+    <span class='ident'>multi_selectors</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span>(<span class='ident'>ScopeSelector</span>, <span class='ident'>StyleModifier</span>)<span class='op'>&gt;</span>,
+    <span class='comment'>// TODO single_cache: HashMap&lt;Scope, StyleModifier, BuildHasherDefault&lt;FnvHasher&gt;&gt;,</span>
 }
 
 <span class='doccomment'>/// Keeps a stack of scopes and styles as state between highlighting different lines.</span>
@@ -387,7 +450,7 @@
                 <span class='comment'>// println!(&quot;{}&quot;, self.state.path);</span>
                 <span class='self'>self</span>.<span class='ident'>state</span>
                     .<span class='ident'>styles</span>
-                    .<span class='ident'>push</span>(<span class='ident'>style</span>.<span class='ident'>apply</span>(<span class='self'>self</span>.<span class='ident'>highlighter</span>.<span class='ident'>get_style</span>(<span class='self'>self</span>.<span class='ident'>state</span>.<span class='ident'>path</span>.<span class='ident'>as_slice</span>())));
+                    .<span class='ident'>push</span>(<span class='ident'>style</span>.<span class='ident'>apply</span>(<span class='self'>self</span>.<span class='ident'>highlighter</span>.<span class='ident'>get_new_style</span>(<span class='self'>self</span>.<span class='ident'>state</span>.<span class='ident'>path</span>.<span class='ident'>as_slice</span>())));
             }
             <span class='ident'>ScopeStackOp</span>::<span class='ident'>Pop</span>(<span class='ident'>n</span>) <span class='op'>=&gt;</span> {
                 <span class='kw'>for</span> _ <span class='kw'>in</span> <span class='number'>0</span>..<span class='ident'>n</span> {
@@ -409,7 +472,25 @@
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='ident'>Highlighter</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>theme</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Theme</span>) <span class='op'>-&gt;</span> <span class='ident'>Highlighter</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
-        <span class='ident'>Highlighter</span> { <span class='ident'>theme</span>: <span class='ident'>theme</span> }
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>single_selectors</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>multi_selectors</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
+        <span class='kw'>for</span> <span class='ident'>item</span> <span class='kw'>in</span> <span class='ident'>theme</span>.<span class='ident'>scopes</span>.<span class='ident'>iter</span>() {
+            <span class='kw'>for</span> <span class='ident'>sel</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='ident'>item</span>.<span class='ident'>scope</span>.<span class='ident'>selectors</span> {
+                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>scope</span>) <span class='op'>=</span> <span class='ident'>sel</span>.<span class='ident'>extract_single_scope</span>() {
+                    <span class='ident'>single_selectors</span>.<span class='ident'>push</span>((<span class='ident'>scope</span>, <span class='ident'>item</span>.<span class='ident'>style</span>.<span class='ident'>clone</span>()));
+                } <span class='kw'>else</span> {
+                    <span class='ident'>multi_selectors</span>.<span class='ident'>push</span>((<span class='ident'>sel</span>.<span class='ident'>clone</span>(), <span class='ident'>item</span>.<span class='ident'>style</span>.<span class='ident'>clone</span>()));
+                }
+            }
+        }
+        <span class='comment'>// So that deeper matching selectors get checked first</span>
+        <span class='ident'>single_selectors</span>.<span class='ident'>sort_by</span>(<span class='op'>|</span><span class='ident'>a</span>, <span class='ident'>b</span><span class='op'>|</span> <span class='ident'>b</span>.<span class='number'>0</span>.<span class='ident'>len</span>().<span class='ident'>cmp</span>(<span class='kw-2'>&amp;</span><span class='ident'>a</span>.<span class='number'>0</span>.<span class='ident'>len</span>()));
+
+        <span class='ident'>Highlighter</span> {
+            <span class='ident'>theme</span>: <span class='ident'>theme</span>,
+            <span class='ident'>single_selectors</span>: <span class='ident'>single_selectors</span>,
+            <span class='ident'>multi_selectors</span>: <span class='ident'>multi_selectors</span>,
+        }
     }
 
     <span class='doccomment'>/// The default style in the absence of any matched rules.</span>
@@ -447,6 +528,39 @@
             <span class='ident'>background</span>: <span class='ident'>max_item</span>.<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>item</span><span class='op'>|</span> <span class='ident'>item</span>.<span class='ident'>style</span>.<span class='ident'>background</span>),
             <span class='ident'>font_style</span>: <span class='ident'>max_item</span>.<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>item</span><span class='op'>|</span> <span class='ident'>item</span>.<span class='ident'>style</span>.<span class='ident'>font_style</span>),
         }
+    }
+
+    <span class='doccomment'>/// Like get_style but only guarantees returning any new style</span>
+    <span class='doccomment'>/// if the last element of `path` was just pushed on to the stack.</span>
+    <span class='doccomment'>/// Panics if `path` is empty.</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>get_new_style</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>path</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>Scope</span>]) <span class='op'>-&gt;</span> <span class='ident'>StyleModifier</span> {
+        <span class='kw'>let</span> <span class='ident'>last_scope</span> <span class='op'>=</span> <span class='ident'>path</span>[<span class='ident'>path</span>.<span class='ident'>len</span>() <span class='op'>-</span> <span class='number'>1</span>];
+        <span class='kw'>let</span> <span class='ident'>single_res</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>single_selectors</span>
+            .<span class='ident'>iter</span>()
+            .<span class='ident'>find</span>(<span class='op'>|</span><span class='ident'>a</span><span class='op'>|</span> <span class='ident'>a</span>.<span class='number'>0</span>.<span class='ident'>is_prefix_of</span>(<span class='ident'>last_scope</span>));
+        <span class='kw'>let</span> <span class='ident'>mult_res</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>multi_selectors</span>
+            .<span class='ident'>iter</span>()
+            .<span class='ident'>filter_map</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span>(<span class='kw-2'>ref</span> <span class='ident'>sel</span>, <span class='kw-2'>ref</span> <span class='ident'>style</span>)<span class='op'>|</span> <span class='ident'>sel</span>.<span class='ident'>does_match</span>(<span class='ident'>path</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>score</span><span class='op'>|</span> (<span class='ident'>score</span>, <span class='ident'>style</span>)))
+            .<span class='ident'>max_by_key</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span>(<span class='ident'>score</span>, _)<span class='op'>|</span> <span class='ident'>score</span>);
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>((<span class='ident'>score</span>, <span class='ident'>style</span>)) <span class='op'>=</span> <span class='ident'>mult_res</span> {
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>single_score</span>: <span class='ident'>f64</span> <span class='op'>=</span> <span class='op'>-</span><span class='number'>1.0</span>;
+            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span>(<span class='ident'>scope</span>, _)) <span class='op'>=</span> <span class='ident'>single_res</span> {
+                <span class='ident'>single_score</span> <span class='op'>=</span> (<span class='ident'>scope</span>.<span class='ident'>len</span>() <span class='kw'>as</span> <span class='ident'>f64</span>) <span class='op'>*</span>
+                               ((<span class='ident'>ATOM_LEN_BITS</span> <span class='op'>*</span> ((<span class='ident'>path</span>.<span class='ident'>len</span>() <span class='op'>-</span> <span class='number'>1</span>) <span class='kw'>as</span> <span class='ident'>u16</span>)) <span class='kw'>as</span> <span class='ident'>f64</span>).<span class='ident'>exp2</span>();
+            }
+            <span class='comment'>// println!(&quot;multi at {:?} score {:?} single score {:?}&quot;, path, score, single_score);</span>
+            <span class='kw'>if</span> <span class='ident'>MatchPower</span>(<span class='ident'>single_score</span>) <span class='op'>&lt;</span> <span class='ident'>score</span> {
+                <span class='kw'>return</span> <span class='ident'>style</span>.<span class='ident'>clone</span>();
+            }
+        }
+        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span>(_, <span class='kw-2'>ref</span> <span class='ident'>style</span>)) <span class='op'>=</span> <span class='ident'>single_res</span> {
+            <span class='kw'>return</span> <span class='ident'>style</span>.<span class='ident'>clone</span>();
+        }
+        <span class='kw'>return</span> <span class='ident'>StyleModifier</span> {
+            <span class='ident'>foreground</span>: <span class='prelude-val'>None</span>,
+            <span class='ident'>background</span>: <span class='prelude-val'>None</span>,
+            <span class='ident'>font_style</span>: <span class='prelude-val'>None</span>,
+        };
     }
 }
 

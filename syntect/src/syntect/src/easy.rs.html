@@ -260,6 +260,8 @@
 <span id="216">216</span>
 <span id="217">217</span>
 <span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! API wrappers for common use cases like highlighting strings and</span>
 <span class='doccomment'>//! files without caring about intermediate semantic representation</span>
@@ -384,6 +386,8 @@
 <span class='doccomment'>/// To use just keep your own `ScopeStack` and then `ScopeStack.apply(op)` the operation that is yielded</span>
 <span class='doccomment'>/// at the top of your `for` loop over this iterator. Now you have a substring of the line and the scope stack</span>
 <span class='doccomment'>/// for that token.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// See the `synstats.rs` example for an example of using this iterator.</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// **Note:** This will often return empty regions, just `continue` after applying the op if you don&#39;t want them.</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>

@@ -48,7 +48,7 @@
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span></span></h1>
-<pre class='rust const'>pub const SYNTAX_BEHAVIOR_CONTEXT_INDEP_REPEAT_OPS: <a class='struct' href='../onig/struct.SyntaxBehavior.html' title='onig::SyntaxBehavior'>SyntaxBehavior</a></pre><div class='docblock'><p><code>?, *, +, {n,m}</code></p>
+<pre class='rust const'>pub const SYNTAX_BEHAVIOR_CONTEXT_INDEP_REPEAT_OPS: <a class='struct' href='../onig/struct.SyntaxBehavior.html' title='onig::SyntaxBehavior'>SyntaxBehavior</a><code> = </code><code>SyntaxBehavior{bits: onig_sys::ONIG_SYN_CONTEXT_INDEP_REPEAT_OPS,}</code></pre><div class='docblock'><p><code>?, *, +, {n,m}</code></p>
 </div></section>
     <section id='search' class="content hidden"></section>
 
@@ -72,6 +72,8 @@
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 

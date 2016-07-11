@@ -333,9 +333,9 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>iter</span>::<span class='ident'>Iterator</span>;
 
 <span class='kw'>use</span> <span class='ident'>parsing</span>::{<span class='ident'>Scope</span>, <span class='ident'>ScopeStack</span>, <span class='ident'>ScopeStackOp</span>, <span class='ident'>MatchPower</span>, <span class='ident'>ATOM_LEN_BITS</span>};
-<span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>selector</span>::<span class='ident'>ScopeSelector</span>;
-<span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>theme</span>::<span class='ident'>Theme</span>;
-<span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>style</span>::{<span class='ident'>Style</span>, <span class='ident'>StyleModifier</span>, <span class='ident'>FontStyle</span>, <span class='ident'>BLACK</span>, <span class='ident'>WHITE</span>};
+<span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>selector</span>::<span class='ident'>ScopeSelector</span>;
+<span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>theme</span>::<span class='ident'>Theme</span>;
+<span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>style</span>::{<span class='ident'>Style</span>, <span class='ident'>StyleModifier</span>, <span class='ident'>FontStyle</span>, <span class='ident'>BLACK</span>, <span class='ident'>WHITE</span>};
 
 <span class='doccomment'>/// Basically a wrapper around a `Theme` preparing it to be used for highlighting.</span>
 <span class='doccomment'>/// This is part of the API to preserve the possibility of caching</span>
@@ -566,7 +566,7 @@
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
 <span class='kw'>mod</span> <span class='ident'>tests</span> {
-    <span class='kw'>use</span> <span class='ident'>super</span>::<span class='op'>*</span>;
+    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='op'>*</span>;
     <span class='kw'>use</span> <span class='ident'>parsing</span>::{<span class='ident'>SyntaxSet</span>, <span class='ident'>ScopeStack</span>, <span class='ident'>ParseState</span>};
     <span class='kw'>use</span> <span class='ident'>highlighting</span>::{<span class='ident'>ThemeSet</span>, <span class='ident'>Style</span>, <span class='ident'>Color</span>, <span class='ident'>FontStyle</span>};
 
@@ -631,6 +631,8 @@
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 

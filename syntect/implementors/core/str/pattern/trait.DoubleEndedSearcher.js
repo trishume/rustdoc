@@ -1,5 +1,5 @@
 (function() {var implementors = {};
-implementors['serde'] = [];
+implementors["lazy_static"] = [];implementors["regex_syntax"] = [];implementors["libc"] = [];implementors["onig"] = [];implementors["serde"] = [];implementors["syntect"] = [];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);

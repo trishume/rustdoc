@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-88ac128001ac3a9a/plist-0.0.13/src/binary/reader.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/plist-0.0.13/src/binary/reader.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>reader.rs.html -- source</title>
@@ -437,7 +437,7 @@
             <span class='ident'>object_offsets</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
             <span class='ident'>reader</span>: <span class='ident'>reader</span>,
             <span class='ident'>ref_size</span>: <span class='number'>0</span>,
-            <span class='ident'>finished</span>: <span class='boolval'>false</span>,
+            <span class='ident'>finished</span>: <span class='boolvalue'>false</span>,
         }
     }
 
@@ -563,8 +563,8 @@
 
         <span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='kw'>match</span> (<span class='ident'>ty</span>, <span class='ident'>size</span>) {
             (<span class='number'>0x0</span>, <span class='number'>0x00</span>) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>InvalidData</span>), <span class='comment'>// null</span>
-            (<span class='number'>0x0</span>, <span class='number'>0x08</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>PlistEvent</span>::<span class='ident'>BooleanValue</span>(<span class='boolval'>false</span>)),
-            (<span class='number'>0x0</span>, <span class='number'>0x09</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>PlistEvent</span>::<span class='ident'>BooleanValue</span>(<span class='boolval'>true</span>)),
+            (<span class='number'>0x0</span>, <span class='number'>0x08</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>PlistEvent</span>::<span class='ident'>BooleanValue</span>(<span class='boolvalue'>false</span>)),
+            (<span class='number'>0x0</span>, <span class='number'>0x09</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>PlistEvent</span>::<span class='ident'>BooleanValue</span>(<span class='boolvalue'>true</span>)),
             (<span class='number'>0x0</span>, <span class='number'>0x0f</span>) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>InvalidData</span>), <span class='comment'>// fill</span>
             (<span class='number'>0x1</span>, <span class='number'>0</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>PlistEvent</span>::<span class='ident'>IntegerValue</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>reader</span>.<span class='ident'>read_u8</span>()) <span class='kw'>as</span> <span class='ident'>i64</span>)),
             (<span class='number'>0x1</span>, <span class='number'>1</span>) <span class='op'>=&gt;</span> {
@@ -677,11 +677,11 @@
             <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>read_next</span>() {
                 <span class='prelude-val'>Ok</span>(<span class='prelude-val'>Some</span>(<span class='ident'>event</span>)) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='prelude-val'>Ok</span>(<span class='ident'>event</span>)),
                 <span class='prelude-val'>Err</span>(<span class='ident'>err</span>) <span class='op'>=&gt;</span> {
-                    <span class='self'>self</span>.<span class='ident'>finished</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+                    <span class='self'>self</span>.<span class='ident'>finished</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
                     <span class='prelude-val'>Some</span>(<span class='prelude-val'>Err</span>(<span class='ident'>err</span>))
                 }
                 <span class='prelude-val'>Ok</span>(<span class='prelude-val'>None</span>) <span class='op'>=&gt;</span> {
-                    <span class='self'>self</span>.<span class='ident'>finished</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+                    <span class='self'>self</span>.<span class='ident'>finished</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
                     <span class='prelude-val'>None</span>
                 }
             }
@@ -695,7 +695,7 @@
     <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>;
     <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
 
-    <span class='kw'>use</span> <span class='ident'>super</span>::<span class='op'>*</span>;
+    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='op'>*</span>;
     <span class='kw'>use</span> <span class='ident'>PlistEvent</span>;
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
@@ -761,6 +761,8 @@
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 

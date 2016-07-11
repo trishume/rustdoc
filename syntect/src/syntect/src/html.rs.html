@@ -494,8 +494,8 @@
     <span class='kw'>for</span> <span class='kw-2'>&amp;</span>(<span class='kw-2'>ref</span> <span class='ident'>style</span>, <span class='ident'>text</span>) <span class='kw'>in</span> <span class='ident'>v</span>.<span class='ident'>iter</span>() {
         <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>s</span>, <span class='string'>&quot;&lt;span style=\&quot;&quot;</span>).<span class='ident'>unwrap</span>();
         <span class='kw'>let</span> <span class='ident'>include_bg</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>bg</span> {
-            <span class='ident'>IncludeBackground</span>::<span class='ident'>Yes</span> <span class='op'>=&gt;</span> <span class='boolval'>true</span>,
-            <span class='ident'>IncludeBackground</span>::<span class='ident'>No</span> <span class='op'>=&gt;</span> <span class='boolval'>false</span>,
+            <span class='ident'>IncludeBackground</span>::<span class='ident'>Yes</span> <span class='op'>=&gt;</span> <span class='boolvalue'>true</span>,
+            <span class='ident'>IncludeBackground</span>::<span class='ident'>No</span> <span class='op'>=&gt;</span> <span class='boolvalue'>false</span>,
             <span class='ident'>IncludeBackground</span>::<span class='ident'>IfDifferent</span>(<span class='ident'>c</span>) <span class='op'>=&gt;</span> (<span class='ident'>style</span>.<span class='ident'>background</span> <span class='op'>!=</span> <span class='ident'>c</span>),
         };
         <span class='kw'>if</span> <span class='ident'>include_bg</span> {
@@ -545,7 +545,7 @@
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
 <span class='kw'>mod</span> <span class='ident'>tests</span> {
-    <span class='kw'>use</span> <span class='ident'>super</span>::<span class='op'>*</span>;
+    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='op'>*</span>;
     <span class='kw'>use</span> <span class='ident'>parsing</span>::{<span class='ident'>SyntaxSet</span>, <span class='ident'>ParseState</span>, <span class='ident'>ScopeStack</span>};
     <span class='kw'>use</span> <span class='ident'>highlighting</span>::{<span class='ident'>ThemeSet</span>, <span class='ident'>Style</span>, <span class='ident'>Highlighter</span>, <span class='ident'>HighlightIterator</span>, <span class='ident'>HighlightState</span>};
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
@@ -633,6 +633,8 @@
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 

@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-678' class='srclink' href='../src/onig_sys/lib.rs.html#915-918' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-680' class='srclink' href='../src/onig_sys/lib.rs.html#915-918' title='goto source code'>[src]</a></span></h1>
 <pre class='rust fn'>pub unsafe extern fn onig_set_meta_char(syntax: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*mut </a><a class='struct' href='../onig_sys/struct.OnigSyntaxType.html' title='onig_sys::OnigSyntaxType'>OnigSyntaxType</a>, what: <a class='type' href='../libc/type.c_uint.html' title='libc::c_uint'>c_uint</a>, code: <a class='type' href='../onig_sys/type.OnigCodePoint.html' title='onig_sys::OnigCodePoint'>OnigCodePoint</a>) -&gt; <a class='type' href='../libc/type.c_int.html' title='libc::c_int'>c_int</a></pre><div class='docblock'><p>Set a variable meta character to the code point value.
  Except for an escape character, this meta characters specification
  is not work, if ONIG_SYN_OP_VARIABLE_META_CHARACTERS is not effective
@@ -93,6 +93,8 @@
                     <dd>Move down in search results</dd>
                     <dt>&#9166;</dt>
                     <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
                 </dl>
             </div>
 

@@ -1,5 +1,5 @@
 (function() {var implementors = {};
-implementors['rustc_serialize'] = [];implementors['syntect'] = [];
+implementors["rustc_serialize"] = [];implementors["syntect"] = [];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);

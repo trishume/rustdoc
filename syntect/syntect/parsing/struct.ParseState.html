@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-2893' class='srclink' href='../../src/syntect/src/parsing/parser.rs.html#27-30' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-2889' class='srclink' href='../../src/syntect/src/parsing/parser.rs.html#27-30' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct ParseState {
     // some fields omitted
 }</pre><div class='docblock'><p>Keeps the current parser state (the internal syntax interpreter stack) between lines of parsing.
@@ -65,7 +65,7 @@ Note that <code>HighlightState</code> contains exactly this as a public field th
 
 <p><strong>Note:</strong> Caching is for advanced users who have tons of time to maximize performance or want to do so eventually.
 It is not recommended that you try caching the first time you implement highlighting.</p>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../syntect/parsing/struct.ParseState.html' title='syntect::parsing::ParseState'>ParseState</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2939' class='srclink' href='../../src/syntect/src/parsing/parser.rs.html#49-347' title='goto source code'>[src]</a></span></h3>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../syntect/parsing/struct.ParseState.html' title='syntect::parsing::ParseState'>ParseState</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2935' class='srclink' href='../../src/syntect/src/parsing/parser.rs.html#49-347' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(syntax: &amp;<a class='struct' href='../../syntect/parsing/syntax_definition/struct.SyntaxDefinition.html' title='syntect::parsing::syntax_definition::SyntaxDefinition'>SyntaxDefinition</a>) -&gt; <a class='struct' href='../../syntect/parsing/struct.ParseState.html' title='syntect::parsing::ParseState'>ParseState</a></code></h4>
 <div class='docblock'><p>Create a state from a syntax, keeps its own reference counted
 pointer to the main context of the syntax.</p>
@@ -80,12 +80,12 @@ Look at the code in <code>highlighter.rs</code> for an example of doing this for
 
 <p>The vector is in order both by index to apply at (the <code>usize</code>) and also by order to apply them at a
 given index (e.g popping old scopes before pusing new scopes).</p>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../syntect/parsing/struct.ParseState.html' title='syntect::parsing::ParseState'>ParseState</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2896' class='srclink' href='../../src/syntect/src/parsing/parser.rs.html#26' title='goto source code'>[src]</a></span></h3>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../syntect/parsing/struct.ParseState.html' title='syntect::parsing::ParseState'>ParseState</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2892' class='srclink' href='../../src/syntect/src/parsing/parser.rs.html#26' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../../syntect/parsing/struct.ParseState.html' title='syntect::parsing::ParseState'>ParseState</a></code></h4>
 <div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
 </div><h4 id='method.clone_from' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></h4>
 <div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
-</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../syntect/parsing/struct.ParseState.html' title='syntect::parsing::ParseState'>ParseState</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2901' class='srclink' href='../../src/syntect/src/parsing/parser.rs.html#26' title='goto source code'>[src]</a></span></h3>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../syntect/parsing/struct.ParseState.html' title='syntect::parsing::ParseState'>ParseState</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2897' class='srclink' href='../../src/syntect/src/parsing/parser.rs.html#26' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
 <div class='docblock'><p>Formats the value using the given formatter.</p>
 </div></div></section>

@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-0' class='srclink' href='../src/fnv/lib.rs.html#1-328' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-0' class='srclink' href='../src/fnv/lib.rs.html#1-326' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>An implementation of the <a href="http://www.isthe.com/chongo/tech/comp/fnv/index.html">Fowler–Noll–Vo hash function</a>.</p>
 
 <h2 id='about' class='section-header'><a href='#about'>About</a></h2>
@@ -76,13 +76,12 @@ must create a default instance of a <code>FnvHasher</code> state, then create a 
 map using this state with <code>HashMap::with_hash_state</code>. A full example:</p>
 
 <pre class='rust rust-example-rendered'>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>hashmap_hasher</span>)]</span>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>hash_state</span>::<span class='ident'>DefaultState</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>hash</span>::<span class='ident'>BuildHasherDefault</span>;
 <span class='kw'>use</span> <span class='ident'>fnv</span>::<span class='ident'>FnvHasher</span>;
 
-<span class='kw'>let</span> <span class='ident'>fnv</span> <span class='op'>=</span> <span class='ident'>DefaultState</span>::<span class='op'>&lt;</span><span class='ident'>FnvHasher</span><span class='op'>&gt;</span>::<span class='ident'>default</span>();
-<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>map</span> <span class='op'>=</span> <span class='ident'>HashMap</span>::<span class='ident'>with_hash_state</span>(<span class='ident'>fnv</span>);
+<span class='kw'>let</span> <span class='ident'>fnv</span> <span class='op'>=</span> <span class='ident'>BuildHasherDefault</span>::<span class='op'>&lt;</span><span class='ident'>FnvHasher</span><span class='op'>&gt;</span>::<span class='ident'>default</span>();
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>map</span> <span class='op'>=</span> <span class='ident'>HashMap</span>::<span class='ident'>with_hasher</span>(<span class='ident'>fnv</span>);
 <span class='ident'>map</span>.<span class='ident'>insert</span>(<span class='number'>1</span>, <span class='string'>&quot;one&quot;</span>);
 <span class='ident'>map</span>.<span class='ident'>insert</span>(<span class='number'>2</span>, <span class='string'>&quot;two&quot;</span>);</pre>
 
@@ -91,13 +90,12 @@ map using this state with <code>HashMap::with_hash_state</code>. A full example:
 with the same mechanism.</p>
 
 <pre class='rust rust-example-rendered'>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>hashmap_hasher</span>)]</span>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashSet</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>hash_state</span>::<span class='ident'>DefaultState</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>hash</span>::<span class='ident'>BuildHasherDefault</span>;
 <span class='kw'>use</span> <span class='ident'>fnv</span>::<span class='ident'>FnvHasher</span>;
 
-<span class='kw'>let</span> <span class='ident'>fnv</span> <span class='op'>=</span> <span class='ident'>DefaultState</span>::<span class='op'>&lt;</span><span class='ident'>FnvHasher</span><span class='op'>&gt;</span>::<span class='ident'>default</span>();
-<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>set</span> <span class='op'>=</span> <span class='ident'>HashSet</span>::<span class='ident'>with_hash_state</span>(<span class='ident'>fnv</span>);
+<span class='kw'>let</span> <span class='ident'>fnv</span> <span class='op'>=</span> <span class='ident'>BuildHasherDefault</span>::<span class='op'>&lt;</span><span class='ident'>FnvHasher</span><span class='op'>&gt;</span>::<span class='ident'>default</span>();
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>set</span> <span class='op'>=</span> <span class='ident'>HashSet</span>::<span class='ident'>with_hasher</span>(<span class='ident'>fnv</span>);
 <span class='ident'>set</span>.<span class='ident'>insert</span>(<span class='number'>1</span>);
 <span class='ident'>set</span>.<span class='ident'>insert</span>(<span class='number'>2</span>);</pre>
 </div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>

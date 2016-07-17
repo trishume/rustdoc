@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/fnv-1.0.2/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/fnv-1.0.3/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
@@ -368,8 +368,6 @@
 <span id="324">324</span>
 <span id="325">325</span>
 <span id="326">326</span>
-<span id="327">327</span>
-<span id="328">328</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! An implementation of the [Fowler–Noll–Vo hash function][chongo].</span>
 <span class='doccomment'>//!</span>
@@ -402,13 +400,12 @@
 <span class='doccomment'>//! map using this state with `HashMap::with_hash_state`. A full example:</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! ```rust</span>
-<span class='doccomment'>//! #![feature(hashmap_hasher)]</span>
 <span class='doccomment'>//! use std::collections::HashMap;</span>
-<span class='doccomment'>//! use std::collections::hash_state::DefaultState;</span>
+<span class='doccomment'>//! use std::hash::BuildHasherDefault;</span>
 <span class='doccomment'>//! use fnv::FnvHasher;</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! let fnv = DefaultState::&lt;FnvHasher&gt;::default();</span>
-<span class='doccomment'>//! let mut map = HashMap::with_hash_state(fnv);</span>
+<span class='doccomment'>//! let fnv = BuildHasherDefault::&lt;FnvHasher&gt;::default();</span>
+<span class='doccomment'>//! let mut map = HashMap::with_hasher(fnv);</span>
 <span class='doccomment'>//! map.insert(1, &quot;one&quot;);</span>
 <span class='doccomment'>//! map.insert(2, &quot;two&quot;);</span>
 <span class='doccomment'>//! ```</span>
@@ -420,13 +417,12 @@
 <span class='doccomment'>//! with the same mechanism.</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! ```rust</span>
-<span class='doccomment'>//! #![feature(hashmap_hasher)]</span>
 <span class='doccomment'>//! use std::collections::HashSet;</span>
-<span class='doccomment'>//! use std::collections::hash_state::DefaultState;</span>
+<span class='doccomment'>//! use std::hash::BuildHasherDefault;</span>
 <span class='doccomment'>//! use fnv::FnvHasher;</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! let fnv = DefaultState::&lt;FnvHasher&gt;::default();</span>
-<span class='doccomment'>//! let mut set = HashSet::with_hash_state(fnv);</span>
+<span class='doccomment'>//! let fnv = BuildHasherDefault::&lt;FnvHasher&gt;::default();</span>
+<span class='doccomment'>//! let mut set = HashSet::with_hasher(fnv);</span>
 <span class='doccomment'>//! set.insert(1);</span>
 <span class='doccomment'>//! set.insert(2);</span>
 <span class='doccomment'>//! ```</span>

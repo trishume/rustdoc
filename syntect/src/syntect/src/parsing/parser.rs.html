@@ -510,13 +510,13 @@
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// **Note:** Caching is for advanced users who have tons of time to maximize performance or want to do so eventually.</span>
 <span class='doccomment'>/// It is not recommended that you try caching the first time you implement highlighting.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ParseState</span> {
     <span class='ident'>stack</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>StateLevel</span><span class='op'>&gt;</span>,
     <span class='ident'>first_line</span>: <span class='ident'>bool</span>,
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>)]</span>
 <span class='kw'>struct</span> <span class='ident'>StateLevel</span> {
     <span class='ident'>context</span>: <span class='ident'>ContextPtr</span>,
     <span class='ident'>prototype</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>ContextPtr</span><span class='op'>&gt;</span>,

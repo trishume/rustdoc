@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/onig-0.6.0/src/region.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/onig-0.6.1/src/region.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>region.rs.html -- source</title>
@@ -216,7 +216,7 @@
 <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>CaptureTreeNode</span>;
 
 <span class='doccomment'>/// Represents a set of capture groups found in a search or match.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Eq</span>, <span class='ident'>PartialEq</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Region</span> {
     <span class='ident'>raw</span>: <span class='ident'>onig_sys</span>::<span class='ident'>OnigRegion</span>,
 }

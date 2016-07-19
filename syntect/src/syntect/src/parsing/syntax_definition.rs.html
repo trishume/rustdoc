@@ -359,6 +359,15 @@
 <span id="315">315</span>
 <span id="316">316</span>
 <span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! This module contains data structures for representing syntax definitions.</span>
 <span class='doccomment'>//! Everything is public because I want this library to be useful in super</span>
@@ -383,7 +392,7 @@
 <span class='doccomment'>/// Some useful public fields are the `name` field which is a human readable</span>
 <span class='doccomment'>/// name to display in syntax lists, and the `hidden` field which means hide</span>
 <span class='doccomment'>/// this syntax from any lists because it is for internal use.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>RustcEncodable</span>, <span class='ident'>RustcDecodable</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>RustcEncodable</span>, <span class='ident'>RustcDecodable</span>, <span class='ident'>Eq</span>, <span class='ident'>PartialEq</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>SyntaxDefinition</span> {
     <span class='kw'>pub</span> <span class='ident'>name</span>: <span class='ident'>String</span>,
     <span class='kw'>pub</span> <span class='ident'>file_extensions</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>,
@@ -397,7 +406,7 @@
     <span class='kw'>pub</span> <span class='ident'>contexts</span>: <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>ContextPtr</span><span class='op'>&gt;</span>,
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>RustcEncodable</span>, <span class='ident'>RustcDecodable</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>RustcEncodable</span>, <span class='ident'>RustcDecodable</span>, <span class='ident'>Eq</span>, <span class='ident'>PartialEq</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Context</span> {
     <span class='kw'>pub</span> <span class='ident'>meta_scope</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Scope</span><span class='op'>&gt;</span>,
     <span class='kw'>pub</span> <span class='ident'>meta_content_scope</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Scope</span><span class='op'>&gt;</span>,
@@ -413,7 +422,7 @@
     <span class='kw'>pub</span> <span class='ident'>patterns</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Pattern</span><span class='op'>&gt;</span>,
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>RustcEncodable</span>, <span class='ident'>RustcDecodable</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>RustcEncodable</span>, <span class='ident'>RustcDecodable</span>, <span class='ident'>Eq</span>, <span class='ident'>PartialEq</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Pattern</span> {
     <span class='ident'>Match</span>(<span class='ident'>MatchPattern</span>),
     <span class='ident'>Include</span>(<span class='ident'>ContextReference</span>),
@@ -428,7 +437,7 @@
     <span class='ident'>index_stack</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>,
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Eq</span>, <span class='ident'>PartialEq</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>MatchPattern</span> {
     <span class='kw'>pub</span> <span class='ident'>has_captures</span>: <span class='ident'>bool</span>,
     <span class='kw'>pub</span> <span class='ident'>regex_str</span>: <span class='ident'>String</span>,
@@ -446,7 +455,7 @@
     <span class='kw'>pub</span> <span class='ident'>link</span>: <span class='ident'>Weak</span><span class='op'>&lt;</span><span class='ident'>RefCell</span><span class='op'>&lt;</span><span class='ident'>Context</span><span class='op'>&gt;&gt;</span>,
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>RustcEncodable</span>, <span class='ident'>RustcDecodable</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>RustcEncodable</span>, <span class='ident'>RustcDecodable</span>, <span class='ident'>Eq</span>, <span class='ident'>PartialEq</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ContextReference</span> {
     <span class='ident'>Named</span>(<span class='ident'>String</span>),
     <span class='ident'>ByScope</span> {
@@ -461,7 +470,7 @@
     <span class='ident'>Direct</span>(<span class='ident'>LinkerLink</span>),
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>RustcEncodable</span>, <span class='ident'>RustcDecodable</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>RustcEncodable</span>, <span class='ident'>RustcDecodable</span>, <span class='ident'>Eq</span>, <span class='ident'>PartialEq</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>MatchOperation</span> {
     <span class='ident'>Push</span>(<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>ContextReference</span><span class='op'>&gt;</span>),
     <span class='ident'>Set</span>(<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>ContextReference</span><span class='op'>&gt;</span>),
@@ -637,6 +646,15 @@
         })
     }
 }
+
+<span class='kw'>impl</span> <span class='ident'>Eq</span> <span class='kw'>for</span> <span class='ident'>LinkerLink</span> {}
+
+<span class='kw'>impl</span> <span class='ident'>PartialEq</span> <span class='kw'>for</span> <span class='ident'>LinkerLink</span> {
+    <span class='kw'>fn</span> <span class='ident'>eq</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='ident'>LinkerLink</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+        <span class='self'>self</span>.<span class='ident'>link</span>.<span class='ident'>upgrade</span>() <span class='op'>==</span> <span class='ident'>other</span>.<span class='ident'>link</span>.<span class='ident'>upgrade</span>()
+    }
+}
+
 
 <span class='doccomment'>/// Just panics, we can&#39;t do anything with linked up syntaxes</span>
 <span class='kw'>impl</span> <span class='ident'>Encodable</span> <span class='kw'>for</span> <span class='ident'>LinkerLink</span> {

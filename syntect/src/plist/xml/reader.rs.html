@@ -279,18 +279,18 @@
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>Read</span><span class='op'>&gt;</span> <span class='ident'>EventReader</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> {
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>reader</span>: <span class='ident'>R</span>) <span class='op'>-&gt;</span> <span class='ident'>EventReader</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>config</span> <span class='op'>=</span> <span class='ident'>ParserConfig</span> {
-            <span class='ident'>trim_whitespace</span>: <span class='boolvalue'>false</span>,
-            <span class='ident'>whitespace_to_characters</span>: <span class='boolvalue'>true</span>,
-            <span class='ident'>cdata_to_characters</span>: <span class='boolvalue'>true</span>,
-            <span class='ident'>ignore_comments</span>: <span class='boolvalue'>true</span>,
-            <span class='ident'>coalesce_characters</span>: <span class='boolvalue'>true</span>,
+            <span class='ident'>trim_whitespace</span>: <span class='bool-val'>false</span>,
+            <span class='ident'>whitespace_to_characters</span>: <span class='bool-val'>true</span>,
+            <span class='ident'>cdata_to_characters</span>: <span class='bool-val'>true</span>,
+            <span class='ident'>ignore_comments</span>: <span class='bool-val'>true</span>,
+            <span class='ident'>coalesce_characters</span>: <span class='bool-val'>true</span>,
         };
 
         <span class='ident'>EventReader</span> {
             <span class='ident'>xml_reader</span>: <span class='ident'>XmlEventReader</span>::<span class='ident'>new_with_config</span>(<span class='ident'>reader</span>, <span class='ident'>config</span>),
             <span class='ident'>queued_event</span>: <span class='prelude-val'>None</span>,
             <span class='ident'>element_stack</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
-            <span class='ident'>finished</span>: <span class='boolvalue'>false</span>,
+            <span class='ident'>finished</span>: <span class='bool-val'>false</span>,
         }
     }
 
@@ -327,8 +327,8 @@
                         <span class='string'>&quot;array&quot;</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Some</span>(<span class='prelude-val'>Ok</span>(<span class='ident'>PlistEvent</span>::<span class='ident'>StartArray</span>(<span class='prelude-val'>None</span>))),
                         <span class='string'>&quot;dict&quot;</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Some</span>(<span class='prelude-val'>Ok</span>(<span class='ident'>PlistEvent</span>::<span class='ident'>StartDictionary</span>(<span class='prelude-val'>None</span>))),
                         <span class='string'>&quot;key&quot;</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Some</span>(<span class='self'>self</span>.<span class='ident'>read_content</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='prelude-val'>Ok</span>(<span class='ident'>PlistEvent</span>::<span class='ident'>StringValue</span>(<span class='ident'>s</span>)))),
-                        <span class='string'>&quot;true&quot;</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Some</span>(<span class='prelude-val'>Ok</span>(<span class='ident'>PlistEvent</span>::<span class='ident'>BooleanValue</span>(<span class='boolvalue'>true</span>))),
-                        <span class='string'>&quot;false&quot;</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Some</span>(<span class='prelude-val'>Ok</span>(<span class='ident'>PlistEvent</span>::<span class='ident'>BooleanValue</span>(<span class='boolvalue'>false</span>))),
+                        <span class='string'>&quot;true&quot;</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Some</span>(<span class='prelude-val'>Ok</span>(<span class='ident'>PlistEvent</span>::<span class='ident'>BooleanValue</span>(<span class='bool-val'>true</span>))),
+                        <span class='string'>&quot;false&quot;</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Some</span>(<span class='prelude-val'>Ok</span>(<span class='ident'>PlistEvent</span>::<span class='ident'>BooleanValue</span>(<span class='bool-val'>false</span>))),
                         <span class='string'>&quot;data&quot;</span> <span class='op'>=&gt;</span> {
                             <span class='kw'>return</span> <span class='prelude-val'>Some</span>(<span class='self'>self</span>.<span class='ident'>read_content</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> {
                                 <span class='kw'>let</span> <span class='ident'>s</span>: <span class='ident'>String</span> <span class='op'>=</span> <span class='ident'>s</span>.<span class='ident'>replace</span>(<span class='string'>&quot; &quot;</span>, <span class='string'>&quot;&quot;</span>).<span class='ident'>replace</span>(<span class='string'>&quot;\t&quot;</span>, <span class='string'>&quot;&quot;</span>);
@@ -383,8 +383,8 @@
                 }
                 <span class='prelude-val'>Ok</span>(<span class='ident'>XmlEvent</span>::<span class='ident'>EndDocument</span>) <span class='op'>=&gt;</span> {
                     <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>element_stack</span>.<span class='ident'>is_empty</span>() {
-                        <span class='boolvalue'>true</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>None</span>,
-                        <span class='boolvalue'>false</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Some</span>(<span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>UnexpectedEof</span>)),
+                        <span class='bool-val'>true</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>None</span>,
+                        <span class='bool-val'>false</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Some</span>(<span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>UnexpectedEof</span>)),
                     }
                 }
                 <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Some</span>(<span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>InvalidData</span>)),
@@ -404,11 +404,11 @@
             <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>read_next</span>() {
                 <span class='prelude-val'>Some</span>(<span class='prelude-val'>Ok</span>(<span class='ident'>event</span>)) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='prelude-val'>Ok</span>(<span class='ident'>event</span>)),
                 <span class='prelude-val'>Some</span>(<span class='prelude-val'>Err</span>(<span class='ident'>err</span>)) <span class='op'>=&gt;</span> {
-                    <span class='self'>self</span>.<span class='ident'>finished</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+                    <span class='self'>self</span>.<span class='ident'>finished</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
                     <span class='prelude-val'>Some</span>(<span class='prelude-val'>Err</span>(<span class='ident'>err</span>))
                 }
                 <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {
-                    <span class='self'>self</span>.<span class='ident'>finished</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+                    <span class='self'>self</span>.<span class='ident'>finished</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
                     <span class='prelude-val'>None</span>
                 }
             }

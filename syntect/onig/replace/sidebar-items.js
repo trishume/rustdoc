@@ -1,1 +1,0 @@
-initSidebarItems({"trait":[["Replacer","Replacer describes types that can be used to replace matches in a string."]]});

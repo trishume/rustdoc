@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["SyntaxSet","A syntax set holds a bunch of syntaxes and manages loading them and the crucial operation of *linking*."]]});

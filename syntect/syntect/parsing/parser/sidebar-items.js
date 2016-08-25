@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["ParseState","Keeps the current parser state (the internal syntax interpreter stack) between lines of parsing. If you are parsing an entire file you create one of these at the start and use it all the way to the end."]]});

@@ -824,7 +824,7 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_match</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>text</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
         <span class='self'>self</span>.<span class='ident'>match_with_options</span>(<span class='ident'>text</span>, <span class='number'>0</span>, <span class='ident'>SEARCH_OPTION_NONE</span>, <span class='prelude-val'>None</span>)
             .<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>r</span><span class='op'>|</span> <span class='ident'>r</span> <span class='op'>==</span> <span class='ident'>text</span>.<span class='ident'>len</span>())
-            .<span class='ident'>unwrap_or</span>(<span class='boolvalue'>false</span>)
+            .<span class='ident'>unwrap_or</span>(<span class='bool-val'>false</span>)
     }
 
     <span class='doccomment'>/// Returns the start and end byte range of the leftmost-first match in</span>

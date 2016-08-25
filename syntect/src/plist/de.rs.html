@@ -520,7 +520,7 @@
         <span class='ident'>MapSeq</span> {
             <span class='ident'>de</span>: <span class='ident'>de</span>,
             <span class='ident'>remaining</span>: <span class='ident'>len</span>,
-            <span class='ident'>finished</span>: <span class='boolvalue'>false</span>,
+            <span class='ident'>finished</span>: <span class='bool-val'>false</span>,
         }
     }
 }
@@ -536,7 +536,7 @@
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>de</span>.<span class='ident'>events</span>.<span class='ident'>peek</span>() {
             <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='prelude-val'>Ok</span>(<span class='ident'>PlistEvent</span>::<span class='ident'>EndArray</span>)) <span class='op'>=&gt;</span> {
                 <span class='self'>self</span>.<span class='ident'>de</span>.<span class='ident'>events</span>.<span class='ident'>next</span>();
-                <span class='self'>self</span>.<span class='ident'>finished</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+                <span class='self'>self</span>.<span class='ident'>finished</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
                 <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='prelude-val'>None</span>);
             }
             _ <span class='op'>=&gt;</span> <span class='op'>&lt;</span><span class='ident'>T</span> <span class='kw'>as</span> <span class='ident'>Deserialize</span><span class='op'>&gt;</span>::<span class='ident'>deserialize</span>(<span class='self'>self</span>.<span class='ident'>de</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>k</span><span class='op'>|</span> <span class='prelude-val'>Some</span>(<span class='ident'>k</span>)),
@@ -545,7 +545,7 @@
 
     <span class='kw'>fn</span> <span class='ident'>end</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), <span class='self'>Self</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> {
         <span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>finished</span> {
-            <span class='self'>self</span>.<span class='ident'>finished</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+            <span class='self'>self</span>.<span class='ident'>finished</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
             <span class='macro'>expect</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>de</span>.<span class='ident'>events</span>.<span class='ident'>next</span>(), <span class='ident'>PlistEvent</span>::<span class='ident'>EndArray</span>);
         }
         <span class='prelude-val'>Ok</span>(())
@@ -567,7 +567,7 @@
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>de</span>.<span class='ident'>events</span>.<span class='ident'>peek</span>() {
             <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='prelude-val'>Ok</span>(<span class='ident'>PlistEvent</span>::<span class='ident'>EndDictionary</span>)) <span class='op'>=&gt;</span> {
                 <span class='self'>self</span>.<span class='ident'>de</span>.<span class='ident'>events</span>.<span class='ident'>next</span>();
-                <span class='self'>self</span>.<span class='ident'>finished</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+                <span class='self'>self</span>.<span class='ident'>finished</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
                 <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='prelude-val'>None</span>);
             }
             _ <span class='op'>=&gt;</span> <span class='op'>&lt;</span><span class='ident'>K</span> <span class='kw'>as</span> <span class='ident'>Deserialize</span><span class='op'>&gt;</span>::<span class='ident'>deserialize</span>(<span class='self'>self</span>.<span class='ident'>de</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>k</span><span class='op'>|</span> <span class='prelude-val'>Some</span>(<span class='ident'>k</span>)),
@@ -582,7 +582,7 @@
 
     <span class='kw'>fn</span> <span class='ident'>end</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), <span class='self'>Self</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> {
         <span class='kw'>if</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>finished</span> {
-            <span class='self'>self</span>.<span class='ident'>finished</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+            <span class='self'>self</span>.<span class='ident'>finished</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
             <span class='macro'>expect</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>de</span>.<span class='ident'>events</span>.<span class='ident'>next</span>(), <span class='ident'>PlistEvent</span>::<span class='ident'>EndDictionary</span>);
         }
         <span class='prelude-val'>Ok</span>(())

@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["CaptureNames","CaptureNames is an iterator over named groups as a tuple with the group name and group indexes."]]});

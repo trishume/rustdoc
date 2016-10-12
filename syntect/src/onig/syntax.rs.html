@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/onig-0.6.1/src/syntax.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/onig-1.1.0/src/syntax.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>syntax.rs.html -- source</title>
@@ -166,10 +166,6 @@
 <span id="122">122</span>
 <span id="123">123</span>
 <span id="124">124</span>
-<span id="125">125</span>
-<span id="126">126</span>
-<span id="127">127</span>
-<span id="128">128</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>mem</span>::<span class='ident'>transmute</span>;
 <span class='kw'>use</span> <span class='ident'>onig_sys</span>;
@@ -264,9 +260,7 @@
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>behavior</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>SyntaxBehavior</span> {
-        <span class='ident'>SyntaxBehavior</span>::<span class='ident'>from_bits_truncate</span>(<span class='kw'>unsafe</span> {
-            <span class='ident'>onig_sys</span>::<span class='ident'>onig_get_syntax_behavior</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>raw</span>)
-        })
+        <span class='ident'>SyntaxBehavior</span>::<span class='ident'>from_bits_truncate</span>(<span class='kw'>unsafe</span> { <span class='ident'>onig_sys</span>::<span class='ident'>onig_get_syntax_behavior</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>raw</span>) })
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_behavior</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>behavior</span>: <span class='ident'>SyntaxBehavior</span>) {
@@ -287,9 +281,7 @@
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>options</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>RegexOptions</span> {
-        <span class='ident'>RegexOptions</span>::<span class='ident'>from_bits_truncate</span>(<span class='kw'>unsafe</span> {
-            <span class='ident'>onig_sys</span>::<span class='ident'>onig_get_syntax_options</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>raw</span>)
-        })
+        <span class='ident'>RegexOptions</span>::<span class='ident'>from_bits_truncate</span>(<span class='kw'>unsafe</span> { <span class='ident'>onig_sys</span>::<span class='ident'>onig_get_syntax_options</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>raw</span>) })
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>set_options</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>options</span>: <span class='ident'>RegexOptions</span>) {

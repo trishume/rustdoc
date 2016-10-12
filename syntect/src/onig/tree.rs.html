@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/onig-0.6.1/src/tree.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/onig-1.1.0/src/tree.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>tree.rs.html -- source</title>
@@ -140,6 +140,7 @@
 <span id="96">96</span>
 <span id="97">97</span>
 <span id="98">98</span>
+<span id="99">99</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>mem</span>::<span class='ident'>transmute</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ops</span>::<span class='ident'>Index</span>;
@@ -213,11 +214,12 @@
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>syntax</span> <span class='op'>=</span> <span class='ident'>Syntax</span>::<span class='ident'>ruby</span>().<span class='ident'>clone</span>();
         <span class='ident'>syntax</span>.<span class='ident'>enable_operators</span>(<span class='ident'>SYNTAX_OPERATOR_ATMARK_CAPTURE_HISTORY</span>);
 
-        <span class='kw'>let</span> <span class='ident'>regex</span> <span class='op'>=</span> <span class='ident'>Regex</span>::<span class='ident'>with_options</span>(<span class='string'>&quot;(?@a+(?@b+))|(?@c+(?@d+))&quot;</span>,
-                                        <span class='ident'>REGEX_OPTION_NONE</span>,
-                                        <span class='kw-2'>&amp;</span><span class='ident'>syntax</span>).<span class='ident'>unwrap</span>();
+        <span class='kw'>let</span> <span class='ident'>regex</span> <span class='op'>=</span> <span class='ident'>Regex</span>::<span class='ident'>with_options</span>(<span class='string'>&quot;(?@a+(?@b+))|(?@c+(?@d+))&quot;</span>, <span class='ident'>REGEX_OPTION_NONE</span>, <span class='kw-2'>&amp;</span><span class='ident'>syntax</span>)
+                        .<span class='ident'>unwrap</span>();
 
-        <span class='kw'>let</span> <span class='ident'>r</span> <span class='op'>=</span> <span class='ident'>regex</span>.<span class='ident'>search_with_options</span>(<span class='string'>&quot;- cd aaabbb -&quot;</span>, <span class='number'>0</span>, <span class='number'>13</span>,
+        <span class='kw'>let</span> <span class='ident'>r</span> <span class='op'>=</span> <span class='ident'>regex</span>.<span class='ident'>search_with_options</span>(<span class='string'>&quot;- cd aaabbb -&quot;</span>,
+                                          <span class='number'>0</span>,
+                                          <span class='number'>13</span>,
                                           <span class='ident'>SEARCH_OPTION_NONE</span>,
                                           <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>region</span>));
 

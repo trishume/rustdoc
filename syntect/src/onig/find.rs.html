@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/onig-0.6.1/src/find.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/onig-1.1.0/src/find.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>find.rs.html -- source</title>
@@ -533,9 +533,93 @@
 <span id="489">489</span>
 <span id="490">490</span>
 <span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>iter</span>::<span class='ident'>Iterator</span>;
-<span class='kw'>use</span> <span class='kw'>super</span>::{<span class='ident'>Region</span>, <span class='ident'>Regex</span>, <span class='ident'>SEARCH_OPTION_NONE</span>};
+<span class='kw'>use</span> <span class='kw'>super</span>::{<span class='ident'>Region</span>, <span class='ident'>Regex</span>, <span class='ident'>SearchOptions</span>, <span class='ident'>SEARCH_OPTION_NONE</span>};
 
 <span class='kw'>impl</span> <span class='ident'>Regex</span> {
     <span class='doccomment'>/// Returns the capture groups corresponding to the leftmost-first match</span>
@@ -543,11 +627,13 @@
     <span class='doccomment'>/// If no match is found, then `None` is returned.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>captures</span><span class='op'>&lt;</span><span class='lifetime'>&#39;t</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>text</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;t</span> <span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Captures</span><span class='op'>&lt;</span><span class='lifetime'>&#39;t</span><span class='op'>&gt;&gt;</span> {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>region</span> <span class='op'>=</span> <span class='ident'>Region</span>::<span class='ident'>new</span>();
-        <span class='self'>self</span>.<span class='ident'>search_with_options</span>(<span class='ident'>text</span>, <span class='number'>0</span>, <span class='ident'>text</span>.<span class='ident'>len</span>(),
-                                 <span class='ident'>SEARCH_OPTION_NONE</span>, <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>region</span>))
-            .<span class='ident'>map</span>(<span class='op'>|</span>_<span class='op'>|</span> <span class='ident'>Captures</span> {
-                <span class='ident'>text</span>: <span class='ident'>text</span>,
-                <span class='ident'>region</span>: <span class='ident'>region</span>,
+        <span class='self'>self</span>.<span class='ident'>search_with_options</span>(<span class='ident'>text</span>, <span class='number'>0</span>, <span class='ident'>text</span>.<span class='ident'>len</span>(), <span class='ident'>SEARCH_OPTION_NONE</span>, <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>region</span>))
+            .<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>pos</span><span class='op'>|</span> {
+                <span class='ident'>Captures</span> {
+                    <span class='ident'>text</span>: <span class='ident'>text</span>,
+                    <span class='ident'>region</span>: <span class='ident'>region</span>,
+                    <span class='ident'>offset</span>: <span class='ident'>pos</span>,
+                }
             })
     }
 
@@ -579,7 +665,7 @@
             <span class='ident'>region</span>: <span class='ident'>Region</span>::<span class='ident'>new</span>(),
             <span class='ident'>text</span>: <span class='ident'>text</span>,
             <span class='ident'>last_end</span>: <span class='number'>0</span>,
-            <span class='ident'>skip_next_empty</span>: <span class='bool-val'>false</span>
+            <span class='ident'>skip_next_empty</span>: <span class='bool-val'>false</span>,
         }
     }
 
@@ -612,7 +698,7 @@
             <span class='ident'>regex</span>: <span class='self'>self</span>,
             <span class='ident'>text</span>: <span class='ident'>text</span>,
             <span class='ident'>last_end</span>: <span class='number'>0</span>,
-            <span class='ident'>skip_next_empty</span>: <span class='bool-val'>false</span>
+            <span class='ident'>skip_next_empty</span>: <span class='bool-val'>false</span>,
         }
     }
 
@@ -664,12 +750,70 @@
     <span class='doccomment'>/// assert_eq!(fields, vec!(&quot;Hey&quot;, &quot;How&quot;, &quot;are you?&quot;));</span>
     <span class='doccomment'>/// # }</span>
     <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>splitn</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='lifetime'>&#39;t</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='self'>self</span>, <span class='ident'>text</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;t</span> <span class='ident'>str</span>, <span class='ident'>limit</span>: <span class='ident'>usize</span>)
-                         <span class='op'>-&gt;</span> <span class='ident'>RegexSplitsN</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='lifetime'>&#39;t</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>splitn</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='lifetime'>&#39;t</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='self'>self</span>, <span class='ident'>text</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;t</span> <span class='ident'>str</span>, <span class='ident'>limit</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='ident'>RegexSplitsN</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='lifetime'>&#39;t</span><span class='op'>&gt;</span> {
         <span class='ident'>RegexSplitsN</span> {
             <span class='ident'>splits</span>: <span class='self'>self</span>.<span class='ident'>split</span>(<span class='ident'>text</span>),
             <span class='ident'>n</span>: <span class='ident'>limit</span>,
         }
+    }
+
+    <span class='doccomment'>/// Scan the given slice, capturing into the given region and</span>
+    <span class='doccomment'>/// executing a callback for each match.</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>scan_with_region</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>,
+                               <span class='ident'>to_search</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>,
+                               <span class='ident'>region</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Region</span>,
+                               <span class='ident'>options</span>: <span class='ident'>SearchOptions</span>,
+                               <span class='kw-2'>mut</span> <span class='ident'>callback</span>: <span class='ident'>F</span>)
+                               <span class='op'>-&gt;</span> <span class='ident'>i32</span>
+        <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>Fn</span>(<span class='ident'>i32</span>, <span class='ident'>i32</span>, <span class='kw-2'>&amp;</span><span class='ident'>Region</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span>
+    {
+
+        <span class='kw'>use</span> <span class='ident'>onig_sys</span>::{<span class='ident'>onig_scan</span>, <span class='ident'>OnigRegion</span>};
+        <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>mem</span>::<span class='ident'>transmute</span>;
+        <span class='kw'>use</span> <span class='ident'>libc</span>::{<span class='ident'>c_void</span>, <span class='ident'>c_int</span>};
+
+        <span class='comment'>// Find the bounds of the string we&#39;re searching</span>
+        <span class='kw'>let</span> <span class='ident'>start</span> <span class='op'>=</span> <span class='ident'>to_search</span>.<span class='ident'>as_ptr</span>();
+        <span class='kw'>let</span> <span class='ident'>end</span> <span class='op'>=</span> <span class='ident'>to_search</span>[<span class='ident'>to_search</span>.<span class='ident'>len</span>()..].<span class='ident'>as_ptr</span>();
+
+        <span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> <span class='kw'>fn</span> <span class='ident'>scan_cb</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>(<span class='ident'>i</span>: <span class='ident'>c_int</span>, <span class='ident'>j</span>: <span class='ident'>c_int</span>, <span class='ident'>r</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigRegion</span>, <span class='ident'>ud</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_void</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>
+            <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>Fn</span>(<span class='ident'>i32</span>, <span class='ident'>i32</span>, <span class='kw-2'>&amp;</span><span class='ident'>Region</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span>
+        {
+
+            <span class='kw'>let</span> <span class='ident'>region</span> <span class='op'>=</span> <span class='ident'>Region</span>::<span class='ident'>clone_from_raw</span>(<span class='ident'>r</span>);
+            <span class='kw'>let</span> <span class='ident'>callback</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='kw-2'>&amp;</span><span class='op'>*</span>(<span class='ident'>ud</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>F</span>) };
+            <span class='kw'>if</span> <span class='ident'>callback</span>(<span class='ident'>i</span>, <span class='ident'>j</span>, <span class='kw-2'>&amp;</span><span class='ident'>region</span>) {
+                <span class='number'>0</span>
+            } <span class='kw'>else</span> {
+                <span class='op'>-</span><span class='number'>1</span>
+            }
+        }
+
+        <span class='kw'>unsafe</span> {
+            <span class='ident'>onig_scan</span>(<span class='self'>self</span>.<span class='ident'>raw</span>,
+                      <span class='ident'>start</span>,
+                      <span class='ident'>end</span>,
+                      <span class='ident'>transmute</span>(<span class='ident'>region</span>),
+                      <span class='ident'>options</span>.<span class='ident'>bits</span>(),
+                      <span class='ident'>scan_cb</span>::<span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>,
+                      <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>callback</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>F</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_void</span>)
+        }
+    }
+
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>scan</span><span class='op'>&lt;</span><span class='lifetime'>&#39;t</span>, <span class='ident'>CB</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>to_search</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;t</span> <span class='ident'>str</span>, <span class='ident'>callback</span>: <span class='ident'>CB</span>)
+        <span class='kw'>where</span> <span class='ident'>CB</span>: <span class='ident'>Fn</span>(<span class='ident'>i32</span>, <span class='ident'>Captures</span><span class='op'>&lt;</span><span class='lifetime'>&#39;t</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span>
+    {
+
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>region</span> <span class='op'>=</span> <span class='ident'>Region</span>::<span class='ident'>new</span>();
+        <span class='self'>self</span>.<span class='ident'>scan_with_region</span>(<span class='ident'>to_search</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>region</span>, <span class='ident'>SEARCH_OPTION_NONE</span>, <span class='op'>|</span><span class='ident'>n</span>, <span class='ident'>s</span>, <span class='ident'>region</span><span class='op'>|</span> {
+            <span class='kw'>let</span> <span class='ident'>captures</span> <span class='op'>=</span> <span class='ident'>Captures</span> {
+                <span class='ident'>text</span>: <span class='ident'>to_search</span>,
+                <span class='ident'>region</span>: <span class='ident'>region</span>.<span class='ident'>clone</span>(),
+                <span class='ident'>offset</span>: <span class='ident'>s</span> <span class='kw'>as</span> <span class='ident'>usize</span>,
+            };
+            <span class='ident'>callback</span>(<span class='ident'>n</span>, <span class='ident'>captures</span>)
+        });
+
     }
 }
 
@@ -684,6 +828,7 @@
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Captures</span><span class='op'>&lt;</span><span class='lifetime'>&#39;t</span><span class='op'>&gt;</span> {
     <span class='ident'>text</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;t</span> <span class='ident'>str</span>,
     <span class='ident'>region</span>: <span class='ident'>Region</span>,
+    <span class='ident'>offset</span>: <span class='ident'>usize</span>,
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;t</span><span class='op'>&gt;</span> <span class='ident'>Captures</span><span class='op'>&lt;</span><span class='lifetime'>&#39;t</span><span class='op'>&gt;</span> {
@@ -728,6 +873,11 @@
             <span class='ident'>idx</span>: <span class='number'>0</span>,
             <span class='ident'>caps</span>: <span class='self'>self</span>,
         }
+    }
+
+    <span class='doccomment'>/// Offset of the captures within the given string slice.</span>
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>offset</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
+        <span class='self'>self</span>.<span class='ident'>offset</span>
     }
 }
 
@@ -789,7 +939,7 @@
     <span class='ident'>region</span>: <span class='ident'>Region</span>,
     <span class='ident'>text</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;t</span> <span class='ident'>str</span>,
     <span class='ident'>last_end</span>: <span class='ident'>usize</span>,
-    <span class='ident'>skip_next_empty</span>: <span class='ident'>bool</span>
+    <span class='ident'>skip_next_empty</span>: <span class='ident'>bool</span>,
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='lifetime'>&#39;t</span><span class='op'>&gt;</span> <span class='ident'>Iterator</span> <span class='kw'>for</span> <span class='ident'>FindMatches</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='lifetime'>&#39;t</span><span class='op'>&gt;</span> {
@@ -797,7 +947,7 @@
 
     <span class='kw'>fn</span> <span class='ident'>next</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='ident'>usize</span>, <span class='ident'>usize</span>)<span class='op'>&gt;</span> {
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>last_end</span> <span class='op'>&gt;</span> <span class='self'>self</span>.<span class='ident'>text</span>.<span class='ident'>len</span>() {
-            <span class='kw'>return</span> <span class='prelude-val'>None</span>
+            <span class='kw'>return</span> <span class='prelude-val'>None</span>;
         }
         <span class='self'>self</span>.<span class='ident'>region</span>.<span class='ident'>clear</span>();
         <span class='kw'>let</span> <span class='ident'>r</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>regex</span>.<span class='ident'>search_with_options</span>(<span class='self'>self</span>.<span class='ident'>text</span>,
@@ -814,8 +964,11 @@
         <span class='comment'>// Don&#39;t accept empty matches immediately following a match.</span>
         <span class='comment'>// i.e., no infinite loops please.</span>
         <span class='kw'>if</span> <span class='ident'>e</span> <span class='op'>==</span> <span class='ident'>s</span> {
-            <span class='self'>self</span>.<span class='ident'>last_end</span> <span class='op'>+=</span> <span class='self'>self</span>.<span class='ident'>text</span>[<span class='self'>self</span>.<span class='ident'>last_end</span>..].<span class='ident'>chars</span>()
-                                 .<span class='ident'>next</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>c</span><span class='op'>|</span> <span class='ident'>c</span>.<span class='ident'>len_utf8</span>()).<span class='ident'>unwrap_or</span>(<span class='number'>1</span>);
+            <span class='self'>self</span>.<span class='ident'>last_end</span> <span class='op'>+=</span> <span class='self'>self</span>.<span class='ident'>text</span>[<span class='self'>self</span>.<span class='ident'>last_end</span>..]
+                                 .<span class='ident'>chars</span>()
+                                 .<span class='ident'>next</span>()
+                                 .<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>c</span><span class='op'>|</span> <span class='ident'>c</span>.<span class='ident'>len_utf8</span>())
+                                 .<span class='ident'>unwrap_or</span>(<span class='number'>1</span>);
             <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>skip_next_empty</span> {
                 <span class='self'>self</span>.<span class='ident'>skip_next_empty</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
                 <span class='kw'>return</span> <span class='self'>self</span>.<span class='ident'>next</span>();
@@ -839,7 +992,7 @@
     <span class='ident'>regex</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='ident'>Regex</span>,
     <span class='ident'>text</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;t</span> <span class='ident'>str</span>,
     <span class='ident'>last_end</span>: <span class='ident'>usize</span>,
-    <span class='ident'>skip_next_empty</span>: <span class='ident'>bool</span>
+    <span class='ident'>skip_next_empty</span>: <span class='ident'>bool</span>,
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='lifetime'>&#39;t</span><span class='op'>&gt;</span> <span class='ident'>Iterator</span> <span class='kw'>for</span> <span class='ident'>FindCaptures</span><span class='op'>&lt;</span><span class='lifetime'>&#39;r</span>, <span class='lifetime'>&#39;t</span><span class='op'>&gt;</span> {
@@ -847,7 +1000,7 @@
 
     <span class='kw'>fn</span> <span class='ident'>next</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Captures</span><span class='op'>&lt;</span><span class='lifetime'>&#39;t</span><span class='op'>&gt;&gt;</span> {
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>last_end</span> <span class='op'>&gt;</span> <span class='self'>self</span>.<span class='ident'>text</span>.<span class='ident'>len</span>() {
-            <span class='kw'>return</span> <span class='prelude-val'>None</span>
+            <span class='kw'>return</span> <span class='prelude-val'>None</span>;
         }
 
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>region</span> <span class='op'>=</span> <span class='ident'>Region</span>::<span class='ident'>new</span>();
@@ -864,8 +1017,11 @@
         <span class='comment'>// Don&#39;t accept empty matches immediately following a match.</span>
         <span class='comment'>// i.e., no infinite loops please.</span>
         <span class='kw'>if</span> <span class='ident'>e</span> <span class='op'>==</span> <span class='ident'>s</span> {
-            <span class='self'>self</span>.<span class='ident'>last_end</span> <span class='op'>+=</span> <span class='self'>self</span>.<span class='ident'>text</span>[<span class='self'>self</span>.<span class='ident'>last_end</span>..].<span class='ident'>chars</span>()
-                                 .<span class='ident'>next</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>c</span><span class='op'>|</span> <span class='ident'>c</span>.<span class='ident'>len_utf8</span>()).<span class='ident'>unwrap_or</span>(<span class='number'>1</span>);
+            <span class='self'>self</span>.<span class='ident'>last_end</span> <span class='op'>+=</span> <span class='self'>self</span>.<span class='ident'>text</span>[<span class='self'>self</span>.<span class='ident'>last_end</span>..]
+                                 .<span class='ident'>chars</span>()
+                                 .<span class='ident'>next</span>()
+                                 .<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>c</span><span class='op'>|</span> <span class='ident'>c</span>.<span class='ident'>len_utf8</span>())
+                                 .<span class='ident'>unwrap_or</span>(<span class='number'>1</span>);
             <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>skip_next_empty</span> {
                 <span class='self'>self</span>.<span class='ident'>skip_next_empty</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
                 <span class='kw'>return</span> <span class='self'>self</span>.<span class='ident'>next</span>();
@@ -876,7 +1032,8 @@
         }
         <span class='prelude-val'>Some</span>(<span class='ident'>Captures</span> {
             <span class='ident'>text</span>: <span class='self'>self</span>.<span class='ident'>text</span>,
-            <span class='ident'>region</span>: <span class='ident'>region</span>
+            <span class='ident'>region</span>: <span class='ident'>region</span>,
+            <span class='ident'>offset</span>: <span class='ident'>r</span>.<span class='ident'>unwrap</span>(),
         })
     }
 }
@@ -930,7 +1087,7 @@
 
     <span class='kw'>fn</span> <span class='ident'>next</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;t</span> <span class='ident'>str</span><span class='op'>&gt;</span> {
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>n</span> <span class='op'>==</span> <span class='number'>0</span> {
-            <span class='kw'>return</span> <span class='prelude-val'>None</span>
+            <span class='kw'>return</span> <span class='prelude-val'>None</span>;
         }
         <span class='self'>self</span>.<span class='ident'>n</span> <span class='op'>-=</span> <span class='number'>1</span>;
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>n</span> <span class='op'>==</span> <span class='number'>0</span> {
@@ -1023,6 +1180,17 @@
         <span class='kw'>let</span> <span class='ident'>ms</span> <span class='op'>=</span> <span class='ident'>re</span>.<span class='ident'>captures_iter</span>(<span class='string'>&quot;a12b2&quot;</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>();
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ms</span>[<span class='number'>0</span>].<span class='ident'>pos</span>(<span class='number'>0</span>).<span class='ident'>unwrap</span>(), (<span class='number'>1</span>, <span class='number'>3</span>));
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ms</span>[<span class='number'>1</span>].<span class='ident'>pos</span>(<span class='number'>0</span>).<span class='ident'>unwrap</span>(), (<span class='number'>4</span>, <span class='number'>5</span>));
+    }
+
+    <span class='attribute'>#[<span class='ident'>test</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>test_captures_stores_match_offset</span>() {
+        <span class='kw'>let</span> <span class='ident'>reg</span> <span class='op'>=</span> <span class='ident'>Regex</span>::<span class='ident'>new</span>(<span class='string'>r&quot;\d+\.(\d+)&quot;</span>).<span class='ident'>unwrap</span>();
+        <span class='kw'>let</span> <span class='ident'>captures</span> <span class='op'>=</span> <span class='ident'>reg</span>.<span class='ident'>captures</span>(<span class='string'>&quot;100 - 3.1415 / 2.0&quot;</span>).<span class='ident'>unwrap</span>();
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>6</span>, <span class='ident'>captures</span>.<span class='ident'>offset</span>());
+        <span class='kw'>let</span> <span class='ident'>all_caps</span> <span class='op'>=</span> <span class='ident'>reg</span>.<span class='ident'>captures_iter</span>(<span class='string'>&quot;1 - 3234.3 * 123.2 - 100&quot;</span>)
+                          .<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>cap</span><span class='op'>|</span> <span class='ident'>cap</span>.<span class='ident'>offset</span>())
+                          .<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>();
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>4</span>, <span class='number'>13</span>], <span class='ident'>all_caps</span>);
     }
 }
 </pre>

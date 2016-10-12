@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-500' class='srclink' href='../src/onig_sys/lib.rs.html#195-235' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-505' class='srclink' href='../src/onig_sys/lib.rs.html#200-240' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct OnigRegexType {
     pub p: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const </a><a class='type' href='../onig_sys/type.OnigUChar.html' title='onig_sys::OnigUChar'>OnigUChar</a>,
     pub used: <a class='type' href='../libc/type.c_uint.html' title='libc::c_uint'>c_uint</a>,
@@ -76,7 +76,7 @@
     pub sub_anchor: <a class='type' href='../libc/type.c_int.html' title='libc::c_int'>c_int</a>,
     pub exact: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const </a><a class='type' href='../onig_sys/type.OnigUChar.html' title='onig_sys::OnigUChar'>OnigUChar</a>,
     pub exact_end: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const </a><a class='type' href='../onig_sys/type.OnigUChar.html' title='onig_sys::OnigUChar'>OnigUChar</a>,
-    pub map: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.array.html'>[</a><a class='type' href='../onig_sys/type.OnigUChar.html' title='onig_sys::OnigUChar'>OnigUChar</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.array.html'>; ONIG_CHAR_TABLE_SIZE as usize]</a>,
+    pub map: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.array.html'>[</a><a class='type' href='../onig_sys/type.OnigUChar.html' title='onig_sys::OnigUChar'>OnigUChar</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.array.html'>; 256]</a>,
     pub int_map: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const </a><a class='type' href='../libc/type.c_int.html' title='libc::c_int'>c_int</a>,
     pub int_map_backward: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const </a><a class='type' href='../libc/type.c_int.html' title='libc::c_int'>c_int</a>,
     pub dmin: <a class='type' href='../onig_sys/type.OnigDistance.html' title='onig_sys::OnigDistance'>OnigDistance</a>,
@@ -109,7 +109,7 @@
                            </span><span class='stab '></span><span id='structfield.sub_anchor' class='structfield'><code>sub_anchor: <a class='type' href='../libc/type.c_int.html' title='libc::c_int'>c_int</a></code>
                            </span><span class='stab '></span><span id='structfield.exact' class='structfield'><code>exact: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const </a><a class='type' href='../onig_sys/type.OnigUChar.html' title='onig_sys::OnigUChar'>OnigUChar</a></code>
                            </span><span class='stab '></span><span id='structfield.exact_end' class='structfield'><code>exact_end: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const </a><a class='type' href='../onig_sys/type.OnigUChar.html' title='onig_sys::OnigUChar'>OnigUChar</a></code>
-                           </span><span class='stab '></span><span id='structfield.map' class='structfield'><code>map: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.array.html'>[</a><a class='type' href='../onig_sys/type.OnigUChar.html' title='onig_sys::OnigUChar'>OnigUChar</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.array.html'>; ONIG_CHAR_TABLE_SIZE as usize]</a></code>
+                           </span><span class='stab '></span><span id='structfield.map' class='structfield'><code>map: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.array.html'>[</a><a class='type' href='../onig_sys/type.OnigUChar.html' title='onig_sys::OnigUChar'>OnigUChar</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.array.html'>; 256]</a></code>
                            </span><span class='stab '></span><span id='structfield.int_map' class='structfield'><code>int_map: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const </a><a class='type' href='../libc/type.c_int.html' title='libc::c_int'>c_int</a></code>
                            </span><span class='stab '></span><span id='structfield.int_map_backward' class='structfield'><code>int_map_backward: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const </a><a class='type' href='../libc/type.c_int.html' title='libc::c_int'>c_int</a></code>
                            </span><span class='stab '></span><span id='structfield.dmin' class='structfield'><code>dmin: <a class='type' href='../onig_sys/type.OnigDistance.html' title='onig_sys::OnigDistance'>OnigDistance</a></code>

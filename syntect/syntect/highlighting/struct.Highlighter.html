@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-1215' class='srclink' href='../../src/syntect/src/highlighting/highlighter.rs.html#21-28' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-1250' class='srclink' href='../../src/syntect/src/highlighting/highlighter.rs.html#21-28' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Highlighter&lt;'a&gt; {
     // some fields omitted
 }</pre><div class='docblock'><p>Basically a wrapper around a <code>Theme</code> preparing it to be used for highlighting.
@@ -57,7 +57,7 @@ or setting up some kind of accelerator structure.</p>
 
 <p>So for now this does very little but eventually if you keep it around between
 highlighting runs it will preserve its cache.</p>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class='struct' href='../../syntect/highlighting/struct.Highlighter.html' title='syntect::highlighting::Highlighter'>Highlighter</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1304' class='srclink' href='../../src/syntect/src/highlighting/highlighter.rs.html#146-238' title='goto source code'>[src]</a></span></h3>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class='struct' href='../../syntect/highlighting/struct.Highlighter.html' title='syntect::highlighting::Highlighter'>Highlighter</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1339' class='srclink' href='../../src/syntect/src/highlighting/highlighter.rs.html#146-238' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(theme: &amp;'a <a class='struct' href='../../syntect/highlighting/struct.Theme.html' title='syntect::highlighting::Theme'>Theme</a>) -&gt; <a class='struct' href='../../syntect/highlighting/struct.Highlighter.html' title='syntect::highlighting::Highlighter'>Highlighter</a>&lt;'a&gt;</code></h4>
 <h4 id='method.get_default' class='method'><code>fn <a href='#method.get_default' class='fnname'>get_default</a>(&amp;self) -&gt; <a class='struct' href='../../syntect/highlighting/struct.Style.html' title='syntect::highlighting::Style'>Style</a></code></h4>
 <div class='docblock'><p>The default style in the absence of any matched rules.
@@ -76,7 +76,7 @@ I have a good argument nobody will ever need to use the method.</p>
 <div class='docblock'><p>Like get_style but only guarantees returning any new style
 if the last element of <code>path</code> was just pushed on to the stack.
 Panics if <code>path</code> is empty.</p>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../syntect/highlighting/struct.Highlighter.html' title='syntect::highlighting::Highlighter'>Highlighter</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1206' class='srclink' href='../../src/syntect/src/highlighting/highlighter.rs.html#20' title='goto source code'>[src]</a></span></h3>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../syntect/highlighting/struct.Highlighter.html' title='syntect::highlighting::Highlighter'>Highlighter</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1241' class='srclink' href='../../src/syntect/src/highlighting/highlighter.rs.html#20' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
 <div class='docblock'><p>Formats the value using the given formatter.</p>
 </div></div></section>

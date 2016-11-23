@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/yaml-rust-0.3.3/src/parser.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/yaml-rust-0.3.4/src/parser.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>parser.rs.html -- source</title>
@@ -835,7 +835,7 @@
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Debug</span>, <span class='ident'>Eq</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Event</span> {
     <span class='doccomment'>/// Reserved for internal use</span>
-    <span class='ident'>NoEvent</span>,
+    <span class='ident'>Nothing</span>,
     <span class='ident'>StreamStart</span>,
     <span class='ident'>StreamEnd</span>,
     <span class='ident'>DocumentStart</span>,
@@ -858,8 +858,8 @@
         <span class='ident'>Event</span>::<span class='ident'>Scalar</span>(<span class='string'>&quot;~&quot;</span>.<span class='ident'>to_owned</span>(), <span class='ident'>TScalarStyle</span>::<span class='ident'>Plain</span>, <span class='number'>0</span>, <span class='prelude-val'>None</span>)
     }
 
-    <span class='kw'>fn</span> <span class='ident'>empty_scalar_with_anchor</span>(<span class='ident'>anchor</span>: <span class='ident'>usize</span>, <span class='ident'>tag</span>: <span class='ident'>TokenType</span>) <span class='op'>-&gt;</span> <span class='ident'>Event</span> {
-        <span class='ident'>Event</span>::<span class='ident'>Scalar</span>(<span class='string'>&quot;&quot;</span>.<span class='ident'>to_owned</span>(), <span class='ident'>TScalarStyle</span>::<span class='ident'>Plain</span>, <span class='ident'>anchor</span>, <span class='prelude-val'>Some</span>(<span class='ident'>tag</span>))
+    <span class='kw'>fn</span> <span class='ident'>empty_scalar_with_anchor</span>(<span class='ident'>anchor</span>: <span class='ident'>usize</span>, <span class='ident'>tag</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>TokenType</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Event</span> {
+        <span class='ident'>Event</span>::<span class='ident'>Scalar</span>(<span class='string'>&quot;&quot;</span>.<span class='ident'>to_owned</span>(), <span class='ident'>TScalarStyle</span>::<span class='ident'>Plain</span>, <span class='ident'>anchor</span>, <span class='ident'>tag</span>)
     }
 }
 
@@ -1253,7 +1253,7 @@
             <span class='comment'>// ex 7.2, an empty scalar can follow a secondary tag</span>
             _ <span class='kw'>if</span> <span class='ident'>tag</span>.<span class='ident'>is_some</span>() <span class='op'>||</span> <span class='ident'>anchor_id</span> <span class='op'>&gt;</span> <span class='number'>0</span> <span class='op'>=&gt;</span> {
                 <span class='self'>self</span>.<span class='ident'>pop_state</span>();
-                <span class='prelude-val'>Ok</span>(<span class='ident'>Event</span>::<span class='ident'>empty_scalar_with_anchor</span>(<span class='ident'>anchor_id</span>, <span class='ident'>tag</span>.<span class='ident'>unwrap</span>()))
+                <span class='prelude-val'>Ok</span>(<span class='ident'>Event</span>::<span class='ident'>empty_scalar_with_anchor</span>(<span class='ident'>anchor_id</span>, <span class='ident'>tag</span>))
             },
             _ <span class='op'>=&gt;</span> { <span class='prelude-val'>Err</span>(<span class='ident'>ScanError</span>::<span class='ident'>new</span>(<span class='ident'>tok</span>.<span class='number'>0</span>, <span class='string'>&quot;while parsing a node, did not find expected node content&quot;</span>)) }
         }

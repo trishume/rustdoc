@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-3385' class='srclink' href='../../src/syntect/src/dumps.rs.html#1-118' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-3313' class='srclink' href='../../src/syntect/src/dumps.rs.html#1-118' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>Methods for dumping serializable structs to a compressed binary format
 These are used to load and store the dumps used for fast startup times.</p>
 
@@ -62,14 +62,14 @@ be consistent with your format.</p>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.dump_binary.html'
                                   title='syntect::dumps::dump_binary'>dump_binary</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>Dumps an object to a binary array in the same format as <code>dump_to_file</code></p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.dump_to_file.html'
                                   title='syntect::dumps::dump_to_file'>dump_to_file</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>Dumps an encodable object to a file at a given path. If a file already exists at that path
 it will be overwritten. The files created are encoded with the <code>bincode</code> crate and then
 compressed with the <code>flate2</code> crate.</p>
@@ -78,7 +78,7 @@ compressed with the <code>flate2</code> crate.</p>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.from_binary.html'
                                   title='syntect::dumps::from_binary'>from_binary</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>Returns a fully loaded and linked syntax set from
 a binary dump. Panics if the dump is invalid.</p>
                            </td>
@@ -86,7 +86,7 @@ a binary dump. Panics if the dump is invalid.</p>
                        <tr class=' module-item'>
                            <td><a class='fn' href='fn.from_dump_file.html'
                                   title='syntect::dumps::from_dump_file'>from_dump_file</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>Returns a fully loaded and linked syntax set from
 a binary dump file.</p>
                            </td>

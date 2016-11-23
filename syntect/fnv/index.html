@@ -83,7 +83,7 @@ small—a perfect use case for FNV.</p>
 
 <span class='ident'>map</span> <span class='op'>=</span> <span class='ident'>FnvHashMap</span>::<span class='ident'>with_capacity_and_hasher</span>(<span class='number'>10</span>, <span class='ident'>Default</span>::<span class='ident'>default</span>());
 <span class='ident'>map</span>.<span class='ident'>insert</span>(<span class='number'>1</span>, <span class='string'>&quot;one&quot;</span>);
-<span class='ident'>map</span>.<span class='ident'>insert</span>(<span class='number'>2</span>, <span class='string'>&quot;two&quot;</span>);</pre>
+<span class='ident'>map</span>.<span class='ident'>insert</span>(<span class='number'>2</span>, <span class='string'>&quot;two&quot;</span>);<a class='test-arrow' target='_blank' href=''>Run</a></pre>
 
 <p>Note, the standard library’s <code>HashMap::new</code> and <code>HashMap::with_capacity</code>
 are only implemented for the <code>RandomState</code> hasher, so using <code>Default</code> to
@@ -102,13 +102,13 @@ with FNV.</p>
 
 <span class='ident'>set</span> <span class='op'>=</span> <span class='ident'>FnvHashSet</span>::<span class='ident'>with_capacity_and_hasher</span>(<span class='number'>10</span>, <span class='ident'>Default</span>::<span class='ident'>default</span>());
 <span class='ident'>set</span>.<span class='ident'>insert</span>(<span class='number'>1</span>);
-<span class='ident'>set</span>.<span class='ident'>insert</span>(<span class='number'>2</span>);</pre>
+<span class='ident'>set</span>.<span class='ident'>insert</span>(<span class='number'>2</span>);<a class='test-arrow' target='_blank' href=''>Run</a></pre>
 </div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.FnvHasher.html'
                                   title='fnv::FnvHasher'>FnvHasher</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>An implementation of the Fowler–Noll–Vo hash function.</p>
                            </td>
                        </tr></table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
@@ -116,21 +116,21 @@ with FNV.</p>
                        <tr class=' module-item'>
                            <td><a class='type' href='type.FnvBuildHasher.html'
                                   title='fnv::FnvBuildHasher'>FnvBuildHasher</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>A builder for default FNV hashers.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='type' href='type.FnvHashMap.html'
                                   title='fnv::FnvHashMap'>FnvHashMap</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>A <code>HashMap</code> using a default FNV hasher.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='type' href='type.FnvHashSet.html'
                                   title='fnv::FnvHashSet'>FnvHashSet</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>A <code>HashSet</code> using a default FNV hasher.</p>
                            </td>
                        </tr></table></section>

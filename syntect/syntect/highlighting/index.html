@@ -57,7 +57,7 @@ as well as things starting with <code>Highlight</code> for how to highlight text
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.Color.html'
                                   title='syntect::highlighting::Color'>Color</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>RGBA colour, these numbers come directly from the theme so
 for now you might have to do your own colour space conversion if you are outputting
 a different colour space from the theme. This can be a problem because some Sublime
@@ -67,14 +67,14 @@ themes use sRGB and some don&#39;t. This is specified in an attribute syntect do
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.FontStyle.html'
                                   title='syntect::highlighting::FontStyle'>FontStyle</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>This can be a combination of <code>FONT_STYLE_BOLD</code>, <code>FONT_STYLE_UNDERLINE</code> and <code>FONT_STYLE_ITALIC</code></p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.HighlightIterator.html'
                                   title='syntect::highlighting::HighlightIterator'>HighlightIterator</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>Highlights a line of parsed code given a <code>HighlightState</code>
 and line of changes from the parser.</p>
                            </td>
@@ -82,7 +82,7 @@ and line of changes from the parser.</p>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.HighlightState.html'
                                   title='syntect::highlighting::HighlightState'>HighlightState</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>Keeps a stack of scopes and styles as state between highlighting different lines.
 If you are highlighting an entire file you create one of these at the start and use it
 all the way to the end.</p>
@@ -91,7 +91,7 @@ all the way to the end.</p>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.Highlighter.html'
                                   title='syntect::highlighting::Highlighter'>Highlighter</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>Basically a wrapper around a <code>Theme</code> preparing it to be used for highlighting.
 This is part of the API to preserve the possibility of caching
 matches of the selectors of the theme on various scope paths
@@ -101,7 +101,7 @@ or setting up some kind of accelerator structure.</p>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.ScopeSelector.html'
                                   title='syntect::highlighting::ScopeSelector'>ScopeSelector</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>A single selector consisting of a stack to match and a possible stack to exclude from being matched.
 You probably want <code>ScopeSelectors</code> which is this but with union support.</p>
                            </td>
@@ -109,7 +109,7 @@ You probably want <code>ScopeSelectors</code> which is this but with union suppo
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.ScopeSelectors.html'
                                   title='syntect::highlighting::ScopeSelectors'>ScopeSelectors</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>A selector set that matches anything matched by any of its component selectors.
 See <a href="https://manual.macromates.com/en/scope_selectors">The TextMate Docs</a> for how these
 work.</p>
@@ -118,21 +118,21 @@ work.</p>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.Style.html'
                                   title='syntect::highlighting::Style'>Style</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>The foreground, background and font style</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.StyleModifier.html'
                                   title='syntect::highlighting::StyleModifier'>StyleModifier</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>A change to a <code>Style</code> applied incrementally by a theme rule.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.Theme.html'
                                   title='syntect::highlighting::Theme'>Theme</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>A theme parsed from a <code>.tmTheme</code> file.
 Contains fields useful for a theme list as well as <code>settings</code> for styling your editor.</p>
                            </td>
@@ -140,7 +140,7 @@ Contains fields useful for a theme list as well as <code>settings</code> for sty
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.ThemeItem.html'
                                   title='syntect::highlighting::ThemeItem'>ThemeItem</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>A component of a theme meant to highlight a specific thing (e.g string literals)
 in a certain way.</p>
                            </td>
@@ -148,14 +148,14 @@ in a certain way.</p>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.ThemeSet.html'
                                   title='syntect::highlighting::ThemeSet'>ThemeSet</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.ThemeSettings.html'
                                   title='syntect::highlighting::ThemeSettings'>ThemeSettings</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>Various properties meant to be used to style a text editor.
 Basically all the styles that aren&#39;t directly applied to text like selection colour.
 Use this to make your editor UI match the highlighted text.</p>
@@ -165,21 +165,21 @@ Use this to make your editor UI match the highlighted text.</p>
                        <tr class=' module-item'>
                            <td><a class='enum' href='enum.ParseThemeError.html'
                                   title='syntect::highlighting::ParseThemeError'>ParseThemeError</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='enum' href='enum.SettingsError.html'
                                   title='syntect::highlighting::SettingsError'>SettingsError</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>An error parsing a settings file</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='enum' href='enum.UnderlineOption.html'
                                   title='syntect::highlighting::UnderlineOption'>UnderlineOption</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 
                            </td>
                        </tr></table><h2 id='constants' class='section-header'><a href="#constants">Constants</a></h2>
@@ -187,35 +187,35 @@ Use this to make your editor UI match the highlighted text.</p>
                        <tr class=' module-item'>
                            <td><a class='constant' href='constant.BLACK.html'
                                   title='syntect::highlighting::BLACK'>BLACK</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>Pre-defined convenience colour</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='constant' href='constant.FONT_STYLE_BOLD.html'
                                   title='syntect::highlighting::FONT_STYLE_BOLD'>FONT_STYLE_BOLD</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>A bitfield constant FontStyle</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='constant' href='constant.FONT_STYLE_ITALIC.html'
                                   title='syntect::highlighting::FONT_STYLE_ITALIC'>FONT_STYLE_ITALIC</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>A bitfield constant FontStyle</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='constant' href='constant.FONT_STYLE_UNDERLINE.html'
                                   title='syntect::highlighting::FONT_STYLE_UNDERLINE'>FONT_STYLE_UNDERLINE</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>A bitfield constant FontStyle</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='constant' href='constant.WHITE.html'
                                   title='syntect::highlighting::WHITE'>WHITE</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>Pre-defined convenience colour</p>
                            </td>
                        </tr></table></section>

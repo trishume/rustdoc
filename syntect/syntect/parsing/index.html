@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-1473' class='srclink' href='../../src/syntect/src/parsing/mod.rs.html#1-13' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-1446' class='srclink' href='../../src/syntect/src/parsing/mod.rs.html#1-13' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>Everything about parsing text into text annotated with scopes.
 The most important struct here is <code>SyntaxSet</code>, check out the docs for that.</p>
 </div><h2 id='reexports' class='section-header'><a href="#reexports">Reexports</a></h2>
@@ -57,7 +57,7 @@ The most important struct here is <code>SyntaxSet</code>, check out the docs for
                        <tr class=' module-item'>
                            <td><a class='mod' href='syntax_definition/index.html'
                                   title='syntect::parsing::syntax_definition'>syntax_definition</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>This module contains data structures for representing syntax definitions.
 Everything is public because I want this library to be useful in super
 integrated cases like text editors and I have no idea what kind of monkeying
@@ -69,7 +69,7 @@ into this data structure?</p>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.MatchPower.html'
                                   title='syntect::parsing::MatchPower'>MatchPower</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>Wrapper to get around the fact Rust f64 doesn&#39;t implement Ord
 and there is no non-NaN float type</p>
                            </td>
@@ -77,7 +77,7 @@ and there is no non-NaN float type</p>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.ParseState.html'
                                   title='syntect::parsing::ParseState'>ParseState</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>Keeps the current parser state (the internal syntax interpreter stack) between lines of parsing.
 If you are parsing an entire file you create one of these at the start and use it
 all the way to the end.</p>
@@ -86,7 +86,7 @@ all the way to the end.</p>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.SCOPE_REPO.html'
                                   title='syntect::parsing::SCOPE_REPO'>SCOPE_REPO</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>The global scope repo, exposed in case you want to minimize locking and unlocking.
 Shouldn&#39;t be necessary for you to use. See the <code>ScopeRepository</code> docs.</p>
                            </td>
@@ -94,7 +94,7 @@ Shouldn&#39;t be necessary for you to use. See the <code>ScopeRepository</code> 
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.Scope.html'
                                   title='syntect::parsing::Scope'>Scope</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>A hierarchy of atoms with semi-standardized names
 used to accord semantic information to a specific piece of text.
 Generally written with the atoms separated by dots.
@@ -104,7 +104,7 @@ By convention atoms are all lowercase alphanumeric.</p>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.ScopeRepository.html'
                                   title='syntect::parsing::ScopeRepository'>ScopeRepository</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>The structure used to keep of the mapping between scope atom numbers
 and their string names. It is only exposed in case you want to lock
 <code>SCOPE_REPO</code> and then allocate a whole bunch of scopes at once
@@ -114,7 +114,7 @@ without thrashing the lock. It is recommended you just use <code>Scope::new()</c
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.ScopeStack.html'
                                   title='syntect::parsing::ScopeStack'>ScopeStack</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>A stack/sequence of scopes. This is used both to represent hierarchies for a given
 token of text, as well as in <code>ScopeSelectors</code>. Press <code>ctrl+shift+p</code> in Sublime Text
 to see the scope stack at a given point.
@@ -124,7 +124,7 @@ Also see <a href="https://manual.macromates.com/en/scope_selectors">the TextMate
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.SyntaxSet.html'
                                   title='syntect::parsing::SyntaxSet'>SyntaxSet</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>A syntax set holds a bunch of syntaxes and manages
 loading them and the crucial operation of <em>linking</em>.</p>
                            </td>
@@ -133,21 +133,21 @@ loading them and the crucial operation of <em>linking</em>.</p>
                        <tr class=' module-item'>
                            <td><a class='enum' href='enum.ParseScopeError.html'
                                   title='syntect::parsing::ParseScopeError'>ParseScopeError</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>Not all strings are valid scopes</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='enum' href='enum.ParseSyntaxError.html'
                                   title='syntect::parsing::ParseSyntaxError'>ParseSyntaxError</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='enum' href='enum.ScopeStackOp.html'
                                   title='syntect::parsing::ScopeStackOp'>ScopeStackOp</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>A change to a scope stack. Generally <code>Noop</code> is only used internally and you don&#39;t have
 to worry about ever getting one back from a public function.
 Use <code>ScopeStack#apply</code> to apply this change.</p>
@@ -157,7 +157,7 @@ Use <code>ScopeStack#apply</code> to apply this change.</p>
                        <tr class=' module-item'>
                            <td><a class='constant' href='constant.ATOM_LEN_BITS.html'
                                   title='syntect::parsing::ATOM_LEN_BITS'>ATOM_LEN_BITS</a></td>
-                           <td class='docblock short'>
+                           <td class='docblock-short'>
                                 <p>Multiplier on the power of 2 for MatchPower.
 Only useful if you compute your own MatchPower scores.</p>
                            </td>

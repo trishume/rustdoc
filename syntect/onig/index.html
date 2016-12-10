@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-0' class='srclink' href='../src/onig/lib.rs.html#1-439' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-0' class='srclink' href='../src/onig/lib.rs.html#1-730' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>This crate provides a safe wrapper around the
 <a href="https://github.com/kkos/oniguruma">Oniguruma</a> regular expression library.</p>
 
@@ -64,6 +64,65 @@
              <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Group {} is not captured&quot;</span>, <span class='ident'>i</span>)
     }
 }<a class='test-arrow' target='_blank' href=''>Run</a></pre>
+
+<h1 id='match-vs-search' class='section-header'><a href='#match-vs-search'>Match vs Search</a></h1>
+<p>There are two basic things you can do with a <code>Regex</code> pattern; test
+if the pattern matches the whole of a given string, and search for
+occurences of the pattern within a string. Oniguruma exposes these
+two concepts with the <em>match</em> and <em>search</em> APIs.</p>
+
+<p>In addition two these two base Onigurma APIs this crate exposes a
+third <em>find</em> API, built on top of the <em>search</em> API.</p>
+
+<pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>pattern</span> <span class='op'>=</span> <span class='ident'>Regex</span>::<span class='ident'>new</span>(<span class='string'>&quot;hello&quot;</span>).<span class='ident'>unwrap</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='bool-val'>true</span>, <span class='ident'>pattern</span>.<span class='ident'>find</span>(<span class='string'>&quot;hello world&quot;</span>).<span class='ident'>is_some</span>());
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='bool-val'>false</span>, <span class='ident'>pattern</span>.<span class='ident'>is_match</span>(<span class='string'>&quot;hello world&quot;</span>));<a class='test-arrow' target='_blank' href=''>Run</a></pre>
+
+<h2 id='the-match-api' class='section-header'><a href='#the-match-api'>The <em>Match</em> API</a></h2>
+<p>Functions in the match API check if a pattern matches the entire
+string. The simplest of these is <code>Regex::is_match</code>. This retuns a
+<code>true</code> if the pattern matches the string. For more complex useage
+then <code>Regex::match_with_options</code> and <code>Regex::match_with_encoding</code>
+can be used. These allow the capture groups to be inspected,
+matching with different options, and matching sub-sections of a
+given text.</p>
+
+<h2 id='the-search-api' class='section-header'><a href='#the-search-api'>The <em>Search</em> API</a></h2>
+<p>Function in the search API search for a pattern anywhere within a
+string. The simplist of these is <code>Regex::find</code>. This returns the
+offset of the first occurence of the pattern within the string.
+For more complex useage <code>Regex::search_with_options</code> and
+<code>Regex::search_with_encoding</code> can be used. These allow capture
+groups to be inspected, searching with different options and
+searching within subsections of a given text.</p>
+
+<h2 id='the-find-api' class='section-header'><a href='#the-find-api'>The <em>Find</em> API</a></h2>
+<p>The find API is built on top of the search API. Functions in this
+API allow iteration across all matches of the pattern within a
+string, not just the first one. The functions deal with some of
+the complexities of this, such as zero-length matches.</p>
+
+<p>The simplest step-up from the basic search API <code>Regex::find</code> is
+getting the captures relating to a match with the
+<code>Regex::capturess</code> method. To find capture information for all
+matches within a string <code>Regex::find_iter</code> and
+<code>Regex::captures_iter</code> can be used. The former exposes the start
+and end of the match as <code>Regex::find</code> does, the latter exposes the
+whole capture group information as <code>Regex::captures</code> does.</p>
+
+<h1 id='the-stdpattern-api' class='section-header'><a href='#the-stdpattern-api'>The <code>std::pattern</code> API</a></h1>
+<p>In addition to the main Oniguruma API it is possible to use the
+<code>Regex</code> object with the
+<a href="https://doc.rust-lang.org/std/str/pattern/"><code>std::pattern</code></a>
+API. To enable support compile with the <code>std-pattern</code> feature. If
+you&#39;re using Cargo you can do this by adding the following to your
+Cargo.toml:</p>
+
+<pre><code class="language-toml">[dependencies.onig]
+version = &quot;1.2&quot;
+features = [&quot;std-pattern&quot;]
+</code></pre>
 </div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                        <tr class=' module-item'>
@@ -93,6 +152,13 @@ and group indexes.</p>
                                   title='onig::Captures'>Captures</a></td>
                            <td class='docblock-short'>
                                 <p>Captures represents a group of captured strings for a single match.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='struct' href='struct.EncodedBytes.html'
+                                  title='onig::EncodedBytes'>EncodedBytes</a></td>
+                           <td class='docblock-short'>
+                                <p>Byte Buffer</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -166,7 +232,7 @@ search and match operations.</p>
                                   title='onig::SubCaptures'>SubCaptures</a></td>
                            <td class='docblock-short'>
                                 <p>An iterator over capture groups for a particular match of a regular
- expression.</p>
+expression.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -727,6 +793,13 @@ a regular expression.</p>
                            </td>
                        </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
 <table>
+                       <tr class=' module-item'>
+                           <td><a class='trait' href='trait.EncodedChars.html'
+                                  title='onig::EncodedChars'>EncodedChars</a></td>
+                           <td class='docblock-short'>
+                                <p>Encoded String Buffer</p>
+                           </td>
+                       </tr>
                        <tr class=' module-item'>
                            <td><a class='trait' href='trait.Replacer.html'
                                   title='onig::Replacer'>Replacer</a></td>

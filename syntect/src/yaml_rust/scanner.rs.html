@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/yaml-rust-0.3.4/src/scanner.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/yaml-rust-0.3.5/src/scanner.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>scanner.rs.html -- source</title>
@@ -3114,11 +3114,11 @@
                     }
                     <span class='ident'>leading_break</span>.<span class='ident'>clear</span>();
             } <span class='kw'>else</span> {
-                <span class='ident'>string</span>.<span class='ident'>extend</span>(<span class='ident'>leading_break</span>.<span class='ident'>chars</span>());
+                <span class='ident'>string</span>.<span class='ident'>push_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>leading_break</span>);
                 <span class='ident'>leading_break</span>.<span class='ident'>clear</span>();
             }
 
-            <span class='ident'>string</span>.<span class='ident'>extend</span>(<span class='ident'>trailing_breaks</span>.<span class='ident'>chars</span>());
+            <span class='ident'>string</span>.<span class='ident'>push_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>trailing_breaks</span>);
             <span class='ident'>trailing_breaks</span>.<span class='ident'>clear</span>();
 
             <span class='ident'>leading_blank</span> <span class='op'>=</span> <span class='ident'>is_blank</span>(<span class='self'>self</span>.<span class='ident'>ch</span>());
@@ -3140,11 +3140,11 @@
 
         <span class='comment'>// Chomp the tail.</span>
         <span class='kw'>if</span> <span class='ident'>chomping</span> <span class='op'>!=</span> <span class='op'>-</span><span class='number'>1</span> {
-            <span class='ident'>string</span>.<span class='ident'>extend</span>(<span class='ident'>leading_break</span>.<span class='ident'>chars</span>());
+            <span class='ident'>string</span>.<span class='ident'>push_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>leading_break</span>);
         }
 
         <span class='kw'>if</span> <span class='ident'>chomping</span> <span class='op'>==</span> <span class='number'>1</span> {
-            <span class='ident'>string</span>.<span class='ident'>extend</span>(<span class='ident'>trailing_breaks</span>.<span class='ident'>chars</span>());
+            <span class='ident'>string</span>.<span class='ident'>push_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>trailing_breaks</span>);
         }
 
         <span class='kw'>if</span> <span class='ident'>literal</span> {
@@ -3359,21 +3359,21 @@
             <span class='comment'>// Join the whitespaces or fold line breaks.</span>
             <span class='kw'>if</span> <span class='ident'>leading_blanks</span> {
                 <span class='kw'>if</span> <span class='ident'>leading_break</span>.<span class='ident'>is_empty</span>() {
-                    <span class='ident'>string</span>.<span class='ident'>extend</span>(<span class='ident'>leading_break</span>.<span class='ident'>chars</span>());
-                    <span class='ident'>string</span>.<span class='ident'>extend</span>(<span class='ident'>trailing_breaks</span>.<span class='ident'>chars</span>());
+                    <span class='ident'>string</span>.<span class='ident'>push_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>leading_break</span>);
+                    <span class='ident'>string</span>.<span class='ident'>push_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>trailing_breaks</span>);
                     <span class='ident'>trailing_breaks</span>.<span class='ident'>clear</span>();
                     <span class='ident'>leading_break</span>.<span class='ident'>clear</span>();
                 } <span class='kw'>else</span> {
                     <span class='kw'>if</span> <span class='ident'>trailing_breaks</span>.<span class='ident'>is_empty</span>() {
                         <span class='ident'>string</span>.<span class='ident'>push</span>(<span class='string'>&#39; &#39;</span>);
                     } <span class='kw'>else</span> {
-                        <span class='ident'>string</span>.<span class='ident'>extend</span>(<span class='ident'>trailing_breaks</span>.<span class='ident'>chars</span>());
+                        <span class='ident'>string</span>.<span class='ident'>push_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>trailing_breaks</span>);
                         <span class='ident'>trailing_breaks</span>.<span class='ident'>clear</span>();
                     }
                     <span class='ident'>leading_break</span>.<span class='ident'>clear</span>();
                 }
             } <span class='kw'>else</span> {
-                <span class='ident'>string</span>.<span class='ident'>extend</span>(<span class='ident'>whitespaces</span>.<span class='ident'>chars</span>());
+                <span class='ident'>string</span>.<span class='ident'>push_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>whitespaces</span>);
                 <span class='ident'>whitespaces</span>.<span class='ident'>clear</span>();
             }
         } <span class='comment'>// loop</span>
@@ -3440,15 +3440,15 @@
                 <span class='kw'>if</span> <span class='ident'>leading_blanks</span> <span class='op'>||</span> <span class='op'>!</span><span class='ident'>whitespaces</span>.<span class='ident'>is_empty</span>() {
                     <span class='kw'>if</span> <span class='ident'>leading_blanks</span> {
                         <span class='kw'>if</span> <span class='ident'>leading_break</span>.<span class='ident'>is_empty</span>() {
-                            <span class='ident'>string</span>.<span class='ident'>extend</span>(<span class='ident'>leading_break</span>.<span class='ident'>chars</span>());
-                            <span class='ident'>string</span>.<span class='ident'>extend</span>(<span class='ident'>trailing_breaks</span>.<span class='ident'>chars</span>());
+                            <span class='ident'>string</span>.<span class='ident'>push_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>leading_break</span>);
+                            <span class='ident'>string</span>.<span class='ident'>push_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>trailing_breaks</span>);
                             <span class='ident'>trailing_breaks</span>.<span class='ident'>clear</span>();
                             <span class='ident'>leading_break</span>.<span class='ident'>clear</span>();
                         } <span class='kw'>else</span> {
                             <span class='kw'>if</span> <span class='ident'>trailing_breaks</span>.<span class='ident'>is_empty</span>() {
                                 <span class='ident'>string</span>.<span class='ident'>push</span>(<span class='string'>&#39; &#39;</span>);
                             } <span class='kw'>else</span> {
-                                <span class='ident'>string</span>.<span class='ident'>extend</span>(<span class='ident'>trailing_breaks</span>.<span class='ident'>chars</span>());
+                                <span class='ident'>string</span>.<span class='ident'>push_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>trailing_breaks</span>);
                                 <span class='ident'>trailing_breaks</span>.<span class='ident'>clear</span>();
                             }
                             <span class='ident'>leading_break</span>.<span class='ident'>clear</span>();
@@ -3456,7 +3456,7 @@
                         }
                         <span class='ident'>leading_blanks</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
                     } <span class='kw'>else</span> {
-                        <span class='ident'>string</span>.<span class='ident'>extend</span>(<span class='ident'>whitespaces</span>.<span class='ident'>chars</span>());
+                        <span class='ident'>string</span>.<span class='ident'>push_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>whitespaces</span>);
                         <span class='ident'>whitespaces</span>.<span class='ident'>clear</span>();
                     }
                 }

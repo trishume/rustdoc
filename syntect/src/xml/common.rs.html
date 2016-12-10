@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/xml-rs-0.3.4/src/common.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/xml-rs-0.3.5/src/common.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>common.rs.html -- source</title>
@@ -172,6 +172,11 @@
 <span id="128">128</span>
 <span id="129">129</span>
 <span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Contains common types and functions used throughout the library.</span>
 
@@ -262,6 +267,11 @@
     }
 }
 
+<span class='kw'>impl</span> <span class='ident'>fmt</span>::<span class='ident'>Debug</span> <span class='kw'>for</span> <span class='ident'>XmlVersion</span> {
+    <span class='kw'>fn</span> <span class='ident'>fmt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>f</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>fmt</span>::<span class='ident'>Formatter</span>) <span class='op'>-&gt;</span> <span class='ident'>fmt</span>::<span class='prelude-ty'>Result</span> {
+        <span class='ident'>fmt</span>::<span class='ident'>Display</span>::<span class='ident'>fmt</span>(<span class='self'>self</span>, <span class='ident'>f</span>)
+    }
+}
 
 <span class='doccomment'>/// Checks whether the given character is a white space character (`S`)</span>
 <span class='doccomment'>/// as is defined by XML 1.1 specification, [section 2.3][1].</span>

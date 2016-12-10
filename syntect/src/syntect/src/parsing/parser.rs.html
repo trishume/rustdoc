@@ -482,12 +482,42 @@
 <span id="438">438</span>
 <span id="439">439</span>
 <span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>syntax_definition</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>scope</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='ident'>onig</span>::{<span class='self'>self</span>, <span class='ident'>Region</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>usize</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::{<span class='ident'>HashMap</span>, <span class='ident'>HashSet</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>i32</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>hash</span>::<span class='ident'>BuildHasherDefault</span>;
 <span class='kw'>use</span> <span class='ident'>fnv</span>::<span class='ident'>FnvHasher</span>;
@@ -526,10 +556,12 @@
     <span class='ident'>regions</span>: <span class='ident'>Region</span>,
     <span class='ident'>context</span>: <span class='ident'>ContextPtr</span>,
     <span class='ident'>pat_index</span>: <span class='ident'>usize</span>,
+    <span class='ident'>match_ptr</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>MatchPattern</span>,
 }
 
 <span class='doccomment'>/// maps the pattern to the start index, which is -1 if not found.</span>
 <span class='kw'>type</span> <span class='ident'>SearchCache</span> <span class='op'>=</span> <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='op'>*</span><span class='kw'>const</span> <span class='ident'>MatchPattern</span>, <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Region</span><span class='op'>&gt;</span>, <span class='ident'>BuildHasherDefault</span><span class='op'>&lt;</span><span class='ident'>FnvHasher</span><span class='op'>&gt;&gt;</span>;
+<span class='kw'>type</span> <span class='ident'>MatchedPatterns</span> <span class='op'>=</span> <span class='ident'>HashSet</span><span class='op'>&lt;</span><span class='op'>*</span><span class='kw'>const</span> <span class='ident'>MatchPattern</span>, <span class='ident'>BuildHasherDefault</span><span class='op'>&lt;</span><span class='ident'>FnvHasher</span><span class='op'>&gt;&gt;</span>;
 
 <span class='kw'>impl</span> <span class='ident'>ParseState</span> {
     <span class='doccomment'>/// Create a state from a syntax, keeps its own reference counted</span>
@@ -560,6 +592,7 @@
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>stack</span>.<span class='ident'>len</span>() <span class='op'>&gt;</span> <span class='number'>0</span>,
                 <span class='string'>&quot;Somehow main context was popped from the stack&quot;</span>);
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>match_start</span> <span class='op'>=</span> <span class='number'>0</span>;
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>prev_match_start</span> <span class='op'>=</span> <span class='number'>0</span>;
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>res</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
 
         <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>first_line</span> {
@@ -574,12 +607,21 @@
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>regions</span> <span class='op'>=</span> <span class='ident'>Region</span>::<span class='ident'>with_capacity</span>(<span class='number'>8</span>);
         <span class='kw'>let</span> <span class='ident'>fnv</span> <span class='op'>=</span> <span class='ident'>BuildHasherDefault</span>::<span class='op'>&lt;</span><span class='ident'>FnvHasher</span><span class='op'>&gt;</span>::<span class='ident'>default</span>();
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>search_cache</span>: <span class='ident'>SearchCache</span> <span class='op'>=</span> <span class='ident'>HashMap</span>::<span class='ident'>with_capacity_and_hasher</span>(<span class='number'>128</span>, <span class='ident'>fnv</span>);
+        <span class='kw'>let</span> <span class='ident'>fnv2</span> <span class='op'>=</span> <span class='ident'>BuildHasherDefault</span>::<span class='op'>&lt;</span><span class='ident'>FnvHasher</span><span class='op'>&gt;</span>::<span class='ident'>default</span>();
+        <span class='comment'>// Fixes issue https://github.com/trishume/syntect/issues/25</span>
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>matched</span>: <span class='ident'>MatchedPatterns</span> <span class='op'>=</span> <span class='ident'>HashSet</span>::<span class='ident'>with_capacity_and_hasher</span>(<span class='number'>4</span>, <span class='ident'>fnv2</span>);
 
         <span class='kw'>while</span> <span class='self'>self</span>.<span class='ident'>parse_next_token</span>(<span class='ident'>line</span>,
                                     <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>match_start</span>,
                                     <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>search_cache</span>,
+                                    <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>matched</span>,
                                     <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>regions</span>,
                                     <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>res</span>) {
+            <span class='comment'>// We only care about not repeatedly matching things at the same location</span>
+            <span class='kw'>if</span> <span class='ident'>match_start</span> <span class='op'>!=</span> <span class='ident'>prev_match_start</span> {
+                <span class='ident'>matched</span>.<span class='ident'>clear</span>();
+            }
+            <span class='ident'>prev_match_start</span> <span class='op'>=</span> <span class='ident'>match_start</span>;
         }
 
         <span class='ident'>res</span>
@@ -589,6 +631,7 @@
                         <span class='ident'>line</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>,
                         <span class='ident'>start</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>usize</span>,
                         <span class='ident'>search_cache</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>SearchCache</span>,
+                        <span class='ident'>matched</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>MatchedPatterns</span>,
                         <span class='ident'>regions</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Region</span>,
                         <span class='ident'>ops</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Vec</span><span class='op'>&lt;</span>(<span class='ident'>usize</span>, <span class='ident'>ScopeStackOp</span>)<span class='op'>&gt;</span>)
                         <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
@@ -612,22 +655,28 @@
                     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>pat_context</span> <span class='op'>=</span> <span class='ident'>pat_context_ptr</span>.<span class='ident'>borrow_mut</span>();
                     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>match_pat</span> <span class='op'>=</span> <span class='ident'>pat_context</span>.<span class='ident'>match_at_mut</span>(<span class='ident'>pat_index</span>);
                     <span class='comment'>// println!(&quot;{} - {:?} - {:?}&quot;, match_pat.regex_str, match_pat.has_captures, cur_level.captures.is_some());</span>
+                    <span class='kw'>let</span> <span class='ident'>match_ptr</span> <span class='op'>=</span> <span class='ident'>match_pat</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>MatchPattern</span>;
+
+                    <span class='comment'>// Avoid matching the same pattern twice in the same place, causing an infinite loop</span>
+                    <span class='kw'>if</span> <span class='ident'>matched</span>.<span class='ident'>contains</span>(<span class='kw-2'>&amp;</span><span class='ident'>match_ptr</span>) {
+                        <span class='kw'>continue</span>;
+                    }
 
                     <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>maybe_region</span>) <span class='op'>=</span>
-                           <span class='ident'>search_cache</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span>(<span class='ident'>match_pat</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>MatchPattern</span>)) {
+                           <span class='ident'>search_cache</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>match_ptr</span>) {
                         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>valid_entry</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
                         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>region</span>) <span class='op'>=</span> <span class='op'>*</span><span class='ident'>maybe_region</span> {
                             <span class='kw'>let</span> <span class='ident'>match_start</span> <span class='op'>=</span> <span class='ident'>region</span>.<span class='ident'>pos</span>(<span class='number'>0</span>).<span class='ident'>unwrap</span>().<span class='number'>0</span>;
                             <span class='kw'>if</span> <span class='ident'>match_start</span> <span class='op'>&lt;</span> <span class='op'>*</span><span class='ident'>start</span> {
                                 <span class='ident'>valid_entry</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
-                            }
-                            <span class='kw'>if</span> <span class='ident'>match_start</span> <span class='op'>&lt;</span> <span class='ident'>min_start</span> <span class='op'>&amp;&amp;</span> <span class='ident'>valid_entry</span> {
+                            } <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>match_start</span> <span class='op'>&lt;</span> <span class='ident'>min_start</span> {
                                 <span class='comment'>// print!(&quot;match {} at {} on {}&quot;, match_pat.regex_str, match_start, line);</span>
                                 <span class='ident'>min_start</span> <span class='op'>=</span> <span class='ident'>match_start</span>;
                                 <span class='ident'>cur_match</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>RegexMatch</span> {
                                     <span class='ident'>regions</span>: <span class='ident'>region</span>.<span class='ident'>clone</span>(),
                                     <span class='ident'>context</span>: <span class='ident'>pat_context_ptr</span>.<span class='ident'>clone</span>(),
                                     <span class='ident'>pat_index</span>: <span class='ident'>pat_index</span>,
+                                    <span class='ident'>match_ptr</span>: <span class='ident'>match_ptr</span>,
                                 });
                             }
                         }
@@ -670,6 +719,7 @@
                                 <span class='ident'>regions</span>: <span class='ident'>regions</span>.<span class='ident'>clone</span>(),
                                 <span class='ident'>context</span>: <span class='ident'>pat_context_ptr</span>.<span class='ident'>clone</span>(),
                                 <span class='ident'>pat_index</span>: <span class='ident'>pat_index</span>,
+                                <span class='ident'>match_ptr</span>: <span class='ident'>match_ptr</span>,
                             });
                         }
                     } <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>refs_regex</span>.<span class='ident'>is_none</span>() {
@@ -684,6 +734,7 @@
             <span class='kw'>let</span> (_, <span class='ident'>match_end</span>) <span class='op'>=</span> <span class='ident'>reg_match</span>.<span class='ident'>regions</span>.<span class='ident'>pos</span>(<span class='number'>0</span>).<span class='ident'>unwrap</span>();
             <span class='op'>*</span><span class='ident'>start</span> <span class='op'>=</span> <span class='ident'>match_end</span>;
             <span class='kw'>let</span> <span class='ident'>level_context</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>stack</span>[<span class='self'>self</span>.<span class='ident'>stack</span>.<span class='ident'>len</span>() <span class='op'>-</span> <span class='number'>1</span>].<span class='ident'>context</span>.<span class='ident'>clone</span>();
+            <span class='ident'>matched</span>.<span class='ident'>insert</span>(<span class='ident'>reg_match</span>.<span class='ident'>match_ptr</span>);
             <span class='self'>self</span>.<span class='ident'>exec_pattern</span>(<span class='ident'>line</span>, <span class='ident'>reg_match</span>, <span class='ident'>level_context</span>, <span class='ident'>ops</span>);
             <span class='bool-val'>true</span>
         } <span class='kw'>else</span> {
@@ -847,6 +898,10 @@
             <span class='kw'>let</span> <span class='ident'>syntax</span> <span class='op'>=</span> <span class='ident'>ps</span>.<span class='ident'>find_syntax_by_name</span>(<span class='string'>&quot;HTML (Rails)&quot;</span>).<span class='ident'>unwrap</span>();
             <span class='ident'>ParseState</span>::<span class='ident'>new</span>(<span class='ident'>syntax</span>)
         };
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>state3</span> <span class='op'>=</span> {
+            <span class='kw'>let</span> <span class='ident'>syntax</span> <span class='op'>=</span> <span class='ident'>ps</span>.<span class='ident'>find_syntax_by_name</span>(<span class='string'>&quot;C&quot;</span>).<span class='ident'>unwrap</span>();
+            <span class='ident'>ParseState</span>::<span class='ident'>new</span>(<span class='ident'>syntax</span>)
+        };
 
         <span class='kw'>let</span> <span class='ident'>line</span> <span class='op'>=</span> <span class='string'>&quot;module Bob::Wow::Troll::Five; 5; end&quot;</span>;
         <span class='kw'>let</span> <span class='ident'>ops</span> <span class='op'>=</span> <span class='ident'>state</span>.<span class='ident'>parse_line</span>(<span class='ident'>line</span>);
@@ -919,6 +974,11 @@
             (<span class='number'>20</span>, <span class='ident'>Pop</span>(<span class='number'>1</span>)),
         ];
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ops4</span>, <span class='ident'>test_ops4</span>);
+
+        <span class='comment'>// test fix for issue #25</span>
+        <span class='kw'>let</span> <span class='ident'>line5</span> <span class='op'>=</span> <span class='string'>&quot;struct{estruct&quot;</span>;
+        <span class='kw'>let</span> <span class='ident'>ops5</span> <span class='op'>=</span> <span class='ident'>state3</span>.<span class='ident'>parse_line</span>(<span class='ident'>line5</span>);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ops5</span>.<span class='ident'>len</span>(), <span class='number'>10</span>);
 
         <span class='comment'>// assert!(false);</span>
     }

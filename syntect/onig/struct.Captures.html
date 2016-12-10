@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-72' class='srclink' href='../src/onig/find.rs.html#208-212' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-72' class='srclink' href='../src/onig/find.rs.html#204-208' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct Captures&lt;'t&gt; { /* fields omitted */ }</pre><div class='docblock'><p>Captures represents a group of captured strings for a single match.</p>
 
 <p>The 0th capture always corresponds to the entire match. Each subsequent
@@ -55,7 +55,7 @@ index corresponds to the next capture group in the regex. Positions
 returned from a capture group are always byte indices.</p>
 
 <p><code>&#39;t</code> is the lifetime of the matched text.</p>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'t&gt; <a class='struct' href='../onig/struct.Captures.html' title='onig::Captures'>Captures</a>&lt;'t&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-86' class='srclink' href='../src/onig/find.rs.html#214-262' title='goto source code'>[src]</a></span></h3>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'t&gt; <a class='struct' href='../onig/struct.Captures.html' title='onig::Captures'>Captures</a>&lt;'t&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-86' class='srclink' href='../src/onig/find.rs.html#210-258' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.pos' class='method'><span id='pos.v' class='invisible'><code>fn <a href='#method.pos' class='fnname'>pos</a>(&amp;self, pos: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>, <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>)</a>&gt;</code></span></h4>
 <div class='docblock'><p>Returns the start and end positions of the Nth capture group. Returns
 <code>None</code> if i is not a valid capture group or if the capture group did
@@ -77,7 +77,7 @@ appearance in the regular expression. Positions are byte indices in
 terms of the original string matched.</p>
 </div><h4 id='method.offset' class='method'><span id='offset.v' class='invisible'><code>fn <a href='#method.offset' class='fnname'>offset</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a></code></span></h4>
 <div class='docblock'><p>Offset of the captures within the given string slice.</p>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'t&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../onig/struct.Captures.html' title='onig::Captures'>Captures</a>&lt;'t&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-77' class='srclink' href='../src/onig/find.rs.html#207' title='goto source code'>[src]</a></span></h3>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'t&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../onig/struct.Captures.html' title='onig::Captures'>Captures</a>&lt;'t&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-77' class='srclink' href='../src/onig/find.rs.html#203' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.fmt' class='method'><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></span></h4>
 <div class='docblock'><p>Formats the value using the given formatter.</p>
 </div></div></section>

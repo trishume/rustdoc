@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-3390' class='srclink' href='../../src/syntect/src/easy.rs.html#72-75' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-1088' class='srclink' href='../../src/syntect/src/easy.rs.html#72-75' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct HighlightFile&lt;'a&gt; {
     pub reader: <a class='struct' href='https://doc.rust-lang.org/nightly/std/io/buffered/struct.BufReader.html' title='std::io::buffered::BufReader'>BufReader</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/std/fs/struct.File.html' title='std::fs::File'>File</a>&gt;,
     pub highlight_lines: <a class='struct' href='../../syntect/easy/struct.HighlightLines.html' title='syntect::easy::HighlightLines'>HighlightLines</a>&lt;'a&gt;,
@@ -60,8 +60,8 @@ See the <code>new</code> method docs for more information.</p>
                            </span></span><span class='stab '></span><span id='structfield.highlight_lines' class='structfield'>
                            <span id='highlight_lines.v' class='invisible'>
                            <code>highlight_lines: <a class='struct' href='../../syntect/easy/struct.HighlightLines.html' title='syntect::easy::HighlightLines'>HighlightLines</a>&lt;'a&gt;</code>
-                           </span></span><span class='stab '></span><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class='struct' href='../../syntect/easy/struct.HighlightFile.html' title='syntect::easy::HighlightFile'>HighlightFile</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-3394' class='srclink' href='../../src/syntect/src/easy.rs.html#77-117' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.new' class='method'><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>&lt;P:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html' title='core::convert::AsRef'>AsRef</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/std/path/struct.Path.html' title='std::path::Path'>Path</a>&gt;&gt;(path_obj: P, ss: &amp;<a class='struct' href='../../syntect/parsing/struct.SyntaxSet.html' title='syntect::parsing::SyntaxSet'>SyntaxSet</a>, theme: &amp;'a <a class='struct' href='../../syntect/highlighting/struct.Theme.html' title='syntect::highlighting::Theme'>Theme</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/std/io/error/type.Result.html' title='std::io::error::Result'>Result</a>&lt;<a class='struct' href='../../syntect/easy/struct.HighlightFile.html' title='syntect::easy::HighlightFile'>HighlightFile</a>&lt;'a&gt;&gt;</code></span></h4>
+                           </span></span><span class='stab '></span><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class='struct' href='../../syntect/easy/struct.HighlightFile.html' title='syntect::easy::HighlightFile'>HighlightFile</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1092' class='srclink' href='../../src/syntect/src/easy.rs.html#77-117' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.new' class='method'><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>&lt;P:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html' title='core::convert::AsRef'>AsRef</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/std/path/struct.Path.html' title='std::path::Path'>Path</a>&gt;&gt;(path_obj: P,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ss: &amp;<a class='struct' href='../../syntect/parsing/struct.SyntaxSet.html' title='syntect::parsing::SyntaxSet'>SyntaxSet</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; theme: &amp;'a <a class='struct' href='../../syntect/highlighting/struct.Theme.html' title='syntect::highlighting::Theme'>Theme</a>)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/std/io/error/type.Result.html' title='std::io::error::Result'>Result</a>&lt;<a class='struct' href='../../syntect/easy/struct.HighlightFile.html' title='syntect::easy::HighlightFile'>HighlightFile</a>&lt;'a&gt;&gt;</code></span></h4>
 <div class='docblock'><p>Constructs a file reader and a line highlighter to get you reading files as fast as possible.
 Auto-detects the syntax from the extension and constructs a <code>HighlightLines</code> with the correct syntax and theme.</p>
 
@@ -85,7 +85,7 @@ and fast syntax highlighting, at the cost of a couple extra lines of code.</p>
     <span class='kw'>let</span> <span class='ident'>line</span> <span class='op'>=</span> <span class='ident'>maybe_line</span>.<span class='ident'>unwrap</span>();
     <span class='kw'>let</span> <span class='ident'>regions</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span>(<span class='ident'>Style</span>, <span class='kw-2'>&amp;</span><span class='ident'>str</span>)<span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>highlighter</span>.<span class='ident'>highlight_lines</span>.<span class='ident'>highlight</span>(<span class='kw-2'>&amp;</span><span class='ident'>line</span>);
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>as_24_bit_terminal_escaped</span>(<span class='kw-2'>&amp;</span><span class='ident'>regions</span>[..], <span class='bool-val'>true</span>));
-}<a class='test-arrow' target='_blank' href=''>Run</a></pre>
+}</pre>
 </div></div></section>
     <section id='search' class="content hidden"></section>
 
@@ -142,11 +142,9 @@ and fast syntax highlighting, at the cost of a couple extra lines of code.</p>
     <script>
         window.rootPath = "../../";
         window.currentCrate = "syntect";
-        window.playgroundUrl = "";
     </script>
     <script src="../../jquery.js"></script>
     <script src="../../main.js"></script>
-    
     <script defer src="../../search-index.js"></script>
 </body>
 </html>

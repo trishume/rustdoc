@@ -462,6 +462,15 @@
 <span id="418">418</span>
 <span id="419">419</span>
 <span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>syntax_definition</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>scope</span>::<span class='op'>*</span>;
@@ -750,7 +759,16 @@
         <span class='comment'>// println!(&quot;{:?}&quot;, context_ref);</span>
         <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>syntax_definition</span>::<span class='ident'>ContextReference</span>::<span class='op'>*</span>;
         <span class='kw'>let</span> <span class='ident'>maybe_new_context</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>context_ref</span> {
-            <span class='ident'>Named</span>(<span class='kw-2'>ref</span> <span class='ident'>s</span>) <span class='op'>=&gt;</span> <span class='ident'>syntax</span>.<span class='ident'>contexts</span>.<span class='ident'>get</span>(<span class='ident'>s</span>),
+            <span class='ident'>Named</span>(<span class='kw-2'>ref</span> <span class='ident'>s</span>) <span class='op'>=&gt;</span> {
+                <span class='comment'>// This isn&#39;t actually correct, but it is better than nothing/crashing.</span>
+                <span class='comment'>// This is being phased out anyhow, see https://github.com/sublimehq/Packages/issues/73</span>
+                <span class='comment'>// Fixes issue #30</span>
+                <span class='kw'>if</span> <span class='ident'>s</span> <span class='op'>==</span> <span class='string'>&quot;$top_level_main&quot;</span> {
+                    <span class='ident'>syntax</span>.<span class='ident'>contexts</span>.<span class='ident'>get</span>(<span class='string'>&quot;main&quot;</span>)
+                } <span class='kw'>else</span> {
+                    <span class='ident'>syntax</span>.<span class='ident'>contexts</span>.<span class='ident'>get</span>(<span class='ident'>s</span>)
+                }
+            }
             <span class='ident'>Inline</span>(<span class='kw-2'>ref</span> <span class='ident'>context_ptr</span>) <span class='op'>=&gt;</span> {
                 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>mut_ref</span> <span class='op'>=</span> <span class='ident'>context_ptr</span>.<span class='ident'>borrow_mut</span>();
                 <span class='self'>self</span>.<span class='ident'>link_context</span>(<span class='ident'>syntax</span>, <span class='ident'>mut_ref</span>.<span class='ident'>deref_mut</span>());

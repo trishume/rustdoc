@@ -1,5 +1,6 @@
 (function() {var implementors = {};
-implementors["walkdir"] = [];implementors["syntect"] = [];
+implementors["syntect"] = [];
+implementors["walkdir"] = [];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);

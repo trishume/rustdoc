@@ -1,5 +1,6 @@
 (function() {var implementors = {};
-implementors["flate2"] = [];implementors["syntect"] = [];
+implementors["flate2"] = [];
+implementors["syntect"] = [];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);

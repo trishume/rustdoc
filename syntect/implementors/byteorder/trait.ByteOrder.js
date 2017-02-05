@@ -1,5 +1,6 @@
 (function() {var implementors = {};
-implementors["byteorder"] = [];implementors["syntect"] = [];implementors["syntect"] = [];
+implementors["byteorder"] = [];
+implementors["syntect"] = [];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);

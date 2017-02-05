@@ -1,5 +1,6 @@
 (function() {var implementors = {};
-implementors["chrono"] = [];implementors["syntect"] = [];
+implementors["chrono"] = [];
+implementors["syntect"] = [];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);

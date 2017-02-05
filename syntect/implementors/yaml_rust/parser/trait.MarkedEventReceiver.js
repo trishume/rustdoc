@@ -1,5 +1,6 @@
 (function() {var implementors = {};
-implementors["yaml_rust"] = [];implementors["syntect"] = [];
+implementors["syntect"] = [];
+implementors["yaml_rust"] = [];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);

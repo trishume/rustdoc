@@ -1,5 +1,12 @@
 (function() {var implementors = {};
-implementors["lazy_static"] = [];implementors["regex_syntax"] = [];implementors["libc"] = [];implementors["num"] = [];implementors["serde"] = [];implementors["serde"] = [];implementors["onig"] = [];implementors["chrono"] = [];implementors["syntect"] = [];
+implementors["chrono"] = [];
+implementors["lazy_static"] = [];
+implementors["libc"] = [];
+implementors["num"] = [];
+implementors["onig"] = [];
+implementors["regex_syntax"] = [];
+implementors["serde"] = [];
+implementors["syntect"] = [];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);

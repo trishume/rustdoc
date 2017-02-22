@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["Error",""],["Plist",""],["PlistEvent","An encoding of a plist as a flat structure."]],"fn":[["deserialize",""],["serialize_to_xml",""]],"mod":[["binary",""],["xml",""]],"struct":[["Deserializer",""],["EventReader",""],["Serializer",""]],"trait":[["EventWriter",""]],"type":[["Result",""]]});
+initSidebarItems({"enum":[["Error",""],["Plist",""],["PlistEvent","An encoding of a plist as a flat structure."]],"mod":[["binary",""],["serde",""],["xml",""]],"struct":[["EventReader",""]],"trait":[["EventWriter",""]],"type":[["Result",""]]});

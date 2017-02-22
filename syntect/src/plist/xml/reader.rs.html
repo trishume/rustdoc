@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/plist-0.0.14/src/xml/reader.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/plist-0.1.1/src/xml/reader.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>reader.rs.html -- source</title>
@@ -248,11 +248,6 @@
 <span id="204">204</span>
 <span id="205">205</span>
 <span id="206">206</span>
-<span id="207">207</span>
-<span id="208">208</span>
-<span id="209">209</span>
-<span id="210">210</span>
-<span id="211">211</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>chrono</span>::{<span class='ident'>DateTime</span>, <span class='ident'>UTC</span>};
 <span class='kw'>use</span> <span class='ident'>chrono</span>::<span class='ident'>format</span>::<span class='ident'>ParseError</span> <span class='kw'>as</span> <span class='ident'>ChronoParseError</span>;
@@ -278,13 +273,12 @@
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>Read</span><span class='op'>&gt;</span> <span class='ident'>EventReader</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> {
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>reader</span>: <span class='ident'>R</span>) <span class='op'>-&gt;</span> <span class='ident'>EventReader</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>config</span> <span class='op'>=</span> <span class='ident'>ParserConfig</span> {
-            <span class='ident'>trim_whitespace</span>: <span class='bool-val'>false</span>,
-            <span class='ident'>whitespace_to_characters</span>: <span class='bool-val'>true</span>,
-            <span class='ident'>cdata_to_characters</span>: <span class='bool-val'>true</span>,
-            <span class='ident'>ignore_comments</span>: <span class='bool-val'>true</span>,
-            <span class='ident'>coalesce_characters</span>: <span class='bool-val'>true</span>,
-        };
+        <span class='kw'>let</span> <span class='ident'>config</span> <span class='op'>=</span> <span class='ident'>ParserConfig</span>::<span class='ident'>new</span>()
+            .<span class='ident'>trim_whitespace</span>(<span class='bool-val'>false</span>)
+            .<span class='ident'>whitespace_to_characters</span>(<span class='bool-val'>true</span>)
+            .<span class='ident'>cdata_to_characters</span>(<span class='bool-val'>true</span>)
+            .<span class='ident'>ignore_comments</span>(<span class='bool-val'>true</span>)
+            .<span class='ident'>coalesce_characters</span>(<span class='bool-val'>true</span>);
 
         <span class='ident'>EventReader</span> {
             <span class='ident'>xml_reader</span>: <span class='ident'>XmlEventReader</span>::<span class='ident'>new_with_config</span>(<span class='ident'>reader</span>, <span class='ident'>config</span>),
@@ -299,7 +293,7 @@
     {
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>xml_reader</span>.<span class='ident'>next</span>() {
             <span class='prelude-val'>Ok</span>(<span class='ident'>XmlEvent</span>::<span class='ident'>Characters</span>(<span class='ident'>s</span>)) <span class='op'>=&gt;</span> <span class='ident'>f</span>(<span class='ident'>s</span>),
-            <span class='prelude-val'>Ok</span>(<span class='ident'>event</span> @ <span class='ident'>XmlEvent</span>::<span class='ident'>EndElement</span>{..}) <span class='op'>=&gt;</span> {
+            <span class='prelude-val'>Ok</span>(<span class='ident'>event</span> @ <span class='ident'>XmlEvent</span>::<span class='ident'>EndElement</span> { .. }) <span class='op'>=&gt;</span> {
                 <span class='self'>self</span>.<span class='ident'>queued_event</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>event</span>);
                 <span class='ident'>f</span>(<span class='string'>&quot;&quot;</span>.<span class='ident'>to_owned</span>())
             }
@@ -345,19 +339,15 @@
                             }))
                         }
                         <span class='string'>&quot;integer&quot;</span> <span class='op'>=&gt;</span> {
-                            <span class='kw'>return</span> <span class='prelude-val'>Some</span>(<span class='self'>self</span>.<span class='ident'>read_content</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> {
-                                <span class='kw'>match</span> <span class='ident'>FromStr</span>::<span class='ident'>from_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>s</span>) {
-                                    <span class='prelude-val'>Ok</span>(<span class='ident'>i</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>PlistEvent</span>::<span class='ident'>IntegerValue</span>(<span class='ident'>i</span>)),
-                                    <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>InvalidData</span>),
-                                }
+                            <span class='kw'>return</span> <span class='prelude-val'>Some</span>(<span class='self'>self</span>.<span class='ident'>read_content</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='kw'>match</span> <span class='ident'>FromStr</span>::<span class='ident'>from_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>s</span>) {
+                                <span class='prelude-val'>Ok</span>(<span class='ident'>i</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>PlistEvent</span>::<span class='ident'>IntegerValue</span>(<span class='ident'>i</span>)),
+                                <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>InvalidData</span>),
                             }))
                         }
                         <span class='string'>&quot;real&quot;</span> <span class='op'>=&gt;</span> {
-                            <span class='kw'>return</span> <span class='prelude-val'>Some</span>(<span class='self'>self</span>.<span class='ident'>read_content</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> {
-                                <span class='kw'>match</span> <span class='ident'>FromStr</span>::<span class='ident'>from_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>s</span>) {
-                                    <span class='prelude-val'>Ok</span>(<span class='ident'>f</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>PlistEvent</span>::<span class='ident'>RealValue</span>(<span class='ident'>f</span>)),
-                                    <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>InvalidData</span>),
-                                }
+                            <span class='kw'>return</span> <span class='prelude-val'>Some</span>(<span class='self'>self</span>.<span class='ident'>read_content</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='kw'>match</span> <span class='ident'>FromStr</span>::<span class='ident'>from_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>s</span>) {
+                                <span class='prelude-val'>Ok</span>(<span class='ident'>f</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>PlistEvent</span>::<span class='ident'>RealValue</span>(<span class='ident'>f</span>)),
+                                <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>InvalidData</span>),
                             }))
                         }
                         <span class='string'>&quot;string&quot;</span> <span class='op'>=&gt;</span> {

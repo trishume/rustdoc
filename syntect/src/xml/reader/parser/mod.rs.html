@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/xml-rs-0.3.5/src/reader/parser/mod.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/xml-rs-0.3.8/src/reader/parser/mod.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>mod.rs.html -- source</title>
@@ -642,6 +642,19 @@
 <span id="598">598</span>
 <span id="599">599</span>
 <span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Contains an implementation of pull-based XML parser.</span>
 
@@ -1227,6 +1240,19 @@
              <span class='ident'>namespace</span>.<span class='ident'>is_essentially_empty</span>()
         );
         <span class='macro'>expect_event</span><span class='macro'>!</span>(<span class='ident'>r</span>, <span class='ident'>p</span>, <span class='prelude-val'>Ok</span>(<span class='ident'>XmlEvent</span>::<span class='ident'>EndElement</span> { <span class='kw-2'>ref</span> <span class='ident'>name</span> }) <span class='op'>=&gt;</span> <span class='op'>*</span><span class='ident'>name</span> <span class='op'>==</span> <span class='ident'>OwnedName</span>::<span class='ident'>local</span>(<span class='string'>&quot;a&quot;</span>));
+        <span class='macro'>expect_event</span><span class='macro'>!</span>(<span class='ident'>r</span>, <span class='ident'>p</span>, <span class='prelude-val'>Ok</span>(<span class='ident'>XmlEvent</span>::<span class='ident'>EndDocument</span>));
+    }
+
+    <span class='attribute'>#[<span class='ident'>test</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>issue_140_entity_reference_inside_tag</span>() {
+        <span class='kw'>let</span> (<span class='kw-2'>mut</span> <span class='ident'>r</span>, <span class='kw-2'>mut</span> <span class='ident'>p</span>) <span class='op'>=</span> <span class='macro'>test_data</span><span class='macro'>!</span>(<span class='string'>r#&quot;
+            &lt;bla&gt;&amp;#9835;&lt;/bla&gt;
+        &quot;#</span>);
+
+        <span class='macro'>expect_event</span><span class='macro'>!</span>(<span class='ident'>r</span>, <span class='ident'>p</span>, <span class='prelude-val'>Ok</span>(<span class='ident'>XmlEvent</span>::<span class='ident'>StartDocument</span> { .. }));
+        <span class='macro'>expect_event</span><span class='macro'>!</span>(<span class='ident'>r</span>, <span class='ident'>p</span>, <span class='prelude-val'>Ok</span>(<span class='ident'>XmlEvent</span>::<span class='ident'>StartElement</span> { <span class='kw-2'>ref</span> <span class='ident'>name</span>, .. }) <span class='op'>=&gt;</span> <span class='op'>*</span><span class='ident'>name</span> <span class='op'>==</span> <span class='ident'>OwnedName</span>::<span class='ident'>local</span>(<span class='string'>&quot;bla&quot;</span>));
+        <span class='macro'>expect_event</span><span class='macro'>!</span>(<span class='ident'>r</span>, <span class='ident'>p</span>, <span class='prelude-val'>Ok</span>(<span class='ident'>XmlEvent</span>::<span class='ident'>Characters</span>(<span class='kw-2'>ref</span> <span class='ident'>s</span>)) <span class='op'>=&gt;</span> <span class='ident'>s</span> <span class='op'>==</span> <span class='string'>&quot;\u{266b}&quot;</span>);
+        <span class='macro'>expect_event</span><span class='macro'>!</span>(<span class='ident'>r</span>, <span class='ident'>p</span>, <span class='prelude-val'>Ok</span>(<span class='ident'>XmlEvent</span>::<span class='ident'>EndElement</span> { <span class='kw-2'>ref</span> <span class='ident'>name</span>, .. }) <span class='op'>=&gt;</span> <span class='op'>*</span><span class='ident'>name</span> <span class='op'>==</span> <span class='ident'>OwnedName</span>::<span class='ident'>local</span>(<span class='string'>&quot;bla&quot;</span>));
         <span class='macro'>expect_event</span><span class='macro'>!</span>(<span class='ident'>r</span>, <span class='ident'>p</span>, <span class='prelude-val'>Ok</span>(<span class='ident'>XmlEvent</span>::<span class='ident'>EndDocument</span>));
     }
 

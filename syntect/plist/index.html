@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/plist/lib.rs.html#1-450' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../src/plist/lib.rs.html#1-217' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'>
 <h1 id='plist' class='section-header'><a href='#plist'>Plist</a></h1>
 <p>A rusty plist parser.</p>
@@ -56,7 +56,7 @@
 <p>Put this in your <code>Cargo.toml</code>:</p>
 
 <pre><code class="language-toml">[dependencies]
-plist = &quot;0.0.12&quot;
+plist = &quot;0.1&quot;
 </code></pre>
 
 <p>And put this in your crate root:</p>
@@ -75,13 +75,35 @@ plist = &quot;0.0.12&quot;
 <span class='kw'>match</span> <span class='ident'>plist</span> {
     <span class='ident'>Plist</span>::<span class='ident'>Array</span>(<span class='ident'>_array</span>) <span class='op'>=&gt;</span> (),
     _ <span class='op'>=&gt;</span> ()
+}</pre>
+
+<pre class='rust rust-example-rendered'>
+<span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>serde_derive</span>;
+
+<span class='kw'>use</span> <span class='ident'>plist</span>::<span class='ident'>serde</span>::<span class='ident'>deserialize</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>;
+
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Deserialize</span>)]</span>
+<span class='kw'>struct</span> <span class='ident'>Info</span> {
+    <span class='ident'>name</span>: <span class='ident'>String</span>,
+    <span class='ident'>x</span>: <span class='ident'>i32</span>
 }
-</pre>
+
+<span class='kw'>let</span> <span class='ident'>file</span> <span class='op'>=</span> <span class='ident'>File</span>::<span class='ident'>open</span>(<span class='string'>&quot;tests/data/xml.plist&quot;</span>).<span class='ident'>unwrap</span>();
+<span class='kw'>let</span> <span class='ident'>info</span>: <span class='ident'>Info</span> <span class='op'>=</span> <span class='ident'>deserialize</span>(<span class='ident'>file</span>).<span class='ident'>unwrap</span>();</pre>
 </div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
 <table>
                        <tr class=' module-item'>
                            <td><a class='mod' href='binary/index.html'
                                   title='plist::binary'>binary</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='mod' href='serde/index.html'
+                                  title='plist::serde'>serde</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
@@ -95,22 +117,8 @@ plist = &quot;0.0.12&quot;
                        </tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='struct' href='struct.Deserializer.html'
-                                  title='plist::Deserializer'>Deserializer</a></td>
-                           <td class='docblock-short'>
-                                
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
                            <td><a class='struct' href='struct.EventReader.html'
                                   title='plist::EventReader'>EventReader</a></td>
-                           <td class='docblock-short'>
-                                
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class='struct' href='struct.Serializer.html'
-                                  title='plist::Serializer'>Serializer</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
@@ -141,21 +149,6 @@ plist = &quot;0.0.12&quot;
                        <tr class=' module-item'>
                            <td><a class='trait' href='trait.EventWriter.html'
                                   title='plist::EventWriter'>EventWriter</a></td>
-                           <td class='docblock-short'>
-                                
-                           </td>
-                       </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
-<table>
-                       <tr class=' module-item'>
-                           <td><a class='fn' href='fn.deserialize.html'
-                                  title='plist::deserialize'>deserialize</a></td>
-                           <td class='docblock-short'>
-                                
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class='fn' href='fn.serialize_to_xml.html'
-                                  title='plist::serialize_to_xml'>serialize_to_xml</a></td>
                            <td class='docblock-short'>
                                 
                            </td>

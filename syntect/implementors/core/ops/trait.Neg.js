@@ -1,6 +1,5 @@
 (function() {var implementors = {};
 implementors["chrono"] = ["impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Neg.html' title='core::ops::Neg'>Neg</a> for <a class='struct' href='chrono/duration/struct.Duration.html' title='chrono::duration::Duration'>Duration</a>",];
-implementors["lazy_static"] = [];
 implementors["libc"] = [];
 implementors["num"] = [];
 implementors["onig"] = [];

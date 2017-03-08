@@ -1,6 +1,5 @@
 (function() {var implementors = {};
 implementors["chrono"] = [];
-implementors["lazy_static"] = [];
 implementors["libc"] = [];
 implementors["num"] = [];
 implementors["onig"] = [];

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/xml-rs-0.3.8/src/reader/config.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/xml-rs-0.3.6/src/reader/config.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>config.rs.html -- source</title>
@@ -161,41 +161,9 @@
 <span id="117">117</span>
 <span id="118">118</span>
 <span id="119">119</span>
-<span id="120">120</span>
-<span id="121">121</span>
-<span id="122">122</span>
-<span id="123">123</span>
-<span id="124">124</span>
-<span id="125">125</span>
-<span id="126">126</span>
-<span id="127">127</span>
-<span id="128">128</span>
-<span id="129">129</span>
-<span id="130">130</span>
-<span id="131">131</span>
-<span id="132">132</span>
-<span id="133">133</span>
-<span id="134">134</span>
-<span id="135">135</span>
-<span id="136">136</span>
-<span id="137">137</span>
-<span id="138">138</span>
-<span id="139">139</span>
-<span id="140">140</span>
-<span id="141">141</span>
-<span id="142">142</span>
-<span id="143">143</span>
-<span id="144">144</span>
-<span id="145">145</span>
-<span id="146">146</span>
-<span id="147">147</span>
-<span id="148">148</span>
-<span id="149">149</span>
-<span id="150">150</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Contains parser configuration structure.</span>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>Read</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
 
 <span class='kw'>use</span> <span class='ident'>reader</span>::<span class='ident'>EventReader</span>;
 
@@ -249,15 +217,7 @@
     <span class='doccomment'>/// Multiple sequential `Characters` events are only possible if either</span>
     <span class='doccomment'>/// `cdata_to_characters` or `ignore_comments` are set. Otherwise character</span>
     <span class='doccomment'>/// events will always be separated by other events.</span>
-    <span class='kw'>pub</span> <span class='ident'>coalesce_characters</span>: <span class='ident'>bool</span>,
-
-    <span class='doccomment'>/// A map of extra entities recognized by the parser. Default is an empty map.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// By default the XML parser recognizes the entities defined in the XML spec. Sometimes,</span>
-    <span class='doccomment'>/// however, it is convenient to make the parser recognize additional entities which</span>
-    <span class='doccomment'>/// are also not available through the DTD definitions (especially given that at the moment</span>
-    <span class='doccomment'>/// DTD parsing is not supported).</span>
-    <span class='kw'>pub</span> <span class='ident'>extra_entities</span>: <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>char</span><span class='op'>&gt;</span>
+    <span class='kw'>pub</span> <span class='ident'>coalesce_characters</span>: <span class='ident'>bool</span>
 }
 
 <span class='kw'>impl</span> <span class='ident'>ParserConfig</span> {
@@ -279,8 +239,7 @@
             <span class='ident'>whitespace_to_characters</span>: <span class='bool-val'>false</span>,
             <span class='ident'>cdata_to_characters</span>: <span class='bool-val'>false</span>,
             <span class='ident'>ignore_comments</span>: <span class='bool-val'>true</span>,
-            <span class='ident'>coalesce_characters</span>: <span class='bool-val'>true</span>,
-            <span class='ident'>extra_entities</span>: <span class='ident'>HashMap</span>::<span class='ident'>new</span>()
+            <span class='ident'>coalesce_characters</span>: <span class='bool-val'>true</span>
         }
     }
 
@@ -305,27 +264,6 @@
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>create_reader</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>Read</span><span class='op'>&gt;</span>(<span class='self'>self</span>, <span class='ident'>source</span>: <span class='ident'>R</span>) <span class='op'>-&gt;</span> <span class='ident'>EventReader</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> {
         <span class='ident'>EventReader</span>::<span class='ident'>new_with_config</span>(<span class='ident'>source</span>, <span class='self'>self</span>)
-    }
-
-    <span class='doccomment'>/// Adds a new entity mapping and returns an updated config object.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// This is a convenience method for adding external entities mappings to the XML parser.</span>
-    <span class='doccomment'>/// An example:</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ```rust</span>
-    <span class='doccomment'>/// use xml::reader::ParserConfig;</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// let mut source: &amp;[u8] = b&quot;...&quot;;</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// let reader = ParserConfig::new()</span>
-    <span class='doccomment'>///     .add_entity(&quot;nbsp&quot;, &#39; &#39;)</span>
-    <span class='doccomment'>///     .add_entity(&quot;copy&quot;, &#39;©&#39;)</span>
-    <span class='doccomment'>///     .add_entity(&quot;reg&quot;, &#39;®&#39;)</span>
-    <span class='doccomment'>///     .create_reader(&amp;mut source);</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>add_entity</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>Into</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>entity</span>: <span class='ident'>S</span>, <span class='ident'>value</span>: <span class='ident'>char</span>) <span class='op'>-&gt;</span> <span class='ident'>ParserConfig</span> {
-        <span class='self'>self</span>.<span class='ident'>extra_entities</span>.<span class='ident'>insert</span>(<span class='ident'>entity</span>.<span class='ident'>into</span>(), <span class='ident'>value</span>);
-        <span class='self'>self</span>
     }
 }
 

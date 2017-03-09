@@ -124,6 +124,8 @@
 <span id="80">80</span>
 <span id="81">81</span>
 <span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Welcome to the syntect docs.</span>
 <span class='doccomment'>//! These are still a work in progress but a lot of the important things have</span>
@@ -159,7 +161,9 @@
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>util</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>dumps</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>easy</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;html&quot;</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>html</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;html&quot;</span>)]</span>
 <span class='kw'>mod</span> <span class='ident'>escape</span>;
 
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>Error</span> <span class='kw'>as</span> <span class='ident'>IoError</span>;

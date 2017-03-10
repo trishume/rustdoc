@@ -169,6 +169,7 @@
 <span id="125">125</span>
 <span id="126">126</span>
 <span id="127">127</span>
+<span id="128">128</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Methods for dumping serializable structs to a compressed binary format</span>
 <span class='doccomment'>//! These are used to load and store the dumps used for fast startup times.</span>
@@ -276,9 +277,10 @@
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
 <span class='kw'>mod</span> <span class='ident'>tests</span> {
-    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='op'>*</span>;
+    <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;yaml-load&quot;</span>)]</span>
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
     <span class='kw'>fn</span> <span class='ident'>can_dump_and_load</span>() {
+        <span class='kw'>use</span> <span class='kw'>super</span>::<span class='op'>*</span>;
         <span class='kw'>use</span> <span class='ident'>parsing</span>::<span class='ident'>SyntaxSet</span>;
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ps</span> <span class='op'>=</span> <span class='ident'>SyntaxSet</span>::<span class='ident'>new</span>();
         <span class='ident'>ps</span>.<span class='ident'>load_syntaxes</span>(<span class='string'>&quot;testdata/Packages&quot;</span>, <span class='bool-val'>false</span>).<span class='ident'>unwrap</span>();

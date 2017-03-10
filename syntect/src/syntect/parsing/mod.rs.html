@@ -55,16 +55,20 @@
 <span id="11">11</span>
 <span id="12">12</span>
 <span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Everything about parsing text into text annotated with scopes.</span>
 <span class='doccomment'>//! The most important struct here is `SyntaxSet`, check out the docs for that.</span>
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>syntax_definition</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;yaml-load&quot;</span>)]</span>
 <span class='kw'>mod</span> <span class='ident'>yaml_load</span>;
 <span class='kw'>mod</span> <span class='ident'>syntax_set</span>;
 <span class='kw'>mod</span> <span class='ident'>scope</span>;
 <span class='kw'>mod</span> <span class='ident'>parser</span>;
 
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>syntax_definition</span>::<span class='ident'>SyntaxDefinition</span>;
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;yaml-load&quot;</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>yaml_load</span>::<span class='op'>*</span>;
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>syntax_set</span>::<span class='op'>*</span>;
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>scope</span>::<span class='op'>*</span>;

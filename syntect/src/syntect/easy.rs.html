@@ -9,6 +9,7 @@
 
     <title>easy.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -264,6 +265,35 @@
 <span id="220">220</span>
 <span id="221">221</span>
 <span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! API wrappers for common use cases like highlighting strings and</span>
 <span class='doccomment'>//! files without caring about intermediate semantic representation</span>
@@ -415,21 +445,27 @@
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='ident'>Iterator</span> <span class='kw'>for</span> <span class='ident'>ScopeRegionIterator</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
     <span class='kw'>type</span> <span class='ident'>Item</span> <span class='op'>=</span> (<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>, <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>ScopeStackOp</span>);
     <span class='kw'>fn</span> <span class='ident'>next</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>next_str_i</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>index</span> <span class='op'>&gt;=</span> <span class='self'>self</span>.<span class='ident'>ops</span>.<span class='ident'>len</span>() {
-            <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>last_str_index</span> <span class='op'>&gt;=</span> <span class='self'>self</span>.<span class='ident'>line</span>.<span class='ident'>len</span>() {
-                <span class='kw'>return</span> <span class='prelude-val'>None</span>;
-            }
+        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>index</span> <span class='op'>&gt;</span> <span class='self'>self</span>.<span class='ident'>ops</span>.<span class='ident'>len</span>() {
+            <span class='kw'>return</span> <span class='prelude-val'>None</span>;
+        }
+
+        <span class='comment'>// region extends up to next operation (ops[index]) or string end if there is none</span>
+        <span class='comment'>// note the next operation may be at, last_str_index, in which case the region is empty</span>
+        <span class='kw'>let</span> <span class='ident'>next_str_i</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>index</span> <span class='op'>==</span> <span class='self'>self</span>.<span class='ident'>ops</span>.<span class='ident'>len</span>() {
             <span class='self'>self</span>.<span class='ident'>line</span>.<span class='ident'>len</span>()
         } <span class='kw'>else</span> {
             <span class='self'>self</span>.<span class='ident'>ops</span>[<span class='self'>self</span>.<span class='ident'>index</span>].<span class='number'>0</span>
         };
         <span class='kw'>let</span> <span class='ident'>substr</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>line</span>[<span class='self'>self</span>.<span class='ident'>last_str_index</span>..<span class='ident'>next_str_i</span>];
         <span class='self'>self</span>.<span class='ident'>last_str_index</span> <span class='op'>=</span> <span class='ident'>next_str_i</span>;
+
+        <span class='comment'>// the first region covers everything before the first op, which may be empty</span>
         <span class='kw'>let</span> <span class='ident'>op</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>index</span> <span class='op'>==</span> <span class='number'>0</span> {
             <span class='kw-2'>&amp;</span><span class='ident'>NOOP_OP</span>
         } <span class='kw'>else</span> {
             <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>ops</span>[<span class='self'>self</span>.<span class='ident'>index</span><span class='op'>-</span><span class='number'>1</span>].<span class='number'>1</span>
         };
+
         <span class='self'>self</span>.<span class='ident'>index</span> <span class='op'>+=</span> <span class='number'>1</span>;
         <span class='prelude-val'>Some</span>((<span class='ident'>substr</span>, <span class='ident'>op</span>))
     }
@@ -438,11 +474,11 @@
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;assets&quot;</span>)]</span>
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
 <span class='kw'>mod</span> <span class='ident'>tests</span> {
-    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='op'>*</span>;
+    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='kw-2'>*</span>;
     <span class='kw'>use</span> <span class='ident'>parsing</span>::{<span class='ident'>SyntaxSet</span>, <span class='ident'>ParseState</span>, <span class='ident'>ScopeStack</span>};
     <span class='kw'>use</span> <span class='ident'>highlighting</span>::<span class='ident'>ThemeSet</span>;
     <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>;
-    
+
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
     <span class='kw'>fn</span> <span class='ident'>can_highlight_lines</span>() {
         <span class='kw'>let</span> <span class='ident'>ps</span> <span class='op'>=</span> <span class='ident'>SyntaxSet</span>::<span class='ident'>load_defaults_nonewlines</span>();
@@ -485,6 +521,29 @@
             <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{:?} {}&quot;</span>, <span class='ident'>s</span>, <span class='ident'>stack</span>);
         }
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>token_count</span>, <span class='number'>5</span>);
+    }
+
+    <span class='attribute'>#[<span class='ident'>test</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>can_find_regions_with_trailing_newline</span>() {
+        <span class='kw'>let</span> <span class='ident'>ss</span> <span class='op'>=</span> <span class='ident'>SyntaxSet</span>::<span class='ident'>load_defaults_newlines</span>();
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>state</span> <span class='op'>=</span> <span class='ident'>ParseState</span>::<span class='ident'>new</span>(<span class='ident'>ss</span>.<span class='ident'>find_syntax_by_extension</span>(<span class='string'>&quot;rb&quot;</span>).<span class='ident'>unwrap</span>());
+        <span class='kw'>let</span> <span class='ident'>lines</span> <span class='op'>=</span> [<span class='string'>&quot;# hello world\n&quot;</span>, <span class='string'>&quot;lol=5+2\n&quot;</span>];
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>stack</span> <span class='op'>=</span> <span class='ident'>ScopeStack</span>::<span class='ident'>new</span>();
+
+        <span class='kw'>for</span> <span class='ident'>line</span> <span class='kw'>in</span> <span class='ident'>lines</span>.<span class='ident'>iter</span>() {
+            <span class='kw'>let</span> <span class='ident'>ops</span> <span class='op'>=</span> <span class='ident'>state</span>.<span class='ident'>parse_line</span>(<span class='kw-2'>&amp;</span><span class='ident'>line</span>);
+            <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>ops</span>);
+
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>iterated_ops</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>ScopeStackOp</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
+            <span class='kw'>for</span> (_, <span class='ident'>op</span>) <span class='kw'>in</span> <span class='ident'>ScopeRegionIterator</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='ident'>ops</span>, <span class='kw-2'>&amp;</span><span class='ident'>line</span>) {
+                <span class='ident'>stack</span>.<span class='ident'>apply</span>(<span class='ident'>op</span>);
+                <span class='ident'>iterated_ops</span>.<span class='ident'>push</span>(<span class='kw-2'>&amp;</span><span class='ident'>op</span>);
+                <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>op</span>);
+            }
+
+            <span class='kw'>let</span> <span class='ident'>all_ops</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>ScopeStackOp</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>ops</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>t</span><span class='op'>|</span><span class='kw-2'>&amp;</span><span class='ident'>t</span>.<span class='number'>1</span>).<span class='ident'>collect</span>();
+            <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>all_ops</span>.<span class='ident'>len</span>(), <span class='ident'>iterated_ops</span>.<span class='ident'>len</span>() <span class='op'>-</span> <span class='number'>1</span>); <span class='comment'>// -1 because we want to ignore the NOOP</span>
+        }
     }
 }
 </pre>

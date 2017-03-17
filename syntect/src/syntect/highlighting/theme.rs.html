@@ -9,6 +9,7 @@
 
     <title>theme.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
     
@@ -472,11 +473,11 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>;
 
 <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>settings</span>::{<span class='ident'>ParseSettings</span>, <span class='ident'>Settings</span>};
-<span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>style</span>::<span class='op'>*</span>;
-<span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>selector</span>::<span class='op'>*</span>;
+<span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>style</span>::<span class='kw-2'>*</span>;
+<span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>selector</span>::<span class='kw-2'>*</span>;
 <span class='kw'>use</span> <span class='ident'>parsing</span>::<span class='ident'>ParseScopeError</span>;
 
-<span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>ParseThemeError</span>::<span class='op'>*</span>;
+<span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>ParseThemeError</span>::<span class='kw-2'>*</span>;
 
 <span class='doccomment'>/// A theme parsed from a `.tmTheme` file.</span>
 <span class='doccomment'>/// Contains fields useful for a theme list as well as `settings` for styling your editor.</span>

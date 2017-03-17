@@ -9,6 +9,7 @@
 
     <title>lib.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -1053,8 +1054,8 @@
 <span class='kw'>mod</span> <span class='ident'>constants</span>;
 <span class='kw'>mod</span> <span class='ident'>onigenc</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>constants</span>::<span class='op'>*</span>;
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>onigenc</span>::<span class='op'>*</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>constants</span>::<span class='kw-2'>*</span>;
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>onigenc</span>::<span class='kw-2'>*</span>;
 
 <span class='kw'>use</span> <span class='ident'>libc</span>::{<span class='ident'>c_int</span>, <span class='ident'>c_uint</span>, <span class='ident'>c_void</span>, <span class='ident'>c_char</span>, <span class='ident'>c_uchar</span>};
 
@@ -1068,20 +1069,20 @@
 <span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>OnigSyntaxOp2</span> <span class='op'>=</span> <span class='ident'>c_uint</span>;
 <span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>OnigSyntaxBehavior</span> <span class='op'>=</span> <span class='ident'>c_uint</span>;
 
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>OnigEncoding</span> <span class='op'>=</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigEncodingType</span>;
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>OnigRegex</span> <span class='op'>=</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigRegexType</span>;
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>OnigRegexMut</span> <span class='op'>=</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigRegexType</span>;
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>OnigEncoding</span> <span class='op'>=</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigEncodingType</span>;
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>OnigRegex</span> <span class='op'>=</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigRegexType</span>;
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>OnigRegexMut</span> <span class='op'>=</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigRegexType</span>;
 
 <span class='doccomment'>/// Warning Callback</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// `void (*func)(char* warning_message)`</span>
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>OnigWarnFunc</span> <span class='op'>=</span> <span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> <span class='kw'>fn</span>(<span class='op'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>);
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>OnigWarnFunc</span> <span class='op'>=</span> <span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> <span class='kw'>fn</span>(<span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>);
 
 <span class='doccomment'>/// Apply All Case Fold Callback, see OnigEncodingType-&gt;apply_all_case_fold</span>
 <span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>OnigApplyAllCaseFoldFunc</span> <span class='op'>=</span> <span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> <span class='kw'>fn</span>(<span class='ident'>from</span>: <span class='ident'>OnigCodePoint</span>,
-                                                  <span class='ident'>to</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigCodePoint</span>,
+                                                  <span class='ident'>to</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigCodePoint</span>,
                                                   <span class='ident'>to_len</span>: <span class='ident'>c_int</span>,
-                                                  <span class='ident'>arg</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>c_void</span>)
+                                                  <span class='ident'>arg</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_void</span>)
                                                   <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 
 
@@ -1090,12 +1091,12 @@
 <span class='doccomment'>/// This callback will be invoked for each name when calling</span>
 <span class='doccomment'>/// [`onig_foreach_name`](fn.onig_foreach_name.html). The</span>
 <span class='doccomment'>/// final argument to that function is passed back to this callback.</span>
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>OnigForeachNameCallback</span> <span class='op'>=</span> <span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> <span class='kw'>fn</span>(<span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-                                                 <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>OnigForeachNameCallback</span> <span class='op'>=</span> <span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> <span class='kw'>fn</span>(<span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+                                                 <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
                                                  <span class='ident'>c_int</span>,
-                                                 <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>c_int</span>,
+                                                 <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_int</span>,
                                                  <span class='ident'>OnigRegex</span>,
-                                                 <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_void</span>)
+                                                 <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_void</span>)
                                                  <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 
 <span class='doccomment'>/// Capture Tree Callback</span>
@@ -1113,22 +1114,22 @@
                                                          <span class='ident'>c_int</span>,
                                                          <span class='ident'>c_int</span>,
                                                          <span class='ident'>c_int</span>,
-                                                         <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_void</span>)
+                                                         <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_void</span>)
                                                          <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 
 <span class='doccomment'>/// ```c</span>
 <span class='doccomment'>/// int (*scan_callback)(int, int, OnigRegion*, void*)</span>
 <span class='doccomment'>/// ```</span>
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>OnigScanCallback</span> <span class='op'>=</span> <span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> <span class='kw'>fn</span> (<span class='ident'>c_int</span>, <span class='ident'>c_int</span>, <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigRegion</span>, <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_void</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>OnigScanCallback</span> <span class='op'>=</span> <span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> <span class='kw'>fn</span> (<span class='ident'>c_int</span>, <span class='ident'>c_int</span>, <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigRegion</span>, <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_void</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 
 <span class='attribute'>#[<span class='ident'>repr</span>(<span class='ident'>C</span>)]</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Eq</span>, <span class='ident'>PartialEq</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>OnigRegion</span> {
     <span class='kw'>pub</span> <span class='ident'>allocated</span>: <span class='ident'>c_int</span>,
     <span class='kw'>pub</span> <span class='ident'>num_regs</span>: <span class='ident'>c_int</span>,
-    <span class='kw'>pub</span> <span class='ident'>beg</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>c_int</span>,
-    <span class='kw'>pub</span> <span class='ident'>end</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>c_int</span>,
-    <span class='kw'>pub</span> <span class='ident'>history_root</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigCaptureTreeNode</span>,
+    <span class='kw'>pub</span> <span class='ident'>beg</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_int</span>,
+    <span class='kw'>pub</span> <span class='ident'>end</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_int</span>,
+    <span class='kw'>pub</span> <span class='ident'>history_root</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigCaptureTreeNode</span>,
 }
 
 <span class='attribute'>#[<span class='ident'>repr</span>(<span class='ident'>C</span>)]</span>
@@ -1139,7 +1140,7 @@
     <span class='kw'>pub</span> <span class='ident'>end</span>: <span class='ident'>c_int</span>,
     <span class='kw'>pub</span> <span class='ident'>allocated</span>: <span class='ident'>c_int</span>,
     <span class='kw'>pub</span> <span class='ident'>num_childs</span>: <span class='ident'>c_int</span>,
-    <span class='kw'>pub</span> <span class='ident'>childs</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigCaptureTreeNode</span>,
+    <span class='kw'>pub</span> <span class='ident'>childs</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigCaptureTreeNode</span>,
 }
 
 <span class='attribute'>#[<span class='ident'>repr</span>(<span class='ident'>C</span>)]</span>
@@ -1158,7 +1159,7 @@
     <span class='kw'>pub</span> <span class='ident'>num_of_elements</span>: <span class='ident'>c_int</span>,
     <span class='kw'>pub</span> <span class='ident'>pattern_enc</span>: <span class='ident'>OnigEncoding</span>,
     <span class='kw'>pub</span> <span class='ident'>target_enc</span>: <span class='ident'>OnigEncoding</span>,
-    <span class='kw'>pub</span> <span class='ident'>syntax</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigSyntaxType</span>,
+    <span class='kw'>pub</span> <span class='ident'>syntax</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigSyntaxType</span>,
     <span class='kw'>pub</span> <span class='ident'>option</span>: <span class='ident'>OnigOptionType</span>,
     <span class='kw'>pub</span> <span class='ident'>case_fold_flag</span>: <span class='ident'>OnigCaseFoldType</span>,
 }
@@ -1184,48 +1185,48 @@
 
 <span class='attribute'>#[<span class='ident'>repr</span>(<span class='ident'>C</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>OnigEncodingType</span> {
-    <span class='kw'>pub</span> <span class='ident'>mbc_enc_len</span>: <span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> <span class='kw'>fn</span>(<span class='ident'>p</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>,
-    <span class='kw'>pub</span> <span class='ident'>name</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>,
+    <span class='kw'>pub</span> <span class='ident'>mbc_enc_len</span>: <span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> <span class='kw'>fn</span>(<span class='ident'>p</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>,
+    <span class='kw'>pub</span> <span class='ident'>name</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>,
     <span class='kw'>pub</span> <span class='ident'>max_enc_len</span>: <span class='ident'>c_int</span>,
     <span class='kw'>pub</span> <span class='ident'>min_enc_len</span>: <span class='ident'>c_int</span>,
-    <span class='kw'>pub</span> <span class='ident'>is_mbc_newline</span>: <span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> <span class='kw'>fn</span>(<span class='ident'>p</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-                                      <span class='ident'>end</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>)
+    <span class='kw'>pub</span> <span class='ident'>is_mbc_newline</span>: <span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> <span class='kw'>fn</span>(<span class='ident'>p</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+                                      <span class='ident'>end</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>)
                                       <span class='op'>-&gt;</span> <span class='ident'>c_int</span>,
-    <span class='kw'>pub</span> <span class='ident'>mbc_to_code</span>: <span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> <span class='kw'>fn</span>(<span class='ident'>p</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-                                   <span class='ident'>end</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>)
+    <span class='kw'>pub</span> <span class='ident'>mbc_to_code</span>: <span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> <span class='kw'>fn</span>(<span class='ident'>p</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+                                   <span class='ident'>end</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>)
                                    <span class='op'>-&gt;</span> <span class='ident'>OnigCodePoint</span>,
     <span class='kw'>pub</span> <span class='ident'>code_to_mbclen</span>: <span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> <span class='kw'>fn</span>(<span class='ident'>code</span>: <span class='ident'>OnigCodePoint</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>,
     <span class='kw'>pub</span> <span class='ident'>code_to_mbc</span>: <span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> <span class='kw'>fn</span>(<span class='ident'>code</span>: <span class='ident'>OnigCodePoint</span>,
-                                   <span class='ident'>buf</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigUChar</span>)
+                                   <span class='ident'>buf</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigUChar</span>)
                                    <span class='op'>-&gt;</span> <span class='ident'>c_int</span>,
     <span class='kw'>pub</span> <span class='ident'>mbc_case_fold</span>: <span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> <span class='kw'>fn</span>(<span class='ident'>flag</span>: <span class='ident'>OnigCaseFoldType</span>,
-                                     <span class='ident'>pp</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-                                     <span class='ident'>end</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-                                     <span class='ident'>to</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>)
+                                     <span class='ident'>pp</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+                                     <span class='ident'>end</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+                                     <span class='ident'>to</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>)
                                      <span class='op'>-&gt;</span> <span class='ident'>c_int</span>,
     <span class='kw'>pub</span> <span class='ident'>apply_all_case_fold</span>: <span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> <span class='kw'>fn</span>(<span class='ident'>flag</span>: <span class='ident'>OnigCaseFoldType</span>,
                                            <span class='ident'>f</span>: <span class='ident'>OnigApplyAllCaseFoldFunc</span>,
-                                           <span class='ident'>arg</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>c_void</span>)
+                                           <span class='ident'>arg</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_void</span>)
                                            <span class='op'>-&gt;</span> <span class='ident'>c_int</span>,
     <span class='kw'>pub</span> <span class='ident'>get_case_fold_codes_by_str</span>: <span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> <span class='kw'>fn</span>(<span class='ident'>flag</span>: <span class='ident'>OnigCaseFoldType</span>,
-                                                  <span class='ident'>p</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-                                                  <span class='ident'>end</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span> <span class='comment'>/* ... */</span>)
+                                                  <span class='ident'>p</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+                                                  <span class='ident'>end</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span> <span class='comment'>/* ... */</span>)
                                                   <span class='op'>-&gt;</span> <span class='ident'>c_int</span>,
     <span class='kw'>pub</span> <span class='ident'>property_name_to_ctype</span>: <span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> <span class='kw'>fn</span>(<span class='ident'>enc</span>: <span class='ident'>OnigEncoding</span>,
-                                              <span class='ident'>p</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-                                              <span class='ident'>end</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>)
+                                              <span class='ident'>p</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+                                              <span class='ident'>end</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>)
                                               <span class='op'>-&gt;</span> <span class='ident'>c_int</span>,
     <span class='kw'>pub</span> <span class='ident'>is_code_ctype</span>: <span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> <span class='kw'>fn</span>(<span class='ident'>code</span>: <span class='ident'>OnigCodePoint</span>,
                                      <span class='ident'>ctype</span>: <span class='ident'>OnigCtype</span>)
                                      <span class='op'>-&gt;</span> <span class='ident'>c_int</span>,
     <span class='kw'>pub</span> <span class='ident'>get_ctype_code_range</span>: <span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> <span class='kw'>fn</span>(<span class='ident'>ctype</span>: <span class='ident'>OnigCtype</span>,
-                                            <span class='ident'>sb_out</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigCodePoint</span> <span class='comment'>/* ... */</span>)
+                                            <span class='ident'>sb_out</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigCodePoint</span> <span class='comment'>/* ... */</span>)
                                             <span class='op'>-&gt;</span> <span class='ident'>c_int</span>,
-    <span class='kw'>pub</span> <span class='ident'>left_adjust_char_head</span>: <span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> <span class='kw'>fn</span>(<span class='ident'>start</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-                                             <span class='ident'>p</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>)
-                                             <span class='op'>-&gt;</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-    <span class='kw'>pub</span> <span class='ident'>is_allowed_reverse_match</span>: <span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> <span class='kw'>fn</span>(<span class='ident'>p</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-                                                <span class='ident'>end</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>)
+    <span class='kw'>pub</span> <span class='ident'>left_adjust_char_head</span>: <span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> <span class='kw'>fn</span>(<span class='ident'>start</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+                                             <span class='ident'>p</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>)
+                                             <span class='op'>-&gt;</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+    <span class='kw'>pub</span> <span class='ident'>is_allowed_reverse_match</span>: <span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> <span class='kw'>fn</span>(<span class='ident'>p</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+                                                <span class='ident'>end</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>)
                                                 <span class='op'>-&gt;</span> <span class='ident'>c_int</span>,
     <span class='kw'>pub</span> <span class='ident'>init</span>: <span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> <span class='kw'>fn</span>() <span class='op'>-&gt;</span> <span class='ident'>c_int</span>,
     <span class='kw'>pub</span> <span class='ident'>is_initialised</span>: <span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> <span class='kw'>fn</span>() <span class='op'>-&gt;</span> <span class='ident'>c_int</span>,
@@ -1235,8 +1236,8 @@
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>OnigErrorInfo</span> {
     <span class='kw'>pub</span> <span class='ident'>enc</span>: <span class='ident'>OnigEncoding</span>,
-    <span class='kw'>pub</span> <span class='ident'>par</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-    <span class='kw'>pub</span> <span class='ident'>par_end</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+    <span class='kw'>pub</span> <span class='ident'>par</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+    <span class='kw'>pub</span> <span class='ident'>par_end</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
 }
 
 <span class='attribute'>#[<span class='ident'>repr</span>(<span class='ident'>C</span>)]</span>
@@ -1249,7 +1250,7 @@
 <span class='attribute'>#[<span class='ident'>repr</span>(<span class='ident'>C</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>OnigRegexType</span> {
     <span class='comment'>// common members of BBuf(bytes-buffer)</span>
-    <span class='kw'>pub</span> <span class='ident'>p</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>, <span class='comment'>// compiled pattern</span>
+    <span class='kw'>pub</span> <span class='ident'>p</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>, <span class='comment'>// compiled pattern</span>
     <span class='kw'>pub</span> <span class='ident'>used</span>: <span class='ident'>c_uint</span>, <span class='comment'>// used space for p</span>
     <span class='kw'>pub</span> <span class='ident'>alloc</span>: <span class='ident'>c_uint</span>, <span class='comment'>// allocated space for p</span>
 
@@ -1263,13 +1264,13 @@
     <span class='kw'>pub</span> <span class='ident'>bt_mem_end</span>: <span class='ident'>c_uint</span>, <span class='comment'>// need backtrack flag</span>
     <span class='kw'>pub</span> <span class='ident'>stack_pop_level</span>: <span class='ident'>c_int</span>,
     <span class='kw'>pub</span> <span class='ident'>repeat_range_alloc</span>: <span class='ident'>c_int</span>,
-    <span class='kw'>pub</span> <span class='ident'>repeat_range</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigRepeatRange</span>,
+    <span class='kw'>pub</span> <span class='ident'>repeat_range</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigRepeatRange</span>,
 
     <span class='kw'>pub</span> <span class='ident'>enc</span>: <span class='ident'>OnigEncoding</span>,
     <span class='kw'>pub</span> <span class='ident'>options</span>: <span class='ident'>OnigOptionType</span>,
-    <span class='kw'>pub</span> <span class='ident'>syntax</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigSyntaxType</span>,
+    <span class='kw'>pub</span> <span class='ident'>syntax</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigSyntaxType</span>,
     <span class='kw'>pub</span> <span class='ident'>case_fold_flag</span>: <span class='ident'>OnigCaseFoldType</span>,
-    <span class='kw'>pub</span> <span class='ident'>name_table</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>c_void</span>,
+    <span class='kw'>pub</span> <span class='ident'>name_table</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_void</span>,
 
     <span class='comment'>// optimization info (string search, char-map and anchors)</span>
     <span class='kw'>pub</span> <span class='ident'>optimize</span>: <span class='ident'>c_int</span>, <span class='comment'>// optimize flag</span>
@@ -1278,15 +1279,15 @@
     <span class='kw'>pub</span> <span class='ident'>anchor_dmin</span>: <span class='ident'>OnigDistance</span>, <span class='comment'>// (SEMI_)END_BUF anchor distance</span>
     <span class='kw'>pub</span> <span class='ident'>anchor_dmax</span>: <span class='ident'>OnigDistance</span>, <span class='comment'>// (SEMI_)END_BUF anchor distance</span>
     <span class='kw'>pub</span> <span class='ident'>sub_anchor</span>: <span class='ident'>c_int</span>, <span class='comment'>// start-anchor for exact or map</span>
-    <span class='kw'>pub</span> <span class='ident'>exact</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-    <span class='kw'>pub</span> <span class='ident'>exact_end</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+    <span class='kw'>pub</span> <span class='ident'>exact</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+    <span class='kw'>pub</span> <span class='ident'>exact_end</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
     <span class='kw'>pub</span> <span class='ident'>map</span>: [<span class='ident'>OnigUChar</span>; <span class='ident'>ONIG_CHAR_TABLE_SIZE</span> <span class='kw'>as</span> <span class='ident'>usize</span>], <span class='comment'>// used as BM skip or char-map</span>
-    <span class='kw'>pub</span> <span class='ident'>int_map</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>c_int</span>, <span class='comment'>// BM skip for exact_len &gt; 255</span>
-    <span class='kw'>pub</span> <span class='ident'>int_map_backward</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>c_int</span>, <span class='comment'>// BM skip for backward search</span>
+    <span class='kw'>pub</span> <span class='ident'>int_map</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_int</span>, <span class='comment'>// BM skip for exact_len &gt; 255</span>
+    <span class='kw'>pub</span> <span class='ident'>int_map_backward</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_int</span>, <span class='comment'>// BM skip for backward search</span>
     <span class='kw'>pub</span> <span class='ident'>dmin</span>: <span class='ident'>OnigDistance</span>, <span class='comment'>// min-distance of exact or map</span>
     <span class='kw'>pub</span> <span class='ident'>dmax</span>: <span class='ident'>OnigDistance</span>, <span class='comment'>// max-distance of exact or map</span>
 
-    <span class='kw'>pub</span> <span class='ident'>chain</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigRegexType</span>,
+    <span class='kw'>pub</span> <span class='ident'>chain</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigRegexType</span>,
 }
 
 <span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> {
@@ -1333,14 +1334,14 @@
     <span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>OnigSyntaxPerl_NG</span>: <span class='ident'>OnigSyntaxType</span>;
     <span class='kw'>pub</span> <span class='kw'>static</span> <span class='ident'>OnigSyntaxRuby</span>: <span class='ident'>OnigSyntaxType</span>;
 
-    <span class='kw'>pub</span> <span class='kw'>static</span> <span class='kw-2'>mut</span> <span class='ident'>OnigDefaultSyntax</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigSyntaxType</span>;
+    <span class='kw'>pub</span> <span class='kw'>static</span> <span class='kw-2'>mut</span> <span class='ident'>OnigDefaultSyntax</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigSyntaxType</span>;
 
     <span class='comment'>// Oniguruma API  Version 5.9.2  2008/02/19</span>
 
     <span class='doccomment'>/// Initialise Library</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// This is the replacement for `onig_init`.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_initialize</span>(<span class='ident'>encodings</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigEncoding</span>, <span class='ident'>n</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_initialize</span>(<span class='ident'>encodings</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigEncoding</span>, <span class='ident'>n</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 
     <span class='doccomment'>///   Initialize library.</span>
     <span class='doccomment'>///</span>
@@ -1363,7 +1364,7 @@
     <span class='doccomment'>///                           (required size: ONIG_MAX_ERROR_MESSAGE_LEN)</span>
     <span class='doccomment'>///   2. err_code:             error code returned by other API functions.</span>
     <span class='doccomment'>///   3. err_info (optional):  error info returned by onig_new().</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_error_code_to_str</span>(<span class='ident'>err_buff</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigUChar</span>, <span class='ident'>err_code</span>: <span class='ident'>c_int</span>, ...) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_error_code_to_str</span>(<span class='ident'>err_buff</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigUChar</span>, <span class='ident'>err_code</span>: <span class='ident'>c_int</span>, ...) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 
     <span class='doccomment'>///   Set warning function.</span>
     <span class='doccomment'>///</span>
@@ -1481,13 +1482,13 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>///      Use this value as 3rd argument of onig_error_code_to_str().</span>
     <span class='doccomment'>///</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_new</span>(<span class='ident'>reg</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigRegexMut</span>,
-                    <span class='ident'>pattern</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-                    <span class='ident'>pattern_end</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_new</span>(<span class='ident'>reg</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigRegexMut</span>,
+                    <span class='ident'>pattern</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+                    <span class='ident'>pattern_end</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
                     <span class='ident'>option</span>: <span class='ident'>OnigOptionType</span>,
                     <span class='ident'>enc</span>: <span class='ident'>OnigEncoding</span>,
-                    <span class='ident'>syntax</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigSyntaxType</span>,
-                    <span class='ident'>err_info</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigErrorInfo</span>)
+                    <span class='ident'>syntax</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigSyntaxType</span>,
+                    <span class='ident'>err_info</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigErrorInfo</span>)
                     <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 
     <span class='doccomment'>/// Onig Reg Init</span>
@@ -1503,7 +1504,7 @@
                          <span class='ident'>option</span>: <span class='ident'>OnigOptionType</span>,
                          <span class='ident'>case_fold_flag</span>: <span class='ident'>OnigCaseFoldType</span>,
                          <span class='ident'>enc</span>: <span class='ident'>OnigEncoding</span>,
-                         <span class='ident'>syntax</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigSyntaxType</span>)
+                         <span class='ident'>syntax</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigSyntaxType</span>)
                          <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 
     <span class='doccomment'>///   Create a regex object.</span>
@@ -1516,12 +1517,12 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>///   normal return: ONIG_NORMAL</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_new_without_alloc</span>(<span class='ident'>reg</span>: <span class='ident'>OnigRegexMut</span>,
-                                  <span class='ident'>pattern</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-                                  <span class='ident'>pattern_end</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+                                  <span class='ident'>pattern</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+                                  <span class='ident'>pattern_end</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
                                   <span class='ident'>option</span>: <span class='ident'>OnigOptionType</span>,
                                   <span class='ident'>enc</span>: <span class='ident'>OnigEncoding</span>,
-                                  <span class='ident'>syntax</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigSyntaxType</span>,
-                                  <span class='ident'>err_info</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigErrorInfo</span>)
+                                  <span class='ident'>syntax</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigSyntaxType</span>,
+                                  <span class='ident'>err_info</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigErrorInfo</span>)
                                   <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 
     <span class='doccomment'>///   Create a regex object.</span>
@@ -1564,11 +1565,11 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>///     pattern_enc: UTF32_BE/LE</span>
     <span class='doccomment'>///     target_enc:  UTF32_LE/BE</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_new_deluxe</span>(<span class='ident'>reg</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigRegexMut</span>,
-                           <span class='ident'>pattern</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-                           <span class='ident'>pattern_end</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-                           <span class='ident'>ci</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigCompileInfo</span>,
-                           <span class='ident'>einfo</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigErrorInfo</span>)
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_new_deluxe</span>(<span class='ident'>reg</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigRegexMut</span>,
+                           <span class='ident'>pattern</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+                           <span class='ident'>pattern_end</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+                           <span class='ident'>ci</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigCompileInfo</span>,
+                           <span class='ident'>einfo</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigErrorInfo</span>)
                            <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 
     <span class='doccomment'>///   Free memory used by regex object.</span>
@@ -1614,11 +1615,11 @@
     <span class='doccomment'>///    * ONIG_OPTION_NOTEOL        string end (end) isn&#39;t considered as end of line</span>
     <span class='doccomment'>///    * ONIG_OPTION_POSIX_REGION  region argument is regmatch_t[] of POSIX API.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_search</span>(<span class='ident'>reg</span>: <span class='ident'>OnigRegex</span>,
-                       <span class='ident'>str</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-                       <span class='ident'>end</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-                       <span class='ident'>start</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-                       <span class='ident'>range</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-                       <span class='ident'>region</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigRegion</span>,
+                       <span class='ident'>str</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+                       <span class='ident'>end</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+                       <span class='ident'>start</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+                       <span class='ident'>range</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+                       <span class='ident'>region</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigRegion</span>,
                        <span class='ident'>option</span>: <span class='ident'>OnigOptionType</span>)
                        <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 
@@ -1645,10 +1646,10 @@
     <span class='doccomment'>///    * ONIG_OPTION_NOTEOL       string end (end) isn&#39;t considered as end of line</span>
     <span class='doccomment'>///    * ONIG_OPTION_POSIX_REGION region argument is regmatch_t[] type of POSIX API.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_match</span>(<span class='ident'>reg</span>: <span class='ident'>OnigRegex</span>,
-                      <span class='ident'>str</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-                      <span class='ident'>end</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-                      <span class='ident'>at</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-                      <span class='ident'>region</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigRegion</span>,
+                      <span class='ident'>str</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+                      <span class='ident'>end</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+                      <span class='ident'>at</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+                      <span class='ident'>region</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigRegion</span>,
                       <span class='ident'>option</span>: <span class='ident'>OnigOptionType</span>)
                       <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 
@@ -1667,17 +1668,17 @@
     <span class='doccomment'>///   6 scan_callback: callback function (defined by user)</span>
     <span class='doccomment'>///   7 callback_arg:  optional argument passed to callback</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_scan</span>(<span class='ident'>reg</span>: <span class='ident'>OnigRegex</span>,
-                     <span class='ident'>str</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-                     <span class='ident'>end</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-                     <span class='ident'>region</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigRegion</span>,
+                     <span class='ident'>str</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+                     <span class='ident'>end</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+                     <span class='ident'>region</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigRegion</span>,
                      <span class='ident'>options</span>: <span class='ident'>OnigOptionType</span>,
                      <span class='ident'>scan_callback</span>: <span class='ident'>OnigScanCallback</span>,
-                     <span class='ident'>callback_arg</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_void</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+                     <span class='ident'>callback_arg</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>c_void</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 
     <span class='doccomment'>///   Create a region.</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>///   `OnigRegion* onig_region_new(void)`</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_region_new</span>() <span class='op'>-&gt;</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigRegion</span>;
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_region_new</span>() <span class='op'>-&gt;</span> <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigRegion</span>;
 
     <span class='doccomment'>///   Free memory used by region.</span>
     <span class='doccomment'>///</span>
@@ -1689,7 +1690,7 @@
     <span class='doccomment'>///   2. `free_self`: [1: free all, 0: free memory used in region</span>
     <span class='doccomment'>///   but not self]</span>
     <span class='doccomment'>///</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_region_free</span>(<span class='ident'>region</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigRegion</span>, <span class='ident'>free_self</span>: <span class='ident'>c_int</span>);
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_region_free</span>(<span class='ident'>region</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigRegion</span>, <span class='ident'>free_self</span>: <span class='ident'>c_int</span>);
 
     <span class='doccomment'>///   Copy contents of region.</span>
     <span class='doccomment'>///</span>
@@ -1699,7 +1700,7 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>///   1. `to`:   target region</span>
     <span class='doccomment'>///   2. `from`: source region</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_region_copy</span>(<span class='ident'>to</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigRegion</span>, <span class='ident'>from</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigRegion</span>);
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_region_copy</span>(<span class='ident'>to</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigRegion</span>, <span class='ident'>from</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigRegion</span>);
 
     <span class='doccomment'>///   Clear contents of region.</span>
     <span class='doccomment'>///</span>
@@ -1708,7 +1709,7 @@
     <span class='doccomment'>/// # Arguments</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>///   1. `region`: target region</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_region_clear</span>(<span class='ident'>region</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigRegion</span>);
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_region_clear</span>(<span class='ident'>region</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigRegion</span>);
 
     <span class='doccomment'>///   Resize group range area of region.</span>
     <span class='doccomment'>///</span>
@@ -1722,7 +1723,7 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>///   1. `region`: target region</span>
     <span class='doccomment'>///   2. `n`:      new size</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_region_resize</span>(<span class='ident'>region</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigRegion</span>, <span class='ident'>n</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_region_resize</span>(<span class='ident'>region</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigRegion</span>, <span class='ident'>n</span>: <span class='ident'>c_int</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 
     <span class='doccomment'>///   Return the group number list of the name.</span>
     <span class='doccomment'>///   Named subexp is defined by (?&lt;name&gt;....).</span>
@@ -1740,9 +1741,9 @@
     <span class='doccomment'>///   3 name_end:  terminate address of group name.</span>
     <span class='doccomment'>///   4 num_list:  return list of group number.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_name_to_group_numbers</span>(<span class='ident'>reg</span>: <span class='ident'>OnigRegex</span>,
-                                      <span class='ident'>name</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-                                      <span class='ident'>name_end</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-                                      <span class='ident'>num_list</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>c_int</span>)
+                                      <span class='ident'>name</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+                                      <span class='ident'>name_end</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+                                      <span class='ident'>num_list</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_int</span>)
                                       <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 
     <span class='doccomment'>///   Return the group number corresponding to the named backref (\k&lt;name&gt;).</span>
@@ -1760,9 +1761,9 @@
     <span class='doccomment'>///   3 name_end: terminate address of group name.</span>
     <span class='doccomment'>///   4 region:   search/match result region.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_name_to_backref_number</span>(<span class='ident'>reg</span>: <span class='ident'>OnigRegex</span>,
-                                       <span class='ident'>name</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-                                       <span class='ident'>name_end</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-                                       <span class='ident'>region</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigRegion</span>)
+                                       <span class='ident'>name</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+                                       <span class='ident'>name_end</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
+                                       <span class='ident'>region</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigRegion</span>)
                                        <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 
     <span class='doccomment'>///   Iterate function call for all names.</span>
@@ -1790,7 +1791,7 @@
     <span class='doccomment'>///   3. arg:     argument for func.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_foreach_name</span>(<span class='ident'>reg</span>: <span class='ident'>OnigRegex</span>,
                              <span class='ident'>func</span>: <span class='ident'>OnigForeachNameCallback</span>,
-                             <span class='ident'>arg</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>c_void</span>)
+                             <span class='ident'>arg</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_void</span>)
                              <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 
     <span class='doccomment'>///   Return the number of names defined in the pattern.</span>
@@ -1813,7 +1814,7 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_get_case_fold_flag</span>(<span class='ident'>reg</span>: <span class='ident'>OnigRegex</span>) <span class='op'>-&gt;</span> <span class='ident'>OnigCaseFoldType</span>;
 
     <span class='doccomment'>/// `OnigSyntaxType*  onig_get_syntax(regex_t* reg)`</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_get_syntax</span>(<span class='ident'>reg</span>: <span class='ident'>OnigRegex</span>) <span class='op'>-&gt;</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigSyntaxType</span>;
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_get_syntax</span>(<span class='ident'>reg</span>: <span class='ident'>OnigRegex</span>) <span class='op'>-&gt;</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigSyntaxType</span>;
 
     <span class='doccomment'>///   Return the number of capture group in the pattern.</span>
     <span class='doccomment'>///</span>
@@ -1845,7 +1846,7 @@
     <span class='doccomment'>/// # Arguments</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>///   1. `region`: matching result.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_get_capture_tree</span>(<span class='ident'>region</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigRegion</span>) <span class='op'>-&gt;</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigCaptureTreeNode</span>;
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_get_capture_tree</span>(<span class='ident'>region</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigRegion</span>) <span class='op'>-&gt;</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigCaptureTreeNode</span>;
 
     <span class='doccomment'>///  Traverse and callback in capture history data tree.</span>
     <span class='doccomment'>///</span>
@@ -1885,7 +1886,7 @@
     <span class='doccomment'>///      *  arg:   optional callback argument</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>///   4. arg;     optional callback argument.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_capture_tree_traverse</span>(<span class='ident'>region</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigRegion</span>,
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_capture_tree_traverse</span>(<span class='ident'>region</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigRegion</span>,
                                       <span class='ident'>at</span>: <span class='ident'>c_int</span>,
                                       <span class='ident'>func</span>: <span class='ident'>OnigCaptureTreeTraverseCallback</span>,
                                       <span class='ident'>arg</span>: <span class='ident'>c_void</span>)
@@ -1920,7 +1921,7 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>///   arguments</span>
     <span class='doccomment'>///   1 syntax: address of pattern syntax definition.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_set_default_syntax</span>(<span class='ident'>syntax</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigSyntaxType</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_set_default_syntax</span>(<span class='ident'>syntax</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigSyntaxType</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 
     <span class='doccomment'>///   Copy syntax.</span>
     <span class='doccomment'>///</span>
@@ -1930,31 +1931,31 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>///   1. `to`:   destination address.</span>
     <span class='doccomment'>///   2. `from`: source address.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_copy_syntax</span>(<span class='ident'>to</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigSyntaxType</span>, <span class='ident'>from</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigSyntaxType</span>);
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_copy_syntax</span>(<span class='ident'>to</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigSyntaxType</span>, <span class='ident'>from</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigSyntaxType</span>);
 
     <span class='doccomment'>/// `unsigned int onig_get_syntax_op(OnigSyntaxType* syntax)`</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_get_syntax_op</span>(<span class='ident'>syntax</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigSyntaxType</span>) <span class='op'>-&gt;</span> <span class='ident'>OnigSyntaxOp</span>;
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_get_syntax_op</span>(<span class='ident'>syntax</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigSyntaxType</span>) <span class='op'>-&gt;</span> <span class='ident'>OnigSyntaxOp</span>;
 
     <span class='doccomment'>/// `unsigned int onig_get_syntax_op2(OnigSyntaxType* syntax)`</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_get_syntax_op2</span>(<span class='ident'>syntax</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigSyntaxType</span>) <span class='op'>-&gt;</span> <span class='ident'>OnigSyntaxOp2</span>;
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_get_syntax_op2</span>(<span class='ident'>syntax</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigSyntaxType</span>) <span class='op'>-&gt;</span> <span class='ident'>OnigSyntaxOp2</span>;
 
     <span class='doccomment'>/// `unsigned int onig_get_syntax_behavior(OnigSyntaxType* syntax)`</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_get_syntax_behavior</span>(<span class='ident'>syntax</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigSyntaxType</span>) <span class='op'>-&gt;</span> <span class='ident'>OnigSyntaxBehavior</span>;
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_get_syntax_behavior</span>(<span class='ident'>syntax</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigSyntaxType</span>) <span class='op'>-&gt;</span> <span class='ident'>OnigSyntaxBehavior</span>;
 
     <span class='doccomment'>/// `OnigOptionType onig_get_syntax_options(OnigSyntaxType* syntax)`</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_get_syntax_options</span>(<span class='ident'>syntax</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigSyntaxType</span>) <span class='op'>-&gt;</span> <span class='ident'>OnigOptionType</span>;
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_get_syntax_options</span>(<span class='ident'>syntax</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigSyntaxType</span>) <span class='op'>-&gt;</span> <span class='ident'>OnigOptionType</span>;
 
     <span class='doccomment'>/// `void onig_set_syntax_op(OnigSyntaxType* syntax, unsigned int op)`</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_set_syntax_op</span>(<span class='ident'>syntax</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigSyntaxType</span>, <span class='ident'>op</span>: <span class='ident'>OnigSyntaxOp</span>);
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_set_syntax_op</span>(<span class='ident'>syntax</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigSyntaxType</span>, <span class='ident'>op</span>: <span class='ident'>OnigSyntaxOp</span>);
 
     <span class='doccomment'>/// `void onig_set_syntax_op2(OnigSyntaxType* syntax, unsigned int op2)`</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_set_syntax_op2</span>(<span class='ident'>syntax</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigSyntaxType</span>, <span class='ident'>op2</span>: <span class='ident'>OnigSyntaxOp2</span>);
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_set_syntax_op2</span>(<span class='ident'>syntax</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigSyntaxType</span>, <span class='ident'>op2</span>: <span class='ident'>OnigSyntaxOp2</span>);
 
     <span class='doccomment'>/// `void onig_set_syntax_behavior(OnigSyntaxType* syntax, unsigned int behavior)`</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_set_syntax_behavior</span>(<span class='ident'>syntax</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigSyntaxType</span>, <span class='ident'>behavior</span>: <span class='ident'>OnigSyntaxBehavior</span>);
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_set_syntax_behavior</span>(<span class='ident'>syntax</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigSyntaxType</span>, <span class='ident'>behavior</span>: <span class='ident'>OnigSyntaxBehavior</span>);
 
     <span class='doccomment'>/// `void onig_set_syntax_options(OnigSyntaxType* syntax, OnigOptionType options)`</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_set_syntax_options</span>(<span class='ident'>syntax</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigSyntaxType</span>, <span class='ident'>options</span>: <span class='ident'>OnigOptionType</span>);
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_set_syntax_options</span>(<span class='ident'>syntax</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigSyntaxType</span>, <span class='ident'>options</span>: <span class='ident'>OnigOptionType</span>);
 
     <span class='doccomment'>///   Copy encoding.</span>
     <span class='doccomment'>///</span>
@@ -1963,7 +1964,7 @@
     <span class='doccomment'>///   arguments</span>
     <span class='doccomment'>///   1 to:   destination address.</span>
     <span class='doccomment'>///   2 from: source address.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_copy_encoding</span>(<span class='ident'>to</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigEncodingType</span>, <span class='ident'>from</span>: <span class='ident'>OnigEncoding</span>);
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_copy_encoding</span>(<span class='ident'>to</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigEncodingType</span>, <span class='ident'>from</span>: <span class='ident'>OnigEncoding</span>);
 
     <span class='doccomment'>///   Set a variable meta character to the code point value.</span>
     <span class='doccomment'>///   Except for an escape character, this meta characters specification</span>
@@ -1989,7 +1990,7 @@
     <span class='doccomment'>///   ```</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>///   3 code: meta character or `ONIG_INEFFECTIVE_META_CHAR`.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_set_meta_char</span>(<span class='ident'>syntax</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigSyntaxType</span>,
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_set_meta_char</span>(<span class='ident'>syntax</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='ident'>OnigSyntaxType</span>,
                               <span class='ident'>what</span>: <span class='ident'>c_uint</span>,
                               <span class='ident'>code</span>: <span class='ident'>OnigCodePoint</span>)
                               <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
@@ -2026,8 +2027,8 @@
     <span class='doccomment'>/// int onig_unicode_define_user_property(const char* name,</span>
     <span class='doccomment'>///                                       OnigCodePoint* ranges);</span>
     <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_unicode_define_user_property</span>(<span class='ident'>name</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>,
-                                             <span class='ident'>ranges</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>OnigCodePoint</span>)
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_unicode_define_user_property</span>(<span class='ident'>name</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>,
+                                             <span class='ident'>ranges</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigCodePoint</span>)
                                              <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 
     <span class='doccomment'>///   The use of this library is finished.</span>
@@ -2043,14 +2044,14 @@
     <span class='doccomment'>///   Return version string.  (ex. &quot;5.0.3&quot;)</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>///   `const char* onig_version(void)`</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_version</span>() <span class='op'>-&gt;</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>;
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_version</span>() <span class='op'>-&gt;</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>;
 
     <span class='doccomment'>/// Return Copyright String</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// ```c</span>
     <span class='doccomment'>/// const char* onig_copyright(void);</span>
     <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_copyright</span>() <span class='op'>-&gt;</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>;
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_copyright</span>() <span class='op'>-&gt;</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>c_char</span>;
     
 }
 </pre>

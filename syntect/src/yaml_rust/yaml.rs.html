@@ -9,6 +9,7 @@
 
     <title>yaml.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -640,7 +641,7 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>mem</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>vec</span>;
-<span class='kw'>use</span> <span class='ident'>parser</span>::<span class='op'>*</span>;
+<span class='kw'>use</span> <span class='ident'>parser</span>::<span class='kw-2'>*</span>;
 <span class='kw'>use</span> <span class='ident'>scanner</span>::{<span class='ident'>TScalarStyle</span>, <span class='ident'>ScanError</span>, <span class='ident'>TokenType</span>, <span class='ident'>Marker</span>};
 
 <span class='doccomment'>/// A YAML node is stored as this `Yaml` enumeration, which provides an easy way to</span>
@@ -712,7 +713,7 @@
 <span class='kw'>impl</span> <span class='ident'>MarkedEventReceiver</span> <span class='kw'>for</span> <span class='ident'>YamlLoader</span> {
     <span class='kw'>fn</span> <span class='ident'>on_event</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>ev</span>: <span class='kw-2'>&amp;</span><span class='ident'>Event</span>, _: <span class='ident'>Marker</span>) {
         <span class='comment'>// println!(&quot;EV {:?}&quot;, ev);</span>
-        <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>ev</span> {
+        <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>ev</span> {
             <span class='ident'>Event</span>::<span class='ident'>DocumentStart</span> <span class='op'>=&gt;</span> {
                 <span class='comment'>// do nothing</span>
             },
@@ -743,7 +744,7 @@
             <span class='ident'>Event</span>::<span class='ident'>Scalar</span>(<span class='kw-2'>ref</span> <span class='ident'>v</span>, <span class='ident'>style</span>, <span class='ident'>aid</span>, <span class='kw-2'>ref</span> <span class='ident'>tag</span>) <span class='op'>=&gt;</span> {
                 <span class='kw'>let</span> <span class='ident'>node</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>style</span> <span class='op'>!=</span> <span class='ident'>TScalarStyle</span>::<span class='ident'>Plain</span> {
                     <span class='ident'>Yaml</span>::<span class='ident'>String</span>(<span class='ident'>v</span>.<span class='ident'>clone</span>())
-                } <span class='kw'>else</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>TokenType</span>::<span class='ident'>Tag</span>(<span class='kw-2'>ref</span> <span class='ident'>handle</span>, <span class='kw-2'>ref</span> <span class='ident'>suffix</span>)) <span class='op'>=</span> <span class='op'>*</span><span class='ident'>tag</span> {
+                } <span class='kw'>else</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>TokenType</span>::<span class='ident'>Tag</span>(<span class='kw-2'>ref</span> <span class='ident'>handle</span>, <span class='kw-2'>ref</span> <span class='ident'>suffix</span>)) <span class='op'>=</span> <span class='kw-2'>*</span><span class='ident'>tag</span> {
                     <span class='comment'>// XXX tag:yaml.org,2002:</span>
                     <span class='kw'>if</span> <span class='ident'>handle</span> <span class='op'>==</span> <span class='string'>&quot;!!&quot;</span> {
                         <span class='kw'>match</span> <span class='ident'>suffix</span>.<span class='ident'>as_ref</span>() {
@@ -807,13 +808,13 @@
             <span class='self'>self</span>.<span class='ident'>doc_stack</span>.<span class='ident'>push</span>(<span class='ident'>node</span>);
         } <span class='kw'>else</span> {
             <span class='kw'>let</span> <span class='ident'>parent</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>doc_stack</span>.<span class='ident'>last_mut</span>().<span class='ident'>unwrap</span>();
-            <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>parent</span> {
+            <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>parent</span> {
                 (<span class='ident'>Yaml</span>::<span class='ident'>Array</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>v</span>), _) <span class='op'>=&gt;</span> <span class='ident'>v</span>.<span class='ident'>push</span>(<span class='ident'>node</span>.<span class='number'>0</span>),
                 (<span class='ident'>Yaml</span>::<span class='ident'>Hash</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>h</span>), _) <span class='op'>=&gt;</span> {
                     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>cur_key</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>key_stack</span>.<span class='ident'>last_mut</span>().<span class='ident'>unwrap</span>();
                     <span class='comment'>// current node is a key</span>
                     <span class='kw'>if</span> <span class='ident'>cur_key</span>.<span class='ident'>is_badvalue</span>() {
-                        <span class='op'>*</span><span class='ident'>cur_key</span> <span class='op'>=</span> <span class='ident'>node</span>.<span class='number'>0</span>;
+                        <span class='kw-2'>*</span><span class='ident'>cur_key</span> <span class='op'>=</span> <span class='ident'>node</span>.<span class='number'>0</span>;
                     <span class='comment'>// current node is a value</span>
                     } <span class='kw'>else</span> {
                         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>newkey</span> <span class='op'>=</span> <span class='ident'>Yaml</span>::<span class='ident'>BadValue</span>;
@@ -842,7 +843,7 @@
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>define_as</span> (
     (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>:<span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span>:<span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>yt</span>:<span class='ident'>ident</span>) <span class='op'>=&gt;</span> (
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span><span class='op'>&gt;</span> {
-    <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
+    <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> {
         <span class='ident'>Yaml</span>::<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>yt</span>(<span class='ident'>v</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>),
         _ <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>
     }
@@ -853,7 +854,7 @@
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>define_as_ref</span> (
     (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>:<span class='ident'>ident</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span>:<span class='ident'>ty</span>, <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>yt</span>:<span class='ident'>ident</span>) <span class='op'>=&gt;</span> (
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>name</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>t</span><span class='op'>&gt;</span> {
-    <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
+    <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> {
         <span class='ident'>Yaml</span>::<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>yt</span>(<span class='kw-2'>ref</span> <span class='ident'>v</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>),
         _ <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>
     }
@@ -887,21 +888,21 @@
     <span class='macro'>define_into</span><span class='macro'>!</span>(<span class='ident'>into_vec</span>, <span class='ident'>Array</span>, <span class='ident'>Array</span>);
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_null</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
+        <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> {
             <span class='ident'>Yaml</span>::<span class='ident'>Null</span> <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
             _ <span class='op'>=&gt;</span> <span class='bool-val'>false</span>
         }
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_badvalue</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
+        <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> {
             <span class='ident'>Yaml</span>::<span class='ident'>BadValue</span> <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
             _ <span class='op'>=&gt;</span> <span class='bool-val'>false</span>
         }
     }
 
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>as_f64</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>f64</span><span class='op'>&gt;</span> {
-        <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
+        <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> {
             <span class='ident'>Yaml</span>::<span class='ident'>Real</span>(<span class='kw-2'>ref</span> <span class='ident'>v</span>) <span class='op'>=&gt;</span> {
                 <span class='ident'>v</span>.<span class='ident'>parse</span>::<span class='op'>&lt;</span><span class='ident'>f64</span><span class='op'>&gt;</span>().<span class='ident'>ok</span>()
             },
@@ -1001,7 +1002,7 @@
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
 <span class='kw'>mod</span> <span class='ident'>test</span> {
-    <span class='kw'>use</span> <span class='ident'>yaml</span>::<span class='op'>*</span>;
+    <span class='kw'>use</span> <span class='ident'>yaml</span>::<span class='kw-2'>*</span>;
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
     <span class='kw'>fn</span> <span class='ident'>test_coerce</span>() {
         <span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='string'>&quot;---

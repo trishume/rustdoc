@@ -9,6 +9,7 @@
 
     <title>lexer.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
     
@@ -943,7 +944,7 @@
 
 <span class='kw'>impl</span> <span class='ident'>fmt</span>::<span class='ident'>Display</span> <span class='kw'>for</span> <span class='ident'>Token</span> {
     <span class='kw'>fn</span> <span class='ident'>fmt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>f</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>fmt</span>::<span class='ident'>Formatter</span>) <span class='op'>-&gt;</span> <span class='ident'>fmt</span>::<span class='prelude-ty'>Result</span> {
-        <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
+        <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> {
             <span class='ident'>Token</span>::<span class='ident'>Chunk</span>(<span class='ident'>s</span>)                            <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;{}&quot;</span>, <span class='ident'>s</span>),
             <span class='ident'>Token</span>::<span class='ident'>Character</span>(<span class='ident'>c</span>) <span class='op'>|</span> <span class='ident'>Token</span>::<span class='ident'>Whitespace</span>(<span class='ident'>c</span>) <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;{}&quot;</span>, <span class='ident'>c</span>),
             <span class='ident'>other</span> <span class='op'>=&gt;</span> <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;{}&quot;</span>, <span class='kw'>match</span> <span class='ident'>other</span> {
@@ -971,7 +972,7 @@
 
 <span class='kw'>impl</span> <span class='ident'>Token</span> {
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>as_static_str</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span><span class='op'>&gt;</span> {
-        <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
+        <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> {
             <span class='ident'>Token</span>::<span class='ident'>OpeningTagStart</span>            <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='string'>&quot;&lt;&quot;</span>),
             <span class='ident'>Token</span>::<span class='ident'>ProcessingInstructionStart</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='string'>&quot;&lt;?&quot;</span>),
             <span class='ident'>Token</span>::<span class='ident'>DoctypeStart</span>               <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='string'>&quot;&lt;!DOCTYPE&quot;</span>),
@@ -998,7 +999,7 @@
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>as_static_str</span>() {
             <span class='prelude-val'>Some</span>(<span class='ident'>s</span>) <span class='op'>=&gt;</span> { <span class='ident'>target</span>.<span class='ident'>push_str</span>(<span class='ident'>s</span>); }
             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {
-                <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
+                <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> {
                     <span class='ident'>Token</span>::<span class='ident'>Character</span>(<span class='ident'>c</span>) <span class='op'>|</span> <span class='ident'>Token</span>::<span class='ident'>Whitespace</span>(<span class='ident'>c</span>) <span class='op'>=&gt;</span> <span class='ident'>target</span>.<span class='ident'>push</span>(<span class='ident'>c</span>),
                     _ <span class='op'>=&gt;</span> <span class='macro'>unreachable</span><span class='macro'>!</span>()
                 }
@@ -1010,7 +1011,7 @@
     <span class='doccomment'>/// as a part of the text. Surprisingly, this also means &#39;&gt;&#39; and &#39;=&#39; and &#39;&quot;&#39; and &quot;&#39;&quot; and &#39;--&gt;&#39;.</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>contains_char_data</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
+        <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> {
             <span class='ident'>Token</span>::<span class='ident'>Whitespace</span>(_) <span class='op'>|</span> <span class='ident'>Token</span>::<span class='ident'>Chunk</span>(_) <span class='op'>|</span> <span class='ident'>Token</span>::<span class='ident'>Character</span>(_) <span class='op'>|</span> <span class='ident'>Token</span>::<span class='ident'>CommentEnd</span> <span class='op'>|</span>
             <span class='ident'>Token</span>::<span class='ident'>TagEnd</span> <span class='op'>|</span> <span class='ident'>Token</span>::<span class='ident'>EqualsSign</span> <span class='op'>|</span> <span class='ident'>Token</span>::<span class='ident'>DoubleQuote</span> <span class='op'>|</span> <span class='ident'>Token</span>::<span class='ident'>SingleQuote</span> <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
             _ <span class='op'>=&gt;</span> <span class='bool-val'>false</span>
@@ -1020,7 +1021,7 @@
     <span class='doccomment'>/// Returns `true` if this token corresponds to a white space character.</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_whitespace</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
+        <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> {
             <span class='ident'>Token</span>::<span class='ident'>Whitespace</span>(_) <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
             _ <span class='op'>=&gt;</span> <span class='bool-val'>false</span>
         }

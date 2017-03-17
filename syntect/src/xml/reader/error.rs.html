@@ -9,6 +9,7 @@
 
     <title>error.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
     
@@ -206,7 +207,7 @@
     <span class='doccomment'>/// Returns a reference to a message which is contained inside this error.</span>
     <span class='attribute'>#[<span class='ident'>inline</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>msg</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>str</span> {
-        <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>ErrorKind</span>::<span class='op'>*</span>;
+        <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>ErrorKind</span>::<span class='kw-2'>*</span>;
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>kind</span> {
             <span class='ident'>UnexpectedEof</span> <span class='op'>=&gt;</span> <span class='kw-2'>&amp;</span><span class='string'>&quot;Unexpected EOF&quot;</span>,
             <span class='ident'>Utf8</span>(<span class='kw-2'>ref</span> <span class='ident'>reason</span>) <span class='op'>=&gt;</span> <span class='ident'>error_description</span>(<span class='ident'>reason</span>),
@@ -234,7 +235,7 @@
 
 <span class='kw'>impl</span> <span class='ident'>From</span><span class='op'>&lt;</span><span class='ident'>util</span>::<span class='ident'>CharReadError</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>Error</span> {
     <span class='kw'>fn</span> <span class='ident'>from</span>(<span class='ident'>e</span>: <span class='ident'>util</span>::<span class='ident'>CharReadError</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>CharReadError</span>::<span class='op'>*</span>;
+        <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>CharReadError</span>::<span class='kw-2'>*</span>;
         <span class='ident'>Error</span>{
             <span class='ident'>pos</span>: <span class='ident'>TextPosition</span>::<span class='ident'>new</span>(),
             <span class='ident'>kind</span>: <span class='kw'>match</span> <span class='ident'>e</span> {
@@ -257,8 +258,8 @@
 
 <span class='kw'>impl</span> <span class='ident'>Clone</span> <span class='kw'>for</span> <span class='ident'>ErrorKind</span> {
     <span class='kw'>fn</span> <span class='ident'>clone</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
-        <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>ErrorKind</span>::<span class='op'>*</span>;
-        <span class='kw'>match</span> <span class='op'>*</span><span class='self'>self</span> {
+        <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>ErrorKind</span>::<span class='kw-2'>*</span>;
+        <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> {
             <span class='ident'>UnexpectedEof</span> <span class='op'>=&gt;</span> <span class='ident'>UnexpectedEof</span>,
             <span class='ident'>Utf8</span>(<span class='kw-2'>ref</span> <span class='ident'>reason</span>) <span class='op'>=&gt;</span> <span class='ident'>Utf8</span>(<span class='ident'>reason</span>.<span class='ident'>clone</span>()),
             <span class='ident'>Io</span>(<span class='kw-2'>ref</span> <span class='ident'>io_error</span>) <span class='op'>=&gt;</span> <span class='ident'>Io</span>(<span class='ident'>io</span>::<span class='ident'>Error</span>::<span class='ident'>new</span>(<span class='ident'>io_error</span>.<span class='ident'>kind</span>(), <span class='ident'>error_description</span>(<span class='ident'>io_error</span>))),
@@ -268,7 +269,7 @@
 }
 <span class='kw'>impl</span> <span class='ident'>PartialEq</span> <span class='kw'>for</span> <span class='ident'>ErrorKind</span> {
     <span class='kw'>fn</span> <span class='ident'>eq</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='ident'>ErrorKind</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>ErrorKind</span>::<span class='op'>*</span>;
+        <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>ErrorKind</span>::<span class='kw-2'>*</span>;
         <span class='kw'>match</span> (<span class='self'>self</span>, <span class='ident'>other</span>) {
             (<span class='kw-2'>&amp;</span><span class='ident'>UnexpectedEof</span>, <span class='kw-2'>&amp;</span><span class='ident'>UnexpectedEof</span>) <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
             (<span class='kw-2'>&amp;</span><span class='ident'>Utf8</span>(<span class='kw-2'>ref</span> <span class='ident'>left</span>), <span class='kw-2'>&amp;</span><span class='ident'>Utf8</span>(<span class='kw-2'>ref</span> <span class='ident'>right</span>)) <span class='op'>=&gt;</span> <span class='ident'>left</span> <span class='op'>==</span> <span class='ident'>right</span>,

@@ -9,6 +9,7 @@
 
     <title>buffers.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -222,13 +223,13 @@
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// This should point to the first character in the buffer,</span>
     <span class='doccomment'>/// encoded as an `onig_sys` character.</span>
-    <span class='kw'>fn</span> <span class='ident'>start_ptr</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>onig_sys</span>::<span class='ident'>OnigUChar</span>;
+    <span class='kw'>fn</span> <span class='ident'>start_ptr</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>onig_sys</span>::<span class='ident'>OnigUChar</span>;
 
     <span class='doccomment'>/// Pointer to the limit of the pattern buffer</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// This should point just past the final character in the buffer,</span>
     <span class='doccomment'>/// encoded as an `onig_sys` character.</span>
-    <span class='kw'>fn</span> <span class='ident'>limit_ptr</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>onig_sys</span>::<span class='ident'>OnigUChar</span>;
+    <span class='kw'>fn</span> <span class='ident'>limit_ptr</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>onig_sys</span>::<span class='ident'>OnigUChar</span>;
 
     <span class='doccomment'>/// The encoding of the contents of the buffer</span>
     <span class='kw'>fn</span> <span class='ident'>encoding</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>onig_sys</span>::<span class='ident'>OnigEncoding</span> {
@@ -241,11 +242,11 @@
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='ident'>EncodedChars</span> <span class='kw'>for</span> <span class='ident'>T</span>
     <span class='kw'>where</span> <span class='ident'>T</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>str</span><span class='op'>&gt;</span>
 {
-    <span class='kw'>fn</span> <span class='ident'>start_ptr</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>onig_sys</span>::<span class='ident'>OnigUChar</span> {
+    <span class='kw'>fn</span> <span class='ident'>start_ptr</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>onig_sys</span>::<span class='ident'>OnigUChar</span> {
         <span class='self'>self</span>.<span class='ident'>as_ref</span>().<span class='ident'>as_bytes</span>().<span class='ident'>as_ptr</span>()
     }
 
-    <span class='kw'>fn</span> <span class='ident'>limit_ptr</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>onig_sys</span>::<span class='ident'>OnigUChar</span> {
+    <span class='kw'>fn</span> <span class='ident'>limit_ptr</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>onig_sys</span>::<span class='ident'>OnigUChar</span> {
         <span class='kw'>let</span> <span class='ident'>bytes</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>as_ref</span>().<span class='ident'>as_bytes</span>();
         <span class='ident'>bytes</span>[<span class='ident'>bytes</span>.<span class='ident'>len</span>()..].<span class='ident'>as_ptr</span>()
     }
@@ -299,11 +300,11 @@
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='ident'>EncodedChars</span> <span class='kw'>for</span> <span class='ident'>EncodedBytes</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>start_ptr</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>onig_sys</span>::<span class='ident'>OnigUChar</span> {
+    <span class='kw'>fn</span> <span class='ident'>start_ptr</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>onig_sys</span>::<span class='ident'>OnigUChar</span> {
         <span class='self'>self</span>.<span class='ident'>bytes</span>.<span class='ident'>as_ptr</span>()
     }
 
-    <span class='kw'>fn</span> <span class='ident'>limit_ptr</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>onig_sys</span>::<span class='ident'>OnigUChar</span> {
+    <span class='kw'>fn</span> <span class='ident'>limit_ptr</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>onig_sys</span>::<span class='ident'>OnigUChar</span> {
         <span class='self'>self</span>.<span class='ident'>bytes</span>[<span class='self'>self</span>.<span class='ident'>bytes</span>.<span class='ident'>len</span>()..].<span class='ident'>as_ptr</span>()
     }
 
@@ -321,7 +322,7 @@
 
     <span class='kw'>use</span> <span class='ident'>onig_sys</span>;
 
-    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='op'>*</span>;
+    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='kw-2'>*</span>;
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>rust_string_encoding_is_utf8</span>() {

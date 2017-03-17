@@ -9,6 +9,7 @@
 
     <title>writer.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
     
@@ -400,9 +401,9 @@
     <span class='kw'>fn</span> <span class='ident'>write</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>event</span>: <span class='kw-2'>&amp;</span><span class='ident'>PlistEvent</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>stack</span>.<span class='ident'>pop</span>() {
             <span class='prelude-val'>Some</span>(<span class='ident'>Element</span>::<span class='ident'>Dictionary</span>(<span class='ident'>DictionaryState</span>::<span class='ident'>ExpectKey</span>)) <span class='op'>=&gt;</span> {
-                <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>event</span> {
+                <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>event</span> {
                     <span class='ident'>PlistEvent</span>::<span class='ident'>StringValue</span>(<span class='kw-2'>ref</span> <span class='ident'>value</span>) <span class='op'>=&gt;</span> {
-                        <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>write_element_and_value</span>(<span class='string'>&quot;key&quot;</span>, <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>value</span>));
+                        <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>write_element_and_value</span>(<span class='string'>&quot;key&quot;</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>*</span><span class='ident'>value</span>));
                         <span class='self'>self</span>.<span class='ident'>stack</span>.<span class='ident'>push</span>(<span class='ident'>Element</span>::<span class='ident'>Dictionary</span>(<span class='ident'>DictionaryState</span>::<span class='ident'>ExpectValue</span>));
                     }
                     <span class='ident'>PlistEvent</span>::<span class='ident'>EndDictionary</span> <span class='op'>=&gt;</span> {
@@ -432,7 +433,7 @@
             }
         }
 
-        <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>event</span> {
+        <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>event</span> {
             <span class='ident'>PlistEvent</span>::<span class='ident'>StartArray</span>(_) <span class='op'>=&gt;</span> {
                 <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>start_element</span>(<span class='string'>&quot;array&quot;</span>));
                 <span class='self'>self</span>.<span class='ident'>stack</span>.<span class='ident'>push</span>(<span class='ident'>Element</span>::<span class='ident'>Array</span>);
@@ -474,7 +475,7 @@
                 <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>write_element_and_value</span>(<span class='string'>&quot;real&quot;</span>, <span class='kw-2'>&amp;</span><span class='ident'>value</span>.<span class='ident'>to_string</span>()))
             }
             <span class='ident'>PlistEvent</span>::<span class='ident'>StringValue</span>(<span class='kw-2'>ref</span> <span class='ident'>value</span>) <span class='op'>=&gt;</span> {
-                <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>write_element_and_value</span>(<span class='string'>&quot;string&quot;</span>, <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>value</span>))
+                <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>write_element_and_value</span>(<span class='string'>&quot;string&quot;</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>*</span><span class='ident'>value</span>))
             }
         };
 
@@ -489,11 +490,11 @@
     <span class='kw'>use</span> <span class='ident'>chrono</span>::{<span class='ident'>TimeZone</span>, <span class='ident'>UTC</span>};
     <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>Cursor</span>;
 
-    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='op'>*</span>;
+    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='kw-2'>*</span>;
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
     <span class='kw'>fn</span> <span class='ident'>streaming_parser</span>() {
-        <span class='kw'>use</span> <span class='ident'>PlistEvent</span>::<span class='op'>*</span>;
+        <span class='kw'>use</span> <span class='ident'>PlistEvent</span>::<span class='kw-2'>*</span>;
 
         <span class='kw'>let</span> <span class='ident'>plist</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span>[<span class='ident'>StartDictionary</span>(<span class='prelude-val'>None</span>),
                       <span class='ident'>StringValue</span>(<span class='string'>&quot;Author&quot;</span>.<span class='ident'>to_owned</span>()),

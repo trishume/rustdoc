@@ -9,6 +9,7 @@
 
     <title>dumps.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -181,7 +182,7 @@
 <span class='doccomment'>//! themes. And even your own `rustc_serialize::Encodable` structures if you want to</span>
 <span class='doccomment'>//! be consistent with your format.</span>
 <span class='kw'>use</span> <span class='ident'>bincode</span>::<span class='ident'>SizeLimit</span>;
-<span class='kw'>use</span> <span class='ident'>bincode</span>::<span class='ident'>rustc_serialize</span>::<span class='op'>*</span>;
+<span class='kw'>use</span> <span class='ident'>bincode</span>::<span class='ident'>rustc_serialize</span>::<span class='kw-2'>*</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>BufReader</span>, <span class='ident'>BufWriter</span>};
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;assets&quot;</span>)]</span>
@@ -280,7 +281,7 @@
     <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;yaml-load&quot;</span>)]</span>
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
     <span class='kw'>fn</span> <span class='ident'>can_dump_and_load</span>() {
-        <span class='kw'>use</span> <span class='kw'>super</span>::<span class='op'>*</span>;
+        <span class='kw'>use</span> <span class='kw'>super</span>::<span class='kw-2'>*</span>;
         <span class='kw'>use</span> <span class='ident'>parsing</span>::<span class='ident'>SyntaxSet</span>;
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ps</span> <span class='op'>=</span> <span class='ident'>SyntaxSet</span>::<span class='ident'>new</span>();
         <span class='ident'>ps</span>.<span class='ident'>load_syntaxes</span>(<span class='string'>&quot;testdata/Packages&quot;</span>, <span class='bool-val'>false</span>).<span class='ident'>unwrap</span>();

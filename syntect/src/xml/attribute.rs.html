@@ -9,6 +9,7 @@
 
     <title>attribute.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../main.css">
     
@@ -208,7 +209,7 @@
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>borrow</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>Attribute</span> {
         <span class='ident'>Attribute</span> {
             <span class='ident'>name</span>: <span class='self'>self</span>.<span class='ident'>name</span>.<span class='ident'>borrow</span>(),
-            <span class='ident'>value</span>: <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='self'>self</span>.<span class='ident'>value</span>
+            <span class='ident'>value</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>*</span><span class='self'>self</span>.<span class='ident'>value</span>
         }
     }
 
@@ -224,7 +225,7 @@
 
 <span class='kw'>impl</span> <span class='ident'>fmt</span>::<span class='ident'>Display</span> <span class='kw'>for</span> <span class='ident'>OwnedAttribute</span> {
     <span class='kw'>fn</span> <span class='ident'>fmt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>f</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>fmt</span>::<span class='ident'>Formatter</span>) <span class='op'>-&gt;</span> <span class='ident'>fmt</span>::<span class='prelude-ty'>Result</span> {
-        <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;{}=\&quot;{}\&quot;&quot;</span>, <span class='self'>self</span>.<span class='ident'>name</span>, <span class='ident'>escape_str_attribute</span>(<span class='kw-2'>&amp;</span><span class='op'>*</span><span class='self'>self</span>.<span class='ident'>value</span>))
+        <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;{}=\&quot;{}\&quot;&quot;</span>, <span class='self'>self</span>.<span class='ident'>name</span>, <span class='ident'>escape_str_attribute</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>*</span><span class='self'>self</span>.<span class='ident'>value</span>))
     }
 }
 
@@ -242,7 +243,7 @@
         );
 
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(
-            <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>attr</span>.<span class='ident'>to_string</span>(),
+            <span class='kw-2'>&amp;</span><span class='kw-2'>*</span><span class='ident'>attr</span>.<span class='ident'>to_string</span>(),
             <span class='string'>&quot;{urn:namespace}n:attribute=\&quot;its value with &amp;gt; &amp;amp; &amp;quot; &amp;apos; &amp;lt; weird symbols\&quot;&quot;</span>
         )
     }

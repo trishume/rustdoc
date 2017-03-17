@@ -9,6 +9,7 @@
 
     <title>theme_set.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
     
@@ -127,7 +128,7 @@
 <span id="83">83</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>theme</span>::<span class='ident'>Theme</span>;
-<span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>settings</span>::<span class='op'>*</span>;
+<span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>settings</span>::<span class='kw-2'>*</span>;
 <span class='kw'>use</span> <span class='kw'>super</span>::<span class='kw'>super</span>::<span class='ident'>LoadingError</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>BTreeMap</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::{<span class='ident'>Path</span>, <span class='ident'>PathBuf</span>};
@@ -187,7 +188,7 @@
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
     <span class='kw'>fn</span> <span class='ident'>can_parse_common_themes</span>() {
         <span class='kw'>let</span> <span class='ident'>themes</span> <span class='op'>=</span> <span class='ident'>ThemeSet</span>::<span class='ident'>load_from_folder</span>(<span class='string'>&quot;testdata&quot;</span>).<span class='ident'>unwrap</span>();
-        <span class='kw'>let</span> <span class='ident'>all_themes</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>themes</span>.<span class='ident'>themes</span>.<span class='ident'>keys</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='op'>*</span><span class='ident'>x</span>).<span class='ident'>collect</span>();
+        <span class='kw'>let</span> <span class='ident'>all_themes</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>themes</span>.<span class='ident'>themes</span>.<span class='ident'>keys</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='kw-2'>&amp;</span><span class='kw-2'>*</span><span class='kw-2'>*</span><span class='ident'>x</span>).<span class='ident'>collect</span>();
         <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>all_themes</span>);
 
         <span class='kw'>let</span> <span class='ident'>theme</span> <span class='op'>=</span> <span class='ident'>ThemeSet</span>::<span class='ident'>get_theme</span>(<span class='string'>&quot;testdata/spacegray/base16-ocean.dark.tmTheme&quot;</span>).<span class='ident'>unwrap</span>();

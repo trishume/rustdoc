@@ -9,6 +9,7 @@
 
     <title>yaml_load.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
     
@@ -475,8 +476,8 @@
 <span id="431">431</span>
 <span id="432">432</span>
 </pre><pre class='rust '>
-<span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>scope</span>::<span class='op'>*</span>;
-<span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>syntax_definition</span>::<span class='op'>*</span>;
+<span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>scope</span>::<span class='kw-2'>*</span>;
+<span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>syntax_definition</span>::<span class='kw-2'>*</span>;
 <span class='kw'>use</span> <span class='ident'>yaml_rust</span>::{<span class='ident'>YamlLoader</span>, <span class='ident'>Yaml</span>, <span class='ident'>ScanError</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::{<span class='ident'>HashMap</span>, <span class='ident'>BTreeMap</span>};
 <span class='kw'>use</span> <span class='ident'>onig</span>::{<span class='self'>self</span>, <span class='ident'>Regex</span>, <span class='ident'>Captures</span>};
@@ -718,7 +719,7 @@
     <span class='kw'>fn</span> <span class='ident'>resolve_variables</span>(<span class='ident'>raw_regex</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>state</span>: <span class='kw-2'>&amp;</span><span class='ident'>ParserState</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span> {
         <span class='ident'>state</span>.<span class='ident'>variable_regex</span>.<span class='ident'>replace_all</span>(<span class='ident'>raw_regex</span>, <span class='op'>|</span><span class='ident'>caps</span>: <span class='kw-2'>&amp;</span><span class='ident'>Captures</span><span class='op'>|</span> {
             <span class='kw'>let</span> <span class='ident'>var_regex_raw</span> <span class='op'>=</span>
-                <span class='ident'>state</span>.<span class='ident'>variables</span>.<span class='ident'>get</span>(<span class='ident'>caps</span>.<span class='ident'>at</span>(<span class='number'>1</span>).<span class='ident'>unwrap_or</span>(<span class='string'>&quot;&quot;</span>)).<span class='ident'>map_or</span>(<span class='string'>&quot;&quot;</span>, <span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='op'>*</span><span class='ident'>x</span>);
+                <span class='ident'>state</span>.<span class='ident'>variables</span>.<span class='ident'>get</span>(<span class='ident'>caps</span>.<span class='ident'>at</span>(<span class='number'>1</span>).<span class='ident'>unwrap_or</span>(<span class='string'>&quot;&quot;</span>)).<span class='ident'>map_or</span>(<span class='string'>&quot;&quot;</span>, <span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='kw-2'>&amp;</span><span class='kw-2'>*</span><span class='kw-2'>*</span><span class='ident'>x</span>);
             <span class='self'>Self</span>::<span class='ident'>resolve_variables</span>(<span class='ident'>var_regex_raw</span>, <span class='ident'>state</span>)
         })
     }
@@ -816,7 +817,7 @@
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
 <span class='kw'>mod</span> <span class='ident'>tests</span> {
-    <span class='kw'>use</span> <span class='ident'>parsing</span>::<span class='ident'>syntax_definition</span>::<span class='op'>*</span>;
+    <span class='kw'>use</span> <span class='ident'>parsing</span>::<span class='ident'>syntax_definition</span>::<span class='kw-2'>*</span>;
     <span class='kw'>use</span> <span class='ident'>parsing</span>::<span class='ident'>Scope</span>;
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
     <span class='kw'>fn</span> <span class='ident'>can_parse</span>() {
@@ -883,7 +884,7 @@
             <span class='kw-2'>&amp;</span><span class='ident'>Pattern</span>::<span class='ident'>Match</span>(<span class='kw-2'>ref</span> <span class='ident'>match_pat</span>) <span class='op'>=&gt;</span> {
                 <span class='kw'>let</span> <span class='ident'>m</span>: <span class='kw-2'>&amp;</span><span class='ident'>CaptureMapping</span> <span class='op'>=</span> <span class='ident'>match_pat</span>.<span class='ident'>captures</span>.<span class='ident'>as_ref</span>().<span class='ident'>expect</span>(<span class='string'>&quot;test failed&quot;</span>);
                 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='ident'>m</span>[<span class='kw-2'>&amp;</span><span class='number'>1</span>], <span class='kw-2'>&amp;</span><span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;meta.preprocessor.c++&quot;</span>).<span class='ident'>unwrap</span>()]);
-                <span class='kw'>use</span> <span class='ident'>parsing</span>::<span class='ident'>syntax_definition</span>::<span class='ident'>ContextReference</span>::<span class='op'>*</span>;
+                <span class='kw'>use</span> <span class='ident'>parsing</span>::<span class='ident'>syntax_definition</span>::<span class='ident'>ContextReference</span>::<span class='kw-2'>*</span>;
 
                 <span class='comment'>// this is sadly necessary because Context is not Eq because of the Regex</span>
                 <span class='kw'>let</span> <span class='ident'>expected</span> <span class='op'>=</span> <span class='ident'>MatchOperation</span>::<span class='ident'>Push</span>(<span class='macro'>vec</span><span class='macro'>!</span>[

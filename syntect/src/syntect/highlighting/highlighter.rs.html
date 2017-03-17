@@ -9,6 +9,7 @@
 
     <title>highlighter.rs.html -- source</title>
 
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
     <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../../../main.css">
     
@@ -445,7 +446,7 @@
             (<span class='self'>self</span>.<span class='ident'>text</span>.<span class='ident'>len</span>(), <span class='ident'>ScopeStackOp</span>::<span class='ident'>Noop</span>)
         };
         <span class='comment'>// println!(&quot;{} - {:?}   {}:{}&quot;, self.index, self.pos, self.state.path.len(), self.state.styles.len());</span>
-        <span class='kw'>let</span> <span class='ident'>style</span> <span class='op'>=</span> <span class='op'>*</span><span class='self'>self</span>.<span class='ident'>state</span>.<span class='ident'>styles</span>.<span class='ident'>last</span>().<span class='ident'>unwrap</span>();
+        <span class='kw'>let</span> <span class='ident'>style</span> <span class='op'>=</span> <span class='kw-2'>*</span><span class='self'>self</span>.<span class='ident'>state</span>.<span class='ident'>styles</span>.<span class='ident'>last</span>().<span class='ident'>unwrap</span>();
         <span class='kw'>let</span> <span class='ident'>text</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>text</span>[<span class='self'>self</span>.<span class='ident'>pos</span>..<span class='ident'>end</span>];
         {
             <span class='comment'>// closures mess with the borrow checker&#39;s ability to see different struct fields</span>
@@ -457,7 +458,7 @@
                 <span class='kw'>match</span> <span class='ident'>op</span> {
                     <span class='ident'>BasicScopeStackOp</span>::<span class='ident'>Push</span>(_) <span class='op'>=&gt;</span> {
                         <span class='comment'>// we can push multiple times so this might have changed</span>
-                        <span class='kw'>let</span> <span class='ident'>style</span> <span class='op'>=</span> <span class='op'>*</span><span class='ident'>m_styles</span>.<span class='ident'>last</span>().<span class='ident'>unwrap</span>();
+                        <span class='kw'>let</span> <span class='ident'>style</span> <span class='op'>=</span> <span class='kw-2'>*</span><span class='ident'>m_styles</span>.<span class='ident'>last</span>().<span class='ident'>unwrap</span>();
                         <span class='ident'>m_styles</span>.<span class='ident'>push</span>(<span class='ident'>style</span>.<span class='ident'>apply</span>(<span class='ident'>highlighter</span>.<span class='ident'>get_new_style</span>(<span class='ident'>cur_stack</span>)));
                     }
                     <span class='ident'>BasicScopeStackOp</span>::<span class='ident'>Pop</span> <span class='op'>=&gt;</span> {
@@ -557,11 +558,11 @@
             }
             <span class='comment'>// println!(&quot;multi at {:?} score {:?} single score {:?}&quot;, path, score, single_score);</span>
             <span class='kw'>if</span> <span class='ident'>MatchPower</span>(<span class='ident'>single_score</span>) <span class='op'>&lt;</span> <span class='ident'>score</span> {
-                <span class='kw'>return</span> <span class='op'>*</span><span class='ident'>style</span>;
+                <span class='kw'>return</span> <span class='kw-2'>*</span><span class='ident'>style</span>;
             }
         }
         <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span>(_, <span class='kw-2'>ref</span> <span class='ident'>style</span>)) <span class='op'>=</span> <span class='ident'>single_res</span> {
-            <span class='kw'>return</span> <span class='op'>*</span><span class='ident'>style</span>;
+            <span class='kw'>return</span> <span class='kw-2'>*</span><span class='ident'>style</span>;
         }
         <span class='ident'>StyleModifier</span> {
             <span class='ident'>foreground</span>: <span class='prelude-val'>None</span>,
@@ -574,7 +575,7 @@
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;assets&quot;</span>)]</span>
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
 <span class='kw'>mod</span> <span class='ident'>tests</span> {
-    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='op'>*</span>;
+    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='kw-2'>*</span>;
     <span class='kw'>use</span> <span class='ident'>highlighting</span>::{<span class='ident'>ThemeSet</span>, <span class='ident'>Style</span>, <span class='ident'>Color</span>, <span class='ident'>FontStyle</span>};
     <span class='kw'>use</span> <span class='ident'>parsing</span>::{ <span class='ident'>SyntaxSet</span>, <span class='ident'>ScopeStack</span>, <span class='ident'>ParseState</span>};
     

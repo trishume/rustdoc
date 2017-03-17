@@ -9,6 +9,7 @@
 
     <title>onig::EncodedChars - Rust</title>
 
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
     <link rel="stylesheet" type="text/css" href="../rustdoc.css">
     <link rel="stylesheet" type="text/css" href="../main.css">
     
@@ -61,22 +62,22 @@ attached.</p>
 </div>
             <h2 id='required-methods'>Required Methods</h2>
             <div class='methods'>
-        <h3 id='tymethod.start_ptr' class='method stab '><span id='start_ptr.v' class='invisible'><code>fn <a href='#tymethod.start_ptr' class='fnname'>start_ptr</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const </a><a class='type' href='../onig_sys/type.OnigUChar.html' title='onig_sys::OnigUChar'>OnigUChar</a></code></span></h3><div class='docblock'><p>Pointer to the start of the pattern</p>
+        <h3 id='tymethod.start_ptr' class='method'><span id='start_ptr.v' class='invisible'><code>fn <a href='#tymethod.start_ptr' class='fnname'>start_ptr</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const </a><a class='type' href='../onig_sys/type.OnigUChar.html' title='onig_sys::OnigUChar'>OnigUChar</a></code></span></h3><div class='docblock'><p>Pointer to the start of the pattern</p>
 
 <p>This should point to the first character in the buffer,
 encoded as an <code>onig_sys</code> character.</p>
-</div><h3 id='tymethod.limit_ptr' class='method stab '><span id='limit_ptr.v' class='invisible'><code>fn <a href='#tymethod.limit_ptr' class='fnname'>limit_ptr</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const </a><a class='type' href='../onig_sys/type.OnigUChar.html' title='onig_sys::OnigUChar'>OnigUChar</a></code></span></h3><div class='docblock'><p>Pointer to the limit of the pattern buffer</p>
+</div><h3 id='tymethod.limit_ptr' class='method'><span id='limit_ptr.v' class='invisible'><code>fn <a href='#tymethod.limit_ptr' class='fnname'>limit_ptr</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const </a><a class='type' href='../onig_sys/type.OnigUChar.html' title='onig_sys::OnigUChar'>OnigUChar</a></code></span></h3><div class='docblock'><p>Pointer to the limit of the pattern buffer</p>
 
 <p>This should point just past the final character in the buffer,
 encoded as an <code>onig_sys</code> character.</p>
-</div><h3 id='tymethod.len' class='method stab '><span id='len.v' class='invisible'><code>fn <a href='#tymethod.len' class='fnname'>len</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a></code></span></h3></div>
+</div><h3 id='tymethod.len' class='method'><span id='len.v' class='invisible'><code>fn <a href='#tymethod.len' class='fnname'>len</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a></code></span></h3></div>
             <h2 id='provided-methods'>Provided Methods</h2>
             <div class='methods'>
-        <h3 id='method.encoding' class='method stab '><span id='encoding.v' class='invisible'><code>fn <a href='#method.encoding' class='fnname'>encoding</a>(&amp;self) -&gt; <a class='type' href='../onig_sys/type.OnigEncoding.html' title='onig_sys::OnigEncoding'>OnigEncoding</a></code></span></h3><div class='docblock'><p>The encoding of the contents of the buffer</p>
+        <h3 id='method.encoding' class='method'><span id='encoding.v' class='invisible'><code>fn <a href='#method.encoding' class='fnname'>encoding</a>(&amp;self) -&gt; <a class='type' href='../onig_sys/type.OnigEncoding.html' title='onig_sys::OnigEncoding'>OnigEncoding</a></code></span></h3><div class='docblock'><p>The encoding of the contents of the buffer</p>
 </div></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
-    <li><code>impl&lt;T&gt; EncodedChars for T <span class='where'>where T: <a class='trait' href='https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html' title='core::convert::AsRef'>AsRef</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>&gt;</span></code></li>
+    <li><code>impl&lt;T&gt; EncodedChars for T <span class='where fmt-newline'>where T: <a class='trait' href='https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html' title='core::convert::AsRef'>AsRef</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>&gt;</span></code></li>
 <li><code>impl&lt;'a&gt; EncodedChars for <a class='struct' href='../onig/struct.EncodedBytes.html' title='onig::EncodedBytes'>EncodedBytes</a>&lt;'a&gt;</code></li>
 </ul><script type="text/javascript" async
                          src="../implementors/onig/trait.EncodedChars.js">

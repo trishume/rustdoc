@@ -507,7 +507,7 @@
                             <span class='ident'>ContextReference</span>::<span class='ident'>Direct</span>(<span class='kw-2'>ref</span> <span class='ident'>ctx_ptr</span>) <span class='op'>=&gt;</span> {
                                 <span class='ident'>ctx_ptr</span>.<span class='ident'>link</span>.<span class='ident'>upgrade</span>().<span class='ident'>unwrap</span>()
                             }
-                            _ <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Can only iterate patterns after linking: {:?}&quot;</span>, <span class='ident'>ctx_ref</span>),
+                            _ <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='self'>self</span>.<span class='ident'>next</span>(), <span class='comment'>// skip this and move onto the next one</span>
                         };
                         <span class='self'>self</span>.<span class='ident'>ctx_stack</span>.<span class='ident'>push</span>(<span class='ident'>ctx_ptr</span>);
                         <span class='self'>self</span>.<span class='ident'>index_stack</span>.<span class='ident'>push</span>(<span class='number'>0</span>);

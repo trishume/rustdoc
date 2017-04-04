@@ -328,6 +328,7 @@
 <span id="283">283</span>
 <span id="284">284</span>
 <span id="285">285</span>
+<span id="286">286</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Rendering highlighted code as HTML+CSS</span>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Write</span>;
@@ -468,6 +469,14 @@
     <span class='ident'>IfDifferent</span>(<span class='ident'>Color</span>),
 }
 
+<span class='kw'>fn</span> <span class='ident'>write_css_color</span>(<span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>String</span>, <span class='ident'>c</span>: <span class='ident'>Color</span>) {
+    <span class='kw'>if</span> <span class='ident'>c</span>.<span class='ident'>a</span> <span class='op'>!=</span> <span class='number'>0xFF</span> {
+        <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>s</span>,<span class='string'>&quot;#{:02x}{:02x}{:02x}{:02x}&quot;</span>,<span class='ident'>c</span>.<span class='ident'>r</span>,<span class='ident'>c</span>.<span class='ident'>g</span>,<span class='ident'>c</span>.<span class='ident'>b</span>,<span class='ident'>c</span>.<span class='ident'>a</span>).<span class='ident'>unwrap</span>();
+    } <span class='kw'>else</span> {
+        <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>s</span>,<span class='string'>&quot;#{:02x}{:02x}{:02x}&quot;</span>,<span class='ident'>c</span>.<span class='ident'>r</span>,<span class='ident'>c</span>.<span class='ident'>g</span>,<span class='ident'>c</span>.<span class='ident'>b</span>).<span class='ident'>unwrap</span>();
+    }
+}
+
 <span class='doccomment'>/// Output HTML for a line of code with `&lt;span&gt;` elements using inline</span>
 <span class='doccomment'>/// `style` attributes to set the correct font attributes.</span>
 <span class='doccomment'>/// The `bg` attribute determines if the spans will have the `background-color`</span>
@@ -502,12 +511,9 @@
             <span class='ident'>IncludeBackground</span>::<span class='ident'>IfDifferent</span>(<span class='ident'>c</span>) <span class='op'>=&gt;</span> (<span class='ident'>style</span>.<span class='ident'>background</span> <span class='op'>!=</span> <span class='ident'>c</span>),
         };
         <span class='kw'>if</span> <span class='ident'>include_bg</span> {
-            <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>s</span>,
-                   <span class='string'>&quot;background-color:#{:02x}{:02x}{:02x};&quot;</span>,
-                   <span class='ident'>style</span>.<span class='ident'>background</span>.<span class='ident'>r</span>,
-                   <span class='ident'>style</span>.<span class='ident'>background</span>.<span class='ident'>g</span>,
-                   <span class='ident'>style</span>.<span class='ident'>background</span>.<span class='ident'>b</span>)
-                .<span class='ident'>unwrap</span>();
+            <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>s</span>, <span class='string'>&quot;background-color:&quot;</span>).<span class='ident'>unwrap</span>();
+            <span class='ident'>write_css_color</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>s</span>, <span class='ident'>style</span>.<span class='ident'>background</span>);
+            <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>s</span>, <span class='string'>&quot;;&quot;</span>).<span class='ident'>unwrap</span>();
         }
         <span class='kw'>if</span> <span class='ident'>style</span>.<span class='ident'>font_style</span>.<span class='ident'>contains</span>(<span class='ident'>highlighting</span>::<span class='ident'>FONT_STYLE_UNDERLINE</span>) {
             <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>s</span>, <span class='string'>&quot;text-decoration:underline;&quot;</span>).<span class='ident'>unwrap</span>();
@@ -518,13 +524,9 @@
         <span class='kw'>if</span> <span class='ident'>style</span>.<span class='ident'>font_style</span>.<span class='ident'>contains</span>(<span class='ident'>highlighting</span>::<span class='ident'>FONT_STYLE_ITALIC</span>) {
             <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>s</span>, <span class='string'>&quot;font-style:italic;&quot;</span>).<span class='ident'>unwrap</span>();
         }
-        <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>s</span>,
-               <span class='string'>&quot;color:#{:02x}{:02x}{:02x};\&quot;&gt;{}&lt;/span&gt;&quot;</span>,
-               <span class='ident'>style</span>.<span class='ident'>foreground</span>.<span class='ident'>r</span>,
-               <span class='ident'>style</span>.<span class='ident'>foreground</span>.<span class='ident'>g</span>,
-               <span class='ident'>style</span>.<span class='ident'>foreground</span>.<span class='ident'>b</span>,
-               <span class='ident'>Escape</span>(<span class='ident'>text</span>))
-            .<span class='ident'>unwrap</span>();
+        <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>s</span>, <span class='string'>&quot;color:&quot;</span>).<span class='ident'>unwrap</span>();
+        <span class='ident'>write_css_color</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>s</span>, <span class='ident'>style</span>.<span class='ident'>foreground</span>);
+        <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>s</span>, <span class='string'>&quot;;\&quot;&gt;{}&lt;/span&gt;&quot;</span>, <span class='ident'>Escape</span>(<span class='ident'>text</span>)).<span class='ident'>unwrap</span>();
     }
     <span class='ident'>s</span>
 }

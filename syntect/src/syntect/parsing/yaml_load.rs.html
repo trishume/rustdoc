@@ -640,7 +640,7 @@ __main:
         <span class='ident'>SyntaxDefinition</span>::<span class='ident'>add_initial_contexts</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>contexts</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>state</span>, <span class='ident'>top_level_scope</span>);
 
         <span class='kw'>let</span> <span class='ident'>defn</span> <span class='op'>=</span> <span class='ident'>SyntaxDefinition</span> {
-            <span class='ident'>name</span>: <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>get_key</span>(<span class='ident'>h</span>, <span class='string'>&quot;name&quot;</span>, <span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span>.<span class='ident'>as_str</span>())).<span class='ident'>to_owned</span>(),
+            <span class='ident'>name</span>: <span class='ident'>get_key</span>(<span class='ident'>h</span>, <span class='string'>&quot;name&quot;</span>, <span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span>.<span class='ident'>as_str</span>()).<span class='ident'>unwrap_or</span>(<span class='string'>&quot;Unnamed&quot;</span>).<span class='ident'>to_owned</span>(),
             <span class='ident'>scope</span>: <span class='ident'>top_level_scope</span>,
             <span class='ident'>file_extensions</span>: {
                 <span class='ident'>get_key</span>(<span class='ident'>h</span>, <span class='string'>&quot;file_extensions&quot;</span>, <span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span>.<span class='ident'>as_vec</span>())

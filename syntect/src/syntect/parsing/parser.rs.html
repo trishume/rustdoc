@@ -621,6 +621,53 @@
 <span id="576">576</span>
 <span id="577">577</span>
 <span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>syntax_definition</span>::<span class='kw-2'>*</span>;
 <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>scope</span>::<span class='kw-2'>*</span>;
@@ -676,7 +723,8 @@
     <span class='doccomment'>/// pointer to the main context of the syntax.</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>syntax</span>: <span class='kw-2'>&amp;</span><span class='ident'>SyntaxDefinition</span>) <span class='op'>-&gt;</span> <span class='ident'>ParseState</span> {
         <span class='kw'>let</span> <span class='ident'>start_state</span> <span class='op'>=</span> <span class='ident'>StateLevel</span> {
-            <span class='ident'>context</span>: <span class='ident'>syntax</span>.<span class='ident'>contexts</span>[<span class='string'>&quot;main&quot;</span>].<span class='ident'>clone</span>(),
+            <span class='comment'>// __start is a special context we add in yaml_load.rs</span>
+            <span class='ident'>context</span>: <span class='ident'>syntax</span>.<span class='ident'>contexts</span>[<span class='string'>&quot;__start&quot;</span>].<span class='ident'>clone</span>(),
             <span class='ident'>prototype</span>: <span class='prelude-val'>None</span>,
             <span class='ident'>captures</span>: <span class='prelude-val'>None</span>,
         };
@@ -752,7 +800,7 @@
                 <span class='ident'>ctx_ref</span>.<span class='ident'>prototype</span>.<span class='ident'>clone</span>()
             };
             <span class='kw'>let</span> <span class='ident'>context_chain</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>stack</span>
-                .<span class='ident'>iter</span>()
+                .<span class='ident'>iter</span>().<span class='ident'>rev</span>() <span class='comment'>// iterate the stack in top-down order to apply the prototypes</span>
                 .<span class='ident'>filter_map</span>(<span class='op'>|</span><span class='ident'>lvl</span><span class='op'>|</span> <span class='ident'>lvl</span>.<span class='ident'>prototype</span>.<span class='ident'>as_ref</span>().<span class='ident'>cloned</span>())
                 .<span class='ident'>chain</span>(<span class='ident'>prototype</span>.<span class='ident'>into_iter</span>())
                 .<span class='ident'>chain</span>(<span class='prelude-val'>Some</span>(<span class='ident'>cur_level</span>.<span class='ident'>context</span>.<span class='ident'>clone</span>()).<span class='ident'>into_iter</span>());
@@ -881,8 +929,8 @@
             <span class='comment'>// ex: ((bob)|(hi))* could match hibob in wrong order, and outer has to push first</span>
             <span class='comment'>// we don&#39;t have to handle a capture matching multiple times, Sublime doesn&#39;t</span>
             <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>map</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span>((<span class='ident'>usize</span>, <span class='ident'>i32</span>), <span class='ident'>ScopeStackOp</span>)<span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
-            <span class='kw'>for</span> (<span class='ident'>cap_index</span>, <span class='ident'>scopes</span>) <span class='kw'>in</span> <span class='ident'>capture_map</span>.<span class='ident'>iter</span>() {
-                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>((<span class='ident'>cap_start</span>, <span class='ident'>cap_end</span>)) <span class='op'>=</span> <span class='ident'>reg_match</span>.<span class='ident'>regions</span>.<span class='ident'>pos</span>(<span class='kw-2'>*</span><span class='ident'>cap_index</span>) {
+            <span class='kw'>for</span> <span class='kw-2'>&amp;</span>(<span class='ident'>cap_index</span>, <span class='kw-2'>ref</span> <span class='ident'>scopes</span>) <span class='kw'>in</span> <span class='ident'>capture_map</span>.<span class='ident'>iter</span>() {
+                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>((<span class='ident'>cap_start</span>, <span class='ident'>cap_end</span>)) <span class='op'>=</span> <span class='ident'>reg_match</span>.<span class='ident'>regions</span>.<span class='ident'>pos</span>(<span class='ident'>cap_index</span>) {
                     <span class='comment'>// marking up empty captures causes pops to be sorted wrong</span>
                     <span class='kw'>if</span> <span class='ident'>cap_start</span> <span class='op'>==</span> <span class='ident'>cap_end</span> {
                         <span class='kw'>continue</span>;
@@ -915,56 +963,101 @@
                      <span class='ident'>cur_context</span>: <span class='kw-2'>&amp;</span><span class='ident'>Context</span>,
                      <span class='ident'>match_op</span>: <span class='kw-2'>&amp;</span><span class='ident'>MatchOperation</span>,
                      <span class='ident'>ops</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Vec</span><span class='op'>&lt;</span>(<span class='ident'>usize</span>, <span class='ident'>ScopeStackOp</span>)<span class='op'>&gt;</span>) {
-        <span class='kw'>let</span> <span class='ident'>involves_pop</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>match_op</span> {
-            <span class='ident'>MatchOperation</span>::<span class='ident'>Pop</span> <span class='op'>|</span>
-            <span class='ident'>MatchOperation</span>::<span class='ident'>Set</span>(_) <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
-            <span class='ident'>MatchOperation</span>::<span class='ident'>Push</span>(_) <span class='op'>|</span>
-            <span class='ident'>MatchOperation</span>::<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='bool-val'>false</span>,
-        };
-        <span class='comment'>// println!(&quot;metas ops for {:?}, is pop: {}, initial: {}&quot;,</span>
+        <span class='comment'>// println!(&quot;metas ops for {:?}, initial: {}&quot;,</span>
         <span class='comment'>//          match_op,</span>
-        <span class='comment'>//          involves_pop,</span>
         <span class='comment'>//          initial);</span>
         <span class='comment'>// println!(&quot;{:?}&quot;, cur_context.meta_scope);</span>
-        <span class='kw'>if</span> <span class='ident'>involves_pop</span> {
-            <span class='kw'>let</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>initial</span> {
-                <span class='kw-2'>&amp;</span><span class='ident'>cur_context</span>.<span class='ident'>meta_content_scope</span>
-            } <span class='kw'>else</span> {
-                <span class='kw-2'>&amp;</span><span class='ident'>cur_context</span>.<span class='ident'>meta_scope</span>
-            };
-            <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>v</span>.<span class='ident'>is_empty</span>() {
-                <span class='ident'>ops</span>.<span class='ident'>push</span>((<span class='ident'>index</span>, <span class='ident'>ScopeStackOp</span>::<span class='ident'>Pop</span>(<span class='ident'>v</span>.<span class='ident'>len</span>())));
-            }
-
-            <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>initial</span> <span class='op'>&amp;&amp;</span> <span class='ident'>cur_context</span>.<span class='ident'>clear_scopes</span> <span class='op'>!=</span> <span class='prelude-val'>None</span> {
-                <span class='ident'>ops</span>.<span class='ident'>push</span>((<span class='ident'>index</span>, <span class='ident'>ScopeStackOp</span>::<span class='ident'>Restore</span>));
-            }
-        }
         <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>match_op</span> {
+            <span class='ident'>MatchOperation</span>::<span class='ident'>Pop</span> <span class='op'>=&gt;</span> {
+                <span class='kw'>let</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>initial</span> {
+                    <span class='kw-2'>&amp;</span><span class='ident'>cur_context</span>.<span class='ident'>meta_content_scope</span>
+                } <span class='kw'>else</span> {
+                    <span class='kw-2'>&amp;</span><span class='ident'>cur_context</span>.<span class='ident'>meta_scope</span>
+                };
+                <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>v</span>.<span class='ident'>is_empty</span>() {
+                    <span class='ident'>ops</span>.<span class='ident'>push</span>((<span class='ident'>index</span>, <span class='ident'>ScopeStackOp</span>::<span class='ident'>Pop</span>(<span class='ident'>v</span>.<span class='ident'>len</span>())));
+                }
+
+                <span class='comment'>// cleared scopes are restored after the scopes from match pattern that invoked the pop are applied</span>
+                <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>initial</span> <span class='op'>&amp;&amp;</span> <span class='ident'>cur_context</span>.<span class='ident'>clear_scopes</span> <span class='op'>!=</span> <span class='prelude-val'>None</span> {
+                    <span class='ident'>ops</span>.<span class='ident'>push</span>((<span class='ident'>index</span>, <span class='ident'>ScopeStackOp</span>::<span class='ident'>Restore</span>));
+                }
+            },
+            <span class='comment'>// for some reason the ST3 behaviour of set is convoluted and is inconsistent with the docs and other ops</span>
+            <span class='comment'>// - the meta_content_scope of the current context is applied to the matched thing, unlike pop</span>
+            <span class='comment'>// - the clear_scopes are applied after the matched token, unlike push</span>
+            <span class='comment'>// - the interaction with meta scopes means that the token has the meta scopes of both the current scope and the new scope.</span>
             <span class='ident'>MatchOperation</span>::<span class='ident'>Push</span>(<span class='kw-2'>ref</span> <span class='ident'>context_refs</span>) <span class='op'>|</span>
             <span class='ident'>MatchOperation</span>::<span class='ident'>Set</span>(<span class='kw-2'>ref</span> <span class='ident'>context_refs</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>for</span> <span class='ident'>r</span> <span class='kw'>in</span> <span class='ident'>context_refs</span> {
-                    <span class='kw'>let</span> <span class='ident'>ctx_ptr</span> <span class='op'>=</span> <span class='ident'>r</span>.<span class='ident'>resolve</span>();
-                    <span class='kw'>let</span> <span class='ident'>ctx</span> <span class='op'>=</span> <span class='ident'>ctx_ptr</span>.<span class='ident'>borrow</span>();
+                <span class='kw'>let</span> <span class='ident'>is_set</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>match_op</span> {
+                    <span class='ident'>MatchOperation</span>::<span class='ident'>Set</span>(_) <span class='op'>=&gt;</span> <span class='bool-val'>true</span>,
+                    _ <span class='op'>=&gt;</span> <span class='bool-val'>false</span>
+                };
+                <span class='comment'>// a match pattern that &quot;set&quot;s keeps the meta_content_scope and meta_scope from the previous context</span>
+                <span class='kw'>if</span> <span class='ident'>initial</span> {
+                    <span class='comment'>// add each context&#39;s meta scope</span>
+                    <span class='kw'>for</span> <span class='ident'>r</span> <span class='kw'>in</span> <span class='ident'>context_refs</span>.<span class='ident'>iter</span>() {
+                        <span class='kw'>let</span> <span class='ident'>ctx_ptr</span> <span class='op'>=</span> <span class='ident'>r</span>.<span class='ident'>resolve</span>();
+                        <span class='kw'>let</span> <span class='ident'>ctx</span> <span class='op'>=</span> <span class='ident'>ctx_ptr</span>.<span class='ident'>borrow</span>();
 
-                    <span class='kw'>if</span> <span class='ident'>initial</span> {
-                        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>clear_amount</span>) <span class='op'>=</span> <span class='ident'>ctx</span>.<span class='ident'>clear_scopes</span> {
-                            <span class='ident'>ops</span>.<span class='ident'>push</span>((<span class='ident'>index</span>, <span class='ident'>ScopeStackOp</span>::<span class='ident'>Clear</span>(<span class='ident'>clear_amount</span>)));
+                        <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>is_set</span> {
+                            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>clear_amount</span>) <span class='op'>=</span> <span class='ident'>ctx</span>.<span class='ident'>clear_scopes</span> {
+                                <span class='ident'>ops</span>.<span class='ident'>push</span>((<span class='ident'>index</span>, <span class='ident'>ScopeStackOp</span>::<span class='ident'>Clear</span>(<span class='ident'>clear_amount</span>)));
+                            }
+                        }
+
+                        <span class='kw'>for</span> <span class='ident'>scope</span> <span class='kw'>in</span> <span class='ident'>ctx</span>.<span class='ident'>meta_scope</span>.<span class='ident'>iter</span>() {
+                            <span class='ident'>ops</span>.<span class='ident'>push</span>((<span class='ident'>index</span>, <span class='ident'>ScopeStackOp</span>::<span class='ident'>Push</span>(<span class='kw-2'>*</span><span class='ident'>scope</span>)));
                         }
                     }
+                } <span class='kw'>else</span> {
+                    <span class='kw'>let</span> <span class='ident'>repush</span> <span class='op'>=</span> (<span class='ident'>is_set</span> <span class='op'>&amp;&amp;</span> (<span class='op'>!</span><span class='ident'>cur_context</span>.<span class='ident'>meta_scope</span>.<span class='ident'>is_empty</span>() <span class='op'>||</span> <span class='op'>!</span><span class='ident'>cur_context</span>.<span class='ident'>meta_content_scope</span>.<span class='ident'>is_empty</span>())) <span class='op'>||</span> <span class='ident'>context_refs</span>.<span class='ident'>iter</span>().<span class='ident'>any</span>(<span class='op'>|</span><span class='ident'>r</span><span class='op'>|</span> {
+                        <span class='kw'>let</span> <span class='ident'>ctx_ptr</span> <span class='op'>=</span> <span class='ident'>r</span>.<span class='ident'>resolve</span>();
+                        <span class='kw'>let</span> <span class='ident'>ctx</span> <span class='op'>=</span> <span class='ident'>ctx_ptr</span>.<span class='ident'>borrow</span>();
 
-                    <span class='kw'>let</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>initial</span> {
-                        <span class='kw-2'>&amp;</span><span class='ident'>ctx</span>.<span class='ident'>meta_scope</span>
-                    } <span class='kw'>else</span> {
-                        <span class='kw-2'>&amp;</span><span class='ident'>ctx</span>.<span class='ident'>meta_content_scope</span>
-                    };
-                    <span class='kw'>for</span> <span class='ident'>scope</span> <span class='kw'>in</span> <span class='ident'>v</span>.<span class='ident'>iter</span>() {
-                        <span class='ident'>ops</span>.<span class='ident'>push</span>((<span class='ident'>index</span>, <span class='ident'>ScopeStackOp</span>::<span class='ident'>Push</span>(<span class='kw-2'>*</span><span class='ident'>scope</span>)));
+                        <span class='op'>!</span><span class='ident'>ctx</span>.<span class='ident'>meta_content_scope</span>.<span class='ident'>is_empty</span>() <span class='op'>||</span> (<span class='ident'>ctx</span>.<span class='ident'>clear_scopes</span>.<span class='ident'>is_some</span>() <span class='op'>&amp;&amp;</span> <span class='ident'>is_set</span>)
+                    });
+                    <span class='kw'>if</span> <span class='ident'>repush</span> {
+                        <span class='comment'>// remove previously pushed meta scopes, so that meta content scopes will be applied in the correct order</span>
+                        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>num_to_pop</span> : <span class='ident'>usize</span> <span class='op'>=</span> <span class='ident'>context_refs</span>.<span class='ident'>iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>r</span><span class='op'>|</span> {
+                            <span class='kw'>let</span> <span class='ident'>ctx_ptr</span> <span class='op'>=</span> <span class='ident'>r</span>.<span class='ident'>resolve</span>();
+                            <span class='kw'>let</span> <span class='ident'>ctx</span> <span class='op'>=</span> <span class='ident'>ctx_ptr</span>.<span class='ident'>borrow</span>();
+                            <span class='ident'>ctx</span>.<span class='ident'>meta_scope</span>.<span class='ident'>len</span>()
+                        }).<span class='ident'>sum</span>();
+
+                        <span class='comment'>// also pop off the original context&#39;s meta scopes</span>
+                        <span class='kw'>if</span> <span class='ident'>is_set</span> {
+                            <span class='ident'>num_to_pop</span> <span class='op'>+=</span> <span class='ident'>cur_context</span>.<span class='ident'>meta_content_scope</span>.<span class='ident'>len</span>() <span class='op'>+</span> <span class='ident'>cur_context</span>.<span class='ident'>meta_scope</span>.<span class='ident'>len</span>();
+                        }
+
+                        <span class='comment'>// do all the popping as one operation</span>
+                        <span class='kw'>if</span> <span class='ident'>num_to_pop</span> <span class='op'>&gt;</span> <span class='number'>0</span> {
+                            <span class='ident'>ops</span>.<span class='ident'>push</span>((<span class='ident'>index</span>, <span class='ident'>ScopeStackOp</span>::<span class='ident'>Pop</span>(<span class='ident'>num_to_pop</span>)));
+                        }
+
+                        <span class='comment'>// now we push meta scope and meta context scope for each context pushed</span>
+                        <span class='kw'>for</span> <span class='ident'>r</span> <span class='kw'>in</span> <span class='ident'>context_refs</span> {
+                            <span class='kw'>let</span> <span class='ident'>ctx_ptr</span> <span class='op'>=</span> <span class='ident'>r</span>.<span class='ident'>resolve</span>();
+                            <span class='kw'>let</span> <span class='ident'>ctx</span> <span class='op'>=</span> <span class='ident'>ctx_ptr</span>.<span class='ident'>borrow</span>();
+
+                            <span class='comment'>// for some reason, contrary to my reading of the docs, set does this after the token</span>
+                            <span class='kw'>if</span> <span class='ident'>is_set</span> {
+                                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>clear_amount</span>) <span class='op'>=</span> <span class='ident'>ctx</span>.<span class='ident'>clear_scopes</span> {
+                                    <span class='ident'>ops</span>.<span class='ident'>push</span>((<span class='ident'>index</span>, <span class='ident'>ScopeStackOp</span>::<span class='ident'>Clear</span>(<span class='ident'>clear_amount</span>)));
+                                }
+                            }
+
+                            <span class='kw'>for</span> <span class='ident'>scope</span> <span class='kw'>in</span> <span class='ident'>ctx</span>.<span class='ident'>meta_scope</span>.<span class='ident'>iter</span>() {
+                                <span class='ident'>ops</span>.<span class='ident'>push</span>((<span class='ident'>index</span>, <span class='ident'>ScopeStackOp</span>::<span class='ident'>Push</span>(<span class='kw-2'>*</span><span class='ident'>scope</span>)));
+                            }
+                            <span class='kw'>for</span> <span class='ident'>scope</span> <span class='kw'>in</span> <span class='ident'>ctx</span>.<span class='ident'>meta_content_scope</span>.<span class='ident'>iter</span>() {
+                                <span class='ident'>ops</span>.<span class='ident'>push</span>((<span class='ident'>index</span>, <span class='ident'>ScopeStackOp</span>::<span class='ident'>Push</span>(<span class='kw-2'>*</span><span class='ident'>scope</span>)));
+                            }
+                        }
                     }
                 }
-            }
-            <span class='ident'>MatchOperation</span>::<span class='prelude-val'>None</span> <span class='op'>|</span>
-            <span class='ident'>MatchOperation</span>::<span class='ident'>Pop</span> <span class='op'>=&gt;</span> (),
+            },
+            <span class='ident'>MatchOperation</span>::<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> (),
         }
     }
 
@@ -1058,7 +1151,6 @@
             (<span class='number'>0</span>, <span class='ident'>Push</span>(<span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;keyword.control.def.ruby&quot;</span>).<span class='ident'>unwrap</span>())),
             (<span class='number'>3</span>, <span class='ident'>Pop</span>(<span class='number'>2</span>)),
             (<span class='number'>3</span>, <span class='ident'>Push</span>(<span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;meta.function.ruby&quot;</span>).<span class='ident'>unwrap</span>())),
-            (<span class='number'>4</span>, <span class='ident'>Pop</span>(<span class='number'>1</span>)),
             (<span class='number'>4</span>, <span class='ident'>Push</span>(<span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;entity.name.function.ruby&quot;</span>).<span class='ident'>unwrap</span>())),
             (<span class='number'>7</span>, <span class='ident'>Pop</span>(<span class='number'>1</span>))
         ];
@@ -1090,6 +1182,8 @@
             (<span class='number'>6</span>, <span class='ident'>Push</span>(<span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;string.unquoted.embedded.sql.ruby&quot;</span>).<span class='ident'>unwrap</span>())),
             (<span class='number'>6</span>, <span class='ident'>Push</span>(<span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;punctuation.definition.string.begin.ruby&quot;</span>).<span class='ident'>unwrap</span>())),
             (<span class='number'>12</span>, <span class='ident'>Pop</span>(<span class='number'>1</span>)),
+            (<span class='number'>12</span>, <span class='ident'>Pop</span>(<span class='number'>1</span>)),
+            (<span class='number'>12</span>, <span class='ident'>Push</span>(<span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;string.unquoted.embedded.sql.ruby&quot;</span>).<span class='ident'>unwrap</span>())),
             (<span class='number'>12</span>, <span class='ident'>Push</span>(<span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;text.sql.embedded.ruby&quot;</span>).<span class='ident'>unwrap</span>())),
             (<span class='number'>12</span>, <span class='ident'>Clear</span>(<span class='ident'>ClearAmount</span>::<span class='ident'>TopN</span>(<span class='number'>2</span>))),
             (<span class='number'>12</span>, <span class='ident'>Restore</span>),
@@ -1110,7 +1204,7 @@
 
     <span class='kw'>fn</span> <span class='ident'>expect_scope_stacks</span>(<span class='ident'>line</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>expect</span>: <span class='kw-2'>&amp;</span>[<span class='kw-2'>&amp;</span><span class='ident'>str</span>]) {
         <span class='comment'>// check that each expected scope stack appears at least once while parsing the given test line</span>
-        
+
         <span class='comment'>//let syntax = SyntaxSet::load_syntax_file(&quot;testdata/parser_tests.sublime-syntax&quot;, true).unwrap();</span>
         <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>;
         <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>Read</span>;
@@ -1119,7 +1213,7 @@
         <span class='ident'>f</span>.<span class='ident'>read_to_string</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>s</span>).<span class='ident'>unwrap</span>();
 
         <span class='kw'>let</span> <span class='ident'>syntax</span> <span class='op'>=</span> <span class='ident'>SyntaxDefinition</span>::<span class='ident'>load_from_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>s</span>, <span class='bool-val'>true</span>).<span class='ident'>unwrap</span>();
-        
+
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>state</span> <span class='op'>=</span> <span class='ident'>ParseState</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='ident'>syntax</span>);
 
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ss</span> <span class='op'>=</span> <span class='ident'>SyntaxSet</span>::<span class='ident'>new</span>();

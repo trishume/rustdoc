@@ -384,7 +384,7 @@
 <span class='kw'>use</span> <span class='ident'>regex_syntax</span>::<span class='ident'>escape</span>;
 <span class='kw'>use</span> <span class='ident'>rustc_serialize</span>::{<span class='ident'>Encodable</span>, <span class='ident'>Encoder</span>, <span class='ident'>Decodable</span>, <span class='ident'>Decoder</span>};
 
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>CaptureMapping</span> <span class='op'>=</span> <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>usize</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Scope</span><span class='op'>&gt;&gt;</span>;
+<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>CaptureMapping</span> <span class='op'>=</span> <span class='ident'>Vec</span><span class='op'>&lt;</span>(<span class='ident'>usize</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Scope</span><span class='op'>&gt;</span>)<span class='op'>&gt;</span>;
 <span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>ContextPtr</span> <span class='op'>=</span> <span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>RefCell</span><span class='op'>&lt;</span><span class='ident'>Context</span><span class='op'>&gt;&gt;</span>;
 
 <span class='doccomment'>/// The main data structure representing a syntax definition loaded from a</span>

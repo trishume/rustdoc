@@ -475,6 +475,54 @@
 <span id="430">430</span>
 <span id="431">431</span>
 <span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>scope</span>::<span class='kw-2'>*</span>;
 <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>syntax_definition</span>::<span class='kw-2'>*</span>;
@@ -529,9 +577,16 @@
     <span class='ident'>variable_regex</span>: <span class='ident'>Regex</span>,
     <span class='ident'>backref_regex</span>: <span class='ident'>Regex</span>,
     <span class='ident'>short_multibyte_regex</span>: <span class='ident'>Regex</span>,
-    <span class='ident'>top_level_scope</span>: <span class='ident'>Scope</span>,
     <span class='ident'>lines_include_newline</span>: <span class='ident'>bool</span>,
 }
+
+<span class='kw'>static</span> <span class='ident'>START_CONTEXTS</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;
+__start:
+    - match: &#39;&#39;
+      push: __main
+__main:
+    - include: main
+&quot;</span>;
 
 <span class='kw'>impl</span> <span class='ident'>SyntaxDefinition</span> {
     <span class='doccomment'>/// In case you want to create your own SyntaxDefinition&#39;s in memory from strings.</span>
@@ -574,14 +629,15 @@
             <span class='ident'>variable_regex</span>: <span class='ident'>Regex</span>::<span class='ident'>new</span>(<span class='string'>r&quot;\{\{([A-Za-z0-9_]+)\}\}&quot;</span>).<span class='ident'>unwrap</span>(),
             <span class='ident'>backref_regex</span>: <span class='ident'>Regex</span>::<span class='ident'>new</span>(<span class='string'>r&quot;\\\d&quot;</span>).<span class='ident'>unwrap</span>(),
             <span class='ident'>short_multibyte_regex</span>: <span class='ident'>Regex</span>::<span class='ident'>new</span>(<span class='string'>r&quot;\\x([a-fA-F][a-fA-F0-9])&quot;</span>).<span class='ident'>unwrap</span>(),
-            <span class='ident'>top_level_scope</span>: <span class='ident'>top_level_scope</span>,
             <span class='ident'>lines_include_newline</span>: <span class='ident'>lines_include_newline</span>,
         };
 
-        <span class='kw'>let</span> <span class='ident'>contexts</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>SyntaxDefinition</span>::<span class='ident'>parse_contexts</span>(<span class='ident'>contexts_hash</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>state</span>));
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>contexts</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>SyntaxDefinition</span>::<span class='ident'>parse_contexts</span>(<span class='ident'>contexts_hash</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>state</span>));
         <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>contexts</span>.<span class='ident'>contains_key</span>(<span class='string'>&quot;main&quot;</span>) {
             <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>ParseSyntaxError</span>::<span class='ident'>MainMissing</span>);
         }
+
+        <span class='ident'>SyntaxDefinition</span>::<span class='ident'>add_initial_contexts</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>contexts</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>state</span>, <span class='ident'>top_level_scope</span>);
 
         <span class='kw'>let</span> <span class='ident'>defn</span> <span class='op'>=</span> <span class='ident'>SyntaxDefinition</span> {
             <span class='ident'>name</span>: <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>get_key</span>(<span class='ident'>h</span>, <span class='string'>&quot;name&quot;</span>, <span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span>.<span class='ident'>as_str</span>())).<span class='ident'>to_owned</span>(),
@@ -613,12 +669,6 @@
                 <span class='kw'>let</span> <span class='ident'>is_prototype</span> <span class='op'>=</span> <span class='ident'>name</span> <span class='op'>==</span> <span class='string'>&quot;prototype&quot;</span>;
                 <span class='kw'>let</span> <span class='ident'>context_ptr</span> <span class='op'>=</span>
                     <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>SyntaxDefinition</span>::<span class='ident'>parse_context</span>(<span class='ident'>val_vec</span>, <span class='ident'>state</span>, <span class='ident'>is_prototype</span>));
-                <span class='kw'>if</span> <span class='ident'>name</span> <span class='op'>==</span> <span class='string'>&quot;main&quot;</span> {
-                    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>context</span> <span class='op'>=</span> <span class='ident'>context_ptr</span>.<span class='ident'>borrow_mut</span>();
-                    <span class='kw'>if</span> <span class='ident'>context</span>.<span class='ident'>meta_content_scope</span>.<span class='ident'>is_empty</span>() {
-                        <span class='ident'>context</span>.<span class='ident'>meta_content_scope</span>.<span class='ident'>push</span>(<span class='ident'>state</span>.<span class='ident'>top_level_scope</span>)
-                    }
-                }
                 <span class='ident'>contexts</span>.<span class='ident'>insert</span>(<span class='ident'>name</span>.<span class='ident'>to_owned</span>(), <span class='ident'>context_ptr</span>);
             }
         }
@@ -754,11 +804,11 @@
             .<span class='ident'>unwrap_or_else</span>(<span class='op'>||</span> <span class='prelude-val'>Ok</span>(<span class='macro'>vec</span><span class='macro'>!</span>[])));
 
         <span class='kw'>let</span> <span class='ident'>captures</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(<span class='ident'>map</span>) <span class='op'>=</span> <span class='ident'>get_key</span>(<span class='ident'>map</span>, <span class='string'>&quot;captures&quot;</span>, <span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span>.<span class='ident'>as_hash</span>()) {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>res_map</span> <span class='op'>=</span> <span class='ident'>HashMap</span>::<span class='ident'>new</span>();
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>res_map</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
             <span class='kw'>for</span> (<span class='ident'>key</span>, <span class='ident'>value</span>) <span class='kw'>in</span> <span class='ident'>map</span>.<span class='ident'>iter</span>() {
                 <span class='kw'>if</span> <span class='kw'>let</span> (<span class='prelude-val'>Some</span>(<span class='ident'>key_int</span>), <span class='prelude-val'>Some</span>(<span class='ident'>val_str</span>)) <span class='op'>=</span> (<span class='ident'>key</span>.<span class='ident'>as_i64</span>(), <span class='ident'>value</span>.<span class='ident'>as_str</span>()) {
-                    <span class='ident'>res_map</span>.<span class='ident'>insert</span>(<span class='ident'>key_int</span> <span class='kw'>as</span> <span class='ident'>usize</span>,
-                                   <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>str_to_scopes</span>(<span class='ident'>val_str</span>, <span class='ident'>state</span>.<span class='ident'>scope_repo</span>)));
+                    <span class='ident'>res_map</span>.<span class='ident'>push</span>((<span class='ident'>key_int</span> <span class='kw'>as</span> <span class='ident'>usize</span>,
+                                   <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>str_to_scopes</span>(<span class='ident'>val_str</span>, <span class='ident'>state</span>.<span class='ident'>scope_repo</span>))));
                 }
             }
             <span class='prelude-val'>Some</span>(<span class='ident'>res_map</span>)
@@ -811,6 +861,46 @@
                 .<span class='ident'>collect</span>()
         } <span class='kw'>else</span> {
             <span class='prelude-val'>Ok</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>SyntaxDefinition</span>::<span class='ident'>parse_reference</span>(<span class='ident'>y</span>, <span class='ident'>state</span>))])
+        }
+    }
+
+    <span class='doccomment'>/// Sublime treats the top level context slightly differently from</span>
+    <span class='doccomment'>/// including the main context from other syntaxes. When main is popped</span>
+    <span class='doccomment'>/// it is immediately re-added and when it is `set` over the file level</span>
+    <span class='doccomment'>/// scope remains. This behaviour is emulated through some added contexts</span>
+    <span class='doccomment'>/// that are the actual top level contexts used in parsing.</span>
+    <span class='doccomment'>/// See https://github.com/trishume/syntect/issues/58 for more.</span>
+    <span class='kw'>fn</span> <span class='ident'>add_initial_contexts</span>(<span class='ident'>contexts</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>ContextPtr</span><span class='op'>&gt;</span>,
+                            <span class='ident'>state</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ParserState</span>,
+                            <span class='ident'>top_level_scope</span>: <span class='ident'>Scope</span>) {
+        <span class='kw'>let</span> <span class='ident'>yaml_docs</span> <span class='op'>=</span> <span class='ident'>YamlLoader</span>::<span class='ident'>load_from_str</span>(<span class='ident'>START_CONTEXTS</span>).<span class='ident'>unwrap</span>();
+        <span class='kw'>let</span> <span class='ident'>yaml</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>yaml_docs</span>[<span class='number'>0</span>];
+
+        <span class='kw'>let</span> <span class='ident'>start_yaml</span> : <span class='kw-2'>&amp;</span>[<span class='ident'>Yaml</span>] <span class='op'>=</span> <span class='ident'>yaml</span>[<span class='string'>&quot;__start&quot;</span>].<span class='ident'>as_vec</span>().<span class='ident'>unwrap</span>();
+        <span class='kw'>let</span> <span class='ident'>start</span> <span class='op'>=</span> <span class='ident'>SyntaxDefinition</span>::<span class='ident'>parse_context</span>(<span class='ident'>start_yaml</span>, <span class='ident'>state</span>, <span class='bool-val'>false</span>).<span class='ident'>unwrap</span>();
+        {
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>start_b</span> <span class='op'>=</span> <span class='ident'>start</span>.<span class='ident'>borrow_mut</span>();
+            <span class='ident'>start_b</span>.<span class='ident'>meta_content_scope</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>top_level_scope</span>];
+        }
+        <span class='ident'>contexts</span>.<span class='ident'>insert</span>(<span class='string'>&quot;__start&quot;</span>.<span class='ident'>to_owned</span>(), <span class='ident'>start</span>);
+
+        <span class='kw'>let</span> <span class='ident'>main_yaml</span> : <span class='kw-2'>&amp;</span>[<span class='ident'>Yaml</span>] <span class='op'>=</span> <span class='ident'>yaml</span>[<span class='string'>&quot;__main&quot;</span>].<span class='ident'>as_vec</span>().<span class='ident'>unwrap</span>();
+        <span class='kw'>let</span> <span class='ident'>main</span> <span class='op'>=</span> <span class='ident'>SyntaxDefinition</span>::<span class='ident'>parse_context</span>(<span class='ident'>main_yaml</span>, <span class='ident'>state</span>, <span class='bool-val'>false</span>).<span class='ident'>unwrap</span>();
+        {
+            <span class='kw'>let</span> <span class='ident'>real_main</span> <span class='op'>=</span> <span class='ident'>contexts</span>[<span class='string'>&quot;main&quot;</span>].<span class='ident'>borrow</span>();
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>main_b</span> <span class='op'>=</span> <span class='ident'>main</span>.<span class='ident'>borrow_mut</span>();
+            <span class='ident'>main_b</span>.<span class='ident'>meta_include_prototype</span> <span class='op'>=</span> <span class='ident'>real_main</span>.<span class='ident'>meta_include_prototype</span>;
+            <span class='ident'>main_b</span>.<span class='ident'>meta_scope</span> <span class='op'>=</span> <span class='ident'>real_main</span>.<span class='ident'>meta_scope</span>.<span class='ident'>clone</span>();
+            <span class='ident'>main_b</span>.<span class='ident'>meta_content_scope</span> <span class='op'>=</span> <span class='ident'>real_main</span>.<span class='ident'>meta_content_scope</span>.<span class='ident'>clone</span>();
+        }
+        <span class='ident'>contexts</span>.<span class='ident'>insert</span>(<span class='string'>&quot;__main&quot;</span>.<span class='ident'>to_owned</span>(), <span class='ident'>main</span>);
+
+        <span class='comment'>// add the top_level_scope as a meta_content_scope to main so</span>
+        <span class='comment'>// pushes from other syntaxes add the file scope</span>
+        <span class='comment'>// TODO: this order is not quite correct if main also has a meta_scope</span>
+        {
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>real_main</span> <span class='op'>=</span> <span class='ident'>contexts</span>[<span class='string'>&quot;main&quot;</span>].<span class='ident'>borrow_mut</span>();
+            <span class='ident'>real_main</span>.<span class='ident'>meta_content_scope</span>.<span class='ident'>insert</span>(<span class='number'>0</span>,<span class='ident'>top_level_scope</span>);
         }
     }
 }
@@ -866,7 +956,8 @@
                                             <span class='bool-val'>false</span>)
                 .<span class='ident'>unwrap</span>();
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>defn2</span>.<span class='ident'>name</span>, <span class='string'>&quot;C&quot;</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>defn2</span>.<span class='ident'>scope</span>, <span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;source.c&quot;</span>).<span class='ident'>unwrap</span>());
+        <span class='kw'>let</span> <span class='ident'>top_level_scope</span> <span class='op'>=</span> <span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;source.c&quot;</span>).<span class='ident'>unwrap</span>();
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>defn2</span>.<span class='ident'>scope</span>, <span class='ident'>top_level_scope</span>);
         <span class='kw'>let</span> <span class='ident'>exts</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;c&quot;</span>), <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;h&quot;</span>)];
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>defn2</span>.<span class='ident'>file_extensions</span>, <span class='ident'>exts</span>);
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>defn2</span>.<span class='ident'>hidden</span>, <span class='bool-val'>true</span>);
@@ -875,15 +966,20 @@
         <span class='kw'>let</span> <span class='ident'>n</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Scope</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
         <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>defn2</span>);
         <span class='comment'>// assert!(false);</span>
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>defn2</span>.<span class='ident'>contexts</span>[<span class='string'>&quot;main&quot;</span>].<span class='ident'>borrow</span>().<span class='ident'>meta_content_scope</span>, <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>top_level_scope</span>]);
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>defn2</span>.<span class='ident'>contexts</span>[<span class='string'>&quot;main&quot;</span>].<span class='ident'>borrow</span>().<span class='ident'>meta_scope</span>, <span class='ident'>n</span>);
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>defn2</span>.<span class='ident'>contexts</span>[<span class='string'>&quot;main&quot;</span>].<span class='ident'>borrow</span>().<span class='ident'>meta_include_prototype</span>, <span class='bool-val'>true</span>);
+
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>defn2</span>.<span class='ident'>contexts</span>[<span class='string'>&quot;__main&quot;</span>].<span class='ident'>borrow</span>().<span class='ident'>meta_content_scope</span>, <span class='ident'>n</span>);
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>defn2</span>.<span class='ident'>contexts</span>[<span class='string'>&quot;__start&quot;</span>].<span class='ident'>borrow</span>().<span class='ident'>meta_content_scope</span>, <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>top_level_scope</span>]);
+
         <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>defn2</span>.<span class='ident'>contexts</span>[<span class='string'>&quot;string&quot;</span>].<span class='ident'>borrow</span>().<span class='ident'>meta_scope</span>,
                    <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;string.quoted.double.c&quot;</span>).<span class='ident'>unwrap</span>()]);
         <span class='kw'>let</span> <span class='ident'>first_pattern</span>: <span class='kw-2'>&amp;</span><span class='ident'>Pattern</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>defn2</span>.<span class='ident'>contexts</span>[<span class='string'>&quot;main&quot;</span>].<span class='ident'>borrow</span>().<span class='ident'>patterns</span>[<span class='number'>0</span>];
         <span class='kw'>match</span> <span class='ident'>first_pattern</span> {
             <span class='kw-2'>&amp;</span><span class='ident'>Pattern</span>::<span class='ident'>Match</span>(<span class='kw-2'>ref</span> <span class='ident'>match_pat</span>) <span class='op'>=&gt;</span> {
                 <span class='kw'>let</span> <span class='ident'>m</span>: <span class='kw-2'>&amp;</span><span class='ident'>CaptureMapping</span> <span class='op'>=</span> <span class='ident'>match_pat</span>.<span class='ident'>captures</span>.<span class='ident'>as_ref</span>().<span class='ident'>expect</span>(<span class='string'>&quot;test failed&quot;</span>);
-                <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='ident'>m</span>[<span class='kw-2'>&amp;</span><span class='number'>1</span>], <span class='kw-2'>&amp;</span><span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;meta.preprocessor.c++&quot;</span>).<span class='ident'>unwrap</span>()]);
+                <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='ident'>m</span>[<span class='number'>0</span>], <span class='kw-2'>&amp;</span>(<span class='number'>1</span>,<span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;meta.preprocessor.c++&quot;</span>).<span class='ident'>unwrap</span>()]));
                 <span class='kw'>use</span> <span class='ident'>parsing</span>::<span class='ident'>syntax_definition</span>::<span class='ident'>ContextReference</span>::<span class='kw-2'>*</span>;
 
                 <span class='comment'>// this is sadly necessary because Context is not Eq because of the Regex</span>

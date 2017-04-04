@@ -501,6 +501,9 @@
 <span id="456">456</span>
 <span id="457">457</span>
 <span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>syntax_definition</span>::<span class='kw-2'>*</span>;
 <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>scope</span>::<span class='kw-2'>*</span>;
@@ -680,8 +683,11 @@
     <span class='doccomment'>/// some may specify a Packages/PackageName/SyntaxName.sublime-syntax path</span>
     <span class='doccomment'>/// others may just have SyntaxName.sublime-syntax</span>
     <span class='doccomment'>/// this caters for these by matching the end of the path of the loaded syntax definition files</span>
+    <span class='comment'>// however, if a syntax name is provided without a folder, make sure we don&#39;t accidentally match the end of a different syntax definition&#39;s name - by checking a / comes before it or it is the full path</span>
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>find_syntax_by_path</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='self'>self</span>, <span class='ident'>path</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>SyntaxDefinition</span><span class='op'>&gt;</span> {
-        <span class='kw'>return</span> <span class='self'>self</span>.<span class='ident'>path_syntaxes</span>.<span class='ident'>iter</span>().<span class='ident'>find</span>(<span class='op'>|</span><span class='ident'>t</span><span class='op'>|</span> <span class='ident'>t</span>.<span class='number'>0</span>.<span class='ident'>ends_with</span>(<span class='ident'>path</span>)).<span class='ident'>map</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span>(_,<span class='ident'>i</span>)<span class='op'>|</span> <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>syntaxes</span>[<span class='ident'>i</span>]);
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>slash_path</span> <span class='op'>=</span> <span class='string'>&quot;/&quot;</span>.<span class='ident'>to_string</span>();
+        <span class='ident'>slash_path</span>.<span class='ident'>push_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>path</span>);
+        <span class='kw'>return</span> <span class='self'>self</span>.<span class='ident'>path_syntaxes</span>.<span class='ident'>iter</span>().<span class='ident'>find</span>(<span class='op'>|</span><span class='ident'>t</span><span class='op'>|</span> <span class='ident'>t</span>.<span class='number'>0</span>.<span class='ident'>ends_with</span>(<span class='kw-2'>&amp;</span><span class='ident'>slash_path</span>) <span class='op'>||</span> <span class='ident'>t</span>.<span class='number'>0</span> <span class='op'>==</span> <span class='ident'>path</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='kw-2'>&amp;</span>(_,<span class='ident'>i</span>)<span class='op'>|</span> <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>syntaxes</span>[<span class='ident'>i</span>]);
     }
 
     <span class='doccomment'>/// Convenience method that tries to find the syntax for a file path,</span>

@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc trait">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,22 +43,22 @@
         </form>
     </nav>
 
-    <section id='main' class="content trait">
-<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>yaml_rust</a>::<wbr><a href='index.html'>parser</a>::<wbr><a class='trait' href=''>MarkedEventReceiver</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>yaml_rust</a>::<wbr><a href='index.html'>parser</a>::<wbr><a class="trait" href=''>MarkedEventReceiver</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a class='srclink' href='../../src/yaml_rust/parser.rs.html#83-85' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait MarkedEventReceiver {
-    fn <a href='#tymethod.on_event' class='fnname'>on_event</a>(&amp;mut self, ev: &amp;<a class='enum' href='../../yaml_rust/parser/enum.Event.html' title='yaml_rust::parser::Event'>Event</a>, _mark: <a class='struct' href='../../yaml_rust/scanner/struct.Marker.html' title='yaml_rust::scanner::Marker'>Marker</a>);
+    fn <a href='#tymethod.on_event' class='fnname'>on_event</a>(&amp;mut self, ev: &amp;<a class="enum" href="../../yaml_rust/parser/enum.Event.html" title="enum yaml_rust::parser::Event">Event</a>, _mark: <a class="struct" href="../../yaml_rust/scanner/struct.Marker.html" title="struct yaml_rust::scanner::Marker">Marker</a>);
 }</pre>
             <h2 id='required-methods'>Required Methods</h2>
             <div class='methods'>
-        <h3 id='tymethod.on_event' class='method'><span id='on_event.v' class='invisible'><code>fn <a href='#tymethod.on_event' class='fnname'>on_event</a>(&amp;mut self, ev: &amp;<a class='enum' href='../../yaml_rust/parser/enum.Event.html' title='yaml_rust::parser::Event'>Event</a>, _mark: <a class='struct' href='../../yaml_rust/scanner/struct.Marker.html' title='yaml_rust::scanner::Marker'>Marker</a>)</code></span></h3></div>
+        <h3 id='tymethod.on_event' class='method'><span id='on_event.v' class='invisible'><code>fn <a href='#tymethod.on_event' class='fnname'>on_event</a>(&amp;mut self, ev: &amp;<a class="enum" href="../../yaml_rust/parser/enum.Event.html" title="enum yaml_rust::parser::Event">Event</a>, _mark: <a class="struct" href="../../yaml_rust/scanner/struct.Marker.html" title="struct yaml_rust::scanner::Marker">Marker</a>)</code></span></h3></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
-    <li><code>impl MarkedEventReceiver for <a class='struct' href='../../yaml_rust/yaml/struct.YamlLoader.html' title='yaml_rust::yaml::YamlLoader'>YamlLoader</a></code></li>
-<li><code>impl&lt;R:&nbsp;<a class='trait' href='../../yaml_rust/parser/trait.EventReceiver.html' title='yaml_rust::parser::EventReceiver'>EventReceiver</a>&gt; MarkedEventReceiver for R</code></li>
+    <li><code>impl MarkedEventReceiver for <a class="struct" href="../../yaml_rust/yaml/struct.YamlLoader.html" title="struct yaml_rust::yaml::YamlLoader">YamlLoader</a></code></li>
+<li><code>impl&lt;R:&nbsp;<a class="trait" href="../../yaml_rust/parser/trait.EventReceiver.html" title="trait yaml_rust::parser::EventReceiver">EventReceiver</a>&gt; MarkedEventReceiver for R</code></li>
 </ul><script type="text/javascript" async
                          src="../../implementors/yaml_rust/parser/trait.MarkedEventReceiver.js">
                  </script></section>

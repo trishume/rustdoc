@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1"> 1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1"> 1</span>
 <span id="2"> 2</span>
 <span id="3"> 3</span>
 <span id="4"> 4</span>
@@ -139,101 +139,101 @@
 <span id="94">94</span>
 <span id="95">95</span>
 <span id="96">96</span>
-</pre><pre class='rust '>
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>Cow</span>;
-<span class='kw'>use</span> <span class='kw'>super</span>::{<span class='ident'>Regex</span>, <span class='ident'>Captures</span>};
+</pre><pre class="rust ">
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">borrow</span>::<span class="ident">Cow</span>;
+<span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">Regex</span>, <span class="ident">Captures</span>};
 
-<span class='doccomment'>/// Replacer describes types that can be used to replace matches in a string.</span>
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Replacer</span> {
-    <span class='doccomment'>/// Returns a possibly owned string that is used to replace the match</span>
-    <span class='doccomment'>/// corresponding to the `caps` capture group.</span>
-    <span class='kw'>fn</span> <span class='ident'>reg_replace</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>caps</span>: <span class='kw-2'>&amp;</span><span class='ident'>Captures</span>) <span class='op'>-&gt;</span> <span class='ident'>Cow</span><span class='op'>&lt;</span><span class='ident'>str</span><span class='op'>&gt;</span>;
+<span class="doccomment">/// Replacer describes types that can be used to replace matches in a string.</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Replacer</span> {
+    <span class="doccomment">/// Returns a possibly owned string that is used to replace the match</span>
+    <span class="doccomment">/// corresponding to the `caps` capture group.</span>
+    <span class="kw">fn</span> <span class="ident">reg_replace</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">caps</span>: <span class="kw-2">&amp;</span><span class="ident">Captures</span>) <span class="op">-&gt;</span> <span class="ident">Cow</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span>;
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;t</span><span class='op'>&gt;</span> <span class='ident'>Replacer</span> <span class='kw'>for</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;t</span> <span class='ident'>str</span> {
-    <span class='kw'>fn</span> <span class='ident'>reg_replace</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, _: <span class='kw-2'>&amp;</span><span class='ident'>Captures</span>) <span class='op'>-&gt;</span> <span class='ident'>Cow</span><span class='op'>&lt;</span><span class='ident'>str</span><span class='op'>&gt;</span> {
-        (<span class='kw-2'>*</span><span class='self'>self</span>).<span class='ident'>into</span>()
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;t</span><span class="op">&gt;</span> <span class="ident">Replacer</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;t</span> <span class="ident">str</span> {
+    <span class="kw">fn</span> <span class="ident">reg_replace</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, _: <span class="kw-2">&amp;</span><span class="ident">Captures</span>) <span class="op">-&gt;</span> <span class="ident">Cow</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span> {
+        (<span class="kw-2">*</span><span class="self">self</span>).<span class="ident">into</span>()
     }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span> <span class='ident'>Replacer</span> <span class='kw'>for</span> <span class='ident'>F</span>
-    <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>FnMut</span>(<span class='kw-2'>&amp;</span><span class='ident'>Captures</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span> <span class="ident">Replacer</span> <span class="kw">for</span> <span class="ident">F</span>
+    <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident">Captures</span>) <span class="op">-&gt;</span> <span class="ident">String</span>
 {
-    <span class='kw'>fn</span> <span class='ident'>reg_replace</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>caps</span>: <span class='kw-2'>&amp;</span><span class='ident'>Captures</span>) <span class='op'>-&gt;</span> <span class='ident'>Cow</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>str</span><span class='op'>&gt;</span> {
-        (<span class='kw-2'>*</span><span class='self'>self</span>)(<span class='ident'>caps</span>).<span class='ident'>into</span>()
+    <span class="kw">fn</span> <span class="ident">reg_replace</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">caps</span>: <span class="kw-2">&amp;</span><span class="ident">Captures</span>) <span class="op">-&gt;</span> <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">str</span><span class="op">&gt;</span> {
+        (<span class="kw-2">*</span><span class="self">self</span>)(<span class="ident">caps</span>).<span class="ident">into</span>()
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>Regex</span> {
-    <span class='doccomment'>/// Replaces the leftmost-first match with the replacement provided.</span>
-    <span class='doccomment'>/// The replacement can be a regular string or a function that takes</span>
-    <span class='doccomment'>/// the matches `Captures` and returns the replaced string.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// If no match is found, then a copy of the string is returned unchanged.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Examples</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// Note that this function is polymorphic with respect to the replacement.</span>
-    <span class='doccomment'>/// In typical usage, this can just be a normal string:</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ```rust</span>
-    <span class='doccomment'>/// # extern crate onig; use onig::Regex;</span>
-    <span class='doccomment'>/// # fn main() {</span>
-    <span class='doccomment'>/// let re = Regex::new(&quot;[^01]+&quot;).unwrap();</span>
-    <span class='doccomment'>/// assert_eq!(re.replace(&quot;1078910&quot;, &quot;&quot;), &quot;1010&quot;);</span>
-    <span class='doccomment'>/// # }</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// But anything satisfying the `Replacer` trait will work. For example,</span>
-    <span class='doccomment'>/// a closure of type `|&amp;Captures| -&gt; String` provides direct access to the</span>
-    <span class='doccomment'>/// captures corresponding to a match. This allows one to access</span>
-    <span class='doccomment'>/// submatches easily:</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ```rust</span>
-    <span class='doccomment'>/// # extern crate onig; use onig::Regex;</span>
-    <span class='doccomment'>/// # use onig::Captures; fn main() {</span>
-    <span class='doccomment'>/// let re = Regex::new(r&quot;([^,\s]+),\s+(\S+)&quot;).unwrap();</span>
-    <span class='doccomment'>/// let result = re.replace(&quot;Springsteen, Bruce&quot;, |caps: &amp;Captures| {</span>
-    <span class='doccomment'>///     format!(&quot;{} {}&quot;, caps.at(2).unwrap_or(&quot;&quot;), caps.at(1).unwrap_or(&quot;&quot;))</span>
-    <span class='doccomment'>/// });</span>
-    <span class='doccomment'>/// assert_eq!(result, &quot;Bruce Springsteen&quot;);</span>
-    <span class='doccomment'>/// # }</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>replace</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>Replacer</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>text</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>rep</span>: <span class='ident'>R</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span> {
-        <span class='self'>self</span>.<span class='ident'>replacen</span>(<span class='ident'>text</span>, <span class='number'>1</span>, <span class='ident'>rep</span>)
+<span class="kw">impl</span> <span class="ident">Regex</span> {
+    <span class="doccomment">/// Replaces the leftmost-first match with the replacement provided.</span>
+    <span class="doccomment">/// The replacement can be a regular string or a function that takes</span>
+    <span class="doccomment">/// the matches `Captures` and returns the replaced string.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If no match is found, then a copy of the string is returned unchanged.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Note that this function is polymorphic with respect to the replacement.</span>
+    <span class="doccomment">/// In typical usage, this can just be a normal string:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```rust</span>
+    <span class="doccomment">/// # extern crate onig; use onig::Regex;</span>
+    <span class="doccomment">/// # fn main() {</span>
+    <span class="doccomment">/// let re = Regex::new(&quot;[^01]+&quot;).unwrap();</span>
+    <span class="doccomment">/// assert_eq!(re.replace(&quot;1078910&quot;, &quot;&quot;), &quot;1010&quot;);</span>
+    <span class="doccomment">/// # }</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// But anything satisfying the `Replacer` trait will work. For example,</span>
+    <span class="doccomment">/// a closure of type `|&amp;Captures| -&gt; String` provides direct access to the</span>
+    <span class="doccomment">/// captures corresponding to a match. This allows one to access</span>
+    <span class="doccomment">/// submatches easily:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```rust</span>
+    <span class="doccomment">/// # extern crate onig; use onig::Regex;</span>
+    <span class="doccomment">/// # use onig::Captures; fn main() {</span>
+    <span class="doccomment">/// let re = Regex::new(r&quot;([^,\s]+),\s+(\S+)&quot;).unwrap();</span>
+    <span class="doccomment">/// let result = re.replace(&quot;Springsteen, Bruce&quot;, |caps: &amp;Captures| {</span>
+    <span class="doccomment">///     format!(&quot;{} {}&quot;, caps.at(2).unwrap_or(&quot;&quot;), caps.at(1).unwrap_or(&quot;&quot;))</span>
+    <span class="doccomment">/// });</span>
+    <span class="doccomment">/// assert_eq!(result, &quot;Bruce Springsteen&quot;);</span>
+    <span class="doccomment">/// # }</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">replace</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Replacer</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">rep</span>: <span class="ident">R</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
+        <span class="self">self</span>.<span class="ident">replacen</span>(<span class="ident">text</span>, <span class="number">1</span>, <span class="ident">rep</span>)
     }
 
-    <span class='doccomment'>/// Replaces all non-overlapping matches in `text` with the</span>
-    <span class='doccomment'>/// replacement provided. This is the same as calling `replacen` with</span>
-    <span class='doccomment'>/// `limit` set to `0`.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// See the documentation for `replace` for details on how to access</span>
-    <span class='doccomment'>/// submatches in the replacement string.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>replace_all</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>Replacer</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>text</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>rep</span>: <span class='ident'>R</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span> {
-        <span class='self'>self</span>.<span class='ident'>replacen</span>(<span class='ident'>text</span>, <span class='number'>0</span>, <span class='ident'>rep</span>)
+    <span class="doccomment">/// Replaces all non-overlapping matches in `text` with the</span>
+    <span class="doccomment">/// replacement provided. This is the same as calling `replacen` with</span>
+    <span class="doccomment">/// `limit` set to `0`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// See the documentation for `replace` for details on how to access</span>
+    <span class="doccomment">/// submatches in the replacement string.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">replace_all</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Replacer</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">rep</span>: <span class="ident">R</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
+        <span class="self">self</span>.<span class="ident">replacen</span>(<span class="ident">text</span>, <span class="number">0</span>, <span class="ident">rep</span>)
     }
 
-    <span class='doccomment'>/// Replaces at most `limit` non-overlapping matches in `text` with the</span>
-    <span class='doccomment'>/// replacement provided. If `limit` is 0, then all non-overlapping matches</span>
-    <span class='doccomment'>/// are replaced.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// See the documentation for `replace` for details on how to access</span>
-    <span class='doccomment'>/// submatches in the replacement string.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>replacen</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>Replacer</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>text</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>limit</span>: <span class='ident'>usize</span>, <span class='kw-2'>mut</span> <span class='ident'>rep</span>: <span class='ident'>R</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>new</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>with_capacity</span>(<span class='ident'>text</span>.<span class='ident'>len</span>());
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>last_match</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>for</span> (<span class='ident'>i</span>, <span class='ident'>cap</span>) <span class='kw'>in</span> <span class='self'>self</span>.<span class='ident'>captures_iter</span>(<span class='ident'>text</span>).<span class='ident'>enumerate</span>() {
-            <span class='kw'>if</span> <span class='ident'>limit</span> <span class='op'>&gt;</span> <span class='number'>0</span> <span class='op'>&amp;&amp;</span> <span class='ident'>i</span> <span class='op'>&gt;=</span> <span class='ident'>limit</span> {
-                <span class='kw'>break</span>;
+    <span class="doccomment">/// Replaces at most `limit` non-overlapping matches in `text` with the</span>
+    <span class="doccomment">/// replacement provided. If `limit` is 0, then all non-overlapping matches</span>
+    <span class="doccomment">/// are replaced.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// See the documentation for `replace` for details on how to access</span>
+    <span class="doccomment">/// submatches in the replacement string.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">replacen</span><span class="op">&lt;</span><span class="ident">R</span>: <span class="ident">Replacer</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">limit</span>: <span class="ident">usize</span>, <span class="kw-2">mut</span> <span class="ident">rep</span>: <span class="ident">R</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">new</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">with_capacity</span>(<span class="ident">text</span>.<span class="ident">len</span>());
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">last_match</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">cap</span>) <span class="kw">in</span> <span class="self">self</span>.<span class="ident">captures_iter</span>(<span class="ident">text</span>).<span class="ident">enumerate</span>() {
+            <span class="kw">if</span> <span class="ident">limit</span> <span class="op">&gt;</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="ident">i</span> <span class="op">&gt;=</span> <span class="ident">limit</span> {
+                <span class="kw">break</span>;
             }
-            <span class='comment'>// unwrap on 0 is OK because captures only reports matches</span>
-            <span class='kw'>let</span> (<span class='ident'>s</span>, <span class='ident'>e</span>) <span class='op'>=</span> <span class='ident'>cap</span>.<span class='ident'>pos</span>(<span class='number'>0</span>).<span class='ident'>unwrap</span>();
-            <span class='ident'>new</span>.<span class='ident'>push_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>text</span>[<span class='ident'>last_match</span>..<span class='ident'>s</span>]);
-            <span class='ident'>new</span>.<span class='ident'>push_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>rep</span>.<span class='ident'>reg_replace</span>(<span class='kw-2'>&amp;</span><span class='ident'>cap</span>));
-            <span class='ident'>last_match</span> <span class='op'>=</span> <span class='ident'>e</span>;
+            <span class="comment">// unwrap on 0 is OK because captures only reports matches</span>
+            <span class="kw">let</span> (<span class="ident">s</span>, <span class="ident">e</span>) <span class="op">=</span> <span class="ident">cap</span>.<span class="ident">pos</span>(<span class="number">0</span>).<span class="ident">unwrap</span>();
+            <span class="ident">new</span>.<span class="ident">push_str</span>(<span class="kw-2">&amp;</span><span class="ident">text</span>[<span class="ident">last_match</span>..<span class="ident">s</span>]);
+            <span class="ident">new</span>.<span class="ident">push_str</span>(<span class="kw-2">&amp;</span><span class="ident">rep</span>.<span class="ident">reg_replace</span>(<span class="kw-2">&amp;</span><span class="ident">cap</span>));
+            <span class="ident">last_match</span> <span class="op">=</span> <span class="ident">e</span>;
         }
-        <span class='ident'>new</span>.<span class='ident'>push_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>text</span>[<span class='ident'>last_match</span>..]);
-        <span class='ident'>new</span>
+        <span class="ident">new</span>.<span class="ident">push_str</span>(<span class="kw-2">&amp;</span><span class="ident">text</span>[<span class="ident">last_match</span>..]);
+        <span class="ident">new</span>
     }
 }
 </pre>

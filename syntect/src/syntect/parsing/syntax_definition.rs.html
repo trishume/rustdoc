@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -339,363 +339,301 @@
 <span id="294">294</span>
 <span id="295">295</span>
 <span id="296">296</span>
-<span id="297">297</span>
-<span id="298">298</span>
-<span id="299">299</span>
-<span id="300">300</span>
-<span id="301">301</span>
-<span id="302">302</span>
-<span id="303">303</span>
-<span id="304">304</span>
-<span id="305">305</span>
-<span id="306">306</span>
-<span id="307">307</span>
-<span id="308">308</span>
-<span id="309">309</span>
-<span id="310">310</span>
-<span id="311">311</span>
-<span id="312">312</span>
-<span id="313">313</span>
-<span id="314">314</span>
-<span id="315">315</span>
-<span id="316">316</span>
-<span id="317">317</span>
-<span id="318">318</span>
-<span id="319">319</span>
-<span id="320">320</span>
-<span id="321">321</span>
-<span id="322">322</span>
-<span id="323">323</span>
-<span id="324">324</span>
-<span id="325">325</span>
-<span id="326">326</span>
-<span id="327">327</span>
-</pre><pre class='rust '>
-<span class='doccomment'>//! This module contains data structures for representing syntax definitions.</span>
-<span class='doccomment'>//! Everything is public because I want this library to be useful in super</span>
-<span class='doccomment'>//! integrated cases like text editors and I have no idea what kind of monkeying</span>
-<span class='doccomment'>//! you might want to do with the data. Perhaps parsing your own syntax format</span>
-<span class='doccomment'>//! into this data structure?</span>
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
-<span class='kw'>use</span> <span class='ident'>onig</span>::{<span class='self'>self</span>, <span class='ident'>Regex</span>, <span class='ident'>Region</span>, <span class='ident'>Syntax</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rc</span>::{<span class='ident'>Rc</span>, <span class='ident'>Weak</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cell</span>::<span class='ident'>RefCell</span>;
-<span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>scope</span>::<span class='kw-2'>*</span>;
-<span class='kw'>use</span> <span class='ident'>regex_syntax</span>::<span class='ident'>escape</span>;
-<span class='kw'>use</span> <span class='ident'>rustc_serialize</span>::{<span class='ident'>Encodable</span>, <span class='ident'>Encoder</span>, <span class='ident'>Decodable</span>, <span class='ident'>Decoder</span>};
+</pre><pre class="rust ">
+<span class="doccomment">//! This module contains data structures for representing syntax definitions.</span>
+<span class="doccomment">//! Everything is public because I want this library to be useful in super</span>
+<span class="doccomment">//! integrated cases like text editors and I have no idea what kind of monkeying</span>
+<span class="doccomment">//! you might want to do with the data. Perhaps parsing your own syntax format</span>
+<span class="doccomment">//! into this data structure?</span>
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashMap</span>;
+<span class="kw">use</span> <span class="ident">onig</span>::{<span class="self">self</span>, <span class="ident">Regex</span>, <span class="ident">Region</span>, <span class="ident">Syntax</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">rc</span>::{<span class="ident">Rc</span>, <span class="ident">Weak</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cell</span>::<span class="ident">RefCell</span>;
+<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">scope</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="ident">regex_syntax</span>::<span class="ident">escape</span>;
+<span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Deserializer</span>, <span class="ident">Serialize</span>, <span class="ident">Serializer</span>};
 
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>CaptureMapping</span> <span class='op'>=</span> <span class='ident'>Vec</span><span class='op'>&lt;</span>(<span class='ident'>usize</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Scope</span><span class='op'>&gt;</span>)<span class='op'>&gt;</span>;
-<span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>ContextPtr</span> <span class='op'>=</span> <span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>RefCell</span><span class='op'>&lt;</span><span class='ident'>Context</span><span class='op'>&gt;&gt;</span>;
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">CaptureMapping</span> <span class="op">=</span> <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">usize</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Scope</span><span class="op">&gt;</span>)<span class="op">&gt;</span>;
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">ContextPtr</span> <span class="op">=</span> <span class="ident">Rc</span><span class="op">&lt;</span><span class="ident">RefCell</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;&gt;</span>;
 
-<span class='doccomment'>/// The main data structure representing a syntax definition loaded from a</span>
-<span class='doccomment'>/// `.sublime-syntax` file. You&#39;ll probably only need these as references</span>
-<span class='doccomment'>/// to be passed around to parsing code.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Some useful public fields are the `name` field which is a human readable</span>
-<span class='doccomment'>/// name to display in syntax lists, and the `hidden` field which means hide</span>
-<span class='doccomment'>/// this syntax from any lists because it is for internal use.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>RustcEncodable</span>, <span class='ident'>RustcDecodable</span>, <span class='ident'>Eq</span>, <span class='ident'>PartialEq</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>SyntaxDefinition</span> {
-    <span class='kw'>pub</span> <span class='ident'>name</span>: <span class='ident'>String</span>,
-    <span class='kw'>pub</span> <span class='ident'>file_extensions</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>,
-    <span class='kw'>pub</span> <span class='ident'>scope</span>: <span class='ident'>Scope</span>,
-    <span class='kw'>pub</span> <span class='ident'>first_line_match</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>,
-    <span class='kw'>pub</span> <span class='ident'>hidden</span>: <span class='ident'>bool</span>,
-    <span class='doccomment'>/// Filled in at link time to avoid serializing it multiple times</span>
-    <span class='kw'>pub</span> <span class='ident'>prototype</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>ContextPtr</span><span class='op'>&gt;</span>,
+<span class="doccomment">/// The main data structure representing a syntax definition loaded from a</span>
+<span class="doccomment">/// `.sublime-syntax` file. You&#39;ll probably only need these as references</span>
+<span class="doccomment">/// to be passed around to parsing code.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Some useful public fields are the `name` field which is a human readable</span>
+<span class="doccomment">/// name to display in syntax lists, and the `hidden` field which means hide</span>
+<span class="doccomment">/// this syntax from any lists because it is for internal use.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SyntaxDefinition</span> {
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">String</span>,
+    <span class="kw">pub</span> <span class="ident">file_extensions</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">scope</span>: <span class="ident">Scope</span>,
+    <span class="kw">pub</span> <span class="ident">first_line_match</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">hidden</span>: <span class="ident">bool</span>,
+    <span class="doccomment">/// Filled in at link time to avoid serializing it multiple times</span>
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing</span>, <span class="ident">skip_deserializing</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">prototype</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ContextPtr</span><span class="op">&gt;</span>,
 
-    <span class='kw'>pub</span> <span class='ident'>variables</span>: <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>String</span><span class='op'>&gt;</span>,
-    <span class='kw'>pub</span> <span class='ident'>contexts</span>: <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>ContextPtr</span><span class='op'>&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">variables</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">contexts</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">ContextPtr</span><span class="op">&gt;</span>,
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>RustcEncodable</span>, <span class='ident'>RustcDecodable</span>, <span class='ident'>Eq</span>, <span class='ident'>PartialEq</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Context</span> {
-    <span class='kw'>pub</span> <span class='ident'>meta_scope</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Scope</span><span class='op'>&gt;</span>,
-    <span class='kw'>pub</span> <span class='ident'>meta_content_scope</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Scope</span><span class='op'>&gt;</span>,
-    <span class='doccomment'>/// This being set false in the syntax file implies this field being set false,</span>
-    <span class='doccomment'>/// but it can also be set falso for contexts that don&#39;t include the prototype for other reasons</span>
-    <span class='kw'>pub</span> <span class='ident'>meta_include_prototype</span>: <span class='ident'>bool</span>,
-    <span class='kw'>pub</span> <span class='ident'>clear_scopes</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>ClearAmount</span><span class='op'>&gt;</span>,
-    <span class='doccomment'>/// This is filled in by the linker at link time</span>
-    <span class='doccomment'>/// for contexts that have `meta_include_prototype==true`</span>
-    <span class='doccomment'>/// and are not included from the prototype.</span>
-    <span class='kw'>pub</span> <span class='ident'>prototype</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>ContextPtr</span><span class='op'>&gt;</span>,
-    <span class='kw'>pub</span> <span class='ident'>uses_backrefs</span>: <span class='ident'>bool</span>,
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Context</span> {
+    <span class="kw">pub</span> <span class="ident">meta_scope</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Scope</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">meta_content_scope</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Scope</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// This being set false in the syntax file implies this field being set false,</span>
+    <span class="doccomment">/// but it can also be set falso for contexts that don&#39;t include the prototype for other reasons</span>
+    <span class="kw">pub</span> <span class="ident">meta_include_prototype</span>: <span class="ident">bool</span>,
+    <span class="kw">pub</span> <span class="ident">clear_scopes</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ClearAmount</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// This is filled in by the linker at link time</span>
+    <span class="doccomment">/// for contexts that have `meta_include_prototype==true`</span>
+    <span class="doccomment">/// and are not included from the prototype.</span>
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing</span>, <span class="ident">skip_deserializing</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">prototype</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ContextPtr</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">uses_backrefs</span>: <span class="ident">bool</span>,
 
-    <span class='kw'>pub</span> <span class='ident'>patterns</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Pattern</span><span class='op'>&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">patterns</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Pattern</span><span class="op">&gt;</span>,
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>RustcEncodable</span>, <span class='ident'>RustcDecodable</span>, <span class='ident'>Eq</span>, <span class='ident'>PartialEq</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>Pattern</span> {
-    <span class='ident'>Match</span>(<span class='ident'>MatchPattern</span>),
-    <span class='ident'>Include</span>(<span class='ident'>ContextReference</span>),
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Pattern</span> {
+    <span class="ident">Match</span>(<span class="ident">MatchPattern</span>),
+    <span class="ident">Include</span>(<span class="ident">ContextReference</span>),
 }
 
-<span class='doccomment'>/// Used to iterate over all the match patterns in a context.</span>
-<span class='doccomment'>/// Basically walks the tree of patterns and include directives</span>
-<span class='doccomment'>/// in the correct order.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>RustcEncodable</span>, <span class='ident'>RustcDecodable</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>MatchIter</span> {
-    <span class='ident'>ctx_stack</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>ContextPtr</span><span class='op'>&gt;</span>,
-    <span class='ident'>index_stack</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span>,
+<span class="doccomment">/// Used to iterate over all the match patterns in a context.</span>
+<span class="doccomment">/// Basically walks the tree of patterns and include directives</span>
+<span class="doccomment">/// in the correct order.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MatchIter</span> {
+    <span class="ident">ctx_stack</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">ContextPtr</span><span class="op">&gt;</span>,
+    <span class="ident">index_stack</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>,
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Eq</span>, <span class='ident'>PartialEq</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>MatchPattern</span> {
-    <span class='kw'>pub</span> <span class='ident'>has_captures</span>: <span class='ident'>bool</span>,
-    <span class='kw'>pub</span> <span class='ident'>regex_str</span>: <span class='ident'>String</span>,
-    <span class='kw'>pub</span> <span class='ident'>regex</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Regex</span><span class='op'>&gt;</span>,
-    <span class='kw'>pub</span> <span class='ident'>scope</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Scope</span><span class='op'>&gt;</span>,
-    <span class='kw'>pub</span> <span class='ident'>captures</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>CaptureMapping</span><span class='op'>&gt;</span>,
-    <span class='kw'>pub</span> <span class='ident'>operation</span>: <span class='ident'>MatchOperation</span>,
-    <span class='kw'>pub</span> <span class='ident'>with_prototype</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>ContextPtr</span><span class='op'>&gt;</span>,
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MatchPattern</span> {
+    <span class="kw">pub</span> <span class="ident">has_captures</span>: <span class="ident">bool</span>,
+    <span class="kw">pub</span> <span class="ident">regex_str</span>: <span class="ident">String</span>,
+    <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">skip_serializing</span>, <span class="ident">skip_deserializing</span>)]</span>
+    <span class="kw">pub</span> <span class="ident">regex</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Regex</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">scope</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Scope</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">captures</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">CaptureMapping</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">operation</span>: <span class="ident">MatchOperation</span>,
+    <span class="kw">pub</span> <span class="ident">with_prototype</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ContextPtr</span><span class="op">&gt;</span>,
 }
 
-<span class='doccomment'>/// This wrapper only exists so that I can implement a serialization</span>
-<span class='doccomment'>/// trait that crashes if you try and serialize this.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>LinkerLink</span> {
-    <span class='kw'>pub</span> <span class='ident'>link</span>: <span class='ident'>Weak</span><span class='op'>&lt;</span><span class='ident'>RefCell</span><span class='op'>&lt;</span><span class='ident'>Context</span><span class='op'>&gt;&gt;</span>,
+<span class="doccomment">/// This wrapper only exists so that I can implement a serialization</span>
+<span class="doccomment">/// trait that crashes if you try and serialize this.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LinkerLink</span> {
+    <span class="kw">pub</span> <span class="ident">link</span>: <span class="ident">Weak</span><span class="op">&lt;</span><span class="ident">RefCell</span><span class="op">&lt;</span><span class="ident">Context</span><span class="op">&gt;&gt;</span>,
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>RustcEncodable</span>, <span class='ident'>RustcDecodable</span>, <span class='ident'>Eq</span>, <span class='ident'>PartialEq</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ContextReference</span> {
-    <span class='ident'>Named</span>(<span class='ident'>String</span>),
-    <span class='ident'>ByScope</span> {
-        <span class='ident'>scope</span>: <span class='ident'>Scope</span>,
-        <span class='ident'>sub_context</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>,
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ContextReference</span> {
+    <span class="ident">Named</span>(<span class="ident">String</span>),
+    <span class="ident">ByScope</span> {
+        <span class="ident">scope</span>: <span class="ident">Scope</span>,
+        <span class="ident">sub_context</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
     },
-    <span class='ident'>File</span> {
-        <span class='ident'>name</span>: <span class='ident'>String</span>,
-        <span class='ident'>sub_context</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>,
+    <span class="ident">File</span> {
+        <span class="ident">name</span>: <span class="ident">String</span>,
+        <span class="ident">sub_context</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
     },
-    <span class='ident'>Inline</span>(<span class='ident'>ContextPtr</span>),
-    <span class='ident'>Direct</span>(<span class='ident'>LinkerLink</span>),
+    <span class="ident">Inline</span>(<span class="ident">ContextPtr</span>),
+    <span class="ident">Direct</span>(<span class="ident">LinkerLink</span>),
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>RustcEncodable</span>, <span class='ident'>RustcDecodable</span>, <span class='ident'>Eq</span>, <span class='ident'>PartialEq</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>MatchOperation</span> {
-    <span class='ident'>Push</span>(<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>ContextReference</span><span class='op'>&gt;</span>),
-    <span class='ident'>Set</span>(<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>ContextReference</span><span class='op'>&gt;</span>),
-    <span class='ident'>Pop</span>,
-    <span class='prelude-val'>None</span>,
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">MatchOperation</span> {
+    <span class="ident">Push</span>(<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">ContextReference</span><span class="op">&gt;</span>),
+    <span class="ident">Set</span>(<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">ContextReference</span><span class="op">&gt;</span>),
+    <span class="ident">Pop</span>,
+    <span class="prelude-val">None</span>,
 }
 
-<span class='kw'>impl</span> <span class='ident'>Iterator</span> <span class='kw'>for</span> <span class='ident'>MatchIter</span> {
-    <span class='kw'>type</span> <span class='ident'>Item</span> <span class='op'>=</span> (<span class='ident'>ContextPtr</span>, <span class='ident'>usize</span>);
+<span class="kw">impl</span> <span class="ident">Iterator</span> <span class="kw">for</span> <span class="ident">MatchIter</span> {
+    <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> (<span class="ident">ContextPtr</span>, <span class="ident">usize</span>);
 
-    <span class='kw'>fn</span> <span class='ident'>next</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span>(<span class='ident'>ContextPtr</span>, <span class='ident'>usize</span>)<span class='op'>&gt;</span> {
-        <span class='kw'>loop</span> {
-            <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>ctx_stack</span>.<span class='ident'>is_empty</span>() {
-                <span class='kw'>return</span> <span class='prelude-val'>None</span>;
+    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">ContextPtr</span>, <span class="ident">usize</span>)<span class="op">&gt;</span> {
+        <span class="kw">loop</span> {
+            <span class="kw">if</span> <span class="self">self</span>.<span class="ident">ctx_stack</span>.<span class="ident">is_empty</span>() {
+                <span class="kw">return</span> <span class="prelude-val">None</span>;
             }
-            <span class='comment'>// uncomment for debugging infinite recursion</span>
-            <span class='comment'>// println!(&quot;{:?}&quot;, self.index_stack);</span>
-            <span class='comment'>// use std::thread::sleep_ms;</span>
-            <span class='comment'>// sleep_ms(500);</span>
-            <span class='kw'>let</span> <span class='ident'>last_index</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>ctx_stack</span>.<span class='ident'>len</span>() <span class='op'>-</span> <span class='number'>1</span>;
-            <span class='kw'>let</span> <span class='ident'>context_ref</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>ctx_stack</span>[<span class='ident'>last_index</span>].<span class='ident'>clone</span>();
-            <span class='kw'>let</span> <span class='ident'>context</span> <span class='op'>=</span> <span class='ident'>context_ref</span>.<span class='ident'>borrow</span>();
-            <span class='kw'>let</span> <span class='ident'>index</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>index_stack</span>[<span class='ident'>last_index</span>];
-            <span class='self'>self</span>.<span class='ident'>index_stack</span>[<span class='ident'>last_index</span>] <span class='op'>=</span> <span class='ident'>index</span> <span class='op'>+</span> <span class='number'>1</span>;
-            <span class='kw'>if</span> <span class='ident'>index</span> <span class='op'>&lt;</span> <span class='ident'>context</span>.<span class='ident'>patterns</span>.<span class='ident'>len</span>() {
-                <span class='kw'>match</span> <span class='ident'>context</span>.<span class='ident'>patterns</span>[<span class='ident'>index</span>] {
-                    <span class='ident'>Pattern</span>::<span class='ident'>Match</span>(_) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Some</span>((<span class='ident'>context_ref</span>.<span class='ident'>clone</span>(), <span class='ident'>index</span>)),
-                    <span class='ident'>Pattern</span>::<span class='ident'>Include</span>(<span class='kw-2'>ref</span> <span class='ident'>ctx_ref</span>) <span class='op'>=&gt;</span> {
-                        <span class='kw'>let</span> <span class='ident'>ctx_ptr</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>ctx_ref</span> {
-                            <span class='ident'>ContextReference</span>::<span class='ident'>Inline</span>(<span class='kw-2'>ref</span> <span class='ident'>ctx_ptr</span>) <span class='op'>=&gt;</span> <span class='ident'>ctx_ptr</span>.<span class='ident'>clone</span>(),
-                            <span class='ident'>ContextReference</span>::<span class='ident'>Direct</span>(<span class='kw-2'>ref</span> <span class='ident'>ctx_ptr</span>) <span class='op'>=&gt;</span> {
-                                <span class='ident'>ctx_ptr</span>.<span class='ident'>link</span>.<span class='ident'>upgrade</span>().<span class='ident'>unwrap</span>()
+            <span class="comment">// uncomment for debugging infinite recursion</span>
+            <span class="comment">// println!(&quot;{:?}&quot;, self.index_stack);</span>
+            <span class="comment">// use std::thread::sleep_ms;</span>
+            <span class="comment">// sleep_ms(500);</span>
+            <span class="kw">let</span> <span class="ident">last_index</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">ctx_stack</span>.<span class="ident">len</span>() <span class="op">-</span> <span class="number">1</span>;
+            <span class="kw">let</span> <span class="ident">context_ref</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">ctx_stack</span>[<span class="ident">last_index</span>].<span class="ident">clone</span>();
+            <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">context_ref</span>.<span class="ident">borrow</span>();
+            <span class="kw">let</span> <span class="ident">index</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">index_stack</span>[<span class="ident">last_index</span>];
+            <span class="self">self</span>.<span class="ident">index_stack</span>[<span class="ident">last_index</span>] <span class="op">=</span> <span class="ident">index</span> <span class="op">+</span> <span class="number">1</span>;
+            <span class="kw">if</span> <span class="ident">index</span> <span class="op">&lt;</span> <span class="ident">context</span>.<span class="ident">patterns</span>.<span class="ident">len</span>() {
+                <span class="kw">match</span> <span class="ident">context</span>.<span class="ident">patterns</span>[<span class="ident">index</span>] {
+                    <span class="ident">Pattern</span>::<span class="ident">Match</span>(_) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Some</span>((<span class="ident">context_ref</span>.<span class="ident">clone</span>(), <span class="ident">index</span>)),
+                    <span class="ident">Pattern</span>::<span class="ident">Include</span>(<span class="kw-2">ref</span> <span class="ident">ctx_ref</span>) <span class="op">=&gt;</span> {
+                        <span class="kw">let</span> <span class="ident">ctx_ptr</span> <span class="op">=</span> <span class="kw">match</span> <span class="kw-2">*</span><span class="ident">ctx_ref</span> {
+                            <span class="ident">ContextReference</span>::<span class="ident">Inline</span>(<span class="kw-2">ref</span> <span class="ident">ctx_ptr</span>) <span class="op">=&gt;</span> <span class="ident">ctx_ptr</span>.<span class="ident">clone</span>(),
+                            <span class="ident">ContextReference</span>::<span class="ident">Direct</span>(<span class="kw-2">ref</span> <span class="ident">ctx_ptr</span>) <span class="op">=&gt;</span> {
+                                <span class="ident">ctx_ptr</span>.<span class="ident">link</span>.<span class="ident">upgrade</span>().<span class="ident">unwrap</span>()
                             }
-                            _ <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='self'>self</span>.<span class='ident'>next</span>(), <span class='comment'>// skip this and move onto the next one</span>
+                            _ <span class="op">=&gt;</span> <span class="kw">return</span> <span class="self">self</span>.<span class="ident">next</span>(), <span class="comment">// skip this and move onto the next one</span>
                         };
-                        <span class='self'>self</span>.<span class='ident'>ctx_stack</span>.<span class='ident'>push</span>(<span class='ident'>ctx_ptr</span>);
-                        <span class='self'>self</span>.<span class='ident'>index_stack</span>.<span class='ident'>push</span>(<span class='number'>0</span>);
+                        <span class="self">self</span>.<span class="ident">ctx_stack</span>.<span class="ident">push</span>(<span class="ident">ctx_ptr</span>);
+                        <span class="self">self</span>.<span class="ident">index_stack</span>.<span class="ident">push</span>(<span class="number">0</span>);
                     }
                 }
-            } <span class='kw'>else</span> {
-                <span class='self'>self</span>.<span class='ident'>ctx_stack</span>.<span class='ident'>pop</span>();
-                <span class='self'>self</span>.<span class='ident'>index_stack</span>.<span class='ident'>pop</span>();
+            } <span class="kw">else</span> {
+                <span class="self">self</span>.<span class="ident">ctx_stack</span>.<span class="ident">pop</span>();
+                <span class="self">self</span>.<span class="ident">index_stack</span>.<span class="ident">pop</span>();
             }
         }
     }
 }
 
-<span class='doccomment'>/// Returns an iterator over all the match patterns in this context.</span>
-<span class='doccomment'>/// It recursively follows include directives. Can only be run on</span>
-<span class='doccomment'>/// contexts that have already been linked up.</span>
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>context_iter</span>(<span class='ident'>ctx</span>: <span class='ident'>ContextPtr</span>) <span class='op'>-&gt;</span> <span class='ident'>MatchIter</span> {
-    <span class='ident'>MatchIter</span> {
-        <span class='ident'>ctx_stack</span>: <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>ctx</span>],
-        <span class='ident'>index_stack</span>: <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0</span>],
+<span class="doccomment">/// Returns an iterator over all the match patterns in this context.</span>
+<span class="doccomment">/// It recursively follows include directives. Can only be run on</span>
+<span class="doccomment">/// contexts that have already been linked up.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">context_iter</span>(<span class="ident">ctx</span>: <span class="ident">ContextPtr</span>) <span class="op">-&gt;</span> <span class="ident">MatchIter</span> {
+    <span class="ident">MatchIter</span> {
+        <span class="ident">ctx_stack</span>: <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">ctx</span>],
+        <span class="ident">index_stack</span>: <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>],
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>Context</span> {
-    <span class='doccomment'>/// Returns the match pattern at an index, panics if the thing isn&#39;t a match pattern</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>match_at</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>index</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>MatchPattern</span> {
-        <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>patterns</span>[<span class='ident'>index</span>] {
-            <span class='ident'>Pattern</span>::<span class='ident'>Match</span>(<span class='kw-2'>ref</span> <span class='ident'>match_pat</span>) <span class='op'>=&gt;</span> <span class='ident'>match_pat</span>,
-            _ <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;bad index to match_at&quot;</span>),
+<span class="kw">impl</span> <span class="ident">Context</span> {
+    <span class="doccomment">/// Returns the match pattern at an index, panics if the thing isn&#39;t a match pattern</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">match_at</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">index</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">MatchPattern</span> {
+        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">patterns</span>[<span class="ident">index</span>] {
+            <span class="ident">Pattern</span>::<span class="ident">Match</span>(<span class="kw-2">ref</span> <span class="ident">match_pat</span>) <span class="op">=&gt;</span> <span class="ident">match_pat</span>,
+            _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;bad index to match_at&quot;</span>),
         }
     }
 
-    <span class='doccomment'>/// Returns a mutable reference, otherwise like `match_at`</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>match_at_mut</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>index</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>MatchPattern</span> {
-        <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>patterns</span>[<span class='ident'>index</span>] {
-            <span class='ident'>Pattern</span>::<span class='ident'>Match</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>match_pat</span>) <span class='op'>=&gt;</span> <span class='ident'>match_pat</span>,
-            _ <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;bad index to match_at&quot;</span>),
-        }
-    }
-}
-
-<span class='kw'>impl</span> <span class='ident'>ContextReference</span> {
-    <span class='doccomment'>/// find the pointed to context, panics if ref is not linked</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>resolve</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>ContextPtr</span> {
-        <span class='kw'>match</span> <span class='kw-2'>*</span><span class='self'>self</span> {
-            <span class='ident'>ContextReference</span>::<span class='ident'>Inline</span>(<span class='kw-2'>ref</span> <span class='ident'>ptr</span>) <span class='op'>=&gt;</span> <span class='ident'>ptr</span>.<span class='ident'>clone</span>(),
-            <span class='ident'>ContextReference</span>::<span class='ident'>Direct</span>(<span class='kw-2'>ref</span> <span class='ident'>ptr</span>) <span class='op'>=&gt;</span> <span class='ident'>ptr</span>.<span class='ident'>link</span>.<span class='ident'>upgrade</span>().<span class='ident'>unwrap</span>(),
-            _ <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Can only call resolve on linked references: {:?}&quot;</span>, <span class='self'>self</span>),
+    <span class="doccomment">/// Returns a mutable reference, otherwise like `match_at`</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">match_at_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">index</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">MatchPattern</span> {
+        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">patterns</span>[<span class="ident">index</span>] {
+            <span class="ident">Pattern</span>::<span class="ident">Match</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">match_pat</span>) <span class="op">=&gt;</span> <span class="ident">match_pat</span>,
+            _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;bad index to match_at&quot;</span>),
         }
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>MatchPattern</span> {
-    <span class='doccomment'>/// substitutes back-refs in Regex with regions from s</span>
-    <span class='doccomment'>/// used for match patterns which refer to captures from the pattern</span>
-    <span class='doccomment'>/// that pushed them.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>regex_with_substitutes</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>region</span>: <span class='kw-2'>&amp;</span><span class='ident'>Region</span>, <span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>reg_str</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>new</span>();
+<span class="kw">impl</span> <span class="ident">ContextReference</span> {
+    <span class="doccomment">/// find the pointed to context, panics if ref is not linked</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">resolve</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">ContextPtr</span> {
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">ContextReference</span>::<span class="ident">Inline</span>(<span class="kw-2">ref</span> <span class="ident">ptr</span>) <span class="op">=&gt;</span> <span class="ident">ptr</span>.<span class="ident">clone</span>(),
+            <span class="ident">ContextReference</span>::<span class="ident">Direct</span>(<span class="kw-2">ref</span> <span class="ident">ptr</span>) <span class="op">=&gt;</span> <span class="ident">ptr</span>.<span class="ident">link</span>.<span class="ident">upgrade</span>().<span class="ident">unwrap</span>(),
+            _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Can only call resolve on linked references: {:?}&quot;</span>, <span class="self">self</span>),
+        }
+    }
+}
 
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>last_was_escape</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
-        <span class='kw'>for</span> <span class='ident'>c</span> <span class='kw'>in</span> <span class='self'>self</span>.<span class='ident'>regex_str</span>.<span class='ident'>chars</span>() {
-            <span class='kw'>if</span> <span class='ident'>last_was_escape</span> <span class='op'>&amp;&amp;</span> <span class='ident'>c</span>.<span class='ident'>is_digit</span>(<span class='number'>10</span>) {
-                <span class='kw'>let</span> <span class='ident'>val</span> <span class='op'>=</span> <span class='ident'>c</span>.<span class='ident'>to_digit</span>(<span class='number'>10</span>).<span class='ident'>unwrap</span>();
-                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>((<span class='ident'>start</span>, <span class='ident'>end</span>)) <span class='op'>=</span> <span class='ident'>region</span>.<span class='ident'>pos</span>(<span class='ident'>val</span> <span class='kw'>as</span> <span class='ident'>usize</span>) {
-                    <span class='kw'>let</span> <span class='ident'>escaped</span> <span class='op'>=</span> <span class='ident'>escape</span>(<span class='kw-2'>&amp;</span><span class='ident'>s</span>[<span class='ident'>start</span>..<span class='ident'>end</span>]);
-                    <span class='ident'>reg_str</span>.<span class='ident'>push_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>escaped</span>);
+<span class="kw">impl</span> <span class="ident">MatchPattern</span> {
+    <span class="doccomment">/// substitutes back-refs in Regex with regions from s</span>
+    <span class="doccomment">/// used for match patterns which refer to captures from the pattern</span>
+    <span class="doccomment">/// that pushed them.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">regex_with_substitutes</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">region</span>: <span class="kw-2">&amp;</span><span class="ident">Region</span>, <span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reg_str</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">new</span>();
+
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">last_was_escape</span> <span class="op">=</span> <span class="bool-val">false</span>;
+        <span class="kw">for</span> <span class="ident">c</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">regex_str</span>.<span class="ident">chars</span>() {
+            <span class="kw">if</span> <span class="ident">last_was_escape</span> <span class="op">&amp;&amp;</span> <span class="ident">c</span>.<span class="ident">is_digit</span>(<span class="number">10</span>) {
+                <span class="kw">let</span> <span class="ident">val</span> <span class="op">=</span> <span class="ident">c</span>.<span class="ident">to_digit</span>(<span class="number">10</span>).<span class="ident">unwrap</span>();
+                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="ident">start</span>, <span class="ident">end</span>)) <span class="op">=</span> <span class="ident">region</span>.<span class="ident">pos</span>(<span class="ident">val</span> <span class="kw">as</span> <span class="ident">usize</span>) {
+                    <span class="kw">let</span> <span class="ident">escaped</span> <span class="op">=</span> <span class="ident">escape</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="ident">start</span>..<span class="ident">end</span>]);
+                    <span class="ident">reg_str</span>.<span class="ident">push_str</span>(<span class="kw-2">&amp;</span><span class="ident">escaped</span>);
                 }
-            } <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>last_was_escape</span> {
-                <span class='ident'>reg_str</span>.<span class='ident'>push</span>(<span class='string'>&#39;\\&#39;</span>);
-                <span class='ident'>reg_str</span>.<span class='ident'>push</span>(<span class='ident'>c</span>);
-            } <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>c</span> <span class='op'>!=</span> <span class='string'>&#39;\\&#39;</span> {
-                <span class='ident'>reg_str</span>.<span class='ident'>push</span>(<span class='ident'>c</span>);
+            } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">last_was_escape</span> {
+                <span class="ident">reg_str</span>.<span class="ident">push</span>(<span class="string">&#39;\\&#39;</span>);
+                <span class="ident">reg_str</span>.<span class="ident">push</span>(<span class="ident">c</span>);
+            } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">c</span> <span class="op">!=</span> <span class="string">&#39;\\&#39;</span> {
+                <span class="ident">reg_str</span>.<span class="ident">push</span>(<span class="ident">c</span>);
             }
 
-            <span class='ident'>last_was_escape</span> <span class='op'>=</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='string'>&#39;\\&#39;</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='ident'>last_was_escape</span>;
+            <span class="ident">last_was_escape</span> <span class="op">=</span> <span class="ident">c</span> <span class="op">==</span> <span class="string">&#39;\\&#39;</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">last_was_escape</span>;
         }
-        <span class='ident'>reg_str</span>
+        <span class="ident">reg_str</span>
     }
 
-    <span class='doccomment'>/// Used by the parser to compile a regex which needs to reference</span>
-    <span class='doccomment'>/// regions from another matched pattern.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>compile_with_refs</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>region</span>: <span class='kw-2'>&amp;</span><span class='ident'>Region</span>, <span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>Regex</span> {
-        <span class='comment'>// TODO don&#39;t panic on invalid regex</span>
-        <span class='ident'>Regex</span>::<span class='ident'>with_options</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>regex_with_substitutes</span>(<span class='ident'>region</span>, <span class='ident'>s</span>),
-                            <span class='ident'>onig</span>::<span class='ident'>REGEX_OPTION_CAPTURE_GROUP</span>,
-                            <span class='ident'>Syntax</span>::<span class='ident'>default</span>())
-            .<span class='ident'>unwrap</span>()
+    <span class="doccomment">/// Used by the parser to compile a regex which needs to reference</span>
+    <span class="doccomment">/// regions from another matched pattern.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">compile_with_refs</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">region</span>: <span class="kw-2">&amp;</span><span class="ident">Region</span>, <span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">Regex</span> {
+        <span class="comment">// TODO don&#39;t panic on invalid regex</span>
+        <span class="ident">Regex</span>::<span class="ident">with_options</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">regex_with_substitutes</span>(<span class="ident">region</span>, <span class="ident">s</span>),
+                            <span class="ident">onig</span>::<span class="ident">REGEX_OPTION_CAPTURE_GROUP</span>,
+                            <span class="ident">Syntax</span>::<span class="ident">default</span>())
+            .<span class="ident">unwrap</span>()
     }
 
-    <span class='kw'>fn</span> <span class='ident'>compile_regex</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
-        <span class='comment'>// TODO don&#39;t panic on invalid regex</span>
-        <span class='kw'>let</span> <span class='ident'>compiled</span> <span class='op'>=</span> <span class='ident'>Regex</span>::<span class='ident'>with_options</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>regex_str</span>,
-                                           <span class='ident'>onig</span>::<span class='ident'>REGEX_OPTION_CAPTURE_GROUP</span>,
-                                           <span class='ident'>Syntax</span>::<span class='ident'>default</span>())
-            .<span class='ident'>unwrap</span>();
-        <span class='self'>self</span>.<span class='ident'>regex</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>compiled</span>);
+    <span class="kw">fn</span> <span class="ident">compile_regex</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
+        <span class="comment">// TODO don&#39;t panic on invalid regex</span>
+        <span class="kw">let</span> <span class="ident">compiled</span> <span class="op">=</span> <span class="ident">Regex</span>::<span class="ident">with_options</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">regex_str</span>,
+                                           <span class="ident">onig</span>::<span class="ident">REGEX_OPTION_CAPTURE_GROUP</span>,
+                                           <span class="ident">Syntax</span>::<span class="ident">default</span>())
+            .<span class="ident">unwrap</span>();
+        <span class="self">self</span>.<span class="ident">regex</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">compiled</span>);
     }
 
-    <span class='doccomment'>/// Makes sure the regex is compiled if it doesn&#39;t have captures.</span>
-    <span class='doccomment'>/// May compile the regex if it isn&#39;t, panicing if compilation fails.</span>
-    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>ensure_compiled_if_possible</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
-        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>regex</span>.<span class='ident'>is_none</span>() <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>has_captures</span> {
-            <span class='self'>self</span>.<span class='ident'>compile_regex</span>();
+    <span class="doccomment">/// Makes sure the regex is compiled if it doesn&#39;t have captures.</span>
+    <span class="doccomment">/// May compile the regex if it isn&#39;t, panicing if compilation fails.</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ensure_compiled_if_possible</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">regex</span>.<span class="ident">is_none</span>() <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">has_captures</span> {
+            <span class="self">self</span>.<span class="ident">compile_regex</span>();
         }
     }
 }
 
-<span class='doccomment'>/// Only valid to use this on a syntax which hasn&#39;t been linked up to other syntaxes yet</span>
-<span class='kw'>impl</span> <span class='ident'>Encodable</span> <span class='kw'>for</span> <span class='ident'>MatchPattern</span> {
-    <span class='kw'>fn</span> <span class='ident'>encode</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>Encoder</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), <span class='ident'>S</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> {
-        <span class='ident'>s</span>.<span class='ident'>emit_struct</span>(<span class='string'>&quot;MatchPattern&quot;</span>, <span class='number'>6</span>, <span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> {
-            <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>s</span>.<span class='ident'>emit_struct_field</span>(<span class='string'>&quot;has_captures&quot;</span>, <span class='number'>0</span>, <span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='self'>self</span>.<span class='ident'>has_captures</span>.<span class='ident'>encode</span>(<span class='ident'>s</span>)));
-            <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>s</span>.<span class='ident'>emit_struct_field</span>(<span class='string'>&quot;regex_str&quot;</span>, <span class='number'>1</span>, <span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='self'>self</span>.<span class='ident'>regex_str</span>.<span class='ident'>encode</span>(<span class='ident'>s</span>)));
-            <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>s</span>.<span class='ident'>emit_struct_field</span>(<span class='string'>&quot;scope&quot;</span>, <span class='number'>2</span>, <span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='self'>self</span>.<span class='ident'>scope</span>.<span class='ident'>encode</span>(<span class='ident'>s</span>)));
-            <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>s</span>.<span class='ident'>emit_struct_field</span>(<span class='string'>&quot;captures&quot;</span>, <span class='number'>3</span>, <span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='self'>self</span>.<span class='ident'>captures</span>.<span class='ident'>encode</span>(<span class='ident'>s</span>)));
-            <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>s</span>.<span class='ident'>emit_struct_field</span>(<span class='string'>&quot;operation&quot;</span>, <span class='number'>4</span>, <span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='self'>self</span>.<span class='ident'>operation</span>.<span class='ident'>encode</span>(<span class='ident'>s</span>)));
-            <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>s</span>.<span class='ident'>emit_struct_field</span>(<span class='string'>&quot;with_prototype&quot;</span>, <span class='number'>5</span>, <span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='self'>self</span>.<span class='ident'>with_prototype</span>.<span class='ident'>encode</span>(<span class='ident'>s</span>)));
-            <span class='prelude-val'>Ok</span>(())
-        })
-    }
-}
+<span class="kw">impl</span> <span class="ident">Eq</span> <span class="kw">for</span> <span class="ident">LinkerLink</span> {}
 
-<span class='doccomment'>/// Syntaxes decoded by this won&#39;t have compiled regexes</span>
-<span class='kw'>impl</span> <span class='ident'>Decodable</span> <span class='kw'>for</span> <span class='ident'>MatchPattern</span> {
-    <span class='kw'>fn</span> <span class='ident'>decode</span><span class='op'>&lt;</span><span class='ident'>D</span>: <span class='ident'>Decoder</span><span class='op'>&gt;</span>(<span class='ident'>d</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>D</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='self'>Self</span>, <span class='ident'>D</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> {
-        <span class='ident'>d</span>.<span class='ident'>read_struct</span>(<span class='string'>&quot;MatchPattern&quot;</span>, <span class='number'>6</span>, <span class='op'>|</span><span class='ident'>d</span><span class='op'>|</span> {
-            <span class='kw'>let</span> <span class='ident'>match_pat</span> <span class='op'>=</span> <span class='ident'>MatchPattern</span> {
-                <span class='ident'>has_captures</span>: <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>read_struct_field</span>(<span class='string'>&quot;has_captures&quot;</span>, <span class='number'>0</span>, <span class='ident'>Decodable</span>::<span class='ident'>decode</span>)),
-                <span class='ident'>regex</span>: <span class='prelude-val'>None</span>,
-                <span class='ident'>regex_str</span>: <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>read_struct_field</span>(<span class='string'>&quot;regex_str&quot;</span>, <span class='number'>1</span>, <span class='ident'>Decodable</span>::<span class='ident'>decode</span>)),
-                <span class='ident'>scope</span>: <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>read_struct_field</span>(<span class='string'>&quot;scope&quot;</span>, <span class='number'>2</span>, <span class='ident'>Decodable</span>::<span class='ident'>decode</span>)),
-                <span class='ident'>captures</span>: <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>read_struct_field</span>(<span class='string'>&quot;captures&quot;</span>, <span class='number'>3</span>, <span class='ident'>Decodable</span>::<span class='ident'>decode</span>)),
-                <span class='ident'>operation</span>: <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>read_struct_field</span>(<span class='string'>&quot;operation&quot;</span>, <span class='number'>4</span>, <span class='ident'>Decodable</span>::<span class='ident'>decode</span>)),
-                <span class='ident'>with_prototype</span>: <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>read_struct_field</span>(<span class='string'>&quot;with_prototype&quot;</span>, <span class='number'>5</span>, <span class='ident'>Decodable</span>::<span class='ident'>decode</span>)),
-            };
-
-            <span class='prelude-val'>Ok</span>(<span class='ident'>match_pat</span>)
-        })
-    }
-}
-
-<span class='kw'>impl</span> <span class='ident'>Eq</span> <span class='kw'>for</span> <span class='ident'>LinkerLink</span> {}
-
-<span class='kw'>impl</span> <span class='ident'>PartialEq</span> <span class='kw'>for</span> <span class='ident'>LinkerLink</span> {
-    <span class='kw'>fn</span> <span class='ident'>eq</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='ident'>LinkerLink</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='self'>self</span>.<span class='ident'>link</span>.<span class='ident'>upgrade</span>() <span class='op'>==</span> <span class='ident'>other</span>.<span class='ident'>link</span>.<span class='ident'>upgrade</span>()
+<span class="kw">impl</span> <span class="ident">PartialEq</span> <span class="kw">for</span> <span class="ident">LinkerLink</span> {
+    <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="ident">LinkerLink</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="self">self</span>.<span class="ident">link</span>.<span class="ident">upgrade</span>() <span class="op">==</span> <span class="ident">other</span>.<span class="ident">link</span>.<span class="ident">upgrade</span>()
     }
 }
 
 
-<span class='doccomment'>/// Just panics, we can&#39;t do anything with linked up syntaxes</span>
-<span class='kw'>impl</span> <span class='ident'>Encodable</span> <span class='kw'>for</span> <span class='ident'>LinkerLink</span> {
-    <span class='kw'>fn</span> <span class='ident'>encode</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>Encoder</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, _: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), <span class='ident'>S</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> {
-        <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Can&#39;t encode syntax definitions which have been linked&quot;</span>)
+<span class="doccomment">/// Just panics, we can&#39;t do anything with linked up syntaxes</span>
+<span class="kw">impl</span> <span class="ident">Serialize</span> <span class="kw">for</span> <span class="ident">LinkerLink</span> {
+    <span class="kw">fn</span> <span class="ident">serialize</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, _: <span class="ident">S</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S</span>::<span class="prelude-val">Ok</span>, <span class="ident">S</span>::<span class="ident">Error</span><span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">S</span>: <span class="ident">Serializer</span> {
+        <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Can&#39;t serialize syntax definitions which have been linked&quot;</span>);
     }
 }
 
-<span class='doccomment'>/// Just panics, we can&#39;t do anything with linked up syntaxes</span>
-<span class='kw'>impl</span> <span class='ident'>Decodable</span> <span class='kw'>for</span> <span class='ident'>LinkerLink</span> {
-    <span class='kw'>fn</span> <span class='ident'>decode</span><span class='op'>&lt;</span><span class='ident'>D</span>: <span class='ident'>Decoder</span><span class='op'>&gt;</span>(_: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>D</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>LinkerLink</span>, <span class='ident'>D</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> {
-        <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;No linked syntax should ever have gotten encoded&quot;</span>)
+<span class="doccomment">/// Just panics, we can&#39;t do anything with linked up syntaxes</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">LinkerLink</span> {
+    <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(_: <span class="ident">D</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">D</span>: <span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> {
+        <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;No linked syntax should ever have gotten serialized&quot;</span>);
     }
 }
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
-<span class='kw'>mod</span> <span class='ident'>tests</span> {
-    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='kw-2'>*</span>;
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>can_compile_refs</span>() {
-        <span class='kw'>use</span> <span class='ident'>onig</span>::{<span class='self'>self</span>, <span class='ident'>Regex</span>, <span class='ident'>Region</span>};
-        <span class='kw'>let</span> <span class='ident'>pat</span> <span class='op'>=</span> <span class='ident'>MatchPattern</span> {
-            <span class='ident'>has_captures</span>: <span class='bool-val'>true</span>,
-            <span class='ident'>regex_str</span>: <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>r&quot;lol \\ \2 \1 &#39;\9&#39; \wz&quot;</span>),
-            <span class='ident'>regex</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>scope</span>: <span class='macro'>vec</span><span class='macro'>!</span>[],
-            <span class='ident'>captures</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>operation</span>: <span class='ident'>MatchOperation</span>::<span class='prelude-val'>None</span>,
-            <span class='ident'>with_prototype</span>: <span class='prelude-val'>None</span>,
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">mod</span> <span class="ident">tests</span> {
+    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">can_compile_refs</span>() {
+        <span class="kw">use</span> <span class="ident">onig</span>::{<span class="self">self</span>, <span class="ident">Regex</span>, <span class="ident">Region</span>};
+        <span class="kw">let</span> <span class="ident">pat</span> <span class="op">=</span> <span class="ident">MatchPattern</span> {
+            <span class="ident">has_captures</span>: <span class="bool-val">true</span>,
+            <span class="ident">regex_str</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">r&quot;lol \\ \2 \1 &#39;\9&#39; \wz&quot;</span>),
+            <span class="ident">regex</span>: <span class="prelude-val">None</span>,
+            <span class="ident">scope</span>: <span class="macro">vec</span><span class="macro">!</span>[],
+            <span class="ident">captures</span>: <span class="prelude-val">None</span>,
+            <span class="ident">operation</span>: <span class="ident">MatchOperation</span>::<span class="prelude-val">None</span>,
+            <span class="ident">with_prototype</span>: <span class="prelude-val">None</span>,
         };
-        <span class='kw'>let</span> <span class='ident'>r</span> <span class='op'>=</span> <span class='ident'>Regex</span>::<span class='ident'>new</span>(<span class='string'>r&quot;(\\\[\]\(\))(b)(c)(d)(e)&quot;</span>).<span class='ident'>unwrap</span>();
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>region</span> <span class='op'>=</span> <span class='ident'>Region</span>::<span class='ident'>new</span>();
-        <span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='string'>r&quot;\[]()bcde&quot;</span>;
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>r</span>.<span class='ident'>match_with_options</span>(<span class='ident'>s</span>, <span class='number'>0</span>, <span class='ident'>onig</span>::<span class='ident'>SEARCH_OPTION_NONE</span>, <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>region</span>)).<span class='ident'>is_some</span>());
+        <span class="kw">let</span> <span class="ident">r</span> <span class="op">=</span> <span class="ident">Regex</span>::<span class="ident">new</span>(<span class="string">r&quot;(\\\[\]\(\))(b)(c)(d)(e)&quot;</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">region</span> <span class="op">=</span> <span class="ident">Region</span>::<span class="ident">new</span>();
+        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="string">r&quot;\[]()bcde&quot;</span>;
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">match_with_options</span>(<span class="ident">s</span>, <span class="number">0</span>, <span class="ident">onig</span>::<span class="ident">SEARCH_OPTION_NONE</span>, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">region</span>)).<span class="ident">is_some</span>());
 
-        <span class='kw'>let</span> <span class='ident'>regex_res</span> <span class='op'>=</span> <span class='ident'>pat</span>.<span class='ident'>regex_with_substitutes</span>(<span class='kw-2'>&amp;</span><span class='ident'>region</span>, <span class='ident'>s</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>regex_res</span>, <span class='string'>r&quot;lol \\ b \\\[\]\(\) &#39;&#39; \wz&quot;</span>);
-        <span class='ident'>pat</span>.<span class='ident'>compile_with_refs</span>(<span class='kw-2'>&amp;</span><span class='ident'>region</span>, <span class='ident'>s</span>);
+        <span class="kw">let</span> <span class="ident">regex_res</span> <span class="op">=</span> <span class="ident">pat</span>.<span class="ident">regex_with_substitutes</span>(<span class="kw-2">&amp;</span><span class="ident">region</span>, <span class="ident">s</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">regex_res</span>, <span class="string">r&quot;lol \\ b \\\[\]\(\) &#39;&#39; \wz&quot;</span>);
+        <span class="ident">pat</span>.<span class="ident">compile_with_refs</span>(<span class="kw-2">&amp;</span><span class="ident">region</span>, <span class="ident">s</span>);
     }
 }
 </pre>

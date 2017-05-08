@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -365,327 +365,327 @@
 <span id="320">320</span>
 <span id="321">321</span>
 <span id="322">322</span>
-</pre><pre class='rust '>
-<span class='doccomment'>/// Code based on https://github.com/defuz/sublimate/blob/master/src/core/syntax/scope.rs</span>
-<span class='doccomment'>/// released under the MIT license by @defuz</span>
+</pre><pre class="rust ">
+<span class="doccomment">/// Code based on https://github.com/defuz/sublimate/blob/master/src/core/syntax/scope.rs</span>
+<span class="doccomment">/// released under the MIT license by @defuz</span>
 
-<span class='kw'>use</span> <span class='ident'>parsing</span>::{<span class='ident'>Scope</span>, <span class='ident'>ScopeStack</span>, <span class='ident'>MatchPower</span>, <span class='ident'>ParseScopeError</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>;
+<span class="kw">use</span> <span class="ident">parsing</span>::{<span class="ident">Scope</span>, <span class="ident">ScopeStack</span>, <span class="ident">MatchPower</span>, <span class="ident">ParseScopeError</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">str</span>::<span class="ident">FromStr</span>;
 
-<span class='doccomment'>/// A single selector consisting of a stack to match and a possible stack to exclude from being matched.</span>
-<span class='doccomment'>/// You probably want `ScopeSelectors` which is this but with union support.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Default</span>, <span class='ident'>RustcEncodable</span>, <span class='ident'>RustcDecodable</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ScopeSelector</span> {
-    <span class='ident'>path</span>: <span class='ident'>ScopeStack</span>,
-    <span class='ident'>excludes</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>ScopeStack</span><span class='op'>&gt;</span>,
+<span class="doccomment">/// A single selector consisting of a stack to match and a possible stack to exclude from being matched.</span>
+<span class="doccomment">/// You probably want `ScopeSelectors` which is this but with union support.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Default</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ScopeSelector</span> {
+    <span class="ident">path</span>: <span class="ident">ScopeStack</span>,
+    <span class="ident">excludes</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">ScopeStack</span><span class="op">&gt;</span>,
 }
 
-<span class='doccomment'>/// A selector set that matches anything matched by any of its component selectors.</span>
-<span class='doccomment'>/// See [The TextMate Docs](https://manual.macromates.com/en/scope_selectors) for how these</span>
-<span class='doccomment'>/// work.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Default</span>, <span class='ident'>RustcEncodable</span>, <span class='ident'>RustcDecodable</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ScopeSelectors</span> {
-    <span class='doccomment'>/// the selectors, if any of them match, this matches</span>
-    <span class='kw'>pub</span> <span class='ident'>selectors</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>ScopeSelector</span><span class='op'>&gt;</span>,
+<span class="doccomment">/// A selector set that matches anything matched by any of its component selectors.</span>
+<span class="doccomment">/// See [The TextMate Docs](https://manual.macromates.com/en/scope_selectors) for how these</span>
+<span class="doccomment">/// work.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Default</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ScopeSelectors</span> {
+    <span class="doccomment">/// the selectors, if any of them match, this matches</span>
+    <span class="kw">pub</span> <span class="ident">selectors</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">ScopeSelector</span><span class="op">&gt;</span>,
 }
 
-<span class='kw'>impl</span> <span class='ident'>ScopeSelector</span> {
-    <span class='doccomment'>/// Checks if this selector matches a given scope stack.</span>
-    <span class='doccomment'>/// See `ScopeSelectors#does_match` for more info.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>does_match</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>stack</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>Scope</span>]) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>MatchPower</span><span class='op'>&gt;</span> {
-        <span class='comment'>// if there are any exclusions, and any one of them matches, then this selector doesn&#39;t match</span>
-        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>excludes</span>.<span class='ident'>iter</span>().<span class='ident'>any</span>(<span class='op'>|</span><span class='ident'>sel</span><span class='op'>|</span> <span class='ident'>sel</span>.<span class='ident'>is_empty</span>() <span class='op'>||</span> <span class='ident'>sel</span>.<span class='ident'>does_match</span>(<span class='ident'>stack</span>).<span class='ident'>is_some</span>()) {
-            <span class='kw'>return</span> <span class='prelude-val'>None</span>;
+<span class="kw">impl</span> <span class="ident">ScopeSelector</span> {
+    <span class="doccomment">/// Checks if this selector matches a given scope stack.</span>
+    <span class="doccomment">/// See `ScopeSelectors#does_match` for more info.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">does_match</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">stack</span>: <span class="kw-2">&amp;</span>[<span class="ident">Scope</span>]) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">MatchPower</span><span class="op">&gt;</span> {
+        <span class="comment">// if there are any exclusions, and any one of them matches, then this selector doesn&#39;t match</span>
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">excludes</span>.<span class="ident">iter</span>().<span class="ident">any</span>(<span class="op">|</span><span class="ident">sel</span><span class="op">|</span> <span class="ident">sel</span>.<span class="ident">is_empty</span>() <span class="op">||</span> <span class="ident">sel</span>.<span class="ident">does_match</span>(<span class="ident">stack</span>).<span class="ident">is_some</span>()) {
+            <span class="kw">return</span> <span class="prelude-val">None</span>;
         }
-        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>path</span>.<span class='ident'>is_empty</span>() {
-            <span class='comment'>// an empty scope selector always matches with a score of 1</span>
-            <span class='prelude-val'>Some</span>(<span class='ident'>MatchPower</span>(<span class='number'>0o1u64</span> <span class='kw'>as</span> <span class='ident'>f64</span>))
-        } <span class='kw'>else</span> {
-            <span class='self'>self</span>.<span class='ident'>path</span>.<span class='ident'>does_match</span>(<span class='ident'>stack</span>)
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">path</span>.<span class="ident">is_empty</span>() {
+            <span class="comment">// an empty scope selector always matches with a score of 1</span>
+            <span class="prelude-val">Some</span>(<span class="ident">MatchPower</span>(<span class="number">0o1u64</span> <span class="kw">as</span> <span class="ident">f64</span>))
+        } <span class="kw">else</span> {
+            <span class="self">self</span>.<span class="ident">path</span>.<span class="ident">does_match</span>(<span class="ident">stack</span>)
         }
     }
 
-    <span class='doccomment'>/// If this selector is really just a single scope, return it</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>extract_single_scope</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Scope</span><span class='op'>&gt;</span> {
-        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>path</span>.<span class='ident'>len</span>() <span class='op'>&gt;</span> <span class='number'>1</span> <span class='op'>||</span> <span class='op'>!</span><span class='self'>self</span>.<span class='ident'>excludes</span>.<span class='ident'>is_empty</span>() <span class='op'>||</span> <span class='self'>self</span>.<span class='ident'>path</span>.<span class='ident'>is_empty</span>() {
-            <span class='kw'>return</span> <span class='prelude-val'>None</span>;
+    <span class="doccomment">/// If this selector is really just a single scope, return it</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">extract_single_scope</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Scope</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">path</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="number">1</span> <span class="op">||</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">excludes</span>.<span class="ident">is_empty</span>() <span class="op">||</span> <span class="self">self</span>.<span class="ident">path</span>.<span class="ident">is_empty</span>() {
+            <span class="kw">return</span> <span class="prelude-val">None</span>;
         }
-        <span class='prelude-val'>Some</span>(<span class='self'>self</span>.<span class='ident'>path</span>.<span class='ident'>as_slice</span>()[<span class='number'>0</span>])
+        <span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="ident">path</span>.<span class="ident">as_slice</span>()[<span class="number">0</span>])
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>FromStr</span> <span class='kw'>for</span> <span class='ident'>ScopeSelector</span> {
-    <span class='kw'>type</span> <span class='prelude-val'>Err</span> <span class='op'>=</span> <span class='ident'>ParseScopeError</span>;
+<span class="kw">impl</span> <span class="ident">FromStr</span> <span class="kw">for</span> <span class="ident">ScopeSelector</span> {
+    <span class="kw">type</span> <span class="prelude-val">Err</span> <span class="op">=</span> <span class="ident">ParseScopeError</span>;
 
-    <span class='doccomment'>/// Parses a scope stack followed optionally by (one or more) &quot; -&quot; and then a scope stack to exclude</span>
-    <span class='kw'>fn</span> <span class='ident'>from_str</span>(<span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>ScopeSelector</span>, <span class='ident'>ParseScopeError</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>excludes</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>path_str</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;&quot;</span>;
-        <span class='kw'>for</span> (<span class='ident'>i</span>, <span class='ident'>selector</span>) <span class='kw'>in</span> <span class='ident'>s</span>.<span class='ident'>split</span>(<span class='string'>&quot; -&quot;</span>).<span class='ident'>enumerate</span>() {
-            <span class='kw'>if</span> <span class='ident'>i</span> <span class='op'>==</span> <span class='number'>0</span> {
-                <span class='ident'>path_str</span> <span class='op'>=</span> <span class='ident'>selector</span>;
-            } <span class='kw'>else</span> {
-                <span class='ident'>excludes</span>.<span class='ident'>push</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='ident'>selector</span>)));
+    <span class="doccomment">/// Parses a scope stack followed optionally by (one or more) &quot; -&quot; and then a scope stack to exclude</span>
+    <span class="kw">fn</span> <span class="ident">from_str</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ScopeSelector</span>, <span class="ident">ParseScopeError</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">excludes</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">path_str</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;&quot;</span>;
+        <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">selector</span>) <span class="kw">in</span> <span class="ident">s</span>.<span class="ident">split</span>(<span class="string">&quot; -&quot;</span>).<span class="ident">enumerate</span>() {
+            <span class="kw">if</span> <span class="ident">i</span> <span class="op">==</span> <span class="number">0</span> {
+                <span class="ident">path_str</span> <span class="op">=</span> <span class="ident">selector</span>;
+            } <span class="kw">else</span> {
+                <span class="ident">excludes</span>.<span class="ident">push</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="ident">selector</span>)));
             }
         }
-        <span class='prelude-val'>Ok</span>(<span class='ident'>ScopeSelector</span> {
-            <span class='ident'>path</span>: <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='ident'>path_str</span>)),
-            <span class='ident'>excludes</span>: <span class='ident'>excludes</span>,
+        <span class="prelude-val">Ok</span>(<span class="ident">ScopeSelector</span> {
+            <span class="ident">path</span>: <span class="macro">try</span><span class="macro">!</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="ident">path_str</span>)),
+            <span class="ident">excludes</span>: <span class="ident">excludes</span>,
         })
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>ScopeSelectors</span> {
-    <span class='doccomment'>/// checks if any of these selectors match the given scope stack</span>
-    <span class='doccomment'>/// if so it returns a match score, higher match scores are stronger</span>
-    <span class='doccomment'>/// matches. Scores are ordered according to the rules found</span>
-    <span class='doccomment'>/// at https://manual.macromates.com/en/scope_selectors</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Examples</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// use syntect::parsing::{ScopeStack, MatchPower};</span>
-    <span class='doccomment'>/// use syntect::highlighting::ScopeSelectors;</span>
-    <span class='doccomment'>/// use std::str::FromStr;</span>
-    <span class='doccomment'>/// assert_eq!(ScopeSelectors::from_str(&quot;a.b, a e.f - c k, e.f - a.b&quot;).unwrap()</span>
-    <span class='doccomment'>///     .does_match(ScopeStack::from_str(&quot;a.b c.d j e.f&quot;).unwrap().as_slice()),</span>
-    <span class='doccomment'>///     Some(MatchPower(0o2001u64 as f64)));</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>does_match</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>stack</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>Scope</span>]) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>MatchPower</span><span class='op'>&gt;</span> {
-        <span class='self'>self</span>.<span class='ident'>selectors</span>.<span class='ident'>iter</span>().<span class='ident'>filter_map</span>(<span class='op'>|</span><span class='ident'>sel</span><span class='op'>|</span> <span class='ident'>sel</span>.<span class='ident'>does_match</span>(<span class='ident'>stack</span>)).<span class='ident'>max</span>()
+<span class="kw">impl</span> <span class="ident">ScopeSelectors</span> {
+    <span class="doccomment">/// checks if any of these selectors match the given scope stack</span>
+    <span class="doccomment">/// if so it returns a match score, higher match scores are stronger</span>
+    <span class="doccomment">/// matches. Scores are ordered according to the rules found</span>
+    <span class="doccomment">/// at https://manual.macromates.com/en/scope_selectors</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use syntect::parsing::{ScopeStack, MatchPower};</span>
+    <span class="doccomment">/// use syntect::highlighting::ScopeSelectors;</span>
+    <span class="doccomment">/// use std::str::FromStr;</span>
+    <span class="doccomment">/// assert_eq!(ScopeSelectors::from_str(&quot;a.b, a e.f - c k, e.f - a.b&quot;).unwrap()</span>
+    <span class="doccomment">///     .does_match(ScopeStack::from_str(&quot;a.b c.d j e.f&quot;).unwrap().as_slice()),</span>
+    <span class="doccomment">///     Some(MatchPower(0o2001u64 as f64)));</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">does_match</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">stack</span>: <span class="kw-2">&amp;</span>[<span class="ident">Scope</span>]) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">MatchPower</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">selectors</span>.<span class="ident">iter</span>().<span class="ident">filter_map</span>(<span class="op">|</span><span class="ident">sel</span><span class="op">|</span> <span class="ident">sel</span>.<span class="ident">does_match</span>(<span class="ident">stack</span>)).<span class="ident">max</span>()
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>FromStr</span> <span class='kw'>for</span> <span class='ident'>ScopeSelectors</span> {
-    <span class='kw'>type</span> <span class='prelude-val'>Err</span> <span class='op'>=</span> <span class='ident'>ParseScopeError</span>;
+<span class="kw">impl</span> <span class="ident">FromStr</span> <span class="kw">for</span> <span class="ident">ScopeSelectors</span> {
+    <span class="kw">type</span> <span class="prelude-val">Err</span> <span class="op">=</span> <span class="ident">ParseScopeError</span>;
 
-    <span class='doccomment'>/// Parses a series of selectors separated by commas or pipes</span>
-    <span class='kw'>fn</span> <span class='ident'>from_str</span>(<span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>ScopeSelectors</span>, <span class='ident'>ParseScopeError</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>selectors</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
-        <span class='kw'>for</span> <span class='ident'>selector</span> <span class='kw'>in</span> <span class='ident'>s</span>.<span class='ident'>split</span>(<span class='kw-2'>&amp;</span>[<span class='string'>&#39;,&#39;</span>, <span class='string'>&#39;|&#39;</span>][..]) {
-            <span class='ident'>selectors</span>.<span class='ident'>push</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>ScopeSelector</span>::<span class='ident'>from_str</span>(<span class='ident'>selector</span>)))
+    <span class="doccomment">/// Parses a series of selectors separated by commas or pipes</span>
+    <span class="kw">fn</span> <span class="ident">from_str</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ScopeSelectors</span>, <span class="ident">ParseScopeError</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">selectors</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+        <span class="kw">for</span> <span class="ident">selector</span> <span class="kw">in</span> <span class="ident">s</span>.<span class="ident">split</span>(<span class="kw-2">&amp;</span>[<span class="string">&#39;,&#39;</span>, <span class="string">&#39;|&#39;</span>][..]) {
+            <span class="ident">selectors</span>.<span class="ident">push</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="ident">ScopeSelector</span>::<span class="ident">from_str</span>(<span class="ident">selector</span>)))
         }
-        <span class='prelude-val'>Ok</span>(<span class='ident'>ScopeSelectors</span> { <span class='ident'>selectors</span>: <span class='ident'>selectors</span> })
+        <span class="prelude-val">Ok</span>(<span class="ident">ScopeSelectors</span> { <span class="ident">selectors</span>: <span class="ident">selectors</span> })
     }
 }
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
-<span class='kw'>mod</span> <span class='ident'>tests</span> {
-    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='kw-2'>*</span>;
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>selectors_work</span>() {
-        <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>;
-        <span class='kw'>let</span> <span class='ident'>sels</span> <span class='op'>=</span> <span class='ident'>ScopeSelectors</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;source.php meta.preprocessor - string.quoted, \
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">mod</span> <span class="ident">tests</span> {
+    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">selectors_work</span>() {
+        <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">str</span>::<span class="ident">FromStr</span>;
+        <span class="kw">let</span> <span class="ident">sels</span> <span class="op">=</span> <span class="ident">ScopeSelectors</span>::<span class="ident">from_str</span>(<span class="string">&quot;source.php meta.preprocessor - string.quoted, \
                                              source string&quot;</span>)
-            .<span class='ident'>unwrap</span>();
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>sels</span>.<span class='ident'>selectors</span>.<span class='ident'>len</span>(), <span class='number'>2</span>);
-        <span class='kw'>let</span> <span class='ident'>first_sel</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>sels</span>.<span class='ident'>selectors</span>[<span class='number'>0</span>];
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>first_sel</span>),
-                   <span class='string'>&quot;ScopeSelector { path: ScopeStack { clear_stack: [], scopes: [&lt;source.php&gt;, &lt;meta.preprocessor&gt;] }, excludes: [ScopeStack { clear_stack: [], scopes: [&lt;string.quoted&gt;] }] }&quot;</span>);
+            .<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">sels</span>.<span class="ident">selectors</span>.<span class="ident">len</span>(), <span class="number">2</span>);
+        <span class="kw">let</span> <span class="ident">first_sel</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">sels</span>.<span class="ident">selectors</span>[<span class="number">0</span>];
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">first_sel</span>),
+                   <span class="string">&quot;ScopeSelector { path: ScopeStack { clear_stack: [], scopes: [&lt;source.php&gt;, &lt;meta.preprocessor&gt;] }, excludes: [ScopeStack { clear_stack: [], scopes: [&lt;string.quoted&gt;] }] }&quot;</span>);
         
-        <span class='kw'>let</span> <span class='ident'>sels</span> <span class='op'>=</span> <span class='ident'>ScopeSelectors</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;source.php meta.preprocessor -string.quoted|\
+        <span class="kw">let</span> <span class="ident">sels</span> <span class="op">=</span> <span class="ident">ScopeSelectors</span>::<span class="ident">from_str</span>(<span class="string">&quot;source.php meta.preprocessor -string.quoted|\
                                              source string&quot;</span>)
-            .<span class='ident'>unwrap</span>();
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>sels</span>.<span class='ident'>selectors</span>.<span class='ident'>len</span>(), <span class='number'>2</span>);
-        <span class='kw'>let</span> <span class='ident'>first_sel</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>sels</span>.<span class='ident'>selectors</span>[<span class='number'>0</span>];
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>first_sel</span>),
-                   <span class='string'>&quot;ScopeSelector { path: ScopeStack { clear_stack: [], scopes: [&lt;source.php&gt;, &lt;meta.preprocessor&gt;] }, excludes: [ScopeStack { clear_stack: [], scopes: [&lt;string.quoted&gt;] }] }&quot;</span>);
+            .<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">sels</span>.<span class="ident">selectors</span>.<span class="ident">len</span>(), <span class="number">2</span>);
+        <span class="kw">let</span> <span class="ident">first_sel</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">sels</span>.<span class="ident">selectors</span>[<span class="number">0</span>];
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">first_sel</span>),
+                   <span class="string">&quot;ScopeSelector { path: ScopeStack { clear_stack: [], scopes: [&lt;source.php&gt;, &lt;meta.preprocessor&gt;] }, excludes: [ScopeStack { clear_stack: [], scopes: [&lt;string.quoted&gt;] }] }&quot;</span>);
         
-        <span class='kw'>let</span> <span class='ident'>sels</span> <span class='op'>=</span> <span class='ident'>ScopeSelectors</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;text.xml meta.tag.preprocessor.xml punctuation.separator.key-value.xml&quot;</span>)
-            .<span class='ident'>unwrap</span>();
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>sels</span>.<span class='ident'>selectors</span>.<span class='ident'>len</span>(), <span class='number'>1</span>);
-        <span class='kw'>let</span> <span class='ident'>first_sel</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>sels</span>.<span class='ident'>selectors</span>[<span class='number'>0</span>];
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>first_sel</span>),
-                   <span class='string'>&quot;ScopeSelector { path: ScopeStack { clear_stack: [], scopes: [&lt;text.xml&gt;, &lt;meta.tag.preprocessor.xml&gt;, &lt;punctuation.separator.key-value.xml&gt;] }, excludes: [] }&quot;</span>);
+        <span class="kw">let</span> <span class="ident">sels</span> <span class="op">=</span> <span class="ident">ScopeSelectors</span>::<span class="ident">from_str</span>(<span class="string">&quot;text.xml meta.tag.preprocessor.xml punctuation.separator.key-value.xml&quot;</span>)
+            .<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">sels</span>.<span class="ident">selectors</span>.<span class="ident">len</span>(), <span class="number">1</span>);
+        <span class="kw">let</span> <span class="ident">first_sel</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">sels</span>.<span class="ident">selectors</span>[<span class="number">0</span>];
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">first_sel</span>),
+                   <span class="string">&quot;ScopeSelector { path: ScopeStack { clear_stack: [], scopes: [&lt;text.xml&gt;, &lt;meta.tag.preprocessor.xml&gt;, &lt;punctuation.separator.key-value.xml&gt;] }, excludes: [] }&quot;</span>);
         
-        <span class='kw'>let</span> <span class='ident'>sels</span> <span class='op'>=</span> <span class='ident'>ScopeSelectors</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;text.xml meta.tag.preprocessor.xml punctuation.separator.key-value.xml - text.html - string&quot;</span>)
-            .<span class='ident'>unwrap</span>();
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>sels</span>.<span class='ident'>selectors</span>.<span class='ident'>len</span>(), <span class='number'>1</span>);
-        <span class='kw'>let</span> <span class='ident'>first_sel</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>sels</span>.<span class='ident'>selectors</span>[<span class='number'>0</span>];
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>first_sel</span>),
-                   <span class='string'>&quot;ScopeSelector { path: ScopeStack { clear_stack: [], scopes: [&lt;text.xml&gt;, &lt;meta.tag.preprocessor.xml&gt;, &lt;punctuation.separator.key-value.xml&gt;] }, excludes: [ScopeStack { clear_stack: [], scopes: [&lt;text.html&gt;] }, ScopeStack { clear_stack: [], scopes: [&lt;string&gt;] }] }&quot;</span>);
+        <span class="kw">let</span> <span class="ident">sels</span> <span class="op">=</span> <span class="ident">ScopeSelectors</span>::<span class="ident">from_str</span>(<span class="string">&quot;text.xml meta.tag.preprocessor.xml punctuation.separator.key-value.xml - text.html - string&quot;</span>)
+            .<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">sels</span>.<span class="ident">selectors</span>.<span class="ident">len</span>(), <span class="number">1</span>);
+        <span class="kw">let</span> <span class="ident">first_sel</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">sels</span>.<span class="ident">selectors</span>[<span class="number">0</span>];
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">first_sel</span>),
+                   <span class="string">&quot;ScopeSelector { path: ScopeStack { clear_stack: [], scopes: [&lt;text.xml&gt;, &lt;meta.tag.preprocessor.xml&gt;, &lt;punctuation.separator.key-value.xml&gt;] }, excludes: [ScopeStack { clear_stack: [], scopes: [&lt;text.html&gt;] }, ScopeStack { clear_stack: [], scopes: [&lt;string&gt;] }] }&quot;</span>);
         
-        <span class='kw'>let</span> <span class='ident'>sels</span> <span class='op'>=</span> <span class='ident'>ScopeSelectors</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;text.xml meta.tag.preprocessor.xml punctuation.separator.key-value.xml - text.html - string, source - comment&quot;</span>)
-            .<span class='ident'>unwrap</span>();
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>sels</span>.<span class='ident'>selectors</span>.<span class='ident'>len</span>(), <span class='number'>2</span>);
-        <span class='kw'>let</span> <span class='ident'>first_sel</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>sels</span>.<span class='ident'>selectors</span>[<span class='number'>0</span>];
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>first_sel</span>),
-                   <span class='string'>&quot;ScopeSelector { path: ScopeStack { clear_stack: [], scopes: [&lt;text.xml&gt;, &lt;meta.tag.preprocessor.xml&gt;, &lt;punctuation.separator.key-value.xml&gt;] }, excludes: [ScopeStack { clear_stack: [], scopes: [&lt;text.html&gt;] }, ScopeStack { clear_stack: [], scopes: [&lt;string&gt;] }] }&quot;</span>);
-        <span class='kw'>let</span> <span class='ident'>second_sel</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>sels</span>.<span class='ident'>selectors</span>[<span class='number'>1</span>];
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>second_sel</span>),
-                   <span class='string'>&quot;ScopeSelector { path: ScopeStack { clear_stack: [], scopes: [&lt;source&gt;] }, excludes: [ScopeStack { clear_stack: [], scopes: [&lt;comment&gt;] }] }&quot;</span>);
+        <span class="kw">let</span> <span class="ident">sels</span> <span class="op">=</span> <span class="ident">ScopeSelectors</span>::<span class="ident">from_str</span>(<span class="string">&quot;text.xml meta.tag.preprocessor.xml punctuation.separator.key-value.xml - text.html - string, source - comment&quot;</span>)
+            .<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">sels</span>.<span class="ident">selectors</span>.<span class="ident">len</span>(), <span class="number">2</span>);
+        <span class="kw">let</span> <span class="ident">first_sel</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">sels</span>.<span class="ident">selectors</span>[<span class="number">0</span>];
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">first_sel</span>),
+                   <span class="string">&quot;ScopeSelector { path: ScopeStack { clear_stack: [], scopes: [&lt;text.xml&gt;, &lt;meta.tag.preprocessor.xml&gt;, &lt;punctuation.separator.key-value.xml&gt;] }, excludes: [ScopeStack { clear_stack: [], scopes: [&lt;text.html&gt;] }, ScopeStack { clear_stack: [], scopes: [&lt;string&gt;] }] }&quot;</span>);
+        <span class="kw">let</span> <span class="ident">second_sel</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">sels</span>.<span class="ident">selectors</span>[<span class="number">1</span>];
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">second_sel</span>),
+                   <span class="string">&quot;ScopeSelector { path: ScopeStack { clear_stack: [], scopes: [&lt;source&gt;] }, excludes: [ScopeStack { clear_stack: [], scopes: [&lt;comment&gt;] }] }&quot;</span>);
         
-        <span class='kw'>let</span> <span class='ident'>sels</span> <span class='op'>=</span> <span class='ident'>ScopeSelectors</span>::<span class='ident'>from_str</span>(<span class='string'>&quot; -a.b|j.g&quot;</span>)
-            .<span class='ident'>unwrap</span>();
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>sels</span>.<span class='ident'>selectors</span>.<span class='ident'>len</span>(), <span class='number'>2</span>);
-        <span class='kw'>let</span> <span class='ident'>first_sel</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>sels</span>.<span class='ident'>selectors</span>[<span class='number'>0</span>];
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>first_sel</span>),
-                   <span class='string'>&quot;ScopeSelector { path: ScopeStack { clear_stack: [], scopes: [] }, excludes: [ScopeStack { clear_stack: [], scopes: [&lt;a.b&gt;] }] }&quot;</span>);
-        <span class='kw'>let</span> <span class='ident'>second_sel</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>sels</span>.<span class='ident'>selectors</span>[<span class='number'>1</span>];
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>second_sel</span>),
-                   <span class='string'>&quot;ScopeSelector { path: ScopeStack { clear_stack: [], scopes: [&lt;j.g&gt;] }, excludes: [] }&quot;</span>);
+        <span class="kw">let</span> <span class="ident">sels</span> <span class="op">=</span> <span class="ident">ScopeSelectors</span>::<span class="ident">from_str</span>(<span class="string">&quot; -a.b|j.g&quot;</span>)
+            .<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">sels</span>.<span class="ident">selectors</span>.<span class="ident">len</span>(), <span class="number">2</span>);
+        <span class="kw">let</span> <span class="ident">first_sel</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">sels</span>.<span class="ident">selectors</span>[<span class="number">0</span>];
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">first_sel</span>),
+                   <span class="string">&quot;ScopeSelector { path: ScopeStack { clear_stack: [], scopes: [] }, excludes: [ScopeStack { clear_stack: [], scopes: [&lt;a.b&gt;] }] }&quot;</span>);
+        <span class="kw">let</span> <span class="ident">second_sel</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">sels</span>.<span class="ident">selectors</span>[<span class="number">1</span>];
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">second_sel</span>),
+                   <span class="string">&quot;ScopeSelector { path: ScopeStack { clear_stack: [], scopes: [&lt;j.g&gt;] }, excludes: [] }&quot;</span>);
     }
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>matching_works</span>() {
-        <span class='kw'>use</span> <span class='ident'>parsing</span>::{<span class='ident'>ScopeStack</span>, <span class='ident'>MatchPower</span>};
-        <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>;
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelectors</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b, a e, e.f&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b e.f&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>Some</span>(<span class='ident'>MatchPower</span>(<span class='number'>0o20u64</span> <span class='kw'>as</span> <span class='ident'>f64</span>)));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelectors</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b, a e.f, e.f&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b e.f&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>Some</span>(<span class='ident'>MatchPower</span>(<span class='number'>0o21u64</span> <span class='kw'>as</span> <span class='ident'>f64</span>)));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelectors</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b, a e.f - c j, e.f&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d j e.f&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>Some</span>(<span class='ident'>MatchPower</span>(<span class='number'>0o2000u64</span> <span class='kw'>as</span> <span class='ident'>f64</span>)));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelectors</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b, a e.f - c j, e.f - a.b&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d j e.f&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>Some</span>(<span class='ident'>MatchPower</span>(<span class='number'>0o2u64</span> <span class='kw'>as</span> <span class='ident'>f64</span>)));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelectors</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b, a e.f - c k, e.f - a.b&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d j e.f&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>Some</span>(<span class='ident'>MatchPower</span>(<span class='number'>0o2001u64</span> <span class='kw'>as</span> <span class='ident'>f64</span>)));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelectors</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b|a e.f -d, e.f -a.b&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d e.f&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>Some</span>(<span class='ident'>MatchPower</span>(<span class='number'>0o201u64</span> <span class='kw'>as</span> <span class='ident'>f64</span>)));
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">matching_works</span>() {
+        <span class="kw">use</span> <span class="ident">parsing</span>::{<span class="ident">ScopeStack</span>, <span class="ident">MatchPower</span>};
+        <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">str</span>::<span class="ident">FromStr</span>;
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelectors</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b, a e, e.f&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b e.f&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">Some</span>(<span class="ident">MatchPower</span>(<span class="number">0o20u64</span> <span class="kw">as</span> <span class="ident">f64</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelectors</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b, a e.f, e.f&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b e.f&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">Some</span>(<span class="ident">MatchPower</span>(<span class="number">0o21u64</span> <span class="kw">as</span> <span class="ident">f64</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelectors</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b, a e.f - c j, e.f&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c.d j e.f&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">Some</span>(<span class="ident">MatchPower</span>(<span class="number">0o2000u64</span> <span class="kw">as</span> <span class="ident">f64</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelectors</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b, a e.f - c j, e.f - a.b&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c.d j e.f&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">Some</span>(<span class="ident">MatchPower</span>(<span class="number">0o2u64</span> <span class="kw">as</span> <span class="ident">f64</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelectors</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b, a e.f - c k, e.f - a.b&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c.d j e.f&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">Some</span>(<span class="ident">MatchPower</span>(<span class="number">0o2001u64</span> <span class="kw">as</span> <span class="ident">f64</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelectors</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b|a e.f -d, e.f -a.b&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c.d e.f&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">Some</span>(<span class="ident">MatchPower</span>(<span class="number">0o201u64</span> <span class="kw">as</span> <span class="ident">f64</span>)));
     }
     
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>empty_stack_matching_works</span>() {
-        <span class='kw'>use</span> <span class='ident'>parsing</span>::{<span class='ident'>ScopeStack</span>, <span class='ident'>MatchPower</span>};
-        <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>;
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelector</span>::<span class='ident'>from_str</span>(<span class='string'>&quot; - a.b&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d j e.f&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>None</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelector</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d j e.f&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>Some</span>(<span class='ident'>MatchPower</span>(<span class='number'>0o1u64</span> <span class='kw'>as</span> <span class='ident'>f64</span>)));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelector</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>Some</span>(<span class='ident'>MatchPower</span>(<span class='number'>0o1u64</span> <span class='kw'>as</span> <span class='ident'>f64</span>)));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelector</span>::<span class='ident'>from_str</span>(<span class='string'>&quot; - a.b&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>Some</span>(<span class='ident'>MatchPower</span>(<span class='number'>0o1u64</span> <span class='kw'>as</span> <span class='ident'>f64</span>)));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelector</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b - &quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>None</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelector</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b - &quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d j e.f&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>None</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelector</span>::<span class='ident'>from_str</span>(<span class='string'>&quot; - &quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d j e.f&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>None</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelector</span>::<span class='ident'>from_str</span>(<span class='string'>&quot; - a.b&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d j e.f&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>None</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelector</span>::<span class='ident'>from_str</span>(<span class='string'>&quot; - g.h&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d j e.f&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>Some</span>(<span class='ident'>MatchPower</span>(<span class='number'>0o1u64</span> <span class='kw'>as</span> <span class='ident'>f64</span>)));
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">empty_stack_matching_works</span>() {
+        <span class="kw">use</span> <span class="ident">parsing</span>::{<span class="ident">ScopeStack</span>, <span class="ident">MatchPower</span>};
+        <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">str</span>::<span class="ident">FromStr</span>;
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelector</span>::<span class="ident">from_str</span>(<span class="string">&quot; - a.b&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c.d j e.f&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">None</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelector</span>::<span class="ident">from_str</span>(<span class="string">&quot;&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c.d j e.f&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">Some</span>(<span class="ident">MatchPower</span>(<span class="number">0o1u64</span> <span class="kw">as</span> <span class="ident">f64</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelector</span>::<span class="ident">from_str</span>(<span class="string">&quot;&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">Some</span>(<span class="ident">MatchPower</span>(<span class="number">0o1u64</span> <span class="kw">as</span> <span class="ident">f64</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelector</span>::<span class="ident">from_str</span>(<span class="string">&quot; - a.b&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">Some</span>(<span class="ident">MatchPower</span>(<span class="number">0o1u64</span> <span class="kw">as</span> <span class="ident">f64</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelector</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b - &quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">None</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelector</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b - &quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c.d j e.f&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">None</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelector</span>::<span class="ident">from_str</span>(<span class="string">&quot; - &quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c.d j e.f&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">None</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelector</span>::<span class="ident">from_str</span>(<span class="string">&quot; - a.b&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c.d j e.f&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">None</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelector</span>::<span class="ident">from_str</span>(<span class="string">&quot; - g.h&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c.d j e.f&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">Some</span>(<span class="ident">MatchPower</span>(<span class="number">0o1u64</span> <span class="kw">as</span> <span class="ident">f64</span>)));
         
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelector</span>::<span class='ident'>from_str</span>(<span class='string'>&quot; -a.b&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d j e.f&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>None</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelector</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d j e.f&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>Some</span>(<span class='ident'>MatchPower</span>(<span class='number'>0o1u64</span> <span class='kw'>as</span> <span class='ident'>f64</span>)));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelector</span>::<span class='ident'>from_str</span>(<span class='string'>&quot; -a.b&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>Some</span>(<span class='ident'>MatchPower</span>(<span class='number'>0o1u64</span> <span class='kw'>as</span> <span class='ident'>f64</span>)));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelector</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b -&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>None</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelector</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b -&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d j e.f&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>None</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelector</span>::<span class='ident'>from_str</span>(<span class='string'>&quot; -&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d j e.f&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>None</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelector</span>::<span class='ident'>from_str</span>(<span class='string'>&quot; -a.b&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d j e.f&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>None</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelector</span>::<span class='ident'>from_str</span>(<span class='string'>&quot; -g.h&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d j e.f&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>Some</span>(<span class='ident'>MatchPower</span>(<span class='number'>0o1u64</span> <span class='kw'>as</span> <span class='ident'>f64</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelector</span>::<span class="ident">from_str</span>(<span class="string">&quot; -a.b&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c.d j e.f&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">None</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelector</span>::<span class="ident">from_str</span>(<span class="string">&quot;&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c.d j e.f&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">Some</span>(<span class="ident">MatchPower</span>(<span class="number">0o1u64</span> <span class="kw">as</span> <span class="ident">f64</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelector</span>::<span class="ident">from_str</span>(<span class="string">&quot; -a.b&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">Some</span>(<span class="ident">MatchPower</span>(<span class="number">0o1u64</span> <span class="kw">as</span> <span class="ident">f64</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelector</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b -&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">None</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelector</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b -&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c.d j e.f&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">None</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelector</span>::<span class="ident">from_str</span>(<span class="string">&quot; -&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c.d j e.f&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">None</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelector</span>::<span class="ident">from_str</span>(<span class="string">&quot; -a.b&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c.d j e.f&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">None</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelector</span>::<span class="ident">from_str</span>(<span class="string">&quot; -g.h&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c.d j e.f&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">Some</span>(<span class="ident">MatchPower</span>(<span class="number">0o1u64</span> <span class="kw">as</span> <span class="ident">f64</span>)));
     }
     
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>multiple_excludes_matching_works</span>() {
-        <span class='kw'>use</span> <span class='ident'>parsing</span>::{<span class='ident'>ScopeStack</span>, <span class='ident'>MatchPower</span>};
-        <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>;
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelector</span>::<span class='ident'>from_str</span>(<span class='string'>&quot; - a.b - c.d&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d j e.f&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>None</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelector</span>::<span class='ident'>from_str</span>(<span class='string'>&quot; - a.b - c.d&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>Some</span>(<span class='ident'>MatchPower</span>(<span class='number'>0o1u64</span> <span class='kw'>as</span> <span class='ident'>f64</span>)));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelector</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b - c.d -e.f&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>None</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelector</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b - c.d -&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d j e.f&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>None</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelector</span>::<span class='ident'>from_str</span>(<span class='string'>&quot; -g.h - h.i&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d j e.f&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>Some</span>(<span class='ident'>MatchPower</span>(<span class='number'>0o1u64</span> <span class='kw'>as</span> <span class='ident'>f64</span>)));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelector</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d j e.f&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>Some</span>(<span class='ident'>MatchPower</span>(<span class='number'>0o2u64</span> <span class='kw'>as</span> <span class='ident'>f64</span>)));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelector</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b -g.h - h.i&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d j e.f&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>Some</span>(<span class='ident'>MatchPower</span>(<span class='number'>0o2u64</span> <span class='kw'>as</span> <span class='ident'>f64</span>)));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelector</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;c.d&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d j e.f&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>Some</span>(<span class='ident'>MatchPower</span>(<span class='number'>0o20u64</span> <span class='kw'>as</span> <span class='ident'>f64</span>)));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelector</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;c.d - j.g - h.i&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d j e.f&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>Some</span>(<span class='ident'>MatchPower</span>(<span class='number'>0o20u64</span> <span class='kw'>as</span> <span class='ident'>f64</span>)));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelectors</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;j.g| -a.b&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d j e.f&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>None</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelectors</span>::<span class='ident'>from_str</span>(<span class='string'>&quot; -a.b|j.g&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d j e.f&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>None</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelectors</span>::<span class='ident'>from_str</span>(<span class='string'>&quot; -a.b,c.d - j.g - h.i&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d j e.f&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>Some</span>(<span class='ident'>MatchPower</span>(<span class='number'>0o20u64</span> <span class='kw'>as</span> <span class='ident'>f64</span>)));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeSelectors</span>::<span class='ident'>from_str</span>(<span class='string'>&quot; -a.b, -d.c -f.e&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d j e.f&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>Some</span>(<span class='ident'>MatchPower</span>(<span class='number'>0o01u64</span> <span class='kw'>as</span> <span class='ident'>f64</span>)));
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">multiple_excludes_matching_works</span>() {
+        <span class="kw">use</span> <span class="ident">parsing</span>::{<span class="ident">ScopeStack</span>, <span class="ident">MatchPower</span>};
+        <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">str</span>::<span class="ident">FromStr</span>;
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelector</span>::<span class="ident">from_str</span>(<span class="string">&quot; - a.b - c.d&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c.d j e.f&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">None</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelector</span>::<span class="ident">from_str</span>(<span class="string">&quot; - a.b - c.d&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">Some</span>(<span class="ident">MatchPower</span>(<span class="number">0o1u64</span> <span class="kw">as</span> <span class="ident">f64</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelector</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b - c.d -e.f&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">None</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelector</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b - c.d -&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c.d j e.f&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">None</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelector</span>::<span class="ident">from_str</span>(<span class="string">&quot; -g.h - h.i&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c.d j e.f&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">Some</span>(<span class="ident">MatchPower</span>(<span class="number">0o1u64</span> <span class="kw">as</span> <span class="ident">f64</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelector</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c.d j e.f&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">Some</span>(<span class="ident">MatchPower</span>(<span class="number">0o2u64</span> <span class="kw">as</span> <span class="ident">f64</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelector</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b -g.h - h.i&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c.d j e.f&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">Some</span>(<span class="ident">MatchPower</span>(<span class="number">0o2u64</span> <span class="kw">as</span> <span class="ident">f64</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelector</span>::<span class="ident">from_str</span>(<span class="string">&quot;c.d&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c.d j e.f&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">Some</span>(<span class="ident">MatchPower</span>(<span class="number">0o20u64</span> <span class="kw">as</span> <span class="ident">f64</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelector</span>::<span class="ident">from_str</span>(<span class="string">&quot;c.d - j.g - h.i&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c.d j e.f&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">Some</span>(<span class="ident">MatchPower</span>(<span class="number">0o20u64</span> <span class="kw">as</span> <span class="ident">f64</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelectors</span>::<span class="ident">from_str</span>(<span class="string">&quot;j.g| -a.b&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c.d j e.f&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">None</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelectors</span>::<span class="ident">from_str</span>(<span class="string">&quot; -a.b|j.g&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c.d j e.f&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">None</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelectors</span>::<span class="ident">from_str</span>(<span class="string">&quot; -a.b,c.d - j.g - h.i&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c.d j e.f&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">Some</span>(<span class="ident">MatchPower</span>(<span class="number">0o20u64</span> <span class="kw">as</span> <span class="ident">f64</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeSelectors</span>::<span class="ident">from_str</span>(<span class="string">&quot; -a.b, -d.c -f.e&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c.d j e.f&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">Some</span>(<span class="ident">MatchPower</span>(<span class="number">0o01u64</span> <span class="kw">as</span> <span class="ident">f64</span>)));
     }
 }
 </pre>

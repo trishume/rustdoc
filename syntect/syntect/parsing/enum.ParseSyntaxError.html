@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc enum">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,34 +43,34 @@
         </form>
     </nav>
 
-    <section id='main' class="content enum">
-<h1 class='fqn'><span class='in-band'>Enum <a href='../index.html'>syntect</a>::<wbr><a href='index.html'>parsing</a>::<wbr><a class='enum' href=''>ParseSyntaxError</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Enum <a href='../index.html'>syntect</a>::<wbr><a href='index.html'>parsing</a>::<wbr><a class="enum" href=''>ParseSyntaxError</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a class='srclink' href='../../src/syntect/parsing/yaml_load.rs.html#12-31' title='goto source code'>[src]</a></span></h1>
 <pre class='rust enum'>pub enum ParseSyntaxError {
-    InvalidYaml(<a class='struct' href='../../yaml_rust/scanner/struct.ScanError.html' title='yaml_rust::scanner::ScanError'>ScanError</a>),
+    InvalidYaml(<a class="struct" href="../../yaml_rust/scanner/struct.ScanError.html" title="struct yaml_rust::scanner::ScanError">ScanError</a>),
     EmptyFile,
-    MissingMandatoryKey(&amp;'static <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>),
-    RegexCompileError(<a class='struct' href='../../onig/struct.Error.html' title='onig::Error'>Error</a>),
-    InvalidScope(<a class='enum' href='../../syntect/parsing/enum.ParseScopeError.html' title='syntect::parsing::ParseScopeError'>ParseScopeError</a>),
+    MissingMandatoryKey(&amp;'static <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>),
+    RegexCompileError(<a class="struct" href="../../onig/struct.Error.html" title="struct onig::Error">Error</a>),
+    InvalidScope(<a class="enum" href="../../syntect/parsing/enum.ParseScopeError.html" title="enum syntect::parsing::ParseScopeError">ParseScopeError</a>),
     BadFileRef,
     MainMissing,
     TypeMismatch,
 }</pre><h2 class='variants'>Variants</h2>
-<span id='variant.InvalidYaml' class='variant'><span id='InvalidYaml.v' class='invisible'><code>InvalidYaml(<a class='struct' href='../../yaml_rust/scanner/struct.ScanError.html' title='yaml_rust::scanner::ScanError'>ScanError</a>)</code></span></span><div class='docblock'><p>Invalid YAML file syntax, or at least something yaml_rust can&#39;t handle</p>
+<span id='variant.InvalidYaml' class='variant'><span id='InvalidYaml.v' class='invisible'><code>InvalidYaml(<a class="struct" href="../../yaml_rust/scanner/struct.ScanError.html" title="struct yaml_rust::scanner::ScanError">ScanError</a>)</code></span></span><div class='docblock'><p>Invalid YAML file syntax, or at least something yaml_rust can&#39;t handle</p>
 </div><span id='variant.EmptyFile' class='variant'><span id='EmptyFile.v' class='invisible'><code>EmptyFile</code></span></span><div class='docblock'><p>The file must contain at least on YAML document</p>
-</div><span id='variant.MissingMandatoryKey' class='variant'><span id='MissingMandatoryKey.v' class='invisible'><code>MissingMandatoryKey(&amp;'static <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>)</code></span></span><div class='docblock'><p>Some keys are required for something to be a valid <code>.sublime-syntax</code></p>
-</div><span id='variant.RegexCompileError' class='variant'><span id='RegexCompileError.v' class='invisible'><code>RegexCompileError(<a class='struct' href='../../onig/struct.Error.html' title='onig::Error'>Error</a>)</code></span></span><div class='docblock'><p>Invalid regex</p>
-</div><span id='variant.InvalidScope' class='variant'><span id='InvalidScope.v' class='invisible'><code>InvalidScope(<a class='enum' href='../../syntect/parsing/enum.ParseScopeError.html' title='syntect::parsing::ParseScopeError'>ParseScopeError</a>)</code></span></span><div class='docblock'><p>A scope that syntect&#39;s scope implementation can&#39;t handle</p>
+</div><span id='variant.MissingMandatoryKey' class='variant'><span id='MissingMandatoryKey.v' class='invisible'><code>MissingMandatoryKey(&amp;'static <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>)</code></span></span><div class='docblock'><p>Some keys are required for something to be a valid <code>.sublime-syntax</code></p>
+</div><span id='variant.RegexCompileError' class='variant'><span id='RegexCompileError.v' class='invisible'><code>RegexCompileError(<a class="struct" href="../../onig/struct.Error.html" title="struct onig::Error">Error</a>)</code></span></span><div class='docblock'><p>Invalid regex</p>
+</div><span id='variant.InvalidScope' class='variant'><span id='InvalidScope.v' class='invisible'><code>InvalidScope(<a class="enum" href="../../syntect/parsing/enum.ParseScopeError.html" title="enum syntect::parsing::ParseScopeError">ParseScopeError</a>)</code></span></span><div class='docblock'><p>A scope that syntect&#39;s scope implementation can&#39;t handle</p>
 </div><span id='variant.BadFileRef' class='variant'><span id='BadFileRef.v' class='invisible'><code>BadFileRef</code></span></span><div class='docblock'><p>A reference to another file that is invalid</p>
 </div><span id='variant.MainMissing' class='variant'><span id='MainMissing.v' class='invisible'><code>MainMissing</code></span></span><div class='docblock'><p>Syntaxes must have a context named &quot;main&quot;</p>
 </div><span id='variant.TypeMismatch' class='variant'><span id='TypeMismatch.v' class='invisible'><code>TypeMismatch</code></span></span><div class='docblock'><p>Some part of the YAML file is the wrong type (e.g a string but should be a list)
 Sorry this doesn&#39;t give you any way to narrow down where this is.
 Maybe use Sublime Text to figure it out.</p>
-</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='enum' href='../../syntect/parsing/enum.ParseSyntaxError.html' title='syntect::parsing::ParseSyntaxError'>ParseSyntaxError</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/syntect/parsing/yaml_load.rs.html#11' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.fmt' class='method'><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></span></h4>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="enum" href="../../syntect/parsing/enum.ParseSyntaxError.html" title="enum syntect::parsing::ParseSyntaxError">ParseSyntaxError</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/syntect/parsing/yaml_load.rs.html#11' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
 <div class='docblock'><p>Formats the value using the given formatter.</p>
 </div></div></section>
     <section id='search' class="content hidden"></section>

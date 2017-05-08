@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc struct">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,8 +43,8 @@
         </form>
     </nav>
 
-    <section id='main' class="content struct">
-<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>onig</a>::<wbr><a class='struct' href=''>EncodedBytes</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>onig</a>::<wbr><a class="struct" href=''>EncodedBytes</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
@@ -52,8 +52,8 @@
 <pre class='rust struct'>pub struct EncodedBytes&lt;'a&gt; { /* fields omitted */ }</pre><div class='docblock'><p>Byte Buffer</p>
 
 <p>Represents a buffer of bytes, with an encoding.</p>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class='struct' href='../onig/struct.EncodedBytes.html' title='onig::EncodedBytes'>EncodedBytes</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/onig/buffers.rs.html#59-92' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.from_parts' class='method'><span id='from_parts.v' class='invisible'><code>fn <a href='#method.from_parts' class='fnname'>from_parts</a>(bytes: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;'a [</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>, enc: <a class='type' href='../onig_sys/type.OnigEncoding.html' title='onig_sys::OnigEncoding'>OnigEncoding</a>) -&gt; <a class='struct' href='../onig/struct.EncodedBytes.html' title='onig::EncodedBytes'>EncodedBytes</a>&lt;'a&gt;</code></span></h4>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="struct" href="../onig/struct.EncodedBytes.html" title="struct onig::EncodedBytes">EncodedBytes</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/onig/buffers.rs.html#59-92' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.from_parts' class="method"><span id='from_parts.v' class='invisible'><code>fn <a href='#method.from_parts' class='fnname'>from_parts</a>(bytes: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;'a [</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>, enc: <a class="type" href="../onig_sys/type.OnigEncoding.html" title="type onig_sys::OnigEncoding">OnigEncoding</a>) -&gt; <a class="struct" href="../onig/struct.EncodedBytes.html" title="struct onig::EncodedBytes">EncodedBytes</a>&lt;'a&gt;</code></span></h4>
 <div class='docblock'><p>New Buffer from Parts</p>
 
 <h1 id='arguments' class='section-header'><a href='#arguments'>Arguments</a></h1>
@@ -64,7 +64,7 @@
 
 <h1 id='returns' class='section-header'><a href='#returns'>Returns</a></h1>
 <p>A new buffer instance</p>
-</div><h4 id='method.ascii' class='method'><span id='ascii.v' class='invisible'><code>fn <a href='#method.ascii' class='fnname'>ascii</a>(bytes: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;'a [</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) -&gt; <a class='struct' href='../onig/struct.EncodedBytes.html' title='onig::EncodedBytes'>EncodedBytes</a>&lt;'a&gt;</code></span></h4>
+</div><h4 id='method.ascii' class="method"><span id='ascii.v' class='invisible'><code>fn <a href='#method.ascii' class='fnname'>ascii</a>(bytes: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;'a [</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>) -&gt; <a class="struct" href="../onig/struct.EncodedBytes.html" title="struct onig::EncodedBytes">EncodedBytes</a>&lt;'a&gt;</code></span></h4>
 <div class='docblock'><p>New ASCII Buffer</p>
 
 <h1 id='arguments-1' class='section-header'><a href='#arguments-1'>Arguments</a></h1>
@@ -74,14 +74,14 @@
 
 <h1 id='returns-1' class='section-header'><a href='#returns-1'>Returns</a></h1>
 <p>A new buffer instance</p>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class='trait' href='../onig/trait.EncodedChars.html' title='onig::EncodedChars'>EncodedChars</a> for <a class='struct' href='../onig/struct.EncodedBytes.html' title='onig::EncodedBytes'>EncodedBytes</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/onig/buffers.rs.html#94-110' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.start_ptr' class='method'><span id='start_ptr.v' class='invisible'><code>fn <a href='../onig/trait.EncodedChars.html#tymethod.start_ptr' class='fnname'>start_ptr</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const </a><a class='type' href='../onig_sys/type.OnigUChar.html' title='onig_sys::OnigUChar'>OnigUChar</a></code></span></h4>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="trait" href="../onig/trait.EncodedChars.html" title="trait onig::EncodedChars">EncodedChars</a> for <a class="struct" href="../onig/struct.EncodedBytes.html" title="struct onig::EncodedBytes">EncodedBytes</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/onig/buffers.rs.html#94-110' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.start_ptr' class="method"><span id='start_ptr.v' class='invisible'><code>fn <a href='../onig/trait.EncodedChars.html#tymethod.start_ptr' class='fnname'>start_ptr</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.pointer.html">*const </a><a class="type" href="../onig_sys/type.OnigUChar.html" title="type onig_sys::OnigUChar">OnigUChar</a></code></span></h4>
 <div class='docblock'><p>Pointer to the start of the pattern <a href="../onig/trait.EncodedChars.html#tymethod.start_ptr">Read more</a></p>
-</div><h4 id='method.limit_ptr' class='method'><span id='limit_ptr.v' class='invisible'><code>fn <a href='../onig/trait.EncodedChars.html#tymethod.limit_ptr' class='fnname'>limit_ptr</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const </a><a class='type' href='../onig_sys/type.OnigUChar.html' title='onig_sys::OnigUChar'>OnigUChar</a></code></span></h4>
+</div><h4 id='method.limit_ptr' class="method"><span id='limit_ptr.v' class='invisible'><code>fn <a href='../onig/trait.EncodedChars.html#tymethod.limit_ptr' class='fnname'>limit_ptr</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.pointer.html">*const </a><a class="type" href="../onig_sys/type.OnigUChar.html" title="type onig_sys::OnigUChar">OnigUChar</a></code></span></h4>
 <div class='docblock'><p>Pointer to the limit of the pattern buffer <a href="../onig/trait.EncodedChars.html#tymethod.limit_ptr">Read more</a></p>
-</div><h4 id='method.encoding' class='method'><span id='encoding.v' class='invisible'><code>fn <a href='../onig/trait.EncodedChars.html#method.encoding' class='fnname'>encoding</a>(&amp;self) -&gt; <a class='type' href='../onig_sys/type.OnigEncoding.html' title='onig_sys::OnigEncoding'>OnigEncoding</a></code></span></h4>
+</div><h4 id='method.encoding' class="method"><span id='encoding.v' class='invisible'><code>fn <a href='../onig/trait.EncodedChars.html#method.encoding' class='fnname'>encoding</a>(&amp;self) -&gt; <a class="type" href="../onig_sys/type.OnigEncoding.html" title="type onig_sys::OnigEncoding">OnigEncoding</a></code></span></h4>
 <div class='docblock'><p>The encoding of the contents of the buffer</p>
-</div><h4 id='method.len' class='method'><span id='len.v' class='invisible'><code>fn <a href='../onig/trait.EncodedChars.html#tymethod.len' class='fnname'>len</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a></code></span></h4>
+</div><h4 id='method.len' class="method"><span id='len.v' class='invisible'><code>fn <a href='../onig/trait.EncodedChars.html#tymethod.len' class='fnname'>len</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a></code></span></h4>
 </div></section>
     <section id='search' class="content hidden"></section>
 

@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc mod">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,12 +43,12 @@
         </form>
     </nav>
 
-    <section id='main' class="content mod">
-<h1 class='fqn'><span class='in-band'>Module <a href='../../index.html'>syntect</a>::<wbr><a href='../index.html'>parsing</a>::<wbr><a class='mod' href=''>syntax_definition</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Module <a href='../../index.html'>syntect</a>::<wbr><a href='../index.html'>parsing</a>::<wbr><a class="mod" href=''>syntax_definition</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../../src/syntect/parsing/syntax_definition.rs.html#1-327' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../../src/syntect/parsing/syntax_definition.rs.html#1-296' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>This module contains data structures for representing syntax definitions.
 Everything is public because I want this library to be useful in super
 integrated cases like text editors and I have no idea what kind of monkeying
@@ -57,23 +57,23 @@ into this data structure?</p>
 </div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='struct' href='struct.Context.html'
-                                  title='syntect::parsing::syntax_definition::Context'>Context</a></td>
+                           <td><a class="struct" href="struct.Context.html"
+                                  title='struct syntect::parsing::syntax_definition::Context'>Context</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='struct' href='struct.LinkerLink.html'
-                                  title='syntect::parsing::syntax_definition::LinkerLink'>LinkerLink</a></td>
+                           <td><a class="struct" href="struct.LinkerLink.html"
+                                  title='struct syntect::parsing::syntax_definition::LinkerLink'>LinkerLink</a></td>
                            <td class='docblock-short'>
                                 <p>This wrapper only exists so that I can implement a serialization
 trait that crashes if you try and serialize this.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='struct' href='struct.MatchIter.html'
-                                  title='syntect::parsing::syntax_definition::MatchIter'>MatchIter</a></td>
+                           <td><a class="struct" href="struct.MatchIter.html"
+                                  title='struct syntect::parsing::syntax_definition::MatchIter'>MatchIter</a></td>
                            <td class='docblock-short'>
                                 <p>Used to iterate over all the match patterns in a context.
 Basically walks the tree of patterns and include directives
@@ -81,15 +81,15 @@ in the correct order.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='struct' href='struct.MatchPattern.html'
-                                  title='syntect::parsing::syntax_definition::MatchPattern'>MatchPattern</a></td>
+                           <td><a class="struct" href="struct.MatchPattern.html"
+                                  title='struct syntect::parsing::syntax_definition::MatchPattern'>MatchPattern</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='struct' href='struct.SyntaxDefinition.html'
-                                  title='syntect::parsing::syntax_definition::SyntaxDefinition'>SyntaxDefinition</a></td>
+                           <td><a class="struct" href="struct.SyntaxDefinition.html"
+                                  title='struct syntect::parsing::syntax_definition::SyntaxDefinition'>SyntaxDefinition</a></td>
                            <td class='docblock-short'>
                                 <p>The main data structure representing a syntax definition loaded from a
 <code>.sublime-syntax</code> file. You&#39;ll probably only need these as references
@@ -98,30 +98,30 @@ to be passed around to parsing code.</p>
                        </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='enum' href='enum.ContextReference.html'
-                                  title='syntect::parsing::syntax_definition::ContextReference'>ContextReference</a></td>
+                           <td><a class="enum" href="enum.ContextReference.html"
+                                  title='enum syntect::parsing::syntax_definition::ContextReference'>ContextReference</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='enum' href='enum.MatchOperation.html'
-                                  title='syntect::parsing::syntax_definition::MatchOperation'>MatchOperation</a></td>
+                           <td><a class="enum" href="enum.MatchOperation.html"
+                                  title='enum syntect::parsing::syntax_definition::MatchOperation'>MatchOperation</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='enum' href='enum.Pattern.html'
-                                  title='syntect::parsing::syntax_definition::Pattern'>Pattern</a></td>
+                           <td><a class="enum" href="enum.Pattern.html"
+                                  title='enum syntect::parsing::syntax_definition::Pattern'>Pattern</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
                        </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.context_iter.html'
-                                  title='syntect::parsing::syntax_definition::context_iter'>context_iter</a></td>
+                           <td><a class="fn" href="fn.context_iter.html"
+                                  title='fn syntect::parsing::syntax_definition::context_iter'>context_iter</a></td>
                            <td class='docblock-short'>
                                 <p>Returns an iterator over all the match patterns in this context.
 It recursively follows include directives. Can only be run on
@@ -130,15 +130,15 @@ contexts that have already been linked up.</p>
                        </tr></table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='type' href='type.CaptureMapping.html'
-                                  title='syntect::parsing::syntax_definition::CaptureMapping'>CaptureMapping</a></td>
+                           <td><a class="type" href="type.CaptureMapping.html"
+                                  title='type syntect::parsing::syntax_definition::CaptureMapping'>CaptureMapping</a></td>
                            <td class='docblock-short'>
                                 
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='type' href='type.ContextPtr.html'
-                                  title='syntect::parsing::syntax_definition::ContextPtr'>ContextPtr</a></td>
+                           <td><a class="type" href="type.ContextPtr.html"
+                                  title='type syntect::parsing::syntax_definition::ContextPtr'>ContextPtr</a></td>
                            <td class='docblock-short'>
                                 
                            </td>

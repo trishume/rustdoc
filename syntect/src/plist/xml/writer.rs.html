@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/plist-0.1.2/src/xml/writer.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/plist-0.2.2/src/xml/writer.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>writer.rs.html -- source</title>
@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -295,236 +295,234 @@
 <span id="250">250</span>
 <span id="251">251</span>
 <span id="252">252</span>
-<span id="253">253</span>
-</pre><pre class='rust '>
-<span class='kw'>use</span> <span class='ident'>rustc_serialize</span>::<span class='ident'>base64</span>::{<span class='ident'>MIME</span>, <span class='ident'>ToBase64</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>borrow</span>::<span class='ident'>Cow</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>Write</span>;
-<span class='kw'>use</span> <span class='ident'>xml_rs</span>::<span class='ident'>attribute</span>::<span class='ident'>Attribute</span>;
-<span class='kw'>use</span> <span class='ident'>xml_rs</span>::<span class='ident'>name</span>::<span class='ident'>Name</span>;
-<span class='kw'>use</span> <span class='ident'>xml_rs</span>::<span class='ident'>namespace</span>::<span class='ident'>Namespace</span>;
-<span class='kw'>use</span> <span class='ident'>xml_rs</span>::<span class='ident'>writer</span>::{<span class='ident'>Error</span> <span class='kw'>as</span> <span class='ident'>XmlWriterError</span>, <span class='ident'>EventWriter</span> <span class='kw'>as</span> <span class='ident'>XmlEventWriter</span>, <span class='ident'>EmitterConfig</span>};
-<span class='kw'>use</span> <span class='ident'>xml_rs</span>::<span class='ident'>writer</span>::<span class='ident'>events</span>::<span class='ident'>XmlEvent</span> <span class='kw'>as</span> <span class='ident'>WriteXmlEvent</span>;
+</pre><pre class="rust ">
+<span class="kw">use</span> <span class="ident">base64</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">borrow</span>::<span class="ident">Cow</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">Write</span>;
+<span class="kw">use</span> <span class="ident">xml_rs</span>::<span class="ident">attribute</span>::<span class="ident">Attribute</span>;
+<span class="kw">use</span> <span class="ident">xml_rs</span>::<span class="ident">name</span>::<span class="ident">Name</span>;
+<span class="kw">use</span> <span class="ident">xml_rs</span>::<span class="ident">namespace</span>::<span class="ident">Namespace</span>;
+<span class="kw">use</span> <span class="ident">xml_rs</span>::<span class="ident">writer</span>::{<span class="ident">Error</span> <span class="kw">as</span> <span class="ident">XmlWriterError</span>, <span class="ident">EventWriter</span> <span class="kw">as</span> <span class="ident">XmlEventWriter</span>, <span class="ident">EmitterConfig</span>};
+<span class="kw">use</span> <span class="ident">xml_rs</span>::<span class="ident">writer</span>::<span class="ident">events</span>::<span class="ident">XmlEvent</span> <span class="kw">as</span> <span class="ident">WriteXmlEvent</span>;
 
-<span class='kw'>use</span> {<span class='ident'>Error</span>, <span class='ident'>EventWriter</span> <span class='kw'>as</span> <span class='ident'>PlistEventWriter</span>, <span class='ident'>PlistEvent</span>, <span class='prelude-ty'>Result</span>};
+<span class="kw">use</span> {<span class="ident">Error</span>, <span class="ident">EventWriter</span> <span class="kw">as</span> <span class="ident">PlistEventWriter</span>, <span class="ident">PlistEvent</span>, <span class="prelude-ty">Result</span>};
 
-<span class='kw'>impl</span> <span class='ident'>From</span><span class='op'>&lt;</span><span class='ident'>XmlWriterError</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>Error</span> {
-    <span class='kw'>fn</span> <span class='ident'>from</span>(<span class='ident'>err</span>: <span class='ident'>XmlWriterError</span>) <span class='op'>-&gt;</span> <span class='ident'>Error</span> {
-        <span class='kw'>match</span> <span class='ident'>err</span> {
-            <span class='ident'>XmlWriterError</span>::<span class='ident'>Io</span>(<span class='ident'>err</span>) <span class='op'>=&gt;</span> <span class='ident'>Error</span>::<span class='ident'>Io</span>(<span class='ident'>err</span>),
-            _ <span class='op'>=&gt;</span> <span class='ident'>Error</span>::<span class='ident'>InvalidData</span>,
+<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">XmlWriterError</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Error</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">err</span>: <span class="ident">XmlWriterError</span>) <span class="op">-&gt;</span> <span class="ident">Error</span> {
+        <span class="kw">match</span> <span class="ident">err</span> {
+            <span class="ident">XmlWriterError</span>::<span class="ident">Io</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="ident">Error</span>::<span class="ident">Io</span>(<span class="ident">err</span>),
+            _ <span class="op">=&gt;</span> <span class="ident">Error</span>::<span class="ident">InvalidData</span>,
         }
     }
 }
 
-<span class='kw'>enum</span> <span class='ident'>Element</span> {
-    <span class='ident'>Dictionary</span>(<span class='ident'>DictionaryState</span>),
-    <span class='ident'>Array</span>,
-    <span class='ident'>Root</span>,
+<span class="kw">enum</span> <span class="ident">Element</span> {
+    <span class="ident">Dictionary</span>(<span class="ident">DictionaryState</span>),
+    <span class="ident">Array</span>,
+    <span class="ident">Root</span>,
 }
 
-<span class='kw'>enum</span> <span class='ident'>DictionaryState</span> {
-    <span class='ident'>ExpectKey</span>,
-    <span class='ident'>ExpectValue</span>,
+<span class="kw">enum</span> <span class="ident">DictionaryState</span> {
+    <span class="ident">ExpectKey</span>,
+    <span class="ident">ExpectValue</span>,
 }
 
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>EventWriter</span><span class='op'>&lt;</span><span class='ident'>W</span>: <span class='ident'>Write</span><span class='op'>&gt;</span> {
-    <span class='ident'>xml_writer</span>: <span class='ident'>XmlEventWriter</span><span class='op'>&lt;</span><span class='ident'>W</span><span class='op'>&gt;</span>,
-    <span class='ident'>stack</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Element</span><span class='op'>&gt;</span>,
-    <span class='comment'>// Not very nice</span>
-    <span class='ident'>empty_namespace</span>: <span class='ident'>Namespace</span>,
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EventWriter</span><span class="op">&lt;</span><span class="ident">W</span>: <span class="ident">Write</span><span class="op">&gt;</span> {
+    <span class="ident">xml_writer</span>: <span class="ident">XmlEventWriter</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span>,
+    <span class="ident">stack</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Element</span><span class="op">&gt;</span>,
+    <span class="comment">// Not very nice</span>
+    <span class="ident">empty_namespace</span>: <span class="ident">Namespace</span>,
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>W</span>: <span class='ident'>Write</span><span class='op'>&gt;</span> <span class='ident'>EventWriter</span><span class='op'>&lt;</span><span class='ident'>W</span><span class='op'>&gt;</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>writer</span>: <span class='ident'>W</span>) <span class='op'>-&gt;</span> <span class='ident'>EventWriter</span><span class='op'>&lt;</span><span class='ident'>W</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>config</span> <span class='op'>=</span> <span class='ident'>EmitterConfig</span>::<span class='ident'>new</span>()
-            .<span class='ident'>line_separator</span>(<span class='string'>&quot;\n&quot;</span>)
-            .<span class='ident'>indent_string</span>(<span class='string'>&quot;    &quot;</span>)
-            .<span class='ident'>perform_indent</span>(<span class='bool-val'>true</span>)
-            .<span class='ident'>write_document_declaration</span>(<span class='bool-val'>true</span>)
-            .<span class='ident'>normalize_empty_elements</span>(<span class='bool-val'>true</span>)
-            .<span class='ident'>cdata_to_characters</span>(<span class='bool-val'>true</span>)
-            .<span class='ident'>keep_element_names_stack</span>(<span class='bool-val'>false</span>)
-            .<span class='ident'>autopad_comments</span>(<span class='bool-val'>true</span>);
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">W</span>: <span class="ident">Write</span><span class="op">&gt;</span> <span class="ident">EventWriter</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">writer</span>: <span class="ident">W</span>) <span class="op">-&gt;</span> <span class="ident">EventWriter</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">EmitterConfig</span>::<span class="ident">new</span>()
+            .<span class="ident">line_separator</span>(<span class="string">&quot;\n&quot;</span>)
+            .<span class="ident">indent_string</span>(<span class="string">&quot;    &quot;</span>)
+            .<span class="ident">perform_indent</span>(<span class="bool-val">true</span>)
+            .<span class="ident">write_document_declaration</span>(<span class="bool-val">true</span>)
+            .<span class="ident">normalize_empty_elements</span>(<span class="bool-val">true</span>)
+            .<span class="ident">cdata_to_characters</span>(<span class="bool-val">true</span>)
+            .<span class="ident">keep_element_names_stack</span>(<span class="bool-val">false</span>)
+            .<span class="ident">autopad_comments</span>(<span class="bool-val">true</span>);
 
-        <span class='ident'>EventWriter</span> {
-            <span class='ident'>xml_writer</span>: <span class='ident'>XmlEventWriter</span>::<span class='ident'>new_with_config</span>(<span class='ident'>writer</span>, <span class='ident'>config</span>),
-            <span class='ident'>stack</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
-            <span class='ident'>empty_namespace</span>: <span class='ident'>Namespace</span>::<span class='ident'>empty</span>(),
+        <span class="ident">EventWriter</span> {
+            <span class="ident">xml_writer</span>: <span class="ident">XmlEventWriter</span>::<span class="ident">new_with_config</span>(<span class="ident">writer</span>, <span class="ident">config</span>),
+            <span class="ident">stack</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
+            <span class="ident">empty_namespace</span>: <span class="ident">Namespace</span>::<span class="ident">empty</span>(),
         }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>write_element_and_value</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>value</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>start_element</span>(<span class='ident'>name</span>));
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>write_value</span>(<span class='ident'>value</span>));
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>end_element</span>(<span class='ident'>name</span>));
-        <span class='prelude-val'>Ok</span>(())
+    <span class="kw">fn</span> <span class="ident">write_element_and_value</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">start_element</span>(<span class="ident">name</span>)<span class="question-mark">?</span>;
+        <span class="self">self</span>.<span class="ident">write_value</span>(<span class="ident">value</span>)<span class="question-mark">?</span>;
+        <span class="self">self</span>.<span class="ident">end_element</span>(<span class="ident">name</span>)<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(())
     }
 
-    <span class='kw'>fn</span> <span class='ident'>start_element</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>xml_writer</span>.<span class='ident'>write</span>(<span class='ident'>WriteXmlEvent</span>::<span class='ident'>StartElement</span> {
-            <span class='ident'>name</span>: <span class='ident'>Name</span>::<span class='ident'>local</span>(<span class='ident'>name</span>),
-            <span class='ident'>attributes</span>: <span class='ident'>Cow</span>::<span class='ident'>Borrowed</span>(<span class='kw-2'>&amp;</span>[]),
-            <span class='ident'>namespace</span>: <span class='ident'>Cow</span>::<span class='ident'>Borrowed</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>empty_namespace</span>),
-        }));
-        <span class='prelude-val'>Ok</span>(())
+    <span class="kw">fn</span> <span class="ident">start_element</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">xml_writer</span>.<span class="ident">write</span>(<span class="ident">WriteXmlEvent</span>::<span class="ident">StartElement</span> {
+            <span class="ident">name</span>: <span class="ident">Name</span>::<span class="ident">local</span>(<span class="ident">name</span>),
+            <span class="ident">attributes</span>: <span class="ident">Cow</span>::<span class="ident">Borrowed</span>(<span class="kw-2">&amp;</span>[]),
+            <span class="ident">namespace</span>: <span class="ident">Cow</span>::<span class="ident">Borrowed</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">empty_namespace</span>),
+        })<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(())
     }
 
-    <span class='kw'>fn</span> <span class='ident'>end_element</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>xml_writer</span>.<span class='ident'>write</span>(<span class='ident'>WriteXmlEvent</span>::<span class='ident'>EndElement</span> { <span class='ident'>name</span>: <span class='prelude-val'>Some</span>(<span class='ident'>Name</span>::<span class='ident'>local</span>(<span class='ident'>name</span>)) }));
-        <span class='prelude-val'>Ok</span>(())
+    <span class="kw">fn</span> <span class="ident">end_element</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">xml_writer</span>.<span class="ident">write</span>(<span class="ident">WriteXmlEvent</span>::<span class="ident">EndElement</span> { <span class="ident">name</span>: <span class="prelude-val">Some</span>(<span class="ident">Name</span>::<span class="ident">local</span>(<span class="ident">name</span>)) })<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(())
     }
 
-    <span class='kw'>fn</span> <span class='ident'>write_value</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>value</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>xml_writer</span>.<span class='ident'>write</span>(<span class='ident'>WriteXmlEvent</span>::<span class='ident'>Characters</span>(<span class='ident'>value</span>)));
-        <span class='prelude-val'>Ok</span>(())
+    <span class="kw">fn</span> <span class="ident">write_value</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">xml_writer</span>.<span class="ident">write</span>(<span class="ident">WriteXmlEvent</span>::<span class="ident">Characters</span>(<span class="ident">value</span>))<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(())
     }
 
-    <span class='kw'>fn</span> <span class='ident'>maybe_end_plist</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='comment'>// If there are no more open tags then write the &lt;/plist&gt; element</span>
-        <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>stack</span>.<span class='ident'>len</span>() <span class='op'>==</span> <span class='number'>1</span> {
-            <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>end_element</span>(<span class='string'>&quot;plist&quot;</span>));
-            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>Element</span>::<span class='ident'>Root</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>stack</span>.<span class='ident'>pop</span>() {
-            } <span class='kw'>else</span> {
-                <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>InvalidData</span>);
+    <span class="kw">fn</span> <span class="ident">maybe_end_plist</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="comment">// If there are no more open tags then write the &lt;/plist&gt; element</span>
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">stack</span>.<span class="ident">len</span>() <span class="op">==</span> <span class="number">1</span> {
+            <span class="self">self</span>.<span class="ident">end_element</span>(<span class="string">&quot;plist&quot;</span>)<span class="question-mark">?</span>;
+            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">Element</span>::<span class="ident">Root</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">stack</span>.<span class="ident">pop</span>() {
+            } <span class="kw">else</span> {
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidData</span>);
             }
         }
-        <span class='prelude-val'>Ok</span>(())
+        <span class="prelude-val">Ok</span>(())
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>write</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>event</span>: <span class='kw-2'>&amp;</span><span class='ident'>PlistEvent</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='op'>&lt;</span><span class='self'>Self</span> <span class='kw'>as</span> <span class='ident'>PlistEventWriter</span><span class='op'>&gt;</span>::<span class='ident'>write</span>(<span class='self'>self</span>, <span class='ident'>event</span>)
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">event</span>: <span class="kw-2">&amp;</span><span class="ident">PlistEvent</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="op">&lt;</span><span class="self">Self</span> <span class="kw">as</span> <span class="ident">PlistEventWriter</span><span class="op">&gt;</span>::<span class="ident">write</span>(<span class="self">self</span>, <span class="ident">event</span>)
     }
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>W</span>: <span class='ident'>Write</span><span class='op'>&gt;</span> <span class='ident'>PlistEventWriter</span> <span class='kw'>for</span> <span class='ident'>EventWriter</span><span class='op'>&lt;</span><span class='ident'>W</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>write</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>event</span>: <span class='kw-2'>&amp;</span><span class='ident'>PlistEvent</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>stack</span>.<span class='ident'>pop</span>() {
-            <span class='prelude-val'>Some</span>(<span class='ident'>Element</span>::<span class='ident'>Dictionary</span>(<span class='ident'>DictionaryState</span>::<span class='ident'>ExpectKey</span>)) <span class='op'>=&gt;</span> {
-                <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>event</span> {
-                    <span class='ident'>PlistEvent</span>::<span class='ident'>StringValue</span>(<span class='kw-2'>ref</span> <span class='ident'>value</span>) <span class='op'>=&gt;</span> {
-                        <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>write_element_and_value</span>(<span class='string'>&quot;key&quot;</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>*</span><span class='ident'>value</span>));
-                        <span class='self'>self</span>.<span class='ident'>stack</span>.<span class='ident'>push</span>(<span class='ident'>Element</span>::<span class='ident'>Dictionary</span>(<span class='ident'>DictionaryState</span>::<span class='ident'>ExpectValue</span>));
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">W</span>: <span class="ident">Write</span><span class="op">&gt;</span> <span class="ident">PlistEventWriter</span> <span class="kw">for</span> <span class="ident">EventWriter</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">write</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">event</span>: <span class="kw-2">&amp;</span><span class="ident">PlistEvent</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">stack</span>.<span class="ident">pop</span>() {
+            <span class="prelude-val">Some</span>(<span class="ident">Element</span>::<span class="ident">Dictionary</span>(<span class="ident">DictionaryState</span>::<span class="ident">ExpectKey</span>)) <span class="op">=&gt;</span> {
+                <span class="kw">match</span> <span class="kw-2">*</span><span class="ident">event</span> {
+                    <span class="ident">PlistEvent</span>::<span class="ident">StringValue</span>(<span class="kw-2">ref</span> <span class="ident">value</span>) <span class="op">=&gt;</span> {
+                        <span class="self">self</span>.<span class="ident">write_element_and_value</span>(<span class="string">&quot;key&quot;</span>, <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">value</span>)<span class="question-mark">?</span>;
+                        <span class="self">self</span>.<span class="ident">stack</span>.<span class="ident">push</span>(<span class="ident">Element</span>::<span class="ident">Dictionary</span>(<span class="ident">DictionaryState</span>::<span class="ident">ExpectValue</span>));
                     }
-                    <span class='ident'>PlistEvent</span>::<span class='ident'>EndDictionary</span> <span class='op'>=&gt;</span> {
-                        <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>end_element</span>(<span class='string'>&quot;dict&quot;</span>));
-                        <span class='comment'>// We might be closing the last tag here as well</span>
-                        <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>maybe_end_plist</span>());
+                    <span class="ident">PlistEvent</span>::<span class="ident">EndDictionary</span> <span class="op">=&gt;</span> {
+                        <span class="self">self</span>.<span class="ident">end_element</span>(<span class="string">&quot;dict&quot;</span>)<span class="question-mark">?</span>;
+                        <span class="comment">// We might be closing the last tag here as well</span>
+                        <span class="self">self</span>.<span class="ident">maybe_end_plist</span>()<span class="question-mark">?</span>;
                     }
-                    _ <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>InvalidData</span>),
+                    _ <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidData</span>),
                 };
-                <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(());
+                <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
             }
-            <span class='prelude-val'>Some</span>(<span class='ident'>Element</span>::<span class='ident'>Dictionary</span>(<span class='ident'>DictionaryState</span>::<span class='ident'>ExpectValue</span>)) <span class='op'>=&gt;</span> {
-                <span class='self'>self</span>.<span class='ident'>stack</span>.<span class='ident'>push</span>(<span class='ident'>Element</span>::<span class='ident'>Dictionary</span>(<span class='ident'>DictionaryState</span>::<span class='ident'>ExpectKey</span>))
+            <span class="prelude-val">Some</span>(<span class="ident">Element</span>::<span class="ident">Dictionary</span>(<span class="ident">DictionaryState</span>::<span class="ident">ExpectValue</span>)) <span class="op">=&gt;</span> {
+                <span class="self">self</span>.<span class="ident">stack</span>.<span class="ident">push</span>(<span class="ident">Element</span>::<span class="ident">Dictionary</span>(<span class="ident">DictionaryState</span>::<span class="ident">ExpectKey</span>))
             }
-            <span class='prelude-val'>Some</span>(<span class='ident'>other</span>) <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>stack</span>.<span class='ident'>push</span>(<span class='ident'>other</span>),
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='ident'>version_name</span> <span class='op'>=</span> <span class='ident'>Name</span>::<span class='ident'>local</span>(<span class='string'>&quot;version&quot;</span>);
-                <span class='kw'>let</span> <span class='ident'>version_attr</span> <span class='op'>=</span> <span class='ident'>Attribute</span>::<span class='ident'>new</span>(<span class='ident'>version_name</span>, <span class='string'>&quot;1.0&quot;</span>);
+            <span class="prelude-val">Some</span>(<span class="ident">other</span>) <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">stack</span>.<span class="ident">push</span>(<span class="ident">other</span>),
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="ident">version_name</span> <span class="op">=</span> <span class="ident">Name</span>::<span class="ident">local</span>(<span class="string">&quot;version&quot;</span>);
+                <span class="kw">let</span> <span class="ident">version_attr</span> <span class="op">=</span> <span class="ident">Attribute</span>::<span class="ident">new</span>(<span class="ident">version_name</span>, <span class="string">&quot;1.0&quot;</span>);
 
-                <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>xml_writer</span>.<span class='ident'>write</span>(<span class='ident'>WriteXmlEvent</span>::<span class='ident'>StartElement</span> {
-                    <span class='ident'>name</span>: <span class='ident'>Name</span>::<span class='ident'>local</span>(<span class='string'>&quot;plist&quot;</span>),
-                    <span class='ident'>attributes</span>: <span class='ident'>Cow</span>::<span class='ident'>Borrowed</span>(<span class='kw-2'>&amp;</span>[<span class='ident'>version_attr</span>]),
-                    <span class='ident'>namespace</span>: <span class='ident'>Cow</span>::<span class='ident'>Borrowed</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>empty_namespace</span>),
-                }));
+                <span class="self">self</span>.<span class="ident">xml_writer</span>.<span class="ident">write</span>(<span class="ident">WriteXmlEvent</span>::<span class="ident">StartElement</span> {
+                    <span class="ident">name</span>: <span class="ident">Name</span>::<span class="ident">local</span>(<span class="string">&quot;plist&quot;</span>),
+                    <span class="ident">attributes</span>: <span class="ident">Cow</span>::<span class="ident">Borrowed</span>(<span class="kw-2">&amp;</span>[<span class="ident">version_attr</span>]),
+                    <span class="ident">namespace</span>: <span class="ident">Cow</span>::<span class="ident">Borrowed</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">empty_namespace</span>),
+                })<span class="question-mark">?</span>;
 
-                <span class='self'>self</span>.<span class='ident'>stack</span>.<span class='ident'>push</span>(<span class='ident'>Element</span>::<span class='ident'>Root</span>);
+                <span class="self">self</span>.<span class="ident">stack</span>.<span class="ident">push</span>(<span class="ident">Element</span>::<span class="ident">Root</span>);
             }
         }
 
-        <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>event</span> {
-            <span class='ident'>PlistEvent</span>::<span class='ident'>StartArray</span>(_) <span class='op'>=&gt;</span> {
-                <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>start_element</span>(<span class='string'>&quot;array&quot;</span>));
-                <span class='self'>self</span>.<span class='ident'>stack</span>.<span class='ident'>push</span>(<span class='ident'>Element</span>::<span class='ident'>Array</span>);
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="ident">event</span> {
+            <span class="ident">PlistEvent</span>::<span class="ident">StartArray</span>(_) <span class="op">=&gt;</span> {
+                <span class="self">self</span>.<span class="ident">start_element</span>(<span class="string">&quot;array&quot;</span>)<span class="question-mark">?</span>;
+                <span class="self">self</span>.<span class="ident">stack</span>.<span class="ident">push</span>(<span class="ident">Element</span>::<span class="ident">Array</span>);
             }
-            <span class='ident'>PlistEvent</span>::<span class='ident'>EndArray</span> <span class='op'>=&gt;</span> {
-                <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>end_element</span>(<span class='string'>&quot;array&quot;</span>));
-                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>Element</span>::<span class='ident'>Array</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>stack</span>.<span class='ident'>pop</span>() {
-                } <span class='kw'>else</span> {
-                    <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>InvalidData</span>);
+            <span class="ident">PlistEvent</span>::<span class="ident">EndArray</span> <span class="op">=&gt;</span> {
+                <span class="self">self</span>.<span class="ident">end_element</span>(<span class="string">&quot;array&quot;</span>)<span class="question-mark">?</span>;
+                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">Element</span>::<span class="ident">Array</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">stack</span>.<span class="ident">pop</span>() {
+                } <span class="kw">else</span> {
+                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidData</span>);
                 }
             }
 
-            <span class='ident'>PlistEvent</span>::<span class='ident'>StartDictionary</span>(_) <span class='op'>=&gt;</span> {
-                <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>start_element</span>(<span class='string'>&quot;dict&quot;</span>));
-                <span class='self'>self</span>.<span class='ident'>stack</span>.<span class='ident'>push</span>(<span class='ident'>Element</span>::<span class='ident'>Dictionary</span>(<span class='ident'>DictionaryState</span>::<span class='ident'>ExpectKey</span>));
+            <span class="ident">PlistEvent</span>::<span class="ident">StartDictionary</span>(_) <span class="op">=&gt;</span> {
+                <span class="self">self</span>.<span class="ident">start_element</span>(<span class="string">&quot;dict&quot;</span>)<span class="question-mark">?</span>;
+                <span class="self">self</span>.<span class="ident">stack</span>.<span class="ident">push</span>(<span class="ident">Element</span>::<span class="ident">Dictionary</span>(<span class="ident">DictionaryState</span>::<span class="ident">ExpectKey</span>));
             }
-            <span class='ident'>PlistEvent</span>::<span class='ident'>EndDictionary</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>InvalidData</span>),
+            <span class="ident">PlistEvent</span>::<span class="ident">EndDictionary</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidData</span>),
 
-            <span class='ident'>PlistEvent</span>::<span class='ident'>BooleanValue</span>(<span class='bool-val'>true</span>) <span class='op'>=&gt;</span> {
-                <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>start_element</span>(<span class='string'>&quot;true&quot;</span>));
-                <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>end_element</span>(<span class='string'>&quot;true&quot;</span>));
+            <span class="ident">PlistEvent</span>::<span class="ident">BooleanValue</span>(<span class="bool-val">true</span>) <span class="op">=&gt;</span> {
+                <span class="self">self</span>.<span class="ident">start_element</span>(<span class="string">&quot;true&quot;</span>)<span class="question-mark">?</span>;
+                <span class="self">self</span>.<span class="ident">end_element</span>(<span class="string">&quot;true&quot;</span>)<span class="question-mark">?</span>;
             }
-            <span class='ident'>PlistEvent</span>::<span class='ident'>BooleanValue</span>(<span class='bool-val'>false</span>) <span class='op'>=&gt;</span> {
-                <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>start_element</span>(<span class='string'>&quot;false&quot;</span>));
-                <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>end_element</span>(<span class='string'>&quot;false&quot;</span>));
+            <span class="ident">PlistEvent</span>::<span class="ident">BooleanValue</span>(<span class="bool-val">false</span>) <span class="op">=&gt;</span> {
+                <span class="self">self</span>.<span class="ident">start_element</span>(<span class="string">&quot;false&quot;</span>)<span class="question-mark">?</span>;
+                <span class="self">self</span>.<span class="ident">end_element</span>(<span class="string">&quot;false&quot;</span>)<span class="question-mark">?</span>;
             }
-            <span class='ident'>PlistEvent</span>::<span class='ident'>DataValue</span>(<span class='kw-2'>ref</span> <span class='ident'>value</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='ident'>base64_data</span> <span class='op'>=</span> <span class='ident'>value</span>.<span class='ident'>to_base64</span>(<span class='ident'>MIME</span>);
-                <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>write_element_and_value</span>(<span class='string'>&quot;data&quot;</span>, <span class='kw-2'>&amp;</span><span class='ident'>base64_data</span>));
+            <span class="ident">PlistEvent</span>::<span class="ident">DataValue</span>(<span class="kw-2">ref</span> <span class="ident">value</span>) <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="ident">base64_data</span> <span class="op">=</span> <span class="ident">base64</span>::<span class="ident">encode_config</span>(<span class="kw-2">&amp;</span><span class="ident">value</span>, <span class="ident">base64</span>::<span class="ident">MIME</span>);
+                <span class="self">self</span>.<span class="ident">write_element_and_value</span>(<span class="string">&quot;data&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">base64_data</span>)<span class="question-mark">?</span>;
             }
-            <span class='ident'>PlistEvent</span>::<span class='ident'>DateValue</span>(<span class='kw-2'>ref</span> <span class='ident'>value</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='ident'>date</span> <span class='op'>=</span> <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>value</span>);
-                <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>write_element_and_value</span>(<span class='string'>&quot;date&quot;</span>, <span class='kw-2'>&amp;</span><span class='ident'>date</span>));
+            <span class="ident">PlistEvent</span>::<span class="ident">DateValue</span>(<span class="kw-2">ref</span> <span class="ident">value</span>) <span class="op">=&gt;</span> {
+                <span class="self">self</span>.<span class="ident">write_element_and_value</span>(<span class="string">&quot;date&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">value</span>.<span class="ident">to_string</span>())<span class="question-mark">?</span>
             }
-            <span class='ident'>PlistEvent</span>::<span class='ident'>IntegerValue</span>(<span class='kw-2'>ref</span> <span class='ident'>value</span>) <span class='op'>=&gt;</span> {
-                <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>write_element_and_value</span>(<span class='string'>&quot;integer&quot;</span>, <span class='kw-2'>&amp;</span><span class='ident'>value</span>.<span class='ident'>to_string</span>()))
+            <span class="ident">PlistEvent</span>::<span class="ident">IntegerValue</span>(<span class="kw-2">ref</span> <span class="ident">value</span>) <span class="op">=&gt;</span> {
+                <span class="self">self</span>.<span class="ident">write_element_and_value</span>(<span class="string">&quot;integer&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">value</span>.<span class="ident">to_string</span>())<span class="question-mark">?</span>
             }
-            <span class='ident'>PlistEvent</span>::<span class='ident'>RealValue</span>(<span class='kw-2'>ref</span> <span class='ident'>value</span>) <span class='op'>=&gt;</span> {
-                <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>write_element_and_value</span>(<span class='string'>&quot;real&quot;</span>, <span class='kw-2'>&amp;</span><span class='ident'>value</span>.<span class='ident'>to_string</span>()))
+            <span class="ident">PlistEvent</span>::<span class="ident">RealValue</span>(<span class="kw-2">ref</span> <span class="ident">value</span>) <span class="op">=&gt;</span> {
+                <span class="self">self</span>.<span class="ident">write_element_and_value</span>(<span class="string">&quot;real&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">value</span>.<span class="ident">to_string</span>())<span class="question-mark">?</span>
             }
-            <span class='ident'>PlistEvent</span>::<span class='ident'>StringValue</span>(<span class='kw-2'>ref</span> <span class='ident'>value</span>) <span class='op'>=&gt;</span> {
-                <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>write_element_and_value</span>(<span class='string'>&quot;string&quot;</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>*</span><span class='ident'>value</span>))
+            <span class="ident">PlistEvent</span>::<span class="ident">StringValue</span>(<span class="kw-2">ref</span> <span class="ident">value</span>) <span class="op">=&gt;</span> {
+                <span class="self">self</span>.<span class="ident">write_element_and_value</span>(<span class="string">&quot;string&quot;</span>, <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">value</span>)<span class="question-mark">?</span>
             }
         };
 
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>maybe_end_plist</span>());
+        <span class="self">self</span>.<span class="ident">maybe_end_plist</span>()<span class="question-mark">?</span>;
 
-        <span class='prelude-val'>Ok</span>(())
+        <span class="prelude-val">Ok</span>(())
     }
 }
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
-<span class='kw'>mod</span> <span class='ident'>tests</span> {
-    <span class='kw'>use</span> <span class='ident'>chrono</span>::{<span class='ident'>TimeZone</span>, <span class='ident'>UTC</span>};
-    <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>Cursor</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">mod</span> <span class="ident">tests</span> {
+    <span class="kw">use</span> <span class="ident">chrono</span>::{<span class="ident">TimeZone</span>, <span class="ident">UTC</span>};
+    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::<span class="ident">Cursor</span>;
 
-    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='kw-2'>*</span>;
+    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>streaming_parser</span>() {
-        <span class='kw'>use</span> <span class='ident'>PlistEvent</span>::<span class='kw-2'>*</span>;
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">streaming_parser</span>() {
+        <span class="kw">use</span> <span class="ident">PlistEvent</span>::<span class="kw-2">*</span>;
 
-        <span class='kw'>let</span> <span class='ident'>plist</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span>[<span class='ident'>StartDictionary</span>(<span class='prelude-val'>None</span>),
-                      <span class='ident'>StringValue</span>(<span class='string'>&quot;Author&quot;</span>.<span class='ident'>to_owned</span>()),
-                      <span class='ident'>StringValue</span>(<span class='string'>&quot;William Shakespeare&quot;</span>.<span class='ident'>to_owned</span>()),
-                      <span class='ident'>StringValue</span>(<span class='string'>&quot;Lines&quot;</span>.<span class='ident'>to_owned</span>()),
-                      <span class='ident'>StartArray</span>(<span class='prelude-val'>None</span>),
-                      <span class='ident'>StringValue</span>(<span class='string'>&quot;It is a tale told by an idiot,&quot;</span>.<span class='ident'>to_owned</span>()),
-                      <span class='ident'>StringValue</span>(<span class='string'>&quot;Full of sound and fury, signifying nothing.&quot;</span>.<span class='ident'>to_owned</span>()),
-                      <span class='ident'>EndArray</span>,
-                      <span class='ident'>StringValue</span>(<span class='string'>&quot;Death&quot;</span>.<span class='ident'>to_owned</span>()),
-                      <span class='ident'>IntegerValue</span>(<span class='number'>1564</span>),
-                      <span class='ident'>StringValue</span>(<span class='string'>&quot;Height&quot;</span>.<span class='ident'>to_owned</span>()),
-                      <span class='ident'>RealValue</span>(<span class='number'>1.60</span>),
-                      <span class='ident'>StringValue</span>(<span class='string'>&quot;Data&quot;</span>.<span class='ident'>to_owned</span>()),
-                      <span class='ident'>DataValue</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>190</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>3</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>30</span>, <span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>]),
-                      <span class='ident'>StringValue</span>(<span class='string'>&quot;Birthdate&quot;</span>.<span class='ident'>to_owned</span>()),
-                      <span class='ident'>DateValue</span>(<span class='ident'>UTC</span>.<span class='ident'>ymd</span>(<span class='number'>1981</span>, <span class='number'>05</span>, <span class='number'>16</span>).<span class='ident'>and_hms</span>(<span class='number'>11</span>, <span class='number'>32</span>, <span class='number'>06</span>)),
-                      <span class='ident'>EndDictionary</span>];
+        <span class="kw">let</span> <span class="ident">plist</span> <span class="op">=</span> <span class="kw-2">&amp;</span>[<span class="ident">StartDictionary</span>(<span class="prelude-val">None</span>),
+                      <span class="ident">StringValue</span>(<span class="string">&quot;Author&quot;</span>.<span class="ident">to_owned</span>()),
+                      <span class="ident">StringValue</span>(<span class="string">&quot;William Shakespeare&quot;</span>.<span class="ident">to_owned</span>()),
+                      <span class="ident">StringValue</span>(<span class="string">&quot;Lines&quot;</span>.<span class="ident">to_owned</span>()),
+                      <span class="ident">StartArray</span>(<span class="prelude-val">None</span>),
+                      <span class="ident">StringValue</span>(<span class="string">&quot;It is a tale told by an idiot,&quot;</span>.<span class="ident">to_owned</span>()),
+                      <span class="ident">StringValue</span>(<span class="string">&quot;Full of sound and fury, signifying nothing.&quot;</span>.<span class="ident">to_owned</span>()),
+                      <span class="ident">EndArray</span>,
+                      <span class="ident">StringValue</span>(<span class="string">&quot;Death&quot;</span>.<span class="ident">to_owned</span>()),
+                      <span class="ident">IntegerValue</span>(<span class="number">1564</span>),
+                      <span class="ident">StringValue</span>(<span class="string">&quot;Height&quot;</span>.<span class="ident">to_owned</span>()),
+                      <span class="ident">RealValue</span>(<span class="number">1.60</span>),
+                      <span class="ident">StringValue</span>(<span class="string">&quot;Data&quot;</span>.<span class="ident">to_owned</span>()),
+                      <span class="ident">DataValue</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">190</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">30</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]),
+                      <span class="ident">StringValue</span>(<span class="string">&quot;Birthdate&quot;</span>.<span class="ident">to_owned</span>()),
+                      <span class="ident">DateValue</span>(<span class="ident">UTC</span>.<span class="ident">ymd</span>(<span class="number">1981</span>, <span class="number">05</span>, <span class="number">16</span>).<span class="ident">and_hms</span>(<span class="number">11</span>, <span class="number">32</span>, <span class="number">06</span>).<span class="ident">into</span>()),
+                      <span class="ident">EndDictionary</span>];
 
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>cursor</span> <span class='op'>=</span> <span class='ident'>Cursor</span>::<span class='ident'>new</span>(<span class='ident'>Vec</span>::<span class='ident'>new</span>());
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cursor</span> <span class="op">=</span> <span class="ident">Cursor</span>::<span class="ident">new</span>(<span class="ident">Vec</span>::<span class="ident">new</span>());
 
         {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>plist_w</span> <span class='op'>=</span> <span class='ident'>EventWriter</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>cursor</span>);
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">plist_w</span> <span class="op">=</span> <span class="ident">EventWriter</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">cursor</span>);
 
-            <span class='kw'>for</span> <span class='ident'>item</span> <span class='kw'>in</span> <span class='ident'>plist</span> {
-                <span class='ident'>plist_w</span>.<span class='ident'>write</span>(<span class='ident'>item</span>).<span class='ident'>unwrap</span>();
+            <span class="kw">for</span> <span class="ident">item</span> <span class="kw">in</span> <span class="ident">plist</span> {
+                <span class="ident">plist_w</span>.<span class="ident">write</span>(<span class="ident">item</span>).<span class="ident">unwrap</span>();
             }
         }
 
-        <span class='kw'>let</span> <span class='ident'>comparison</span> <span class='op'>=</span> <span class='string'>&quot;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;utf-8\&quot;?&gt;
+        <span class="kw">let</span> <span class="ident">comparison</span> <span class="op">=</span> <span class="string">&quot;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;utf-8\&quot;?&gt;
 &lt;plist version=\&quot;1.0\&quot;&gt;
     &lt;dict&gt;
         &lt;key&gt;Author&lt;/key&gt;
@@ -545,9 +543,9 @@
     &lt;/dict&gt;
 &lt;/plist&gt;&quot;</span>;
 
-        <span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>from_utf8</span>(<span class='ident'>cursor</span>.<span class='ident'>into_inner</span>()).<span class='ident'>unwrap</span>();
+        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from_utf8</span>(<span class="ident">cursor</span>.<span class="ident">into_inner</span>()).<span class="ident">unwrap</span>();
 
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>s</span>, <span class='ident'>comparison</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">s</span>, <span class="ident">comparison</span>);
     }
 }
 </pre>

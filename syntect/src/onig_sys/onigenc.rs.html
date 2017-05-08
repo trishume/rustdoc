@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -176,138 +176,138 @@
 <span id="131">131</span>
 <span id="132">132</span>
 <span id="133">133</span>
-</pre><pre class='rust '>
-<span class='doccomment'>//! Onig Encoding API</span>
-<span class='doccomment'>//!</span>
-<span class='doccomment'>//! This api contains functions for working with oniguruma encodings.</span>
+</pre><pre class="rust ">
+<span class="doccomment">//! Onig Encoding API</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! This api contains functions for working with oniguruma encodings.</span>
 
-<span class='kw'>use</span> <span class='kw'>super</span>::{<span class='ident'>OnigEncoding</span>, <span class='ident'>OnigUChar</span>};
+<span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">OnigEncoding</span>, <span class="ident">OnigUChar</span>};
 
-<span class='kw'>use</span> <span class='ident'>libc</span>::<span class='ident'>c_int</span>;
+<span class="kw">use</span> <span class="ident">libc</span>::<span class="ident">c_int</span>;
 
-<span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> {
+<span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
 
-    <span class='doccomment'>/// Onigenc Init</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ```c</span>
-    <span class='doccomment'>/// int onigenc_init(void);</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onigenc_init</span>() <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="doccomment">/// Onigenc Init</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```c</span>
+    <span class="doccomment">/// int onigenc_init(void);</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">onigenc_init</span>() <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='doccomment'>/// Onig Initialise Encoding</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ```c</span>
-    <span class='doccomment'>/// int onig_initialize_encoding(OnigEncoding enc);</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onig_initialize_encoding</span>(<span class='ident'>enc</span>: <span class='ident'>OnigEncoding</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="doccomment">/// Onig Initialise Encoding</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```c</span>
+    <span class="doccomment">/// int onig_initialize_encoding(OnigEncoding enc);</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">onig_initialize_encoding</span>(<span class="ident">enc</span>: <span class="ident">OnigEncoding</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='doccomment'>/// Onigenc Step Back</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ```c</span>
-    <span class='doccomment'>/// OnigUChar* onigenc_step_back (OnigEncoding enc,</span>
-    <span class='doccomment'>///                               const OnigUChar* start,</span>
-    <span class='doccomment'>///                               const OnigUChar* s,</span>
-    <span class='doccomment'>///                               int n);</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onigenc_step_back</span>(<span class='ident'>enc</span>: <span class='ident'>OnigEncoding</span>,
-                             <span class='ident'>start</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-                             <span class='ident'>s</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-                             <span class='ident'>n</span>: <span class='ident'>c_int</span>)
-                             <span class='op'>-&gt;</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>;
+    <span class="doccomment">/// Onigenc Step Back</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```c</span>
+    <span class="doccomment">/// OnigUChar* onigenc_step_back (OnigEncoding enc,</span>
+    <span class="doccomment">///                               const OnigUChar* start,</span>
+    <span class="doccomment">///                               const OnigUChar* s,</span>
+    <span class="doccomment">///                               int n);</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">onigenc_step_back</span>(<span class="ident">enc</span>: <span class="ident">OnigEncoding</span>,
+                             <span class="ident">start</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OnigUChar</span>,
+                             <span class="ident">s</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OnigUChar</span>,
+                             <span class="ident">n</span>: <span class="ident">c_int</span>)
+                             <span class="op">-&gt;</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OnigUChar</span>;
     
-    <span class='doccomment'>/// Onigenc Set Default Encoding</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ```c</span>
-    <span class='doccomment'>/// int onigenc_set_default_encoding(OnigEncoding enc);</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onigenc_set_default_encoding</span>(<span class='ident'>enc</span>: <span class='ident'>OnigEncoding</span>);
+    <span class="doccomment">/// Onigenc Set Default Encoding</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```c</span>
+    <span class="doccomment">/// int onigenc_set_default_encoding(OnigEncoding enc);</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">onigenc_set_default_encoding</span>(<span class="ident">enc</span>: <span class="ident">OnigEncoding</span>);
 
-    <span class='doccomment'>/// Onigenc Get Default Encoding</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ```c</span>
-    <span class='doccomment'>/// OnigEncoding onigenc_get_default_encoding(void);</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onigenc_get_default_encoding</span>() <span class='op'>-&gt;</span> <span class='ident'>OnigEncoding</span>;
+    <span class="doccomment">/// Onigenc Get Default Encoding</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```c</span>
+    <span class="doccomment">/// OnigEncoding onigenc_get_default_encoding(void);</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">onigenc_get_default_encoding</span>() <span class="op">-&gt;</span> <span class="ident">OnigEncoding</span>;
     
-    <span class='doccomment'>/// Onigenc Set Default Case Conversion Table</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ```c</span>
-    <span class='doccomment'>/// void  onigenc_set_default_caseconv_table(const OnigUChar* table);</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onigenc_set_default_caseconv_table</span>(<span class='ident'>table</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>);
+    <span class="doccomment">/// Onigenc Set Default Case Conversion Table</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```c</span>
+    <span class="doccomment">/// void  onigenc_set_default_caseconv_table(const OnigUChar* table);</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">onigenc_set_default_caseconv_table</span>(<span class="ident">table</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OnigUChar</span>);
     
-    <span class='doccomment'>/// Onigenc Get Right Adjust Char Head With Prev</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ```c</span>
-    <span class='doccomment'>/// OnigUChar* onigenc_get_right_adjust_char_head_with_prev(</span>
-    <span class='doccomment'>///     OnigEncoding enc,</span>
-    <span class='doccomment'>///     const OnigUChar* start,</span>
-    <span class='doccomment'>///     const OnigUChar* s,</span>
-    <span class='doccomment'>///     const OnigUChar** prev);</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onigenc_get_right_adjust_char_head_with_prev</span>(
-        <span class='ident'>enc</span>: <span class='ident'>OnigEncoding</span>,
-        <span class='ident'>start</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-        <span class='ident'>s</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-        <span class='ident'>prev</span>: <span class='kw-2'>*</span><span class='kw-2'>mut</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>)
-        <span class='op'>-&gt;</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>;
+    <span class="doccomment">/// Onigenc Get Right Adjust Char Head With Prev</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```c</span>
+    <span class="doccomment">/// OnigUChar* onigenc_get_right_adjust_char_head_with_prev(</span>
+    <span class="doccomment">///     OnigEncoding enc,</span>
+    <span class="doccomment">///     const OnigUChar* start,</span>
+    <span class="doccomment">///     const OnigUChar* s,</span>
+    <span class="doccomment">///     const OnigUChar** prev);</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">onigenc_get_right_adjust_char_head_with_prev</span>(
+        <span class="ident">enc</span>: <span class="ident">OnigEncoding</span>,
+        <span class="ident">start</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OnigUChar</span>,
+        <span class="ident">s</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OnigUChar</span>,
+        <span class="ident">prev</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OnigUChar</span>)
+        <span class="op">-&gt;</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OnigUChar</span>;
 
-    <span class='doccomment'>///   Return previous character head address.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>///  `UChar* onigenc_get_prev_char_head(OnigEncoding enc, const UChar* start, const UChar* s)`</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>///   arguments</span>
-    <span class='doccomment'>///   1 enc:   character encoding</span>
-    <span class='doccomment'>///   2 start: string address</span>
-    <span class='doccomment'>///   3 s:     target address of string</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onigenc_get_prev_char_head</span>(<span class='ident'>enc</span>: <span class='ident'>OnigEncoding</span>,
-                                      <span class='ident'>start</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-                                      <span class='ident'>s</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>)
-                                      <span class='op'>-&gt;</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>;
+    <span class="doccomment">///   Return previous character head address.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///  `UChar* onigenc_get_prev_char_head(OnigEncoding enc, const UChar* start, const UChar* s)`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///   arguments</span>
+    <span class="doccomment">///   1 enc:   character encoding</span>
+    <span class="doccomment">///   2 start: string address</span>
+    <span class="doccomment">///   3 s:     target address of string</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">onigenc_get_prev_char_head</span>(<span class="ident">enc</span>: <span class="ident">OnigEncoding</span>,
+                                      <span class="ident">start</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OnigUChar</span>,
+                                      <span class="ident">s</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OnigUChar</span>)
+                                      <span class="op">-&gt;</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OnigUChar</span>;
 
-    <span class='doccomment'>///   Return left-adjusted head address of a character.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>///  `UChar* onigenc_get_left_adjust_char_head(OnigEncoding enc,</span>
-    <span class='doccomment'>///                                            const UChar* start, const UChar* s)`</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Arguments</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>///   1. enc:   character encoding</span>
-    <span class='doccomment'>///   2. start: string address</span>
-    <span class='doccomment'>///   3. s:     target address of string</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onigenc_get_left_adjust_char_head</span>(<span class='ident'>enc</span>: <span class='ident'>OnigEncoding</span>,
-                                             <span class='ident'>start</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-                                             <span class='ident'>s</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>)
-                                             <span class='op'>-&gt;</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>;
+    <span class="doccomment">///   Return left-adjusted head address of a character.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///  `UChar* onigenc_get_left_adjust_char_head(OnigEncoding enc,</span>
+    <span class="doccomment">///                                            const UChar* start, const UChar* s)`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Arguments</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///   1. enc:   character encoding</span>
+    <span class="doccomment">///   2. start: string address</span>
+    <span class="doccomment">///   3. s:     target address of string</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">onigenc_get_left_adjust_char_head</span>(<span class="ident">enc</span>: <span class="ident">OnigEncoding</span>,
+                                             <span class="ident">start</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OnigUChar</span>,
+                                             <span class="ident">s</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OnigUChar</span>)
+                                             <span class="op">-&gt;</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OnigUChar</span>;
 
-    <span class='doccomment'>///   Return right-adjusted head address of a character.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>///  `UChar* onigenc_get_right_adjust_char_head(OnigEncoding enc,</span>
-    <span class='doccomment'>///                                             const UChar* start, const UChar* s)`</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// # Arguments</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>///   1. enc:   character encoding</span>
-    <span class='doccomment'>///   2. start: string address</span>
-    <span class='doccomment'>///   3. s:     target address of string</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onigenc_get_right_adjust_char_head</span>(<span class='ident'>enc</span>: <span class='ident'>OnigEncoding</span>,
-                                              <span class='ident'>start</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>,
-                                              <span class='ident'>s</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>)
-                                              <span class='op'>-&gt;</span> <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>;
+    <span class="doccomment">///   Return right-adjusted head address of a character.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///  `UChar* onigenc_get_right_adjust_char_head(OnigEncoding enc,</span>
+    <span class="doccomment">///                                             const UChar* start, const UChar* s)`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Arguments</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///   1. enc:   character encoding</span>
+    <span class="doccomment">///   2. start: string address</span>
+    <span class="doccomment">///   3. s:     target address of string</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">onigenc_get_right_adjust_char_head</span>(<span class="ident">enc</span>: <span class="ident">OnigEncoding</span>,
+                                              <span class="ident">start</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OnigUChar</span>,
+                                              <span class="ident">s</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OnigUChar</span>)
+                                              <span class="op">-&gt;</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OnigUChar</span>;
 
-    <span class='doccomment'>///   Return number of characters in the string.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>///  `int onigenc_strlen(OnigEncoding enc, const UChar* s, const UChar* end)`</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onigenc_strlen</span>(<span class='ident'>enc</span>: <span class='ident'>OnigEncoding</span>, <span class='ident'>s</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>, <span class='ident'>end</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="doccomment">///   Return number of characters in the string.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///  `int onigenc_strlen(OnigEncoding enc, const UChar* s, const UChar* end)`</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">onigenc_strlen</span>(<span class="ident">enc</span>: <span class="ident">OnigEncoding</span>, <span class="ident">s</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OnigUChar</span>, <span class="ident">end</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OnigUChar</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='doccomment'>///   Return number of characters in the string.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>///  `int onigenc_strlen_null(OnigEncoding enc, const UChar* s)`</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onigenc_strlen_null</span>(<span class='ident'>enc</span>: <span class='ident'>OnigEncoding</span>, <span class='ident'>s</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="doccomment">///   Return number of characters in the string.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///  `int onigenc_strlen_null(OnigEncoding enc, const UChar* s)`</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">onigenc_strlen_null</span>(<span class="ident">enc</span>: <span class="ident">OnigEncoding</span>, <span class="ident">s</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OnigUChar</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
-    <span class='doccomment'>///   Return number of bytes in the string.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>///  `int onigenc_str_bytelen_null(OnigEncoding enc, const UChar* s)`</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>onigenc_str_bytelen_null</span>(<span class='ident'>enc</span>: <span class='ident'>OnigEncoding</span>, <span class='ident'>s</span>: <span class='kw-2'>*</span><span class='kw'>const</span> <span class='ident'>OnigUChar</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
+    <span class="doccomment">///   Return number of bytes in the string.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///  `int onigenc_str_bytelen_null(OnigEncoding enc, const UChar* s)`</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">onigenc_str_bytelen_null</span>(<span class="ident">enc</span>: <span class="ident">OnigEncoding</span>, <span class="ident">s</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OnigUChar</span>) <span class="op">-&gt;</span> <span class="ident">c_int</span>;
 
 }
 </pre>

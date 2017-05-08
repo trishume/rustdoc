@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -523,64 +523,64 @@
 <span id="478">478</span>
 <span id="479">479</span>
 <span id="480">480</span>
-</pre><pre class='rust '>
-<span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>scope</span>::<span class='kw-2'>*</span>;
-<span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>syntax_definition</span>::<span class='kw-2'>*</span>;
-<span class='kw'>use</span> <span class='ident'>yaml_rust</span>::{<span class='ident'>YamlLoader</span>, <span class='ident'>Yaml</span>, <span class='ident'>ScanError</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::{<span class='ident'>HashMap</span>, <span class='ident'>BTreeMap</span>};
-<span class='kw'>use</span> <span class='ident'>onig</span>::{<span class='self'>self</span>, <span class='ident'>Regex</span>, <span class='ident'>Captures</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rc</span>::<span class='ident'>Rc</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cell</span>::<span class='ident'>RefCell</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ops</span>::<span class='ident'>DerefMut</span>;
+</pre><pre class="rust ">
+<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">scope</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">syntax_definition</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="ident">yaml_rust</span>::{<span class="ident">YamlLoader</span>, <span class="ident">Yaml</span>, <span class="ident">ScanError</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::{<span class="ident">HashMap</span>, <span class="ident">BTreeMap</span>};
+<span class="kw">use</span> <span class="ident">onig</span>::{<span class="self">self</span>, <span class="ident">Regex</span>, <span class="ident">Captures</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">rc</span>::<span class="ident">Rc</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cell</span>::<span class="ident">RefCell</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">path</span>::<span class="ident">Path</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::<span class="ident">DerefMut</span>;
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ParseSyntaxError</span> {
-    <span class='doccomment'>/// Invalid YAML file syntax, or at least something yaml_rust can&#39;t handle</span>
-    <span class='ident'>InvalidYaml</span>(<span class='ident'>ScanError</span>),
-    <span class='doccomment'>/// The file must contain at least on YAML document</span>
-    <span class='ident'>EmptyFile</span>,
-    <span class='doccomment'>/// Some keys are required for something to be a valid `.sublime-syntax`</span>
-    <span class='ident'>MissingMandatoryKey</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span>),
-    <span class='doccomment'>/// Invalid regex</span>
-    <span class='ident'>RegexCompileError</span>(<span class='ident'>onig</span>::<span class='ident'>Error</span>),
-    <span class='doccomment'>/// A scope that syntect&#39;s scope implementation can&#39;t handle</span>
-    <span class='ident'>InvalidScope</span>(<span class='ident'>ParseScopeError</span>),
-    <span class='doccomment'>/// A reference to another file that is invalid</span>
-    <span class='ident'>BadFileRef</span>,
-    <span class='doccomment'>/// Syntaxes must have a context named &quot;main&quot;</span>
-    <span class='ident'>MainMissing</span>,
-    <span class='doccomment'>/// Some part of the YAML file is the wrong type (e.g a string but should be a list)</span>
-    <span class='doccomment'>/// Sorry this doesn&#39;t give you any way to narrow down where this is.</span>
-    <span class='doccomment'>/// Maybe use Sublime Text to figure it out.</span>
-    <span class='ident'>TypeMismatch</span>,
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ParseSyntaxError</span> {
+    <span class="doccomment">/// Invalid YAML file syntax, or at least something yaml_rust can&#39;t handle</span>
+    <span class="ident">InvalidYaml</span>(<span class="ident">ScanError</span>),
+    <span class="doccomment">/// The file must contain at least on YAML document</span>
+    <span class="ident">EmptyFile</span>,
+    <span class="doccomment">/// Some keys are required for something to be a valid `.sublime-syntax`</span>
+    <span class="ident">MissingMandatoryKey</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>),
+    <span class="doccomment">/// Invalid regex</span>
+    <span class="ident">RegexCompileError</span>(<span class="ident">onig</span>::<span class="ident">Error</span>),
+    <span class="doccomment">/// A scope that syntect&#39;s scope implementation can&#39;t handle</span>
+    <span class="ident">InvalidScope</span>(<span class="ident">ParseScopeError</span>),
+    <span class="doccomment">/// A reference to another file that is invalid</span>
+    <span class="ident">BadFileRef</span>,
+    <span class="doccomment">/// Syntaxes must have a context named &quot;main&quot;</span>
+    <span class="ident">MainMissing</span>,
+    <span class="doccomment">/// Some part of the YAML file is the wrong type (e.g a string but should be a list)</span>
+    <span class="doccomment">/// Sorry this doesn&#39;t give you any way to narrow down where this is.</span>
+    <span class="doccomment">/// Maybe use Sublime Text to figure it out.</span>
+    <span class="ident">TypeMismatch</span>,
 }
 
-<span class='kw'>fn</span> <span class='ident'>get_key</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>R</span>, <span class='ident'>F</span>: <span class='ident'>FnOnce</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>Yaml</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;&gt;</span>(<span class='ident'>map</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>BTreeMap</span><span class='op'>&lt;</span><span class='ident'>Yaml</span>, <span class='ident'>Yaml</span><span class='op'>&gt;</span>,
-                                                    <span class='ident'>key</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span>,
-                                                    <span class='ident'>f</span>: <span class='ident'>F</span>)
-                                                    <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>R</span>, <span class='ident'>ParseSyntaxError</span><span class='op'>&gt;</span> {
-    <span class='ident'>map</span>.<span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='ident'>Yaml</span>::<span class='ident'>String</span>(<span class='ident'>key</span>.<span class='ident'>to_owned</span>()))
-        .<span class='ident'>ok_or</span>(<span class='ident'>ParseSyntaxError</span>::<span class='ident'>MissingMandatoryKey</span>(<span class='ident'>key</span>))
-        .<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>f</span>(<span class='ident'>x</span>).<span class='ident'>ok_or</span>(<span class='ident'>ParseSyntaxError</span>::<span class='ident'>TypeMismatch</span>))
+<span class="kw">fn</span> <span class="ident">get_key</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">R</span>, <span class="ident">F</span>: <span class="ident">FnOnce</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Yaml</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;&gt;</span>(<span class="ident">map</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">Yaml</span>, <span class="ident">Yaml</span><span class="op">&gt;</span>,
+                                                    <span class="ident">key</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>,
+                                                    <span class="ident">f</span>: <span class="ident">F</span>)
+                                                    <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">R</span>, <span class="ident">ParseSyntaxError</span><span class="op">&gt;</span> {
+    <span class="ident">map</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">Yaml</span>::<span class="ident">String</span>(<span class="ident">key</span>.<span class="ident">to_owned</span>()))
+        .<span class="ident">ok_or</span>(<span class="ident">ParseSyntaxError</span>::<span class="ident">MissingMandatoryKey</span>(<span class="ident">key</span>))
+        .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">f</span>(<span class="ident">x</span>).<span class="ident">ok_or</span>(<span class="ident">ParseSyntaxError</span>::<span class="ident">TypeMismatch</span>))
 }
 
-<span class='kw'>fn</span> <span class='ident'>str_to_scopes</span>(<span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>repo</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ScopeRepository</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Scope</span><span class='op'>&gt;</span>, <span class='ident'>ParseSyntaxError</span><span class='op'>&gt;</span> {
-    <span class='ident'>s</span>.<span class='ident'>split_whitespace</span>()
-        .<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>scope</span><span class='op'>|</span> <span class='ident'>repo</span>.<span class='ident'>build</span>(<span class='ident'>scope</span>).<span class='ident'>map_err</span>(<span class='ident'>ParseSyntaxError</span>::<span class='ident'>InvalidScope</span>))
-        .<span class='ident'>collect</span>()
+<span class="kw">fn</span> <span class="ident">str_to_scopes</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">repo</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ScopeRepository</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Scope</span><span class="op">&gt;</span>, <span class="ident">ParseSyntaxError</span><span class="op">&gt;</span> {
+    <span class="ident">s</span>.<span class="ident">split_whitespace</span>()
+        .<span class="ident">map</span>(<span class="op">|</span><span class="ident">scope</span><span class="op">|</span> <span class="ident">repo</span>.<span class="ident">build</span>(<span class="ident">scope</span>).<span class="ident">map_err</span>(<span class="ident">ParseSyntaxError</span>::<span class="ident">InvalidScope</span>))
+        .<span class="ident">collect</span>()
 }
 
-<span class='kw'>struct</span> <span class='ident'>ParserState</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
-    <span class='ident'>scope_repo</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>ScopeRepository</span>,
-    <span class='ident'>variables</span>: <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>String</span><span class='op'>&gt;</span>,
-    <span class='ident'>variable_regex</span>: <span class='ident'>Regex</span>,
-    <span class='ident'>backref_regex</span>: <span class='ident'>Regex</span>,
-    <span class='ident'>short_multibyte_regex</span>: <span class='ident'>Regex</span>,
-    <span class='ident'>lines_include_newline</span>: <span class='ident'>bool</span>,
+<span class="kw">struct</span> <span class="ident">ParserState</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="ident">scope_repo</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">ScopeRepository</span>,
+    <span class="ident">variables</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="ident">variable_regex</span>: <span class="ident">Regex</span>,
+    <span class="ident">backref_regex</span>: <span class="ident">Regex</span>,
+    <span class="ident">short_multibyte_regex</span>: <span class="ident">Regex</span>,
+    <span class="ident">lines_include_newline</span>: <span class="ident">bool</span>,
 }
 
-<span class='kw'>static</span> <span class='ident'>START_CONTEXTS</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;
+<span class="kw">static</span> <span class="ident">START_CONTEXTS</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;
 __start:
     - match: &#39;&#39;
       push: __main
@@ -588,341 +588,341 @@ __main:
     - include: main
 &quot;</span>;
 
-<span class='kw'>impl</span> <span class='ident'>SyntaxDefinition</span> {
-    <span class='doccomment'>/// In case you want to create your own SyntaxDefinition&#39;s in memory from strings.</span>
-    <span class='doccomment'>/// Generally you should use a `SyntaxSet`</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>load_from_str</span>(<span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>,
-                         <span class='ident'>lines_include_newline</span>: <span class='ident'>bool</span>)
-                         <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>SyntaxDefinition</span>, <span class='ident'>ParseSyntaxError</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>docs</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>YamlLoader</span>::<span class='ident'>load_from_str</span>(<span class='ident'>s</span>) {
-            <span class='prelude-val'>Ok</span>(<span class='ident'>x</span>) <span class='op'>=&gt;</span> <span class='ident'>x</span>,
-            <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>ParseSyntaxError</span>::<span class='ident'>InvalidYaml</span>(<span class='ident'>e</span>)),
+<span class="kw">impl</span> <span class="ident">SyntaxDefinition</span> {
+    <span class="doccomment">/// In case you want to create your own SyntaxDefinition&#39;s in memory from strings.</span>
+    <span class="doccomment">/// Generally you should use a `SyntaxSet`</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">load_from_str</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
+                         <span class="ident">lines_include_newline</span>: <span class="ident">bool</span>)
+                         <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">SyntaxDefinition</span>, <span class="ident">ParseSyntaxError</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">docs</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">YamlLoader</span>::<span class="ident">load_from_str</span>(<span class="ident">s</span>) {
+            <span class="prelude-val">Ok</span>(<span class="ident">x</span>) <span class="op">=&gt;</span> <span class="ident">x</span>,
+            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ParseSyntaxError</span>::<span class="ident">InvalidYaml</span>(<span class="ident">e</span>)),
         };
-        <span class='kw'>if</span> <span class='ident'>docs</span>.<span class='ident'>is_empty</span>() {
-            <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>ParseSyntaxError</span>::<span class='ident'>EmptyFile</span>);
+        <span class="kw">if</span> <span class="ident">docs</span>.<span class="ident">is_empty</span>() {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ParseSyntaxError</span>::<span class="ident">EmptyFile</span>);
         }
-        <span class='kw'>let</span> <span class='ident'>doc</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>docs</span>[<span class='number'>0</span>];
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>scope_repo</span> <span class='op'>=</span> <span class='ident'>SCOPE_REPO</span>.<span class='ident'>lock</span>().<span class='ident'>unwrap</span>();
-        <span class='ident'>SyntaxDefinition</span>::<span class='ident'>parse_top_level</span>(<span class='ident'>doc</span>, <span class='ident'>scope_repo</span>.<span class='ident'>deref_mut</span>(), <span class='ident'>lines_include_newline</span>)
+        <span class="kw">let</span> <span class="ident">doc</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">docs</span>[<span class="number">0</span>];
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">scope_repo</span> <span class="op">=</span> <span class="ident">SCOPE_REPO</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
+        <span class="ident">SyntaxDefinition</span>::<span class="ident">parse_top_level</span>(<span class="ident">doc</span>, <span class="ident">scope_repo</span>.<span class="ident">deref_mut</span>(), <span class="ident">lines_include_newline</span>)
     }
 
-    <span class='kw'>fn</span> <span class='ident'>parse_top_level</span>(<span class='ident'>doc</span>: <span class='kw-2'>&amp;</span><span class='ident'>Yaml</span>,
-                       <span class='ident'>scope_repo</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ScopeRepository</span>,
-                       <span class='ident'>lines_include_newline</span>: <span class='ident'>bool</span>)
-                       <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>SyntaxDefinition</span>, <span class='ident'>ParseSyntaxError</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>h</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>doc</span>.<span class='ident'>as_hash</span>().<span class='ident'>ok_or</span>(<span class='ident'>ParseSyntaxError</span>::<span class='ident'>TypeMismatch</span>));
+    <span class="kw">fn</span> <span class="ident">parse_top_level</span>(<span class="ident">doc</span>: <span class="kw-2">&amp;</span><span class="ident">Yaml</span>,
+                       <span class="ident">scope_repo</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ScopeRepository</span>,
+                       <span class="ident">lines_include_newline</span>: <span class="ident">bool</span>)
+                       <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">SyntaxDefinition</span>, <span class="ident">ParseSyntaxError</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">h</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">doc</span>.<span class="ident">as_hash</span>().<span class="ident">ok_or</span>(<span class="ident">ParseSyntaxError</span>::<span class="ident">TypeMismatch</span>));
 
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>variables</span> <span class='op'>=</span> <span class='ident'>HashMap</span>::<span class='ident'>new</span>();
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(<span class='ident'>map</span>) <span class='op'>=</span> <span class='ident'>get_key</span>(<span class='ident'>h</span>, <span class='string'>&quot;variables&quot;</span>, <span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span>.<span class='ident'>as_hash</span>()) {
-            <span class='kw'>for</span> (<span class='ident'>key</span>, <span class='ident'>value</span>) <span class='kw'>in</span> <span class='ident'>map</span>.<span class='ident'>iter</span>() {
-                <span class='kw'>if</span> <span class='kw'>let</span> (<span class='prelude-val'>Some</span>(<span class='ident'>key_str</span>), <span class='prelude-val'>Some</span>(<span class='ident'>val_str</span>)) <span class='op'>=</span> (<span class='ident'>key</span>.<span class='ident'>as_str</span>(), <span class='ident'>value</span>.<span class='ident'>as_str</span>()) {
-                    <span class='ident'>variables</span>.<span class='ident'>insert</span>(<span class='ident'>key_str</span>.<span class='ident'>to_owned</span>(), <span class='ident'>val_str</span>.<span class='ident'>to_owned</span>());
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">variables</span> <span class="op">=</span> <span class="ident">HashMap</span>::<span class="ident">new</span>();
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">map</span>) <span class="op">=</span> <span class="ident">get_key</span>(<span class="ident">h</span>, <span class="string">&quot;variables&quot;</span>, <span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>.<span class="ident">as_hash</span>()) {
+            <span class="kw">for</span> (<span class="ident">key</span>, <span class="ident">value</span>) <span class="kw">in</span> <span class="ident">map</span>.<span class="ident">iter</span>() {
+                <span class="kw">if</span> <span class="kw">let</span> (<span class="prelude-val">Some</span>(<span class="ident">key_str</span>), <span class="prelude-val">Some</span>(<span class="ident">val_str</span>)) <span class="op">=</span> (<span class="ident">key</span>.<span class="ident">as_str</span>(), <span class="ident">value</span>.<span class="ident">as_str</span>()) {
+                    <span class="ident">variables</span>.<span class="ident">insert</span>(<span class="ident">key_str</span>.<span class="ident">to_owned</span>(), <span class="ident">val_str</span>.<span class="ident">to_owned</span>());
                 }
             }
         }
-        <span class='kw'>let</span> <span class='ident'>contexts_hash</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>get_key</span>(<span class='ident'>h</span>, <span class='string'>&quot;contexts&quot;</span>, <span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span>.<span class='ident'>as_hash</span>()));
-        <span class='kw'>let</span> <span class='ident'>top_level_scope</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>scope_repo</span>.<span class='ident'>build</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>get_key</span>(<span class='ident'>h</span>, <span class='string'>&quot;scope&quot;</span>, <span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span>.<span class='ident'>as_str</span>())))
-            .<span class='ident'>map_err</span>(<span class='ident'>ParseSyntaxError</span>::<span class='ident'>InvalidScope</span>));
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>state</span> <span class='op'>=</span> <span class='ident'>ParserState</span> {
-            <span class='ident'>scope_repo</span>: <span class='ident'>scope_repo</span>,
-            <span class='ident'>variables</span>: <span class='ident'>variables</span>,
-            <span class='ident'>variable_regex</span>: <span class='ident'>Regex</span>::<span class='ident'>new</span>(<span class='string'>r&quot;\{\{([A-Za-z0-9_]+)\}\}&quot;</span>).<span class='ident'>unwrap</span>(),
-            <span class='ident'>backref_regex</span>: <span class='ident'>Regex</span>::<span class='ident'>new</span>(<span class='string'>r&quot;\\\d&quot;</span>).<span class='ident'>unwrap</span>(),
-            <span class='ident'>short_multibyte_regex</span>: <span class='ident'>Regex</span>::<span class='ident'>new</span>(<span class='string'>r&quot;\\x([a-fA-F][a-fA-F0-9])&quot;</span>).<span class='ident'>unwrap</span>(),
-            <span class='ident'>lines_include_newline</span>: <span class='ident'>lines_include_newline</span>,
+        <span class="kw">let</span> <span class="ident">contexts_hash</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">get_key</span>(<span class="ident">h</span>, <span class="string">&quot;contexts&quot;</span>, <span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>.<span class="ident">as_hash</span>()));
+        <span class="kw">let</span> <span class="ident">top_level_scope</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">scope_repo</span>.<span class="ident">build</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="ident">get_key</span>(<span class="ident">h</span>, <span class="string">&quot;scope&quot;</span>, <span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>.<span class="ident">as_str</span>())))
+            .<span class="ident">map_err</span>(<span class="ident">ParseSyntaxError</span>::<span class="ident">InvalidScope</span>));
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">ParserState</span> {
+            <span class="ident">scope_repo</span>: <span class="ident">scope_repo</span>,
+            <span class="ident">variables</span>: <span class="ident">variables</span>,
+            <span class="ident">variable_regex</span>: <span class="ident">Regex</span>::<span class="ident">new</span>(<span class="string">r&quot;\{\{([A-Za-z0-9_]+)\}\}&quot;</span>).<span class="ident">unwrap</span>(),
+            <span class="ident">backref_regex</span>: <span class="ident">Regex</span>::<span class="ident">new</span>(<span class="string">r&quot;\\\d&quot;</span>).<span class="ident">unwrap</span>(),
+            <span class="ident">short_multibyte_regex</span>: <span class="ident">Regex</span>::<span class="ident">new</span>(<span class="string">r&quot;\\x([a-fA-F][a-fA-F0-9])&quot;</span>).<span class="ident">unwrap</span>(),
+            <span class="ident">lines_include_newline</span>: <span class="ident">lines_include_newline</span>,
         };
 
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>contexts</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>SyntaxDefinition</span>::<span class='ident'>parse_contexts</span>(<span class='ident'>contexts_hash</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>state</span>));
-        <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>contexts</span>.<span class='ident'>contains_key</span>(<span class='string'>&quot;main&quot;</span>) {
-            <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>ParseSyntaxError</span>::<span class='ident'>MainMissing</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">contexts</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">SyntaxDefinition</span>::<span class="ident">parse_contexts</span>(<span class="ident">contexts_hash</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">state</span>));
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">contexts</span>.<span class="ident">contains_key</span>(<span class="string">&quot;main&quot;</span>) {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ParseSyntaxError</span>::<span class="ident">MainMissing</span>);
         }
 
-        <span class='ident'>SyntaxDefinition</span>::<span class='ident'>add_initial_contexts</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>contexts</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>state</span>, <span class='ident'>top_level_scope</span>);
+        <span class="ident">SyntaxDefinition</span>::<span class="ident">add_initial_contexts</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">contexts</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">state</span>, <span class="ident">top_level_scope</span>);
 
-        <span class='kw'>let</span> <span class='ident'>defn</span> <span class='op'>=</span> <span class='ident'>SyntaxDefinition</span> {
-            <span class='ident'>name</span>: <span class='ident'>get_key</span>(<span class='ident'>h</span>, <span class='string'>&quot;name&quot;</span>, <span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span>.<span class='ident'>as_str</span>()).<span class='ident'>unwrap_or</span>(<span class='string'>&quot;Unnamed&quot;</span>).<span class='ident'>to_owned</span>(),
-            <span class='ident'>scope</span>: <span class='ident'>top_level_scope</span>,
-            <span class='ident'>file_extensions</span>: {
-                <span class='ident'>get_key</span>(<span class='ident'>h</span>, <span class='string'>&quot;file_extensions&quot;</span>, <span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span>.<span class='ident'>as_vec</span>())
-                    .<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>v</span><span class='op'>|</span> <span class='ident'>v</span>.<span class='ident'>iter</span>().<span class='ident'>filter_map</span>(<span class='op'>|</span><span class='ident'>y</span><span class='op'>|</span> <span class='ident'>y</span>.<span class='ident'>as_str</span>()).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span>.<span class='ident'>to_owned</span>()).<span class='ident'>collect</span>())
-                    .<span class='ident'>unwrap_or_else</span>(<span class='op'>|</span>_<span class='op'>|</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>())
+        <span class="kw">let</span> <span class="ident">defn</span> <span class="op">=</span> <span class="ident">SyntaxDefinition</span> {
+            <span class="ident">name</span>: <span class="ident">get_key</span>(<span class="ident">h</span>, <span class="string">&quot;name&quot;</span>, <span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>.<span class="ident">as_str</span>()).<span class="ident">unwrap_or</span>(<span class="string">&quot;Unnamed&quot;</span>).<span class="ident">to_owned</span>(),
+            <span class="ident">scope</span>: <span class="ident">top_level_scope</span>,
+            <span class="ident">file_extensions</span>: {
+                <span class="ident">get_key</span>(<span class="ident">h</span>, <span class="string">&quot;file_extensions&quot;</span>, <span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>.<span class="ident">as_vec</span>())
+                    .<span class="ident">map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">v</span>.<span class="ident">iter</span>().<span class="ident">filter_map</span>(<span class="op">|</span><span class="ident">y</span><span class="op">|</span> <span class="ident">y</span>.<span class="ident">as_str</span>()).<span class="ident">map</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>.<span class="ident">to_owned</span>()).<span class="ident">collect</span>())
+                    .<span class="ident">unwrap_or_else</span>(<span class="op">|</span>_<span class="op">|</span> <span class="ident">Vec</span>::<span class="ident">new</span>())
             },
-            <span class='comment'>// TODO maybe cache a compiled version of this Regex</span>
-            <span class='ident'>first_line_match</span>: <span class='ident'>get_key</span>(<span class='ident'>h</span>, <span class='string'>&quot;first_line_match&quot;</span>, <span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span>.<span class='ident'>as_str</span>())
-                .<span class='ident'>ok</span>()
-                .<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='ident'>s</span>.<span class='ident'>to_owned</span>()),
-            <span class='ident'>hidden</span>: <span class='ident'>get_key</span>(<span class='ident'>h</span>, <span class='string'>&quot;hidden&quot;</span>, <span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span>.<span class='ident'>as_bool</span>()).<span class='ident'>unwrap_or</span>(<span class='bool-val'>false</span>),
+            <span class="comment">// TODO maybe cache a compiled version of this Regex</span>
+            <span class="ident">first_line_match</span>: <span class="ident">get_key</span>(<span class="ident">h</span>, <span class="string">&quot;first_line_match&quot;</span>, <span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>.<span class="ident">as_str</span>())
+                .<span class="ident">ok</span>()
+                .<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">to_owned</span>()),
+            <span class="ident">hidden</span>: <span class="ident">get_key</span>(<span class="ident">h</span>, <span class="string">&quot;hidden&quot;</span>, <span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>.<span class="ident">as_bool</span>()).<span class="ident">unwrap_or</span>(<span class="bool-val">false</span>),
 
-            <span class='ident'>variables</span>: <span class='ident'>state</span>.<span class='ident'>variables</span>.<span class='ident'>clone</span>(),
-            <span class='ident'>contexts</span>: <span class='ident'>contexts</span>,
-            <span class='ident'>prototype</span>: <span class='prelude-val'>None</span>,
+            <span class="ident">variables</span>: <span class="ident">state</span>.<span class="ident">variables</span>.<span class="ident">clone</span>(),
+            <span class="ident">contexts</span>: <span class="ident">contexts</span>,
+            <span class="ident">prototype</span>: <span class="prelude-val">None</span>,
         };
-        <span class='prelude-val'>Ok</span>(<span class='ident'>defn</span>)
+        <span class="prelude-val">Ok</span>(<span class="ident">defn</span>)
     }
 
-    <span class='kw'>fn</span> <span class='ident'>parse_contexts</span>(<span class='ident'>map</span>: <span class='kw-2'>&amp;</span><span class='ident'>BTreeMap</span><span class='op'>&lt;</span><span class='ident'>Yaml</span>, <span class='ident'>Yaml</span><span class='op'>&gt;</span>,
-                      <span class='ident'>state</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ParserState</span>)
-                      <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>ContextPtr</span><span class='op'>&gt;</span>, <span class='ident'>ParseSyntaxError</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>contexts</span> <span class='op'>=</span> <span class='ident'>HashMap</span>::<span class='ident'>new</span>();
-        <span class='kw'>for</span> (<span class='ident'>key</span>, <span class='ident'>value</span>) <span class='kw'>in</span> <span class='ident'>map</span>.<span class='ident'>iter</span>() {
-            <span class='kw'>if</span> <span class='kw'>let</span> (<span class='prelude-val'>Some</span>(<span class='ident'>name</span>), <span class='prelude-val'>Some</span>(<span class='ident'>val_vec</span>)) <span class='op'>=</span> (<span class='ident'>key</span>.<span class='ident'>as_str</span>(), <span class='ident'>value</span>.<span class='ident'>as_vec</span>()) {
-                <span class='kw'>let</span> <span class='ident'>is_prototype</span> <span class='op'>=</span> <span class='ident'>name</span> <span class='op'>==</span> <span class='string'>&quot;prototype&quot;</span>;
-                <span class='kw'>let</span> <span class='ident'>context_ptr</span> <span class='op'>=</span>
-                    <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>SyntaxDefinition</span>::<span class='ident'>parse_context</span>(<span class='ident'>val_vec</span>, <span class='ident'>state</span>, <span class='ident'>is_prototype</span>));
-                <span class='ident'>contexts</span>.<span class='ident'>insert</span>(<span class='ident'>name</span>.<span class='ident'>to_owned</span>(), <span class='ident'>context_ptr</span>);
+    <span class="kw">fn</span> <span class="ident">parse_contexts</span>(<span class="ident">map</span>: <span class="kw-2">&amp;</span><span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">Yaml</span>, <span class="ident">Yaml</span><span class="op">&gt;</span>,
+                      <span class="ident">state</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ParserState</span>)
+                      <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">ContextPtr</span><span class="op">&gt;</span>, <span class="ident">ParseSyntaxError</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">contexts</span> <span class="op">=</span> <span class="ident">HashMap</span>::<span class="ident">new</span>();
+        <span class="kw">for</span> (<span class="ident">key</span>, <span class="ident">value</span>) <span class="kw">in</span> <span class="ident">map</span>.<span class="ident">iter</span>() {
+            <span class="kw">if</span> <span class="kw">let</span> (<span class="prelude-val">Some</span>(<span class="ident">name</span>), <span class="prelude-val">Some</span>(<span class="ident">val_vec</span>)) <span class="op">=</span> (<span class="ident">key</span>.<span class="ident">as_str</span>(), <span class="ident">value</span>.<span class="ident">as_vec</span>()) {
+                <span class="kw">let</span> <span class="ident">is_prototype</span> <span class="op">=</span> <span class="ident">name</span> <span class="op">==</span> <span class="string">&quot;prototype&quot;</span>;
+                <span class="kw">let</span> <span class="ident">context_ptr</span> <span class="op">=</span>
+                    <span class="macro">try</span><span class="macro">!</span>(<span class="ident">SyntaxDefinition</span>::<span class="ident">parse_context</span>(<span class="ident">val_vec</span>, <span class="ident">state</span>, <span class="ident">is_prototype</span>));
+                <span class="ident">contexts</span>.<span class="ident">insert</span>(<span class="ident">name</span>.<span class="ident">to_owned</span>(), <span class="ident">context_ptr</span>);
             }
         }
-        <span class='prelude-val'>Ok</span>(<span class='ident'>contexts</span>)
+        <span class="prelude-val">Ok</span>(<span class="ident">contexts</span>)
     }
 
-    <span class='kw'>fn</span> <span class='ident'>parse_context</span>(<span class='ident'>vec</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>Yaml</span>],
-                     <span class='ident'>state</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ParserState</span>,
-                     <span class='ident'>is_prototype</span>: <span class='ident'>bool</span>)
-                     <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>ContextPtr</span>, <span class='ident'>ParseSyntaxError</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>context</span> <span class='op'>=</span> <span class='ident'>Context</span> {
-            <span class='ident'>meta_scope</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
-            <span class='ident'>meta_content_scope</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
-            <span class='ident'>meta_include_prototype</span>: <span class='op'>!</span><span class='ident'>is_prototype</span>,
-            <span class='ident'>clear_scopes</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>uses_backrefs</span>: <span class='bool-val'>false</span>,
-            <span class='ident'>patterns</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
-            <span class='ident'>prototype</span>: <span class='prelude-val'>None</span>,
+    <span class="kw">fn</span> <span class="ident">parse_context</span>(<span class="ident">vec</span>: <span class="kw-2">&amp;</span>[<span class="ident">Yaml</span>],
+                     <span class="ident">state</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ParserState</span>,
+                     <span class="ident">is_prototype</span>: <span class="ident">bool</span>)
+                     <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ContextPtr</span>, <span class="ident">ParseSyntaxError</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">Context</span> {
+            <span class="ident">meta_scope</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
+            <span class="ident">meta_content_scope</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
+            <span class="ident">meta_include_prototype</span>: <span class="op">!</span><span class="ident">is_prototype</span>,
+            <span class="ident">clear_scopes</span>: <span class="prelude-val">None</span>,
+            <span class="ident">uses_backrefs</span>: <span class="bool-val">false</span>,
+            <span class="ident">patterns</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
+            <span class="ident">prototype</span>: <span class="prelude-val">None</span>,
         };
-        <span class='kw'>for</span> <span class='ident'>y</span> <span class='kw'>in</span> <span class='ident'>vec</span>.<span class='ident'>iter</span>() {
-            <span class='kw'>let</span> <span class='ident'>map</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>y</span>.<span class='ident'>as_hash</span>().<span class='ident'>ok_or</span>(<span class='ident'>ParseSyntaxError</span>::<span class='ident'>TypeMismatch</span>));
+        <span class="kw">for</span> <span class="ident">y</span> <span class="kw">in</span> <span class="ident">vec</span>.<span class="ident">iter</span>() {
+            <span class="kw">let</span> <span class="ident">map</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">y</span>.<span class="ident">as_hash</span>().<span class="ident">ok_or</span>(<span class="ident">ParseSyntaxError</span>::<span class="ident">TypeMismatch</span>));
 
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>is_special</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
-            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>x</span>) <span class='op'>=</span> <span class='ident'>get_key</span>(<span class='ident'>map</span>, <span class='string'>&quot;meta_scope&quot;</span>, <span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span>.<span class='ident'>as_str</span>()).<span class='ident'>ok</span>() {
-                <span class='ident'>context</span>.<span class='ident'>meta_scope</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>str_to_scopes</span>(<span class='ident'>x</span>, <span class='ident'>state</span>.<span class='ident'>scope_repo</span>));
-                <span class='ident'>is_special</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">is_special</span> <span class="op">=</span> <span class="bool-val">false</span>;
+            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">x</span>) <span class="op">=</span> <span class="ident">get_key</span>(<span class="ident">map</span>, <span class="string">&quot;meta_scope&quot;</span>, <span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>.<span class="ident">as_str</span>()).<span class="ident">ok</span>() {
+                <span class="ident">context</span>.<span class="ident">meta_scope</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">str_to_scopes</span>(<span class="ident">x</span>, <span class="ident">state</span>.<span class="ident">scope_repo</span>));
+                <span class="ident">is_special</span> <span class="op">=</span> <span class="bool-val">true</span>;
             }
-            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>x</span>) <span class='op'>=</span> <span class='ident'>get_key</span>(<span class='ident'>map</span>, <span class='string'>&quot;meta_content_scope&quot;</span>, <span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span>.<span class='ident'>as_str</span>()).<span class='ident'>ok</span>() {
-                <span class='ident'>context</span>.<span class='ident'>meta_content_scope</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>str_to_scopes</span>(<span class='ident'>x</span>, <span class='ident'>state</span>.<span class='ident'>scope_repo</span>));
-                <span class='ident'>is_special</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
+            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">x</span>) <span class="op">=</span> <span class="ident">get_key</span>(<span class="ident">map</span>, <span class="string">&quot;meta_content_scope&quot;</span>, <span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>.<span class="ident">as_str</span>()).<span class="ident">ok</span>() {
+                <span class="ident">context</span>.<span class="ident">meta_content_scope</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">str_to_scopes</span>(<span class="ident">x</span>, <span class="ident">state</span>.<span class="ident">scope_repo</span>));
+                <span class="ident">is_special</span> <span class="op">=</span> <span class="bool-val">true</span>;
             }
-            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>x</span>) <span class='op'>=</span> <span class='ident'>get_key</span>(<span class='ident'>map</span>, <span class='string'>&quot;meta_include_prototype&quot;</span>, <span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span>.<span class='ident'>as_bool</span>()).<span class='ident'>ok</span>() {
-                <span class='ident'>context</span>.<span class='ident'>meta_include_prototype</span> <span class='op'>=</span> <span class='ident'>x</span>;
-                <span class='ident'>is_special</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
+            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">x</span>) <span class="op">=</span> <span class="ident">get_key</span>(<span class="ident">map</span>, <span class="string">&quot;meta_include_prototype&quot;</span>, <span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>.<span class="ident">as_bool</span>()).<span class="ident">ok</span>() {
+                <span class="ident">context</span>.<span class="ident">meta_include_prototype</span> <span class="op">=</span> <span class="ident">x</span>;
+                <span class="ident">is_special</span> <span class="op">=</span> <span class="bool-val">true</span>;
             }
-            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='bool-val'>true</span>) <span class='op'>=</span> <span class='ident'>get_key</span>(<span class='ident'>map</span>, <span class='string'>&quot;clear_scopes&quot;</span>, <span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span>.<span class='ident'>as_bool</span>()).<span class='ident'>ok</span>() {
-                <span class='ident'>context</span>.<span class='ident'>clear_scopes</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>ClearAmount</span>::<span class='ident'>All</span>);
-                <span class='ident'>is_special</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
+            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="bool-val">true</span>) <span class="op">=</span> <span class="ident">get_key</span>(<span class="ident">map</span>, <span class="string">&quot;clear_scopes&quot;</span>, <span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>.<span class="ident">as_bool</span>()).<span class="ident">ok</span>() {
+                <span class="ident">context</span>.<span class="ident">clear_scopes</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">ClearAmount</span>::<span class="ident">All</span>);
+                <span class="ident">is_special</span> <span class="op">=</span> <span class="bool-val">true</span>;
             }
-            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>x</span>) <span class='op'>=</span> <span class='ident'>get_key</span>(<span class='ident'>map</span>, <span class='string'>&quot;clear_scopes&quot;</span>, <span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span>.<span class='ident'>as_i64</span>()).<span class='ident'>ok</span>() {
-                <span class='ident'>context</span>.<span class='ident'>clear_scopes</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>ClearAmount</span>::<span class='ident'>TopN</span>(<span class='ident'>x</span> <span class='kw'>as</span> <span class='ident'>usize</span>));
-                <span class='ident'>is_special</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
+            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">x</span>) <span class="op">=</span> <span class="ident">get_key</span>(<span class="ident">map</span>, <span class="string">&quot;clear_scopes&quot;</span>, <span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>.<span class="ident">as_i64</span>()).<span class="ident">ok</span>() {
+                <span class="ident">context</span>.<span class="ident">clear_scopes</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">ClearAmount</span>::<span class="ident">TopN</span>(<span class="ident">x</span> <span class="kw">as</span> <span class="ident">usize</span>));
+                <span class="ident">is_special</span> <span class="op">=</span> <span class="bool-val">true</span>;
             }
-            <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>is_special</span> {
-                <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>x</span>) <span class='op'>=</span> <span class='ident'>get_key</span>(<span class='ident'>map</span>, <span class='string'>&quot;include&quot;</span>, <span class='prelude-val'>Some</span>).<span class='ident'>ok</span>() {
-                    <span class='kw'>let</span> <span class='ident'>reference</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>SyntaxDefinition</span>::<span class='ident'>parse_reference</span>(<span class='ident'>x</span>, <span class='ident'>state</span>));
-                    <span class='ident'>context</span>.<span class='ident'>patterns</span>.<span class='ident'>push</span>(<span class='ident'>Pattern</span>::<span class='ident'>Include</span>(<span class='ident'>reference</span>));
-                } <span class='kw'>else</span> {
-                    <span class='kw'>let</span> <span class='ident'>pattern</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>SyntaxDefinition</span>::<span class='ident'>parse_match_pattern</span>(<span class='ident'>map</span>, <span class='ident'>state</span>));
-                    <span class='kw'>if</span> <span class='ident'>pattern</span>.<span class='ident'>has_captures</span> {
-                        <span class='ident'>context</span>.<span class='ident'>uses_backrefs</span> <span class='op'>=</span> <span class='bool-val'>true</span>;
+            <span class="kw">if</span> <span class="op">!</span><span class="ident">is_special</span> {
+                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">x</span>) <span class="op">=</span> <span class="ident">get_key</span>(<span class="ident">map</span>, <span class="string">&quot;include&quot;</span>, <span class="prelude-val">Some</span>).<span class="ident">ok</span>() {
+                    <span class="kw">let</span> <span class="ident">reference</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">SyntaxDefinition</span>::<span class="ident">parse_reference</span>(<span class="ident">x</span>, <span class="ident">state</span>));
+                    <span class="ident">context</span>.<span class="ident">patterns</span>.<span class="ident">push</span>(<span class="ident">Pattern</span>::<span class="ident">Include</span>(<span class="ident">reference</span>));
+                } <span class="kw">else</span> {
+                    <span class="kw">let</span> <span class="ident">pattern</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">SyntaxDefinition</span>::<span class="ident">parse_match_pattern</span>(<span class="ident">map</span>, <span class="ident">state</span>));
+                    <span class="kw">if</span> <span class="ident">pattern</span>.<span class="ident">has_captures</span> {
+                        <span class="ident">context</span>.<span class="ident">uses_backrefs</span> <span class="op">=</span> <span class="bool-val">true</span>;
                     }
-                    <span class='ident'>context</span>.<span class='ident'>patterns</span>.<span class='ident'>push</span>(<span class='ident'>Pattern</span>::<span class='ident'>Match</span>(<span class='ident'>pattern</span>));
+                    <span class="ident">context</span>.<span class="ident">patterns</span>.<span class="ident">push</span>(<span class="ident">Pattern</span>::<span class="ident">Match</span>(<span class="ident">pattern</span>));
                 }
             }
 
         }
-        <span class='prelude-val'>Ok</span>(<span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='ident'>RefCell</span>::<span class='ident'>new</span>(<span class='ident'>context</span>)))
+        <span class="prelude-val">Ok</span>(<span class="ident">Rc</span>::<span class="ident">new</span>(<span class="ident">RefCell</span>::<span class="ident">new</span>(<span class="ident">context</span>)))
     }
 
-    <span class='kw'>fn</span> <span class='ident'>parse_reference</span>(<span class='ident'>y</span>: <span class='kw-2'>&amp;</span><span class='ident'>Yaml</span>,
-                       <span class='ident'>state</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ParserState</span>)
-                       <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>ContextReference</span>, <span class='ident'>ParseSyntaxError</span><span class='op'>&gt;</span> {
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>s</span>) <span class='op'>=</span> <span class='ident'>y</span>.<span class='ident'>as_str</span>() {
-            <span class='kw'>let</span> <span class='ident'>parts</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>s</span>.<span class='ident'>split</span>(<span class='string'>&#39;#&#39;</span>).<span class='ident'>collect</span>();
-            <span class='kw'>let</span> <span class='ident'>sub_context</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>parts</span>.<span class='ident'>len</span>() <span class='op'>&gt;</span> <span class='number'>1</span> {
-                <span class='prelude-val'>Some</span>(<span class='ident'>parts</span>[<span class='number'>1</span>].<span class='ident'>to_owned</span>())
-            } <span class='kw'>else</span> {
-                <span class='prelude-val'>None</span>
+    <span class="kw">fn</span> <span class="ident">parse_reference</span>(<span class="ident">y</span>: <span class="kw-2">&amp;</span><span class="ident">Yaml</span>,
+                       <span class="ident">state</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ParserState</span>)
+                       <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ContextReference</span>, <span class="ident">ParseSyntaxError</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">s</span>) <span class="op">=</span> <span class="ident">y</span>.<span class="ident">as_str</span>() {
+            <span class="kw">let</span> <span class="ident">parts</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">split</span>(<span class="string">&#39;#&#39;</span>).<span class="ident">collect</span>();
+            <span class="kw">let</span> <span class="ident">sub_context</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">parts</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="number">1</span> {
+                <span class="prelude-val">Some</span>(<span class="ident">parts</span>[<span class="number">1</span>].<span class="ident">to_owned</span>())
+            } <span class="kw">else</span> {
+                <span class="prelude-val">None</span>
             };
-            <span class='kw'>if</span> <span class='ident'>parts</span>[<span class='number'>0</span>].<span class='ident'>starts_with</span>(<span class='string'>&quot;scope:&quot;</span>) {
-                <span class='prelude-val'>Ok</span>(<span class='ident'>ContextReference</span>::<span class='ident'>ByScope</span> {
-                    <span class='ident'>scope</span>: <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>state</span>.<span class='ident'>scope_repo</span>
-                        .<span class='ident'>build</span>(<span class='kw-2'>&amp;</span><span class='ident'>parts</span>[<span class='number'>0</span>][<span class='number'>6</span>..])
-                        .<span class='ident'>map_err</span>(<span class='ident'>ParseSyntaxError</span>::<span class='ident'>InvalidScope</span>)),
-                    <span class='ident'>sub_context</span>: <span class='ident'>sub_context</span>,
+            <span class="kw">if</span> <span class="ident">parts</span>[<span class="number">0</span>].<span class="ident">starts_with</span>(<span class="string">&quot;scope:&quot;</span>) {
+                <span class="prelude-val">Ok</span>(<span class="ident">ContextReference</span>::<span class="ident">ByScope</span> {
+                    <span class="ident">scope</span>: <span class="macro">try</span><span class="macro">!</span>(<span class="ident">state</span>.<span class="ident">scope_repo</span>
+                        .<span class="ident">build</span>(<span class="kw-2">&amp;</span><span class="ident">parts</span>[<span class="number">0</span>][<span class="number">6</span>..])
+                        .<span class="ident">map_err</span>(<span class="ident">ParseSyntaxError</span>::<span class="ident">InvalidScope</span>)),
+                    <span class="ident">sub_context</span>: <span class="ident">sub_context</span>,
                 })
-            } <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>parts</span>[<span class='number'>0</span>].<span class='ident'>ends_with</span>(<span class='string'>&quot;.sublime-syntax&quot;</span>) {
-                <span class='kw'>let</span> <span class='ident'>stem</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='ident'>parts</span>[<span class='number'>0</span>])
-                    .<span class='ident'>file_stem</span>()
-                    .<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span>.<span class='ident'>to_str</span>())
-                    .<span class='ident'>ok_or</span>(<span class='ident'>ParseSyntaxError</span>::<span class='ident'>BadFileRef</span>));
-                <span class='prelude-val'>Ok</span>(<span class='ident'>ContextReference</span>::<span class='ident'>File</span> {
-                    <span class='ident'>name</span>: <span class='ident'>stem</span>.<span class='ident'>to_owned</span>(),
-                    <span class='ident'>sub_context</span>: <span class='ident'>sub_context</span>,
+            } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">parts</span>[<span class="number">0</span>].<span class="ident">ends_with</span>(<span class="string">&quot;.sublime-syntax&quot;</span>) {
+                <span class="kw">let</span> <span class="ident">stem</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">Path</span>::<span class="ident">new</span>(<span class="ident">parts</span>[<span class="number">0</span>])
+                    .<span class="ident">file_stem</span>()
+                    .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>.<span class="ident">to_str</span>())
+                    .<span class="ident">ok_or</span>(<span class="ident">ParseSyntaxError</span>::<span class="ident">BadFileRef</span>));
+                <span class="prelude-val">Ok</span>(<span class="ident">ContextReference</span>::<span class="ident">File</span> {
+                    <span class="ident">name</span>: <span class="ident">stem</span>.<span class="ident">to_owned</span>(),
+                    <span class="ident">sub_context</span>: <span class="ident">sub_context</span>,
                 })
-            } <span class='kw'>else</span> {
-                <span class='prelude-val'>Ok</span>(<span class='ident'>ContextReference</span>::<span class='ident'>Named</span>(<span class='ident'>parts</span>[<span class='number'>0</span>].<span class='ident'>to_owned</span>()))
+            } <span class="kw">else</span> {
+                <span class="prelude-val">Ok</span>(<span class="ident">ContextReference</span>::<span class="ident">Named</span>(<span class="ident">parts</span>[<span class="number">0</span>].<span class="ident">to_owned</span>()))
             }
-        } <span class='kw'>else</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>v</span>) <span class='op'>=</span> <span class='ident'>y</span>.<span class='ident'>as_vec</span>() {
-            <span class='kw'>let</span> <span class='ident'>context</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>SyntaxDefinition</span>::<span class='ident'>parse_context</span>(<span class='ident'>v</span>, <span class='ident'>state</span>, <span class='bool-val'>false</span>));
-            <span class='prelude-val'>Ok</span>(<span class='ident'>ContextReference</span>::<span class='ident'>Inline</span>(<span class='ident'>context</span>))
-        } <span class='kw'>else</span> {
-            <span class='prelude-val'>Err</span>(<span class='ident'>ParseSyntaxError</span>::<span class='ident'>TypeMismatch</span>)
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">v</span>) <span class="op">=</span> <span class="ident">y</span>.<span class="ident">as_vec</span>() {
+            <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">SyntaxDefinition</span>::<span class="ident">parse_context</span>(<span class="ident">v</span>, <span class="ident">state</span>, <span class="bool-val">false</span>));
+            <span class="prelude-val">Ok</span>(<span class="ident">ContextReference</span>::<span class="ident">Inline</span>(<span class="ident">context</span>))
+        } <span class="kw">else</span> {
+            <span class="prelude-val">Err</span>(<span class="ident">ParseSyntaxError</span>::<span class="ident">TypeMismatch</span>)
         }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>resolve_variables</span>(<span class='ident'>raw_regex</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>state</span>: <span class='kw-2'>&amp;</span><span class='ident'>ParserState</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span> {
-        <span class='ident'>state</span>.<span class='ident'>variable_regex</span>.<span class='ident'>replace_all</span>(<span class='ident'>raw_regex</span>, <span class='op'>|</span><span class='ident'>caps</span>: <span class='kw-2'>&amp;</span><span class='ident'>Captures</span><span class='op'>|</span> {
-            <span class='kw'>let</span> <span class='ident'>var_regex_raw</span> <span class='op'>=</span>
-                <span class='ident'>state</span>.<span class='ident'>variables</span>.<span class='ident'>get</span>(<span class='ident'>caps</span>.<span class='ident'>at</span>(<span class='number'>1</span>).<span class='ident'>unwrap_or</span>(<span class='string'>&quot;&quot;</span>)).<span class='ident'>map_or</span>(<span class='string'>&quot;&quot;</span>, <span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='kw-2'>&amp;</span><span class='kw-2'>*</span><span class='kw-2'>*</span><span class='ident'>x</span>);
-            <span class='self'>Self</span>::<span class='ident'>resolve_variables</span>(<span class='ident'>var_regex_raw</span>, <span class='ident'>state</span>)
+    <span class="kw">fn</span> <span class="ident">resolve_variables</span>(<span class="ident">raw_regex</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">state</span>: <span class="kw-2">&amp;</span><span class="ident">ParserState</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
+        <span class="ident">state</span>.<span class="ident">variable_regex</span>.<span class="ident">replace_all</span>(<span class="ident">raw_regex</span>, <span class="op">|</span><span class="ident">caps</span>: <span class="kw-2">&amp;</span><span class="ident">Captures</span><span class="op">|</span> {
+            <span class="kw">let</span> <span class="ident">var_regex_raw</span> <span class="op">=</span>
+                <span class="ident">state</span>.<span class="ident">variables</span>.<span class="ident">get</span>(<span class="ident">caps</span>.<span class="ident">at</span>(<span class="number">1</span>).<span class="ident">unwrap_or</span>(<span class="string">&quot;&quot;</span>)).<span class="ident">map_or</span>(<span class="string">&quot;&quot;</span>, <span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="kw-2">*</span><span class="ident">x</span>);
+            <span class="self">Self</span>::<span class="ident">resolve_variables</span>(<span class="ident">var_regex_raw</span>, <span class="ident">state</span>)
         })
     }
 
-    <span class='kw'>fn</span> <span class='ident'>parse_match_pattern</span>(<span class='ident'>map</span>: <span class='kw-2'>&amp;</span><span class='ident'>BTreeMap</span><span class='op'>&lt;</span><span class='ident'>Yaml</span>, <span class='ident'>Yaml</span><span class='op'>&gt;</span>,
-                           <span class='ident'>state</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ParserState</span>)
-                           <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>MatchPattern</span>, <span class='ident'>ParseSyntaxError</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>raw_regex</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>get_key</span>(<span class='ident'>map</span>, <span class='string'>&quot;match&quot;</span>, <span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span>.<span class='ident'>as_str</span>()));
-        <span class='kw'>let</span> <span class='ident'>regex_str_1</span> <span class='op'>=</span> <span class='self'>Self</span>::<span class='ident'>resolve_variables</span>(<span class='ident'>raw_regex</span>, <span class='ident'>state</span>);
-        <span class='comment'>// bug triggered by CSS.sublime-syntax, dunno why this is necessary</span>
-        <span class='kw'>let</span> <span class='ident'>regex_str_2</span> <span class='op'>=</span>
-            <span class='ident'>state</span>.<span class='ident'>short_multibyte_regex</span>.<span class='ident'>replace_all</span>(<span class='kw-2'>&amp;</span><span class='ident'>regex_str_1</span>, <span class='op'>|</span><span class='ident'>caps</span>: <span class='kw-2'>&amp;</span><span class='ident'>Captures</span><span class='op'>|</span> {
-                <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;\\x{{000000{}}}&quot;</span>, <span class='ident'>caps</span>.<span class='ident'>at</span>(<span class='number'>1</span>).<span class='ident'>unwrap_or</span>(<span class='string'>&quot;&quot;</span>))
+    <span class="kw">fn</span> <span class="ident">parse_match_pattern</span>(<span class="ident">map</span>: <span class="kw-2">&amp;</span><span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">Yaml</span>, <span class="ident">Yaml</span><span class="op">&gt;</span>,
+                           <span class="ident">state</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ParserState</span>)
+                           <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">MatchPattern</span>, <span class="ident">ParseSyntaxError</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">raw_regex</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">get_key</span>(<span class="ident">map</span>, <span class="string">&quot;match&quot;</span>, <span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>.<span class="ident">as_str</span>()));
+        <span class="kw">let</span> <span class="ident">regex_str_1</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">resolve_variables</span>(<span class="ident">raw_regex</span>, <span class="ident">state</span>);
+        <span class="comment">// bug triggered by CSS.sublime-syntax, dunno why this is necessary</span>
+        <span class="kw">let</span> <span class="ident">regex_str_2</span> <span class="op">=</span>
+            <span class="ident">state</span>.<span class="ident">short_multibyte_regex</span>.<span class="ident">replace_all</span>(<span class="kw-2">&amp;</span><span class="ident">regex_str_1</span>, <span class="op">|</span><span class="ident">caps</span>: <span class="kw-2">&amp;</span><span class="ident">Captures</span><span class="op">|</span> {
+                <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;\\x{{000000{}}}&quot;</span>, <span class="ident">caps</span>.<span class="ident">at</span>(<span class="number">1</span>).<span class="ident">unwrap_or</span>(<span class="string">&quot;&quot;</span>))
             });
-        <span class='comment'>// if the passed in strings don&#39;t include newlines (unlike Sublime) we can&#39;t match on them</span>
-        <span class='kw'>let</span> <span class='ident'>regex_str</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>state</span>.<span class='ident'>lines_include_newline</span> {
-            <span class='ident'>regex_str_2</span>
-        } <span class='kw'>else</span> {
-            <span class='ident'>regex_str_2</span>
-                .<span class='ident'>replace</span>(<span class='string'>&quot;\\n?&quot;</span>,<span class='string'>&quot;&quot;</span>) <span class='comment'>// fails with invalid operand of repeat expression</span>
-                .<span class='ident'>replace</span>(<span class='string'>&quot;(?:\\n)?&quot;</span>,<span class='string'>&quot;&quot;</span>) <span class='comment'>// fails with invalid operand of repeat expression</span>
-                .<span class='ident'>replace</span>(<span class='string'>&quot;(?&lt;!\\n)&quot;</span>,<span class='string'>&quot;&quot;</span>) <span class='comment'>// fails with invalid pattern in look-behind</span>
-                .<span class='ident'>replace</span>(<span class='string'>&quot;(?&lt;=\\n)&quot;</span>,<span class='string'>&quot;&quot;</span>) <span class='comment'>// fails with invalid pattern in look-behind</span>
-                .<span class='ident'>replace</span>(<span class='string'>&quot;  :\\s&quot;</span>,<span class='string'>&quot;  :(\\s|\\z)&quot;</span>) <span class='comment'>// hack specific to YAML.sublime-syntax</span>
-                .<span class='ident'>replace</span>(<span class='string'>&quot;\\n&quot;</span>,<span class='string'>&quot;\\z&quot;</span>)
+        <span class="comment">// if the passed in strings don&#39;t include newlines (unlike Sublime) we can&#39;t match on them</span>
+        <span class="kw">let</span> <span class="ident">regex_str</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">lines_include_newline</span> {
+            <span class="ident">regex_str_2</span>
+        } <span class="kw">else</span> {
+            <span class="ident">regex_str_2</span>
+                .<span class="ident">replace</span>(<span class="string">&quot;\\n?&quot;</span>,<span class="string">&quot;&quot;</span>) <span class="comment">// fails with invalid operand of repeat expression</span>
+                .<span class="ident">replace</span>(<span class="string">&quot;(?:\\n)?&quot;</span>,<span class="string">&quot;&quot;</span>) <span class="comment">// fails with invalid operand of repeat expression</span>
+                .<span class="ident">replace</span>(<span class="string">&quot;(?&lt;!\\n)&quot;</span>,<span class="string">&quot;&quot;</span>) <span class="comment">// fails with invalid pattern in look-behind</span>
+                .<span class="ident">replace</span>(<span class="string">&quot;(?&lt;=\\n)&quot;</span>,<span class="string">&quot;&quot;</span>) <span class="comment">// fails with invalid pattern in look-behind</span>
+                .<span class="ident">replace</span>(<span class="string">&quot;  :\\s&quot;</span>,<span class="string">&quot;  :(\\s|\\z)&quot;</span>) <span class="comment">// hack specific to YAML.sublime-syntax</span>
+                .<span class="ident">replace</span>(<span class="string">&quot;\\n&quot;</span>,<span class="string">&quot;\\z&quot;</span>)
         };
-        <span class='comment'>// println!(&quot;{:?}&quot;, regex_str);</span>
+        <span class="comment">// println!(&quot;{:?}&quot;, regex_str);</span>
 
-        <span class='kw'>let</span> <span class='ident'>scope</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>get_key</span>(<span class='ident'>map</span>, <span class='string'>&quot;scope&quot;</span>, <span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span>.<span class='ident'>as_str</span>())
-            .<span class='ident'>ok</span>()
-            .<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>s</span><span class='op'>|</span> <span class='ident'>str_to_scopes</span>(<span class='ident'>s</span>, <span class='ident'>state</span>.<span class='ident'>scope_repo</span>))
-            .<span class='ident'>unwrap_or_else</span>(<span class='op'>||</span> <span class='prelude-val'>Ok</span>(<span class='macro'>vec</span><span class='macro'>!</span>[])));
+        <span class="kw">let</span> <span class="ident">scope</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">get_key</span>(<span class="ident">map</span>, <span class="string">&quot;scope&quot;</span>, <span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>.<span class="ident">as_str</span>())
+            .<span class="ident">ok</span>()
+            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">str_to_scopes</span>(<span class="ident">s</span>, <span class="ident">state</span>.<span class="ident">scope_repo</span>))
+            .<span class="ident">unwrap_or_else</span>(<span class="op">||</span> <span class="prelude-val">Ok</span>(<span class="macro">vec</span><span class="macro">!</span>[])));
 
-        <span class='kw'>let</span> <span class='ident'>captures</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(<span class='ident'>map</span>) <span class='op'>=</span> <span class='ident'>get_key</span>(<span class='ident'>map</span>, <span class='string'>&quot;captures&quot;</span>, <span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span>.<span class='ident'>as_hash</span>()) {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>res_map</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
-            <span class='kw'>for</span> (<span class='ident'>key</span>, <span class='ident'>value</span>) <span class='kw'>in</span> <span class='ident'>map</span>.<span class='ident'>iter</span>() {
-                <span class='kw'>if</span> <span class='kw'>let</span> (<span class='prelude-val'>Some</span>(<span class='ident'>key_int</span>), <span class='prelude-val'>Some</span>(<span class='ident'>val_str</span>)) <span class='op'>=</span> (<span class='ident'>key</span>.<span class='ident'>as_i64</span>(), <span class='ident'>value</span>.<span class='ident'>as_str</span>()) {
-                    <span class='ident'>res_map</span>.<span class='ident'>push</span>((<span class='ident'>key_int</span> <span class='kw'>as</span> <span class='ident'>usize</span>,
-                                   <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>str_to_scopes</span>(<span class='ident'>val_str</span>, <span class='ident'>state</span>.<span class='ident'>scope_repo</span>))));
+        <span class="kw">let</span> <span class="ident">captures</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">map</span>) <span class="op">=</span> <span class="ident">get_key</span>(<span class="ident">map</span>, <span class="string">&quot;captures&quot;</span>, <span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>.<span class="ident">as_hash</span>()) {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res_map</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+            <span class="kw">for</span> (<span class="ident">key</span>, <span class="ident">value</span>) <span class="kw">in</span> <span class="ident">map</span>.<span class="ident">iter</span>() {
+                <span class="kw">if</span> <span class="kw">let</span> (<span class="prelude-val">Some</span>(<span class="ident">key_int</span>), <span class="prelude-val">Some</span>(<span class="ident">val_str</span>)) <span class="op">=</span> (<span class="ident">key</span>.<span class="ident">as_i64</span>(), <span class="ident">value</span>.<span class="ident">as_str</span>()) {
+                    <span class="ident">res_map</span>.<span class="ident">push</span>((<span class="ident">key_int</span> <span class="kw">as</span> <span class="ident">usize</span>,
+                                   <span class="macro">try</span><span class="macro">!</span>(<span class="ident">str_to_scopes</span>(<span class="ident">val_str</span>, <span class="ident">state</span>.<span class="ident">scope_repo</span>))));
                 }
             }
-            <span class='prelude-val'>Some</span>(<span class='ident'>res_map</span>)
-        } <span class='kw'>else</span> {
-            <span class='prelude-val'>None</span>
+            <span class="prelude-val">Some</span>(<span class="ident">res_map</span>)
+        } <span class="kw">else</span> {
+            <span class="prelude-val">None</span>
         };
 
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>has_captures</span> <span class='op'>=</span> <span class='bool-val'>false</span>;
-        <span class='kw'>let</span> <span class='ident'>operation</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(_) <span class='op'>=</span> <span class='ident'>get_key</span>(<span class='ident'>map</span>, <span class='string'>&quot;pop&quot;</span>, <span class='prelude-val'>Some</span>) {
-            <span class='comment'>// Thanks @wbond for letting me know this is the correct way to check for captures</span>
-            <span class='ident'>has_captures</span> <span class='op'>=</span> <span class='ident'>state</span>.<span class='ident'>backref_regex</span>.<span class='ident'>find</span>(<span class='kw-2'>&amp;</span><span class='ident'>regex_str</span>).<span class='ident'>is_some</span>();
-            <span class='ident'>MatchOperation</span>::<span class='ident'>Pop</span>
-        } <span class='kw'>else</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(<span class='ident'>y</span>) <span class='op'>=</span> <span class='ident'>get_key</span>(<span class='ident'>map</span>, <span class='string'>&quot;push&quot;</span>, <span class='prelude-val'>Some</span>) {
-            <span class='ident'>MatchOperation</span>::<span class='ident'>Push</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>SyntaxDefinition</span>::<span class='ident'>parse_pushargs</span>(<span class='ident'>y</span>, <span class='ident'>state</span>)))
-        } <span class='kw'>else</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(<span class='ident'>y</span>) <span class='op'>=</span> <span class='ident'>get_key</span>(<span class='ident'>map</span>, <span class='string'>&quot;set&quot;</span>, <span class='prelude-val'>Some</span>) {
-            <span class='ident'>MatchOperation</span>::<span class='ident'>Set</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>SyntaxDefinition</span>::<span class='ident'>parse_pushargs</span>(<span class='ident'>y</span>, <span class='ident'>state</span>)))
-        } <span class='kw'>else</span> {
-            <span class='ident'>MatchOperation</span>::<span class='prelude-val'>None</span>
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">has_captures</span> <span class="op">=</span> <span class="bool-val">false</span>;
+        <span class="kw">let</span> <span class="ident">operation</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(_) <span class="op">=</span> <span class="ident">get_key</span>(<span class="ident">map</span>, <span class="string">&quot;pop&quot;</span>, <span class="prelude-val">Some</span>) {
+            <span class="comment">// Thanks @wbond for letting me know this is the correct way to check for captures</span>
+            <span class="ident">has_captures</span> <span class="op">=</span> <span class="ident">state</span>.<span class="ident">backref_regex</span>.<span class="ident">find</span>(<span class="kw-2">&amp;</span><span class="ident">regex_str</span>).<span class="ident">is_some</span>();
+            <span class="ident">MatchOperation</span>::<span class="ident">Pop</span>
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">y</span>) <span class="op">=</span> <span class="ident">get_key</span>(<span class="ident">map</span>, <span class="string">&quot;push&quot;</span>, <span class="prelude-val">Some</span>) {
+            <span class="ident">MatchOperation</span>::<span class="ident">Push</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="ident">SyntaxDefinition</span>::<span class="ident">parse_pushargs</span>(<span class="ident">y</span>, <span class="ident">state</span>)))
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">y</span>) <span class="op">=</span> <span class="ident">get_key</span>(<span class="ident">map</span>, <span class="string">&quot;set&quot;</span>, <span class="prelude-val">Some</span>) {
+            <span class="ident">MatchOperation</span>::<span class="ident">Set</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="ident">SyntaxDefinition</span>::<span class="ident">parse_pushargs</span>(<span class="ident">y</span>, <span class="ident">state</span>)))
+        } <span class="kw">else</span> {
+            <span class="ident">MatchOperation</span>::<span class="prelude-val">None</span>
         };
 
-        <span class='kw'>let</span> <span class='ident'>with_prototype</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Ok</span>(<span class='ident'>v</span>) <span class='op'>=</span> <span class='ident'>get_key</span>(<span class='ident'>map</span>, <span class='string'>&quot;with_prototype&quot;</span>, <span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span>.<span class='ident'>as_vec</span>()) {
-            <span class='comment'>// should a with_prototype include the prototype? I don&#39;t think so.</span>
-            <span class='prelude-val'>Some</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>SyntaxDefinition</span>::<span class='ident'>parse_context</span>(<span class='ident'>v</span>, <span class='ident'>state</span>, <span class='bool-val'>true</span>)))
-        } <span class='kw'>else</span> {
-            <span class='prelude-val'>None</span>
+        <span class="kw">let</span> <span class="ident">with_prototype</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">v</span>) <span class="op">=</span> <span class="ident">get_key</span>(<span class="ident">map</span>, <span class="string">&quot;with_prototype&quot;</span>, <span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>.<span class="ident">as_vec</span>()) {
+            <span class="comment">// should a with_prototype include the prototype? I don&#39;t think so.</span>
+            <span class="prelude-val">Some</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="ident">SyntaxDefinition</span>::<span class="ident">parse_context</span>(<span class="ident">v</span>, <span class="ident">state</span>, <span class="bool-val">true</span>)))
+        } <span class="kw">else</span> {
+            <span class="prelude-val">None</span>
         };
 
-        <span class='kw'>let</span> <span class='ident'>pattern</span> <span class='op'>=</span> <span class='ident'>MatchPattern</span> {
-            <span class='ident'>has_captures</span>: <span class='ident'>has_captures</span>,
-            <span class='ident'>regex_str</span>: <span class='ident'>regex_str</span>,
-            <span class='ident'>regex</span>: <span class='prelude-val'>None</span>,
-            <span class='ident'>scope</span>: <span class='ident'>scope</span>,
-            <span class='ident'>captures</span>: <span class='ident'>captures</span>,
-            <span class='ident'>operation</span>: <span class='ident'>operation</span>,
-            <span class='ident'>with_prototype</span>: <span class='ident'>with_prototype</span>,
+        <span class="kw">let</span> <span class="ident">pattern</span> <span class="op">=</span> <span class="ident">MatchPattern</span> {
+            <span class="ident">has_captures</span>: <span class="ident">has_captures</span>,
+            <span class="ident">regex_str</span>: <span class="ident">regex_str</span>,
+            <span class="ident">regex</span>: <span class="prelude-val">None</span>,
+            <span class="ident">scope</span>: <span class="ident">scope</span>,
+            <span class="ident">captures</span>: <span class="ident">captures</span>,
+            <span class="ident">operation</span>: <span class="ident">operation</span>,
+            <span class="ident">with_prototype</span>: <span class="ident">with_prototype</span>,
         };
-        <span class='prelude-val'>Ok</span>(<span class='ident'>pattern</span>)
+        <span class="prelude-val">Ok</span>(<span class="ident">pattern</span>)
     }
 
-    <span class='kw'>fn</span> <span class='ident'>parse_pushargs</span>(<span class='ident'>y</span>: <span class='kw-2'>&amp;</span><span class='ident'>Yaml</span>,
-                      <span class='ident'>state</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ParserState</span>)
-                      <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>ContextReference</span><span class='op'>&gt;</span>, <span class='ident'>ParseSyntaxError</span><span class='op'>&gt;</span> {
-        <span class='comment'>// check for a push of multiple items</span>
-        <span class='kw'>if</span> <span class='ident'>y</span>.<span class='ident'>as_vec</span>().<span class='ident'>map_or</span>(<span class='bool-val'>false</span>, <span class='op'>|</span><span class='ident'>v</span><span class='op'>|</span> <span class='op'>!</span><span class='ident'>v</span>.<span class='ident'>is_empty</span>() <span class='op'>&amp;&amp;</span> <span class='ident'>v</span>[<span class='number'>0</span>].<span class='ident'>as_str</span>().<span class='ident'>is_some</span>()) {
-            <span class='comment'>// this works because Result implements FromIterator to handle the errors</span>
-            <span class='ident'>y</span>.<span class='ident'>as_vec</span>()
-                .<span class='ident'>unwrap</span>()
-                .<span class='ident'>iter</span>()
-                .<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>SyntaxDefinition</span>::<span class='ident'>parse_reference</span>(<span class='ident'>x</span>, <span class='ident'>state</span>))
-                .<span class='ident'>collect</span>()
-        } <span class='kw'>else</span> {
-            <span class='prelude-val'>Ok</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>SyntaxDefinition</span>::<span class='ident'>parse_reference</span>(<span class='ident'>y</span>, <span class='ident'>state</span>))])
+    <span class="kw">fn</span> <span class="ident">parse_pushargs</span>(<span class="ident">y</span>: <span class="kw-2">&amp;</span><span class="ident">Yaml</span>,
+                      <span class="ident">state</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ParserState</span>)
+                      <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">ContextReference</span><span class="op">&gt;</span>, <span class="ident">ParseSyntaxError</span><span class="op">&gt;</span> {
+        <span class="comment">// check for a push of multiple items</span>
+        <span class="kw">if</span> <span class="ident">y</span>.<span class="ident">as_vec</span>().<span class="ident">map_or</span>(<span class="bool-val">false</span>, <span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="op">!</span><span class="ident">v</span>.<span class="ident">is_empty</span>() <span class="op">&amp;&amp;</span> <span class="ident">v</span>[<span class="number">0</span>].<span class="ident">as_str</span>().<span class="ident">is_some</span>()) {
+            <span class="comment">// this works because Result implements FromIterator to handle the errors</span>
+            <span class="ident">y</span>.<span class="ident">as_vec</span>()
+                .<span class="ident">unwrap</span>()
+                .<span class="ident">iter</span>()
+                .<span class="ident">map</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">SyntaxDefinition</span>::<span class="ident">parse_reference</span>(<span class="ident">x</span>, <span class="ident">state</span>))
+                .<span class="ident">collect</span>()
+        } <span class="kw">else</span> {
+            <span class="prelude-val">Ok</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="macro">try</span><span class="macro">!</span>(<span class="ident">SyntaxDefinition</span>::<span class="ident">parse_reference</span>(<span class="ident">y</span>, <span class="ident">state</span>))])
         }
     }
 
-    <span class='doccomment'>/// Sublime treats the top level context slightly differently from</span>
-    <span class='doccomment'>/// including the main context from other syntaxes. When main is popped</span>
-    <span class='doccomment'>/// it is immediately re-added and when it is `set` over the file level</span>
-    <span class='doccomment'>/// scope remains. This behaviour is emulated through some added contexts</span>
-    <span class='doccomment'>/// that are the actual top level contexts used in parsing.</span>
-    <span class='doccomment'>/// See https://github.com/trishume/syntect/issues/58 for more.</span>
-    <span class='kw'>fn</span> <span class='ident'>add_initial_contexts</span>(<span class='ident'>contexts</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>ContextPtr</span><span class='op'>&gt;</span>,
-                            <span class='ident'>state</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ParserState</span>,
-                            <span class='ident'>top_level_scope</span>: <span class='ident'>Scope</span>) {
-        <span class='kw'>let</span> <span class='ident'>yaml_docs</span> <span class='op'>=</span> <span class='ident'>YamlLoader</span>::<span class='ident'>load_from_str</span>(<span class='ident'>START_CONTEXTS</span>).<span class='ident'>unwrap</span>();
-        <span class='kw'>let</span> <span class='ident'>yaml</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>yaml_docs</span>[<span class='number'>0</span>];
+    <span class="doccomment">/// Sublime treats the top level context slightly differently from</span>
+    <span class="doccomment">/// including the main context from other syntaxes. When main is popped</span>
+    <span class="doccomment">/// it is immediately re-added and when it is `set` over the file level</span>
+    <span class="doccomment">/// scope remains. This behaviour is emulated through some added contexts</span>
+    <span class="doccomment">/// that are the actual top level contexts used in parsing.</span>
+    <span class="doccomment">/// See https://github.com/trishume/syntect/issues/58 for more.</span>
+    <span class="kw">fn</span> <span class="ident">add_initial_contexts</span>(<span class="ident">contexts</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">ContextPtr</span><span class="op">&gt;</span>,
+                            <span class="ident">state</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ParserState</span>,
+                            <span class="ident">top_level_scope</span>: <span class="ident">Scope</span>) {
+        <span class="kw">let</span> <span class="ident">yaml_docs</span> <span class="op">=</span> <span class="ident">YamlLoader</span>::<span class="ident">load_from_str</span>(<span class="ident">START_CONTEXTS</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">yaml</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">yaml_docs</span>[<span class="number">0</span>];
 
-        <span class='kw'>let</span> <span class='ident'>start_yaml</span> : <span class='kw-2'>&amp;</span>[<span class='ident'>Yaml</span>] <span class='op'>=</span> <span class='ident'>yaml</span>[<span class='string'>&quot;__start&quot;</span>].<span class='ident'>as_vec</span>().<span class='ident'>unwrap</span>();
-        <span class='kw'>let</span> <span class='ident'>start</span> <span class='op'>=</span> <span class='ident'>SyntaxDefinition</span>::<span class='ident'>parse_context</span>(<span class='ident'>start_yaml</span>, <span class='ident'>state</span>, <span class='bool-val'>false</span>).<span class='ident'>unwrap</span>();
+        <span class="kw">let</span> <span class="ident">start_yaml</span> : <span class="kw-2">&amp;</span>[<span class="ident">Yaml</span>] <span class="op">=</span> <span class="ident">yaml</span>[<span class="string">&quot;__start&quot;</span>].<span class="ident">as_vec</span>().<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="ident">SyntaxDefinition</span>::<span class="ident">parse_context</span>(<span class="ident">start_yaml</span>, <span class="ident">state</span>, <span class="bool-val">false</span>).<span class="ident">unwrap</span>();
         {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>start_b</span> <span class='op'>=</span> <span class='ident'>start</span>.<span class='ident'>borrow_mut</span>();
-            <span class='ident'>start_b</span>.<span class='ident'>meta_content_scope</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>top_level_scope</span>];
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">start_b</span> <span class="op">=</span> <span class="ident">start</span>.<span class="ident">borrow_mut</span>();
+            <span class="ident">start_b</span>.<span class="ident">meta_content_scope</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">top_level_scope</span>];
         }
-        <span class='ident'>contexts</span>.<span class='ident'>insert</span>(<span class='string'>&quot;__start&quot;</span>.<span class='ident'>to_owned</span>(), <span class='ident'>start</span>);
+        <span class="ident">contexts</span>.<span class="ident">insert</span>(<span class="string">&quot;__start&quot;</span>.<span class="ident">to_owned</span>(), <span class="ident">start</span>);
 
-        <span class='kw'>let</span> <span class='ident'>main_yaml</span> : <span class='kw-2'>&amp;</span>[<span class='ident'>Yaml</span>] <span class='op'>=</span> <span class='ident'>yaml</span>[<span class='string'>&quot;__main&quot;</span>].<span class='ident'>as_vec</span>().<span class='ident'>unwrap</span>();
-        <span class='kw'>let</span> <span class='ident'>main</span> <span class='op'>=</span> <span class='ident'>SyntaxDefinition</span>::<span class='ident'>parse_context</span>(<span class='ident'>main_yaml</span>, <span class='ident'>state</span>, <span class='bool-val'>false</span>).<span class='ident'>unwrap</span>();
+        <span class="kw">let</span> <span class="ident">main_yaml</span> : <span class="kw-2">&amp;</span>[<span class="ident">Yaml</span>] <span class="op">=</span> <span class="ident">yaml</span>[<span class="string">&quot;__main&quot;</span>].<span class="ident">as_vec</span>().<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">main</span> <span class="op">=</span> <span class="ident">SyntaxDefinition</span>::<span class="ident">parse_context</span>(<span class="ident">main_yaml</span>, <span class="ident">state</span>, <span class="bool-val">false</span>).<span class="ident">unwrap</span>();
         {
-            <span class='kw'>let</span> <span class='ident'>real_main</span> <span class='op'>=</span> <span class='ident'>contexts</span>[<span class='string'>&quot;main&quot;</span>].<span class='ident'>borrow</span>();
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>main_b</span> <span class='op'>=</span> <span class='ident'>main</span>.<span class='ident'>borrow_mut</span>();
-            <span class='ident'>main_b</span>.<span class='ident'>meta_include_prototype</span> <span class='op'>=</span> <span class='ident'>real_main</span>.<span class='ident'>meta_include_prototype</span>;
-            <span class='ident'>main_b</span>.<span class='ident'>meta_scope</span> <span class='op'>=</span> <span class='ident'>real_main</span>.<span class='ident'>meta_scope</span>.<span class='ident'>clone</span>();
-            <span class='ident'>main_b</span>.<span class='ident'>meta_content_scope</span> <span class='op'>=</span> <span class='ident'>real_main</span>.<span class='ident'>meta_content_scope</span>.<span class='ident'>clone</span>();
+            <span class="kw">let</span> <span class="ident">real_main</span> <span class="op">=</span> <span class="ident">contexts</span>[<span class="string">&quot;main&quot;</span>].<span class="ident">borrow</span>();
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">main_b</span> <span class="op">=</span> <span class="ident">main</span>.<span class="ident">borrow_mut</span>();
+            <span class="ident">main_b</span>.<span class="ident">meta_include_prototype</span> <span class="op">=</span> <span class="ident">real_main</span>.<span class="ident">meta_include_prototype</span>;
+            <span class="ident">main_b</span>.<span class="ident">meta_scope</span> <span class="op">=</span> <span class="ident">real_main</span>.<span class="ident">meta_scope</span>.<span class="ident">clone</span>();
+            <span class="ident">main_b</span>.<span class="ident">meta_content_scope</span> <span class="op">=</span> <span class="ident">real_main</span>.<span class="ident">meta_content_scope</span>.<span class="ident">clone</span>();
         }
-        <span class='ident'>contexts</span>.<span class='ident'>insert</span>(<span class='string'>&quot;__main&quot;</span>.<span class='ident'>to_owned</span>(), <span class='ident'>main</span>);
+        <span class="ident">contexts</span>.<span class="ident">insert</span>(<span class="string">&quot;__main&quot;</span>.<span class="ident">to_owned</span>(), <span class="ident">main</span>);
 
-        <span class='comment'>// add the top_level_scope as a meta_content_scope to main so</span>
-        <span class='comment'>// pushes from other syntaxes add the file scope</span>
-        <span class='comment'>// TODO: this order is not quite correct if main also has a meta_scope</span>
+        <span class="comment">// add the top_level_scope as a meta_content_scope to main so</span>
+        <span class="comment">// pushes from other syntaxes add the file scope</span>
+        <span class="comment">// TODO: this order is not quite correct if main also has a meta_scope</span>
         {
-            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>real_main</span> <span class='op'>=</span> <span class='ident'>contexts</span>[<span class='string'>&quot;main&quot;</span>].<span class='ident'>borrow_mut</span>();
-            <span class='ident'>real_main</span>.<span class='ident'>meta_content_scope</span>.<span class='ident'>insert</span>(<span class='number'>0</span>,<span class='ident'>top_level_scope</span>);
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">real_main</span> <span class="op">=</span> <span class="ident">contexts</span>[<span class="string">&quot;main&quot;</span>].<span class="ident">borrow_mut</span>();
+            <span class="ident">real_main</span>.<span class="ident">meta_content_scope</span>.<span class="ident">insert</span>(<span class="number">0</span>,<span class="ident">top_level_scope</span>);
         }
     }
 }
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
-<span class='kw'>mod</span> <span class='ident'>tests</span> {
-    <span class='kw'>use</span> <span class='ident'>parsing</span>::<span class='ident'>syntax_definition</span>::<span class='kw-2'>*</span>;
-    <span class='kw'>use</span> <span class='ident'>parsing</span>::<span class='ident'>Scope</span>;
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>can_parse</span>() {
-        <span class='kw'>let</span> <span class='ident'>defn</span>: <span class='ident'>SyntaxDefinition</span> <span class='op'>=</span>
-            <span class='ident'>SyntaxDefinition</span>::<span class='ident'>load_from_str</span>(<span class='string'>&quot;name: C\nscope: source.c\ncontexts: {main: []}&quot;</span>,
-                                            <span class='bool-val'>false</span>)
-                .<span class='ident'>unwrap</span>();
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>defn</span>.<span class='ident'>name</span>, <span class='string'>&quot;C&quot;</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>defn</span>.<span class='ident'>scope</span>, <span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;source.c&quot;</span>).<span class='ident'>unwrap</span>());
-        <span class='kw'>let</span> <span class='ident'>exts_empty</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>defn</span>.<span class='ident'>file_extensions</span>, <span class='ident'>exts_empty</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>defn</span>.<span class='ident'>hidden</span>, <span class='bool-val'>false</span>);
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>defn</span>.<span class='ident'>variables</span>.<span class='ident'>is_empty</span>());
-        <span class='kw'>let</span> <span class='ident'>defn2</span>: <span class='ident'>SyntaxDefinition</span> <span class='op'>=</span>
-            <span class='ident'>SyntaxDefinition</span>::<span class='ident'>load_from_str</span>(<span class='string'>&quot;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">mod</span> <span class="ident">tests</span> {
+    <span class="kw">use</span> <span class="ident">parsing</span>::<span class="ident">syntax_definition</span>::<span class="kw-2">*</span>;
+    <span class="kw">use</span> <span class="ident">parsing</span>::<span class="ident">Scope</span>;
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">can_parse</span>() {
+        <span class="kw">let</span> <span class="ident">defn</span>: <span class="ident">SyntaxDefinition</span> <span class="op">=</span>
+            <span class="ident">SyntaxDefinition</span>::<span class="ident">load_from_str</span>(<span class="string">&quot;name: C\nscope: source.c\ncontexts: {main: []}&quot;</span>,
+                                            <span class="bool-val">false</span>)
+                .<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">defn</span>.<span class="ident">name</span>, <span class="string">&quot;C&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">defn</span>.<span class="ident">scope</span>, <span class="ident">Scope</span>::<span class="ident">new</span>(<span class="string">&quot;source.c&quot;</span>).<span class="ident">unwrap</span>());
+        <span class="kw">let</span> <span class="ident">exts_empty</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">defn</span>.<span class="ident">file_extensions</span>, <span class="ident">exts_empty</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">defn</span>.<span class="ident">hidden</span>, <span class="bool-val">false</span>);
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">defn</span>.<span class="ident">variables</span>.<span class="ident">is_empty</span>());
+        <span class="kw">let</span> <span class="ident">defn2</span>: <span class="ident">SyntaxDefinition</span> <span class="op">=</span>
+            <span class="ident">SyntaxDefinition</span>::<span class="ident">load_from_str</span>(<span class="string">&quot;
         name: C
         scope: source.c
         file_extensions: [c, h]
@@ -953,54 +953,54 @@ __main:
             - match: &#39;\&quot;&#39;
               pop: true
         &quot;</span>,
-                                            <span class='bool-val'>false</span>)
-                .<span class='ident'>unwrap</span>();
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>defn2</span>.<span class='ident'>name</span>, <span class='string'>&quot;C&quot;</span>);
-        <span class='kw'>let</span> <span class='ident'>top_level_scope</span> <span class='op'>=</span> <span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;source.c&quot;</span>).<span class='ident'>unwrap</span>();
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>defn2</span>.<span class='ident'>scope</span>, <span class='ident'>top_level_scope</span>);
-        <span class='kw'>let</span> <span class='ident'>exts</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;c&quot;</span>), <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;h&quot;</span>)];
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>defn2</span>.<span class='ident'>file_extensions</span>, <span class='ident'>exts</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>defn2</span>.<span class='ident'>hidden</span>, <span class='bool-val'>true</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>defn2</span>.<span class='ident'>variables</span>.<span class='ident'>get</span>(<span class='string'>&quot;ident&quot;</span>).<span class='ident'>unwrap</span>(), <span class='string'>&quot;[QY]+&quot;</span>);
+                                            <span class="bool-val">false</span>)
+                .<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">defn2</span>.<span class="ident">name</span>, <span class="string">&quot;C&quot;</span>);
+        <span class="kw">let</span> <span class="ident">top_level_scope</span> <span class="op">=</span> <span class="ident">Scope</span>::<span class="ident">new</span>(<span class="string">&quot;source.c&quot;</span>).<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">defn2</span>.<span class="ident">scope</span>, <span class="ident">top_level_scope</span>);
+        <span class="kw">let</span> <span class="ident">exts</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;c&quot;</span>), <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;h&quot;</span>)];
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">defn2</span>.<span class="ident">file_extensions</span>, <span class="ident">exts</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">defn2</span>.<span class="ident">hidden</span>, <span class="bool-val">true</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">defn2</span>.<span class="ident">variables</span>.<span class="ident">get</span>(<span class="string">&quot;ident&quot;</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;[QY]+&quot;</span>);
 
-        <span class='kw'>let</span> <span class='ident'>n</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Scope</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
-        <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>defn2</span>);
-        <span class='comment'>// assert!(false);</span>
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>defn2</span>.<span class='ident'>contexts</span>[<span class='string'>&quot;main&quot;</span>].<span class='ident'>borrow</span>().<span class='ident'>meta_content_scope</span>, <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>top_level_scope</span>]);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>defn2</span>.<span class='ident'>contexts</span>[<span class='string'>&quot;main&quot;</span>].<span class='ident'>borrow</span>().<span class='ident'>meta_scope</span>, <span class='ident'>n</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>defn2</span>.<span class='ident'>contexts</span>[<span class='string'>&quot;main&quot;</span>].<span class='ident'>borrow</span>().<span class='ident'>meta_include_prototype</span>, <span class='bool-val'>true</span>);
+        <span class="kw">let</span> <span class="ident">n</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Scope</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+        <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">defn2</span>);
+        <span class="comment">// assert!(false);</span>
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">defn2</span>.<span class="ident">contexts</span>[<span class="string">&quot;main&quot;</span>].<span class="ident">borrow</span>().<span class="ident">meta_content_scope</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">top_level_scope</span>]);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">defn2</span>.<span class="ident">contexts</span>[<span class="string">&quot;main&quot;</span>].<span class="ident">borrow</span>().<span class="ident">meta_scope</span>, <span class="ident">n</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">defn2</span>.<span class="ident">contexts</span>[<span class="string">&quot;main&quot;</span>].<span class="ident">borrow</span>().<span class="ident">meta_include_prototype</span>, <span class="bool-val">true</span>);
 
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>defn2</span>.<span class='ident'>contexts</span>[<span class='string'>&quot;__main&quot;</span>].<span class='ident'>borrow</span>().<span class='ident'>meta_content_scope</span>, <span class='ident'>n</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>defn2</span>.<span class='ident'>contexts</span>[<span class='string'>&quot;__start&quot;</span>].<span class='ident'>borrow</span>().<span class='ident'>meta_content_scope</span>, <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>top_level_scope</span>]);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">defn2</span>.<span class="ident">contexts</span>[<span class="string">&quot;__main&quot;</span>].<span class="ident">borrow</span>().<span class="ident">meta_content_scope</span>, <span class="ident">n</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">defn2</span>.<span class="ident">contexts</span>[<span class="string">&quot;__start&quot;</span>].<span class="ident">borrow</span>().<span class="ident">meta_content_scope</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">top_level_scope</span>]);
 
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>defn2</span>.<span class='ident'>contexts</span>[<span class='string'>&quot;string&quot;</span>].<span class='ident'>borrow</span>().<span class='ident'>meta_scope</span>,
-                   <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;string.quoted.double.c&quot;</span>).<span class='ident'>unwrap</span>()]);
-        <span class='kw'>let</span> <span class='ident'>first_pattern</span>: <span class='kw-2'>&amp;</span><span class='ident'>Pattern</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>defn2</span>.<span class='ident'>contexts</span>[<span class='string'>&quot;main&quot;</span>].<span class='ident'>borrow</span>().<span class='ident'>patterns</span>[<span class='number'>0</span>];
-        <span class='kw'>match</span> <span class='ident'>first_pattern</span> {
-            <span class='kw-2'>&amp;</span><span class='ident'>Pattern</span>::<span class='ident'>Match</span>(<span class='kw-2'>ref</span> <span class='ident'>match_pat</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='ident'>m</span>: <span class='kw-2'>&amp;</span><span class='ident'>CaptureMapping</span> <span class='op'>=</span> <span class='ident'>match_pat</span>.<span class='ident'>captures</span>.<span class='ident'>as_ref</span>().<span class='ident'>expect</span>(<span class='string'>&quot;test failed&quot;</span>);
-                <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='ident'>m</span>[<span class='number'>0</span>], <span class='kw-2'>&amp;</span>(<span class='number'>1</span>,<span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;meta.preprocessor.c++&quot;</span>).<span class='ident'>unwrap</span>()]));
-                <span class='kw'>use</span> <span class='ident'>parsing</span>::<span class='ident'>syntax_definition</span>::<span class='ident'>ContextReference</span>::<span class='kw-2'>*</span>;
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">defn2</span>.<span class="ident">contexts</span>[<span class="string">&quot;string&quot;</span>].<span class="ident">borrow</span>().<span class="ident">meta_scope</span>,
+                   <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">Scope</span>::<span class="ident">new</span>(<span class="string">&quot;string.quoted.double.c&quot;</span>).<span class="ident">unwrap</span>()]);
+        <span class="kw">let</span> <span class="ident">first_pattern</span>: <span class="kw-2">&amp;</span><span class="ident">Pattern</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">defn2</span>.<span class="ident">contexts</span>[<span class="string">&quot;main&quot;</span>].<span class="ident">borrow</span>().<span class="ident">patterns</span>[<span class="number">0</span>];
+        <span class="kw">match</span> <span class="ident">first_pattern</span> {
+            <span class="kw-2">&amp;</span><span class="ident">Pattern</span>::<span class="ident">Match</span>(<span class="kw-2">ref</span> <span class="ident">match_pat</span>) <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="ident">m</span>: <span class="kw-2">&amp;</span><span class="ident">CaptureMapping</span> <span class="op">=</span> <span class="ident">match_pat</span>.<span class="ident">captures</span>.<span class="ident">as_ref</span>().<span class="ident">expect</span>(<span class="string">&quot;test failed&quot;</span>);
+                <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">m</span>[<span class="number">0</span>], <span class="kw-2">&amp;</span>(<span class="number">1</span>,<span class="macro">vec</span><span class="macro">!</span>[<span class="ident">Scope</span>::<span class="ident">new</span>(<span class="string">&quot;meta.preprocessor.c++&quot;</span>).<span class="ident">unwrap</span>()]));
+                <span class="kw">use</span> <span class="ident">parsing</span>::<span class="ident">syntax_definition</span>::<span class="ident">ContextReference</span>::<span class="kw-2">*</span>;
 
-                <span class='comment'>// this is sadly necessary because Context is not Eq because of the Regex</span>
-                <span class='kw'>let</span> <span class='ident'>expected</span> <span class='op'>=</span> <span class='ident'>MatchOperation</span>::<span class='ident'>Push</span>(<span class='macro'>vec</span><span class='macro'>!</span>[
-                    <span class='ident'>Named</span>(<span class='string'>&quot;string&quot;</span>.<span class='ident'>to_owned</span>()),
-                    <span class='ident'>ByScope</span> { <span class='ident'>scope</span>: <span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;source.c&quot;</span>).<span class='ident'>unwrap</span>(), <span class='ident'>sub_context</span>: <span class='prelude-val'>Some</span>(<span class='string'>&quot;main&quot;</span>.<span class='ident'>to_owned</span>()) },
-                    <span class='ident'>File</span> {
-                        <span class='ident'>name</span>: <span class='string'>&quot;CSS&quot;</span>.<span class='ident'>to_owned</span>(),
-                        <span class='ident'>sub_context</span>: <span class='prelude-val'>Some</span>(<span class='string'>&quot;rule-list-body&quot;</span>.<span class='ident'>to_owned</span>())
+                <span class="comment">// this is sadly necessary because Context is not Eq because of the Regex</span>
+                <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span> <span class="ident">MatchOperation</span>::<span class="ident">Push</span>(<span class="macro">vec</span><span class="macro">!</span>[
+                    <span class="ident">Named</span>(<span class="string">&quot;string&quot;</span>.<span class="ident">to_owned</span>()),
+                    <span class="ident">ByScope</span> { <span class="ident">scope</span>: <span class="ident">Scope</span>::<span class="ident">new</span>(<span class="string">&quot;source.c&quot;</span>).<span class="ident">unwrap</span>(), <span class="ident">sub_context</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;main&quot;</span>.<span class="ident">to_owned</span>()) },
+                    <span class="ident">File</span> {
+                        <span class="ident">name</span>: <span class="string">&quot;CSS&quot;</span>.<span class="ident">to_owned</span>(),
+                        <span class="ident">sub_context</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;rule-list-body&quot;</span>.<span class="ident">to_owned</span>())
                     },
                 ]);
-                <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>match_pat</span>.<span class='ident'>operation</span>),
-                           <span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>expected</span>));
+                <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">match_pat</span>.<span class="ident">operation</span>),
+                           <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">expected</span>));
 
-                <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>match_pat</span>.<span class='ident'>scope</span>,
-                           <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;keyword.control.c&quot;</span>).<span class='ident'>unwrap</span>(),
-                                <span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;keyword.looping.c&quot;</span>).<span class='ident'>unwrap</span>()]);
+                <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">match_pat</span>.<span class="ident">scope</span>,
+                           <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">Scope</span>::<span class="ident">new</span>(<span class="string">&quot;keyword.control.c&quot;</span>).<span class="ident">unwrap</span>(),
+                                <span class="ident">Scope</span>::<span class="ident">new</span>(<span class="string">&quot;keyword.looping.c&quot;</span>).<span class="ident">unwrap</span>()]);
 
-                <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>match_pat</span>.<span class='ident'>with_prototype</span>.<span class='ident'>is_some</span>());
+                <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">match_pat</span>.<span class="ident">with_prototype</span>.<span class="ident">is_some</span>());
             }
-            _ <span class='op'>=&gt;</span> <span class='macro'>assert</span><span class='macro'>!</span>(<span class='bool-val'>false</span>),
+            _ <span class="op">=&gt;</span> <span class="macro">assert</span><span class="macro">!</span>(<span class="bool-val">false</span>),
         }
     }
 }

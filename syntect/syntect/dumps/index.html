@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc mod">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,8 +43,8 @@
         </form>
     </nav>
 
-    <section id='main' class="content mod">
-<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>syntect</a>::<wbr><a class='mod' href=''>dumps</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>syntect</a>::<wbr><a class="mod" href=''>dumps</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
@@ -56,20 +56,20 @@ These are used to load and store the dumps used for fast startup times.</p>
 into <code>.packdump</code> files and likewise <code>ThemeSet</code> structs to <code>.themedump</code> files.</p>
 
 <p>You can use these methods to manage your own caching of compiled syntaxes and
-themes. And even your own <code>rustc_serialize::Encodable</code> structures if you want to
+themes. And even your own <code>serde::Serialize</code> structures if you want to
 be consistent with your format.</p>
 </div><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
 <table>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.dump_binary.html'
-                                  title='syntect::dumps::dump_binary'>dump_binary</a></td>
+                           <td><a class="fn" href="fn.dump_binary.html"
+                                  title='fn syntect::dumps::dump_binary'>dump_binary</a></td>
                            <td class='docblock-short'>
                                 <p>Dumps an object to a binary array in the same format as <code>dump_to_file</code></p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.dump_to_file.html'
-                                  title='syntect::dumps::dump_to_file'>dump_to_file</a></td>
+                           <td><a class="fn" href="fn.dump_to_file.html"
+                                  title='fn syntect::dumps::dump_to_file'>dump_to_file</a></td>
                            <td class='docblock-short'>
                                 <p>Dumps an encodable object to a file at a given path. If a file already exists at that path
 it will be overwritten. The files created are encoded with the <code>bincode</code> crate and then
@@ -77,18 +77,18 @@ compressed with the <code>flate2</code> crate.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.from_binary.html'
-                                  title='syntect::dumps::from_binary'>from_binary</a></td>
+                           <td><a class="fn" href="fn.from_binary.html"
+                                  title='fn syntect::dumps::from_binary'>from_binary</a></td>
                            <td class='docblock-short'>
-                                <p>Returns a fully loaded and linked syntax set from
+                                <p>Returns a fully loaded syntax set from
 a binary dump. Panics if the dump is invalid.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class='fn' href='fn.from_dump_file.html'
-                                  title='syntect::dumps::from_dump_file'>from_dump_file</a></td>
+                           <td><a class="fn" href="fn.from_dump_file.html"
+                                  title='fn syntect::dumps::from_dump_file'>from_dump_file</a></td>
                            <td class='docblock-short'>
-                                <p>Returns a fully loaded and linked syntax set from
+                                <p>Returns a fully loaded syntax set from
 a binary dump file.</p>
                            </td>
                        </tr></table></section>

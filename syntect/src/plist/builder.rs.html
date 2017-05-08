@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/plist-0.1.2/src/builder.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/plist-0.2.2/src/builder.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>builder.rs.html -- source</title>
@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -185,151 +185,147 @@
 <span id="140">140</span>
 <span id="141">141</span>
 <span id="142">142</span>
-<span id="143">143</span>
-<span id="144">144</span>
-</pre><pre class='rust '>
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>BTreeMap</span>;
+</pre><pre class="rust ">
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span>;
 
-<span class='kw'>use</span> {<span class='ident'>Error</span>, <span class='prelude-ty'>Result</span>, <span class='ident'>Plist</span>, <span class='ident'>PlistEvent</span>, <span class='ident'>u64_option_to_usize</span>};
+<span class="kw">use</span> {<span class="ident">Error</span>, <span class="prelude-ty">Result</span>, <span class="ident">Plist</span>, <span class="ident">PlistEvent</span>, <span class="ident">u64_option_to_usize</span>};
 
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Builder</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-    <span class='ident'>stream</span>: <span class='ident'>T</span>,
-    <span class='ident'>token</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>PlistEvent</span><span class='op'>&gt;</span>,
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Builder</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="ident">stream</span>: <span class="ident">T</span>,
+    <span class="ident">token</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">PlistEvent</span><span class="op">&gt;</span>,
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Item</span> <span class='op'>=</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>PlistEvent</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span> <span class='ident'>Builder</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>stream</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>Builder</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-        <span class='ident'>Builder</span> {
-            <span class='ident'>stream</span>: <span class='ident'>stream</span>,
-            <span class='ident'>token</span>: <span class='prelude-val'>None</span>,
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">PlistEvent</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span> <span class="ident">Builder</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">stream</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">Builder</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+        <span class="ident">Builder</span> {
+            <span class="ident">stream</span>: <span class="ident">stream</span>,
+            <span class="ident">token</span>: <span class="prelude-val">None</span>,
         }
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>build</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Plist</span><span class='op'>&gt;</span> {
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>bump</span>());
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">build</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Plist</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">bump</span>()<span class="question-mark">?</span>;
 
-        <span class='kw'>let</span> <span class='ident'>plist</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>build_value</span>());
-        <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>bump</span>());
-        <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>token</span> {
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> (),
-            <span class='comment'>// The stream should have finished</span>
-            _ <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>InvalidData</span>),
+        <span class="kw">let</span> <span class="ident">plist</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">build_value</span>()<span class="question-mark">?</span>;
+        <span class="self">self</span>.<span class="ident">bump</span>()<span class="question-mark">?</span>;
+        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">token</span> {
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> (),
+            <span class="comment">// The stream should have finished</span>
+            _ <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidData</span>),
         };
-        <span class='prelude-val'>Ok</span>(<span class='ident'>plist</span>)
+        <span class="prelude-val">Ok</span>(<span class="ident">plist</span>)
     }
 
-    <span class='kw'>fn</span> <span class='ident'>bump</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-        <span class='self'>self</span>.<span class='ident'>token</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>stream</span>.<span class='ident'>next</span>() {
-            <span class='prelude-val'>Some</span>(<span class='prelude-val'>Ok</span>(<span class='ident'>token</span>)) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>token</span>),
-            <span class='prelude-val'>Some</span>(<span class='prelude-val'>Err</span>(<span class='ident'>err</span>)) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>err</span>),
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,
+    <span class="kw">fn</span> <span class="ident">bump</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">token</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">stream</span>.<span class="ident">next</span>() {
+            <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(<span class="ident">token</span>)) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">token</span>),
+            <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="ident">err</span>)) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">err</span>),
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
         };
-        <span class='prelude-val'>Ok</span>(())
+        <span class="prelude-val">Ok</span>(())
     }
 
-    <span class='kw'>fn</span> <span class='ident'>build_value</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Plist</span><span class='op'>&gt;</span> {
-        <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>token</span>.<span class='ident'>take</span>() {
-            <span class='prelude-val'>Some</span>(<span class='ident'>PlistEvent</span>::<span class='ident'>StartArray</span>(<span class='ident'>len</span>)) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Plist</span>::<span class='ident'>Array</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>build_array</span>(<span class='ident'>len</span>)))),
-            <span class='prelude-val'>Some</span>(<span class='ident'>PlistEvent</span>::<span class='ident'>StartDictionary</span>(<span class='ident'>len</span>)) <span class='op'>=&gt;</span> {
-                <span class='prelude-val'>Ok</span>(<span class='ident'>Plist</span>::<span class='ident'>Dictionary</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>build_dict</span>(<span class='ident'>len</span>))))
+    <span class="kw">fn</span> <span class="ident">build_value</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Plist</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">token</span>.<span class="ident">take</span>() {
+            <span class="prelude-val">Some</span>(<span class="ident">PlistEvent</span>::<span class="ident">StartArray</span>(<span class="ident">len</span>)) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Plist</span>::<span class="ident">Array</span>(<span class="self">self</span>.<span class="ident">build_array</span>(<span class="ident">len</span>)<span class="question-mark">?</span>)),
+            <span class="prelude-val">Some</span>(<span class="ident">PlistEvent</span>::<span class="ident">StartDictionary</span>(<span class="ident">len</span>)) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Plist</span>::<span class="ident">Dictionary</span>(<span class="self">self</span>.<span class="ident">build_dict</span>(<span class="ident">len</span>)<span class="question-mark">?</span>)),
+
+            <span class="prelude-val">Some</span>(<span class="ident">PlistEvent</span>::<span class="ident">BooleanValue</span>(<span class="ident">b</span>)) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Plist</span>::<span class="ident">Boolean</span>(<span class="ident">b</span>)),
+            <span class="prelude-val">Some</span>(<span class="ident">PlistEvent</span>::<span class="ident">DataValue</span>(<span class="ident">d</span>)) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Plist</span>::<span class="ident">Data</span>(<span class="ident">d</span>)),
+            <span class="prelude-val">Some</span>(<span class="ident">PlistEvent</span>::<span class="ident">DateValue</span>(<span class="ident">d</span>)) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Plist</span>::<span class="ident">Date</span>(<span class="ident">d</span>)),
+            <span class="prelude-val">Some</span>(<span class="ident">PlistEvent</span>::<span class="ident">IntegerValue</span>(<span class="ident">i</span>)) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Plist</span>::<span class="ident">Integer</span>(<span class="ident">i</span>)),
+            <span class="prelude-val">Some</span>(<span class="ident">PlistEvent</span>::<span class="ident">RealValue</span>(<span class="ident">f</span>)) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Plist</span>::<span class="ident">Real</span>(<span class="ident">f</span>)),
+            <span class="prelude-val">Some</span>(<span class="ident">PlistEvent</span>::<span class="ident">StringValue</span>(<span class="ident">s</span>)) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Plist</span>::<span class="ident">String</span>(<span class="ident">s</span>)),
+
+            <span class="prelude-val">Some</span>(<span class="ident">PlistEvent</span>::<span class="ident">EndArray</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidData</span>),
+            <span class="prelude-val">Some</span>(<span class="ident">PlistEvent</span>::<span class="ident">EndDictionary</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidData</span>),
+
+            <span class="comment">// The stream should not have ended here</span>
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidData</span>),
+        }
+    }
+
+    <span class="kw">fn</span> <span class="ident">build_array</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">len</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Plist</span><span class="op">&gt;&gt;</span> {
+        <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">u64_option_to_usize</span>(<span class="ident">len</span>)<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">values</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">len</span> {
+            <span class="prelude-val">Some</span>(<span class="ident">len</span>) <span class="op">=&gt;</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">len</span>),
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">Vec</span>::<span class="ident">new</span>(),
+        };
+
+        <span class="kw">loop</span> {
+            <span class="self">self</span>.<span class="ident">bump</span>()<span class="question-mark">?</span>;
+            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">PlistEvent</span>::<span class="ident">EndArray</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">token</span> {
+                <span class="self">self</span>.<span class="ident">token</span>.<span class="ident">take</span>();
+                <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">values</span>);
             }
-
-            <span class='prelude-val'>Some</span>(<span class='ident'>PlistEvent</span>::<span class='ident'>BooleanValue</span>(<span class='ident'>b</span>)) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Plist</span>::<span class='ident'>Boolean</span>(<span class='ident'>b</span>)),
-            <span class='prelude-val'>Some</span>(<span class='ident'>PlistEvent</span>::<span class='ident'>DataValue</span>(<span class='ident'>d</span>)) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Plist</span>::<span class='ident'>Data</span>(<span class='ident'>d</span>)),
-            <span class='prelude-val'>Some</span>(<span class='ident'>PlistEvent</span>::<span class='ident'>DateValue</span>(<span class='ident'>d</span>)) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Plist</span>::<span class='ident'>Date</span>(<span class='ident'>d</span>)),
-            <span class='prelude-val'>Some</span>(<span class='ident'>PlistEvent</span>::<span class='ident'>IntegerValue</span>(<span class='ident'>i</span>)) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Plist</span>::<span class='ident'>Integer</span>(<span class='ident'>i</span>)),
-            <span class='prelude-val'>Some</span>(<span class='ident'>PlistEvent</span>::<span class='ident'>RealValue</span>(<span class='ident'>f</span>)) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Plist</span>::<span class='ident'>Real</span>(<span class='ident'>f</span>)),
-            <span class='prelude-val'>Some</span>(<span class='ident'>PlistEvent</span>::<span class='ident'>StringValue</span>(<span class='ident'>s</span>)) <span class='op'>=&gt;</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Plist</span>::<span class='ident'>String</span>(<span class='ident'>s</span>)),
-
-            <span class='prelude-val'>Some</span>(<span class='ident'>PlistEvent</span>::<span class='ident'>EndArray</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>InvalidData</span>),
-            <span class='prelude-val'>Some</span>(<span class='ident'>PlistEvent</span>::<span class='ident'>EndDictionary</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>InvalidData</span>),
-
-            <span class='comment'>// The stream should not have ended here</span>
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>InvalidData</span>),
+            <span class="ident">values</span>.<span class="ident">push</span>(<span class="self">self</span>.<span class="ident">build_value</span>()<span class="question-mark">?</span>);
         }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>build_array</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>len</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u64</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Plist</span><span class='op'>&gt;&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>len</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>u64_option_to_usize</span>(<span class='ident'>len</span>));
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>values</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>len</span> {
-            <span class='prelude-val'>Some</span>(<span class='ident'>len</span>) <span class='op'>=&gt;</span> <span class='ident'>Vec</span>::<span class='ident'>with_capacity</span>(<span class='ident'>len</span>),
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
-        };
+    <span class="kw">fn</span> <span class="ident">build_dict</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">_len</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">Plist</span><span class="op">&gt;&gt;</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">values</span> <span class="op">=</span> <span class="ident">BTreeMap</span>::<span class="ident">new</span>();
 
-        <span class='kw'>loop</span> {
-            <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>bump</span>());
-            <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>PlistEvent</span>::<span class='ident'>EndArray</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>token</span> {
-                <span class='self'>self</span>.<span class='ident'>token</span>.<span class='ident'>take</span>();
-                <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='ident'>values</span>);
-            }
-            <span class='ident'>values</span>.<span class='ident'>push</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>build_value</span>()));
-        }
-    }
-
-    <span class='kw'>fn</span> <span class='ident'>build_dict</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>_len</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u64</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>BTreeMap</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>Plist</span><span class='op'>&gt;&gt;</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>values</span> <span class='op'>=</span> <span class='ident'>BTreeMap</span>::<span class='ident'>new</span>();
-
-        <span class='kw'>loop</span> {
-            <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>bump</span>());
-            <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>token</span>.<span class='ident'>take</span>() {
-                <span class='prelude-val'>Some</span>(<span class='ident'>PlistEvent</span>::<span class='ident'>EndDictionary</span>) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='ident'>values</span>),
-                <span class='prelude-val'>Some</span>(<span class='ident'>PlistEvent</span>::<span class='ident'>StringValue</span>(<span class='ident'>s</span>)) <span class='op'>=&gt;</span> {
-                    <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>bump</span>());
-                    <span class='ident'>values</span>.<span class='ident'>insert</span>(<span class='ident'>s</span>, <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>build_value</span>()));
+        <span class="kw">loop</span> {
+            <span class="self">self</span>.<span class="ident">bump</span>()<span class="question-mark">?</span>;
+            <span class="kw">match</span> <span class="self">self</span>.<span class="ident">token</span>.<span class="ident">take</span>() {
+                <span class="prelude-val">Some</span>(<span class="ident">PlistEvent</span>::<span class="ident">EndDictionary</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">values</span>),
+                <span class="prelude-val">Some</span>(<span class="ident">PlistEvent</span>::<span class="ident">StringValue</span>(<span class="ident">s</span>)) <span class="op">=&gt;</span> {
+                    <span class="self">self</span>.<span class="ident">bump</span>()<span class="question-mark">?</span>;
+                    <span class="ident">values</span>.<span class="ident">insert</span>(<span class="ident">s</span>, <span class="self">self</span>.<span class="ident">build_value</span>()<span class="question-mark">?</span>);
                 }
-                _ <span class='op'>=&gt;</span> {
-                    <span class='comment'>// Only string keys are supported in plists</span>
-                    <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>Error</span>::<span class='ident'>InvalidData</span>);
+                _ <span class="op">=&gt;</span> {
+                    <span class="comment">// Only string keys are supported in plists</span>
+                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidData</span>);
                 }
             }
         }
     }
 }
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
-<span class='kw'>mod</span> <span class='ident'>tests</span> {
-    <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>BTreeMap</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">mod</span> <span class="ident">tests</span> {
+    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span>;
 
-    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='kw-2'>*</span>;
-    <span class='kw'>use</span> <span class='ident'>Plist</span>;
+    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
+    <span class="kw">use</span> <span class="ident">Plist</span>;
 
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>builder</span>() {
-        <span class='kw'>use</span> <span class='ident'>PlistEvent</span>::<span class='kw-2'>*</span>;
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">builder</span>() {
+        <span class="kw">use</span> <span class="ident">PlistEvent</span>::<span class="kw-2">*</span>;
 
-        <span class='comment'>// Input</span>
+        <span class="comment">// Input</span>
 
-        <span class='kw'>let</span> <span class='ident'>events</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>StartDictionary</span>(<span class='prelude-val'>None</span>),
-                          <span class='ident'>StringValue</span>(<span class='string'>&quot;Author&quot;</span>.<span class='ident'>to_owned</span>()),
-                          <span class='ident'>StringValue</span>(<span class='string'>&quot;William Shakespeare&quot;</span>.<span class='ident'>to_owned</span>()),
-                          <span class='ident'>StringValue</span>(<span class='string'>&quot;Lines&quot;</span>.<span class='ident'>to_owned</span>()),
-                          <span class='ident'>StartArray</span>(<span class='prelude-val'>None</span>),
-                          <span class='ident'>StringValue</span>(<span class='string'>&quot;It is a tale told by an idiot,&quot;</span>.<span class='ident'>to_owned</span>()),
-                          <span class='ident'>StringValue</span>(<span class='string'>&quot;Full of sound and fury, signifying nothing.&quot;</span>.<span class='ident'>to_owned</span>()),
-                          <span class='ident'>EndArray</span>,
-                          <span class='ident'>StringValue</span>(<span class='string'>&quot;Birthdate&quot;</span>.<span class='ident'>to_owned</span>()),
-                          <span class='ident'>IntegerValue</span>(<span class='number'>1564</span>),
-                          <span class='ident'>StringValue</span>(<span class='string'>&quot;Height&quot;</span>.<span class='ident'>to_owned</span>()),
-                          <span class='ident'>RealValue</span>(<span class='number'>1.60</span>),
-                          <span class='ident'>EndDictionary</span>];
+        <span class="kw">let</span> <span class="ident">events</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">StartDictionary</span>(<span class="prelude-val">None</span>),
+                          <span class="ident">StringValue</span>(<span class="string">&quot;Author&quot;</span>.<span class="ident">to_owned</span>()),
+                          <span class="ident">StringValue</span>(<span class="string">&quot;William Shakespeare&quot;</span>.<span class="ident">to_owned</span>()),
+                          <span class="ident">StringValue</span>(<span class="string">&quot;Lines&quot;</span>.<span class="ident">to_owned</span>()),
+                          <span class="ident">StartArray</span>(<span class="prelude-val">None</span>),
+                          <span class="ident">StringValue</span>(<span class="string">&quot;It is a tale told by an idiot,&quot;</span>.<span class="ident">to_owned</span>()),
+                          <span class="ident">StringValue</span>(<span class="string">&quot;Full of sound and fury, signifying nothing.&quot;</span>.<span class="ident">to_owned</span>()),
+                          <span class="ident">EndArray</span>,
+                          <span class="ident">StringValue</span>(<span class="string">&quot;Birthdate&quot;</span>.<span class="ident">to_owned</span>()),
+                          <span class="ident">IntegerValue</span>(<span class="number">1564</span>),
+                          <span class="ident">StringValue</span>(<span class="string">&quot;Height&quot;</span>.<span class="ident">to_owned</span>()),
+                          <span class="ident">RealValue</span>(<span class="number">1.60</span>),
+                          <span class="ident">EndDictionary</span>];
 
-        <span class='kw'>let</span> <span class='ident'>builder</span> <span class='op'>=</span> <span class='ident'>Builder</span>::<span class='ident'>new</span>(<span class='ident'>events</span>.<span class='ident'>into_iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>e</span><span class='op'>|</span> <span class='prelude-val'>Ok</span>(<span class='ident'>e</span>)));
-        <span class='kw'>let</span> <span class='ident'>plist</span> <span class='op'>=</span> <span class='ident'>builder</span>.<span class='ident'>build</span>();
+        <span class="kw">let</span> <span class="ident">builder</span> <span class="op">=</span> <span class="ident">Builder</span>::<span class="ident">new</span>(<span class="ident">events</span>.<span class="ident">into_iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="ident">e</span>)));
+        <span class="kw">let</span> <span class="ident">plist</span> <span class="op">=</span> <span class="ident">builder</span>.<span class="ident">build</span>();
 
-        <span class='comment'>// Expected output</span>
+        <span class="comment">// Expected output</span>
 
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>lines</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
-        <span class='ident'>lines</span>.<span class='ident'>push</span>(<span class='ident'>Plist</span>::<span class='ident'>String</span>(<span class='string'>&quot;It is a tale told by an idiot,&quot;</span>.<span class='ident'>to_owned</span>()));
-        <span class='ident'>lines</span>.<span class='ident'>push</span>(<span class='ident'>Plist</span>::<span class='ident'>String</span>(<span class='string'>&quot;Full of sound and fury, signifying nothing.&quot;</span>.<span class='ident'>to_owned</span>()));
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">lines</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+        <span class="ident">lines</span>.<span class="ident">push</span>(<span class="ident">Plist</span>::<span class="ident">String</span>(<span class="string">&quot;It is a tale told by an idiot,&quot;</span>.<span class="ident">to_owned</span>()));
+        <span class="ident">lines</span>.<span class="ident">push</span>(<span class="ident">Plist</span>::<span class="ident">String</span>(<span class="string">&quot;Full of sound and fury, signifying nothing.&quot;</span>.<span class="ident">to_owned</span>()));
 
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>dict</span> <span class='op'>=</span> <span class='ident'>BTreeMap</span>::<span class='ident'>new</span>();
-        <span class='ident'>dict</span>.<span class='ident'>insert</span>(<span class='string'>&quot;Author&quot;</span>.<span class='ident'>to_owned</span>(),
-                    <span class='ident'>Plist</span>::<span class='ident'>String</span>(<span class='string'>&quot;William Shakespeare&quot;</span>.<span class='ident'>to_owned</span>()));
-        <span class='ident'>dict</span>.<span class='ident'>insert</span>(<span class='string'>&quot;Lines&quot;</span>.<span class='ident'>to_owned</span>(), <span class='ident'>Plist</span>::<span class='ident'>Array</span>(<span class='ident'>lines</span>));
-        <span class='ident'>dict</span>.<span class='ident'>insert</span>(<span class='string'>&quot;Birthdate&quot;</span>.<span class='ident'>to_owned</span>(), <span class='ident'>Plist</span>::<span class='ident'>Integer</span>(<span class='number'>1564</span>));
-        <span class='ident'>dict</span>.<span class='ident'>insert</span>(<span class='string'>&quot;Height&quot;</span>.<span class='ident'>to_owned</span>(), <span class='ident'>Plist</span>::<span class='ident'>Real</span>(<span class='number'>1.60</span>));
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dict</span> <span class="op">=</span> <span class="ident">BTreeMap</span>::<span class="ident">new</span>();
+        <span class="ident">dict</span>.<span class="ident">insert</span>(<span class="string">&quot;Author&quot;</span>.<span class="ident">to_owned</span>(),
+                    <span class="ident">Plist</span>::<span class="ident">String</span>(<span class="string">&quot;William Shakespeare&quot;</span>.<span class="ident">to_owned</span>()));
+        <span class="ident">dict</span>.<span class="ident">insert</span>(<span class="string">&quot;Lines&quot;</span>.<span class="ident">to_owned</span>(), <span class="ident">Plist</span>::<span class="ident">Array</span>(<span class="ident">lines</span>));
+        <span class="ident">dict</span>.<span class="ident">insert</span>(<span class="string">&quot;Birthdate&quot;</span>.<span class="ident">to_owned</span>(), <span class="ident">Plist</span>::<span class="ident">Integer</span>(<span class="number">1564</span>));
+        <span class="ident">dict</span>.<span class="ident">insert</span>(<span class="string">&quot;Height&quot;</span>.<span class="ident">to_owned</span>(), <span class="ident">Plist</span>::<span class="ident">Real</span>(<span class="number">1.60</span>));
 
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>plist</span>.<span class='ident'>unwrap</span>(), <span class='ident'>Plist</span>::<span class='ident'>Dictionary</span>(<span class='ident'>dict</span>));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">plist</span>.<span class="ident">unwrap</span>(), <span class="ident">Plist</span>::<span class="ident">Dictionary</span>(<span class="ident">dict</span>));
     }
 }
 </pre>

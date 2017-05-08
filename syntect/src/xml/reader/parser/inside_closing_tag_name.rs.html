@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/xml-rs-0.3.6/src/reader/parser/inside_closing_tag_name.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/xml-rs-0.4.1/src/reader/parser/inside_closing_tag_name.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>inside_closing_tag_name.rs.html -- source</title>
@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1"> 1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1"> 1</span>
 <span id="2"> 2</span>
 <span id="3"> 3</span>
 <span id="4"> 4</span>
@@ -77,36 +77,36 @@
 <span id="32">32</span>
 <span id="33">33</span>
 <span id="34">34</span>
-</pre><pre class='rust '>
-<span class='kw'>use</span> <span class='ident'>namespace</span>;
+</pre><pre class="rust ">
+<span class="kw">use</span> <span class="ident">namespace</span>;
 
-<span class='kw'>use</span> <span class='ident'>reader</span>::<span class='ident'>lexer</span>::<span class='ident'>Token</span>;
+<span class="kw">use</span> <span class="ident">reader</span>::<span class="ident">lexer</span>::<span class="ident">Token</span>;
 
-<span class='kw'>use</span> <span class='kw'>super</span>::{<span class='prelude-ty'>Result</span>, <span class='ident'>PullParser</span>, <span class='ident'>State</span>, <span class='ident'>QualifiedNameTarget</span>, <span class='ident'>ClosingTagSubstate</span>};
+<span class="kw">use</span> <span class="kw">super</span>::{<span class="prelude-ty">Result</span>, <span class="ident">PullParser</span>, <span class="ident">State</span>, <span class="ident">QualifiedNameTarget</span>, <span class="ident">ClosingTagSubstate</span>};
 
-<span class='kw'>impl</span> <span class='ident'>PullParser</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>inside_closing_tag_name</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>t</span>: <span class='ident'>Token</span>, <span class='ident'>s</span>: <span class='ident'>ClosingTagSubstate</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='prelude-ty'>Result</span><span class='op'>&gt;</span> {
-        <span class='kw'>match</span> <span class='ident'>s</span> {
-            <span class='ident'>ClosingTagSubstate</span>::<span class='ident'>CTInsideName</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>read_qualified_name</span>(<span class='ident'>t</span>, <span class='ident'>QualifiedNameTarget</span>::<span class='ident'>ClosingTagNameTarget</span>, <span class='op'>|</span><span class='ident'>this</span>, <span class='ident'>token</span>, <span class='ident'>name</span><span class='op'>|</span> {
-                <span class='kw'>match</span> <span class='ident'>name</span>.<span class='ident'>prefix_ref</span>() {
-                    <span class='prelude-val'>Some</span>(<span class='ident'>prefix</span>) <span class='kw'>if</span> <span class='ident'>prefix</span> <span class='op'>==</span> <span class='ident'>namespace</span>::<span class='ident'>NS_XML_PREFIX</span> <span class='op'>||</span>
-                                    <span class='ident'>prefix</span> <span class='op'>==</span> <span class='ident'>namespace</span>::<span class='ident'>NS_XMLNS_PREFIX</span> <span class='op'>=&gt;</span>
-                        <span class='comment'>// TODO: {:?} is bad, need something better</span>
-                        <span class='prelude-val'>Some</span>(<span class='macro'>self_error</span><span class='macro'>!</span>(<span class='ident'>this</span>; <span class='string'>&quot;&#39;{:?}&#39; cannot be an element name prefix&quot;</span>, <span class='ident'>name</span>.<span class='ident'>prefix</span>)),
-                    _ <span class='op'>=&gt;</span> {
-                        <span class='ident'>this</span>.<span class='ident'>data</span>.<span class='ident'>element_name</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>name</span>.<span class='ident'>clone</span>());
-                        <span class='kw'>match</span> <span class='ident'>token</span> {
-                            <span class='ident'>Token</span>::<span class='ident'>Whitespace</span>(_) <span class='op'>=&gt;</span> <span class='ident'>this</span>.<span class='ident'>into_state_continue</span>(<span class='ident'>State</span>::<span class='ident'>InsideClosingTag</span>(<span class='ident'>ClosingTagSubstate</span>::<span class='ident'>CTAfterName</span>)),
-                            <span class='ident'>Token</span>::<span class='ident'>TagEnd</span> <span class='op'>=&gt;</span> <span class='ident'>this</span>.<span class='ident'>emit_end_element</span>(),
-                            _ <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='macro'>self_error</span><span class='macro'>!</span>(<span class='ident'>this</span>; <span class='string'>&quot;Unexpected token inside closing tag: {}&quot;</span>, <span class='ident'>token</span>))
+<span class="kw">impl</span> <span class="ident">PullParser</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">inside_closing_tag_name</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">t</span>: <span class="ident">Token</span>, <span class="ident">s</span>: <span class="ident">ClosingTagSubstate</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="ident">s</span> {
+            <span class="ident">ClosingTagSubstate</span>::<span class="ident">CTInsideName</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">read_qualified_name</span>(<span class="ident">t</span>, <span class="ident">QualifiedNameTarget</span>::<span class="ident">ClosingTagNameTarget</span>, <span class="op">|</span><span class="ident">this</span>, <span class="ident">token</span>, <span class="ident">name</span><span class="op">|</span> {
+                <span class="kw">match</span> <span class="ident">name</span>.<span class="ident">prefix_ref</span>() {
+                    <span class="prelude-val">Some</span>(<span class="ident">prefix</span>) <span class="kw">if</span> <span class="ident">prefix</span> <span class="op">==</span> <span class="ident">namespace</span>::<span class="ident">NS_XML_PREFIX</span> <span class="op">||</span>
+                                    <span class="ident">prefix</span> <span class="op">==</span> <span class="ident">namespace</span>::<span class="ident">NS_XMLNS_PREFIX</span> <span class="op">=&gt;</span>
+                        <span class="comment">// TODO: {:?} is bad, need something better</span>
+                        <span class="prelude-val">Some</span>(<span class="macro">self_error</span><span class="macro">!</span>(<span class="ident">this</span>; <span class="string">&quot;&#39;{:?}&#39; cannot be an element name prefix&quot;</span>, <span class="ident">name</span>.<span class="ident">prefix</span>)),
+                    _ <span class="op">=&gt;</span> {
+                        <span class="ident">this</span>.<span class="ident">data</span>.<span class="ident">element_name</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">name</span>.<span class="ident">clone</span>());
+                        <span class="kw">match</span> <span class="ident">token</span> {
+                            <span class="ident">Token</span>::<span class="ident">Whitespace</span>(_) <span class="op">=&gt;</span> <span class="ident">this</span>.<span class="ident">into_state_continue</span>(<span class="ident">State</span>::<span class="ident">InsideClosingTag</span>(<span class="ident">ClosingTagSubstate</span>::<span class="ident">CTAfterName</span>)),
+                            <span class="ident">Token</span>::<span class="ident">TagEnd</span> <span class="op">=&gt;</span> <span class="ident">this</span>.<span class="ident">emit_end_element</span>(),
+                            _ <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="macro">self_error</span><span class="macro">!</span>(<span class="ident">this</span>; <span class="string">&quot;Unexpected token inside closing tag: {}&quot;</span>, <span class="ident">token</span>))
                         }
                     }
                 }
             }),
-            <span class='ident'>ClosingTagSubstate</span>::<span class='ident'>CTAfterName</span> <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='ident'>t</span> {
-                <span class='ident'>Token</span>::<span class='ident'>Whitespace</span>(_) <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>,  <span class='comment'>//  Skip whitespace</span>
-                <span class='ident'>Token</span>::<span class='ident'>TagEnd</span> <span class='op'>=&gt;</span> <span class='self'>self</span>.<span class='ident'>emit_end_element</span>(),
-                _ <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='macro'>self_error</span><span class='macro'>!</span>(<span class='self'>self</span>; <span class='string'>&quot;Unexpected token inside closing tag: {}&quot;</span>, <span class='ident'>t</span>))
+            <span class="ident">ClosingTagSubstate</span>::<span class="ident">CTAfterName</span> <span class="op">=&gt;</span> <span class="kw">match</span> <span class="ident">t</span> {
+                <span class="ident">Token</span>::<span class="ident">Whitespace</span>(_) <span class="op">=&gt;</span> <span class="prelude-val">None</span>,  <span class="comment">//  Skip whitespace</span>
+                <span class="ident">Token</span>::<span class="ident">TagEnd</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">emit_end_element</span>(),
+                _ <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="macro">self_error</span><span class="macro">!</span>(<span class="self">self</span>; <span class="string">&quot;Unexpected token inside closing tag: {}&quot;</span>, <span class="ident">t</span>))
             }
         }
     }

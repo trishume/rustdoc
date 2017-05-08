@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -293,255 +293,255 @@
 <span id="248">248</span>
 <span id="249">249</span>
 <span id="250">250</span>
-</pre><pre class='rust '>
-<span class='kw'>use</span> <span class='ident'>onig_sys</span>;
+</pre><pre class="rust ">
+<span class="kw">use</span> <span class="ident">onig_sys</span>;
 
-<span class='macro'>bitflags</span><span class='macro'>!</span> {
-    <span class='doccomment'>/// Regex parsing and compilation options.</span>
-    <span class='kw'>pub</span> <span class='ident'>flags</span> <span class='ident'>RegexOptions</span>: <span class='ident'>onig_sys</span>::<span class='ident'>OnigOptionType</span> {
-        <span class='doccomment'>/// Default options.</span>
-        <span class='kw'>const</span> <span class='ident'>REGEX_OPTION_NONE</span>
-            <span class='op'>=</span> <span class='ident'>onig_sys</span>::<span class='ident'>ONIG_OPTION_NONE</span>,
-        <span class='doccomment'>/// Ambiguity match on.</span>
-        <span class='kw'>const</span> <span class='ident'>REGEX_OPTION_IGNORECASE</span>
-            <span class='op'>=</span> <span class='ident'>onig_sys</span>::<span class='ident'>ONIG_OPTION_IGNORECASE</span>,
-        <span class='doccomment'>/// Extended pattern form.</span>
-        <span class='kw'>const</span> <span class='ident'>REGEX_OPTION_EXTEND</span>
-            <span class='op'>=</span> <span class='ident'>onig_sys</span>::<span class='ident'>ONIG_OPTION_EXTEND</span>,
-        <span class='doccomment'>/// `&#39;.&#39;` match with newline.</span>
-        <span class='kw'>const</span> <span class='ident'>REGEX_OPTION_MULTILINE</span>
-            <span class='op'>=</span> <span class='ident'>onig_sys</span>::<span class='ident'>ONIG_OPTION_MULTILINE</span>,
-        <span class='doccomment'>/// `&#39;^&#39;` -&gt; `&#39;\A&#39;`, `&#39;$&#39;` -&gt; `&#39;\Z&#39;`.</span>
-        <span class='kw'>const</span> <span class='ident'>REGEX_OPTION_SINGLELINE</span>
-            <span class='op'>=</span> <span class='ident'>onig_sys</span>::<span class='ident'>ONIG_OPTION_SINGLELINE</span>,
-        <span class='doccomment'>/// Find longest match.</span>
-        <span class='kw'>const</span> <span class='ident'>REGEX_OPTION_FIND_LONGEST</span>
-            <span class='op'>=</span> <span class='ident'>onig_sys</span>::<span class='ident'>ONIG_OPTION_FIND_LONGEST</span>,
-        <span class='doccomment'>/// Ignore empty match.</span>
-        <span class='kw'>const</span> <span class='ident'>REGEX_OPTION_FIND_NOT_EMPTY</span>
-            <span class='op'>=</span> <span class='ident'>onig_sys</span>::<span class='ident'>ONIG_OPTION_FIND_NOT_EMPTY</span>,
-        <span class='doccomment'>/// Clear `OPTION_SINGLELINE` which is enabled on</span>
-        <span class='doccomment'>/// `SYNTAX_POSIX_BASIC`, `SYNTAX_POSIX_EXTENDED`,</span>
-        <span class='doccomment'>/// `SYNTAX_PERL`, `SYNTAX_PERL_NG`, `SYNTAX_JAVA`.</span>
-        <span class='kw'>const</span> <span class='ident'>REGEX_OPTION_NEGATE_SINGLELINE</span>
-            <span class='op'>=</span> <span class='ident'>onig_sys</span>::<span class='ident'>ONIG_OPTION_NEGATE_SINGLELINE</span>,
-        <span class='doccomment'>/// Only named group captured.</span>
-        <span class='kw'>const</span> <span class='ident'>REGEX_OPTION_DONT_CAPTURE_GROUP</span>
-            <span class='op'>=</span> <span class='ident'>onig_sys</span>::<span class='ident'>ONIG_OPTION_DONT_CAPTURE_GROUP</span>,
-        <span class='doccomment'>/// Named and no-named group captured.</span>
-        <span class='kw'>const</span> <span class='ident'>REGEX_OPTION_CAPTURE_GROUP</span>
-            <span class='op'>=</span> <span class='ident'>onig_sys</span>::<span class='ident'>ONIG_OPTION_CAPTURE_GROUP</span>,
+<span class="macro">bitflags</span><span class="macro">!</span> {
+    <span class="doccomment">/// Regex parsing and compilation options.</span>
+    <span class="kw">pub</span> <span class="ident">flags</span> <span class="ident">RegexOptions</span>: <span class="ident">onig_sys</span>::<span class="ident">OnigOptionType</span> {
+        <span class="doccomment">/// Default options.</span>
+        <span class="kw">const</span> <span class="ident">REGEX_OPTION_NONE</span>
+            <span class="op">=</span> <span class="ident">onig_sys</span>::<span class="ident">ONIG_OPTION_NONE</span>,
+        <span class="doccomment">/// Ambiguity match on.</span>
+        <span class="kw">const</span> <span class="ident">REGEX_OPTION_IGNORECASE</span>
+            <span class="op">=</span> <span class="ident">onig_sys</span>::<span class="ident">ONIG_OPTION_IGNORECASE</span>,
+        <span class="doccomment">/// Extended pattern form.</span>
+        <span class="kw">const</span> <span class="ident">REGEX_OPTION_EXTEND</span>
+            <span class="op">=</span> <span class="ident">onig_sys</span>::<span class="ident">ONIG_OPTION_EXTEND</span>,
+        <span class="doccomment">/// `&#39;.&#39;` match with newline.</span>
+        <span class="kw">const</span> <span class="ident">REGEX_OPTION_MULTILINE</span>
+            <span class="op">=</span> <span class="ident">onig_sys</span>::<span class="ident">ONIG_OPTION_MULTILINE</span>,
+        <span class="doccomment">/// `&#39;^&#39;` -&gt; `&#39;\A&#39;`, `&#39;$&#39;` -&gt; `&#39;\Z&#39;`.</span>
+        <span class="kw">const</span> <span class="ident">REGEX_OPTION_SINGLELINE</span>
+            <span class="op">=</span> <span class="ident">onig_sys</span>::<span class="ident">ONIG_OPTION_SINGLELINE</span>,
+        <span class="doccomment">/// Find longest match.</span>
+        <span class="kw">const</span> <span class="ident">REGEX_OPTION_FIND_LONGEST</span>
+            <span class="op">=</span> <span class="ident">onig_sys</span>::<span class="ident">ONIG_OPTION_FIND_LONGEST</span>,
+        <span class="doccomment">/// Ignore empty match.</span>
+        <span class="kw">const</span> <span class="ident">REGEX_OPTION_FIND_NOT_EMPTY</span>
+            <span class="op">=</span> <span class="ident">onig_sys</span>::<span class="ident">ONIG_OPTION_FIND_NOT_EMPTY</span>,
+        <span class="doccomment">/// Clear `OPTION_SINGLELINE` which is enabled on</span>
+        <span class="doccomment">/// `SYNTAX_POSIX_BASIC`, `SYNTAX_POSIX_EXTENDED`,</span>
+        <span class="doccomment">/// `SYNTAX_PERL`, `SYNTAX_PERL_NG`, `SYNTAX_JAVA`.</span>
+        <span class="kw">const</span> <span class="ident">REGEX_OPTION_NEGATE_SINGLELINE</span>
+            <span class="op">=</span> <span class="ident">onig_sys</span>::<span class="ident">ONIG_OPTION_NEGATE_SINGLELINE</span>,
+        <span class="doccomment">/// Only named group captured.</span>
+        <span class="kw">const</span> <span class="ident">REGEX_OPTION_DONT_CAPTURE_GROUP</span>
+            <span class="op">=</span> <span class="ident">onig_sys</span>::<span class="ident">ONIG_OPTION_DONT_CAPTURE_GROUP</span>,
+        <span class="doccomment">/// Named and no-named group captured.</span>
+        <span class="kw">const</span> <span class="ident">REGEX_OPTION_CAPTURE_GROUP</span>
+            <span class="op">=</span> <span class="ident">onig_sys</span>::<span class="ident">ONIG_OPTION_CAPTURE_GROUP</span>,
     }
 }
 
-<span class='macro'>bitflags</span><span class='macro'>!</span> {
-    <span class='doccomment'>/// Regex evaluation options.</span>
-    <span class='kw'>pub</span> <span class='ident'>flags</span> <span class='ident'>SearchOptions</span>: <span class='ident'>onig_sys</span>::<span class='ident'>OnigOptionType</span> {
-        <span class='doccomment'>/// Default options.</span>
-        <span class='kw'>const</span> <span class='ident'>SEARCH_OPTION_NONE</span>
-            <span class='op'>=</span> <span class='ident'>onig_sys</span>::<span class='ident'>ONIG_OPTION_NONE</span>,
-        <span class='doccomment'>/// String head isn&#39;t considered as begin of line.</span>
-        <span class='kw'>const</span> <span class='ident'>SEARCH_OPTION_NOTBOL</span>
-            <span class='op'>=</span> <span class='ident'>onig_sys</span>::<span class='ident'>ONIG_OPTION_NOTBOL</span>,
-        <span class='doccomment'>/// String end isn&#39;t considered as end of line.</span>
-        <span class='kw'>const</span> <span class='ident'>SEARCH_OPTION_NOTEOL</span>
-            <span class='op'>=</span> <span class='ident'>onig_sys</span>::<span class='ident'>ONIG_OPTION_NOTEOL</span>
+<span class="macro">bitflags</span><span class="macro">!</span> {
+    <span class="doccomment">/// Regex evaluation options.</span>
+    <span class="kw">pub</span> <span class="ident">flags</span> <span class="ident">SearchOptions</span>: <span class="ident">onig_sys</span>::<span class="ident">OnigOptionType</span> {
+        <span class="doccomment">/// Default options.</span>
+        <span class="kw">const</span> <span class="ident">SEARCH_OPTION_NONE</span>
+            <span class="op">=</span> <span class="ident">onig_sys</span>::<span class="ident">ONIG_OPTION_NONE</span>,
+        <span class="doccomment">/// String head isn&#39;t considered as begin of line.</span>
+        <span class="kw">const</span> <span class="ident">SEARCH_OPTION_NOTBOL</span>
+            <span class="op">=</span> <span class="ident">onig_sys</span>::<span class="ident">ONIG_OPTION_NOTBOL</span>,
+        <span class="doccomment">/// String end isn&#39;t considered as end of line.</span>
+        <span class="kw">const</span> <span class="ident">SEARCH_OPTION_NOTEOL</span>
+            <span class="op">=</span> <span class="ident">onig_sys</span>::<span class="ident">ONIG_OPTION_NOTEOL</span>
     }
 }
 
-<span class='macro'>bitflags</span><span class='macro'>!</span> {
-    <span class='kw'>pub</span> <span class='ident'>flags</span> <span class='ident'>SyntaxOperator</span>: <span class='ident'>u64</span> {
-        <span class='doccomment'>/// `.`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_DOT_ANYCHAR</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP_DOT_ANYCHAR</span> <span class='kw'>as</span> <span class='ident'>u64</span>),
-        <span class='doccomment'>/// `*`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_ASTERISK_ZERO_INF</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP_ASTERISK_ZERO_INF</span> <span class='kw'>as</span> <span class='ident'>u64</span>),
-        <span class='doccomment'>/// `+`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_PLUS_ONE_INF</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP_PLUS_ONE_INF</span> <span class='kw'>as</span> <span class='ident'>u64</span>),
-        <span class='doccomment'>/// `?`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_QMARK_ZERO_ONE</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP_QMARK_ZERO_ONE</span> <span class='kw'>as</span> <span class='ident'>u64</span>),
-        <span class='doccomment'>/// `{lower,upper}`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_BRACE_INTERVAL</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP_BRACE_INTERVAL</span> <span class='kw'>as</span> <span class='ident'>u64</span>),
-        <span class='doccomment'>/// `\{lower,upper\}`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_ESC_BRACE_INTERVAL</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP_ESC_BRACE_INTERVAL</span> <span class='kw'>as</span> <span class='ident'>u64</span>),
-        <span class='doccomment'>/// `|`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_VBAR_ALT</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP_VBAR_ALT</span> <span class='kw'>as</span> <span class='ident'>u64</span>),
-        <span class='doccomment'>/// `\|`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_ESC_VBAR_ALT</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP_ESC_VBAR_ALT</span> <span class='kw'>as</span> <span class='ident'>u64</span>),
-        <span class='doccomment'>/// `(...)`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_LPAREN_SUBEXP</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP_LPAREN_SUBEXP</span> <span class='kw'>as</span> <span class='ident'>u64</span>),
-        <span class='doccomment'>/// `\(...\)`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_ESC_LPAREN_SUBEXP</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP_ESC_LPAREN_SUBEXP</span> <span class='kw'>as</span> <span class='ident'>u64</span>),
-        <span class='doccomment'>/// `\A, \Z, \z`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_ESC_AZ_BUF_ANCHOR</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP_ESC_AZ_BUF_ANCHOR</span> <span class='kw'>as</span> <span class='ident'>u64</span>),
-        <span class='doccomment'>/// `\G`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_ESC_CAPITAL_G_BEGIN_ANCHOR</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP_ESC_CAPITAL_G_BEGIN_ANCHOR</span> <span class='kw'>as</span> <span class='ident'>u64</span>),
-        <span class='doccomment'>/// `\num`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_DECIMAL_BACKREF</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP_DECIMAL_BACKREF</span> <span class='kw'>as</span> <span class='ident'>u64</span>),
-        <span class='doccomment'>/// `[...]`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_BRACKET_CC</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP_BRACKET_CC</span> <span class='kw'>as</span> <span class='ident'>u64</span>),
-        <span class='doccomment'>/// `\w, \W`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_ESC_W_WORD</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP_ESC_W_WORD</span> <span class='kw'>as</span> <span class='ident'>u64</span>),
-        <span class='doccomment'>/// `\&lt;. \&gt;`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_ESC_LTGT_WORD_BEGIN_END</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP_ESC_LTGT_WORD_BEGIN_END</span> <span class='kw'>as</span> <span class='ident'>u64</span>),
-        <span class='doccomment'>/// `\b, \B`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_ESC_B_WORD_BOUND</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP_ESC_B_WORD_BOUND</span> <span class='kw'>as</span> <span class='ident'>u64</span>),
-        <span class='doccomment'>/// `\s, \S`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_ESC_S_WHITE_SPACE</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP_ESC_S_WHITE_SPACE</span> <span class='kw'>as</span> <span class='ident'>u64</span>),
-        <span class='doccomment'>/// `\d, \D`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_ESC_D_DIGIT</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP_ESC_D_DIGIT</span> <span class='kw'>as</span> <span class='ident'>u64</span>),
-        <span class='doccomment'>/// `^, $`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_LINE_ANCHOR</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP_LINE_ANCHOR</span> <span class='kw'>as</span> <span class='ident'>u64</span>),
-        <span class='doccomment'>/// `[:xxxx:]`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_POSIX_BRACKET</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP_POSIX_BRACKET</span> <span class='kw'>as</span> <span class='ident'>u64</span>),
-        <span class='doccomment'>/// `??,*?,+?,{n,m}?`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_QMARK_NON_GREEDY</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP_QMARK_NON_GREEDY</span> <span class='kw'>as</span> <span class='ident'>u64</span>),
-        <span class='doccomment'>/// `\n,\r,\t,\a ...`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_ESC_CONTROL_CHARS</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP_ESC_CONTROL_CHARS</span> <span class='kw'>as</span> <span class='ident'>u64</span>),
-        <span class='doccomment'>/// `\cx`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_ESC_C_CONTROL</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP_ESC_C_CONTROL</span> <span class='kw'>as</span> <span class='ident'>u64</span>),
-        <span class='doccomment'>/// `\OOO`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_ESC_OCTAL3</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP_ESC_OCTAL3</span> <span class='kw'>as</span> <span class='ident'>u64</span>),
-        <span class='doccomment'>/// `\xHH`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_ESC_X_HEX2</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP_ESC_X_HEX2</span> <span class='kw'>as</span> <span class='ident'>u64</span>),
-        <span class='doccomment'>/// `\x{7HHHHHHH}`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_ESC_X_BRACE_HEX8</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP_ESC_X_BRACE_HEX8</span> <span class='kw'>as</span> <span class='ident'>u64</span>),
-        <span class='doccomment'>/// `\Q...\E`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_ESC_CAPITAL_Q_QUOTE</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP2_ESC_CAPITAL_Q_QUOTE</span> <span class='kw'>as</span> <span class='ident'>u64</span>) <span class='op'>&lt;&lt;</span> <span class='number'>32</span>,
-        <span class='doccomment'>/// `(?...)`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_QMARK_GROUP_EFFECT</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP2_QMARK_GROUP_EFFECT</span> <span class='kw'>as</span> <span class='ident'>u64</span>) <span class='op'>&lt;&lt;</span> <span class='number'>32</span>,
-        <span class='doccomment'>/// `(?imsx),(?-imsx)`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_OPTION_PERL</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP2_OPTION_PERL</span> <span class='kw'>as</span> <span class='ident'>u64</span>) <span class='op'>&lt;&lt;</span> <span class='number'>32</span>,
-        <span class='doccomment'>/// `(?imx), (?-imx)`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_OPTION_RUBY</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP2_OPTION_RUBY</span> <span class='kw'>as</span> <span class='ident'>u64</span>) <span class='op'>&lt;&lt;</span> <span class='number'>32</span>,
-        <span class='doccomment'>/// `?+,*+,++`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_PLUS_POSSESSIVE_REPEAT</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP2_PLUS_POSSESSIVE_REPEAT</span> <span class='kw'>as</span> <span class='ident'>u64</span>) <span class='op'>&lt;&lt;</span> <span class='number'>32</span>,
-        <span class='doccomment'>/// `{n,m}+`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_PLUS_POSSESSIVE_INTERVAL</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP2_PLUS_POSSESSIVE_INTERVAL</span> <span class='kw'>as</span> <span class='ident'>u64</span>) <span class='op'>&lt;&lt;</span> <span class='number'>32</span>,
-        <span class='doccomment'>/// `[...&amp;&amp;..[..]..]`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_CCLASS_SET_OP</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP2_CCLASS_SET_OP</span> <span class='kw'>as</span> <span class='ident'>u64</span>) <span class='op'>&lt;&lt;</span> <span class='number'>32</span>,
-        <span class='doccomment'>/// `(?&lt;name&gt;...)`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_QMARK_LT_NAMED_GROUP</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP2_QMARK_LT_NAMED_GROUP</span> <span class='kw'>as</span> <span class='ident'>u64</span>) <span class='op'>&lt;&lt;</span> <span class='number'>32</span>,
-        <span class='doccomment'>/// `\k&lt;name&gt;`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_ESC_K_NAMED_BACKREF</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP2_ESC_K_NAMED_BACKREF</span> <span class='kw'>as</span> <span class='ident'>u64</span>) <span class='op'>&lt;&lt;</span> <span class='number'>32</span>,
-        <span class='doccomment'>/// `\g&lt;name&gt;, \g&lt;n&gt;`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_ESC_G_SUBEXP_CALL</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP2_ESC_G_SUBEXP_CALL</span> <span class='kw'>as</span> <span class='ident'>u64</span>) <span class='op'>&lt;&lt;</span> <span class='number'>32</span>,
-        <span class='doccomment'>/// `(?@..),(?@&lt;x&gt;..)`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_ATMARK_CAPTURE_HISTORY</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP2_ATMARK_CAPTURE_HISTORY</span> <span class='kw'>as</span> <span class='ident'>u64</span>) <span class='op'>&lt;&lt;</span> <span class='number'>32</span>,
-        <span class='doccomment'>/// `\C-x`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_ESC_CAPITAL_C_BAR_CONTROL</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP2_ESC_CAPITAL_C_BAR_CONTROL</span> <span class='kw'>as</span> <span class='ident'>u64</span>) <span class='op'>&lt;&lt;</span> <span class='number'>32</span>,
-        <span class='doccomment'>/// `\M-x`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_ESC_CAPITAL_M_BAR_META</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP2_ESC_CAPITAL_M_BAR_META</span> <span class='kw'>as</span> <span class='ident'>u64</span>) <span class='op'>&lt;&lt;</span> <span class='number'>32</span>,
-        <span class='doccomment'>/// `\v as VTAB`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_ESC_V_VTAB</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP2_ESC_V_VTAB</span> <span class='kw'>as</span> <span class='ident'>u64</span>) <span class='op'>&lt;&lt;</span> <span class='number'>32</span>,
-        <span class='doccomment'>/// `\uHHHH`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_ESC_U_HEX4</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP2_ESC_U_HEX4</span> <span class='kw'>as</span> <span class='ident'>u64</span>) <span class='op'>&lt;&lt;</span> <span class='number'>32</span>,
-        <span class='doccomment'>/// `\`, \&#39;`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_ESC_GNU_BUF_ANCHOR</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP2_ESC_GNU_BUF_ANCHOR</span> <span class='kw'>as</span> <span class='ident'>u64</span>) <span class='op'>&lt;&lt;</span> <span class='number'>32</span>,
-        <span class='doccomment'>/// `\p{...}, \P{...}`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_ESC_P_BRACE_CHAR_PROPERTY</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP2_ESC_P_BRACE_CHAR_PROPERTY</span> <span class='kw'>as</span> <span class='ident'>u64</span>) <span class='op'>&lt;&lt;</span> <span class='number'>32</span>,
-        <span class='doccomment'>/// `\p{^..}, \P{^..}`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_ESC_P_BRACE_CIRCUMFLEX_NOT</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP2_ESC_P_BRACE_CIRCUMFLEX_NOT</span> <span class='kw'>as</span> <span class='ident'>u64</span>) <span class='op'>&lt;&lt;</span> <span class='number'>32</span>,
-        <span class='doccomment'>/// `\h, \H`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_ESC_H_XDIGIT</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP2_ESC_H_XDIGIT</span> <span class='kw'>as</span> <span class='ident'>u64</span>) <span class='op'>&lt;&lt;</span> <span class='number'>32</span>,
-        <span class='doccomment'>/// `\`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_OPERATOR_INEFFECTIVE_ESCAPE</span>
-            <span class='op'>=</span> (<span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_OP2_INEFFECTIVE_ESCAPE</span> <span class='kw'>as</span> <span class='ident'>u64</span>) <span class='op'>&lt;&lt;</span> <span class='number'>32</span>
+<span class="macro">bitflags</span><span class="macro">!</span> {
+    <span class="kw">pub</span> <span class="ident">flags</span> <span class="ident">SyntaxOperator</span>: <span class="ident">u64</span> {
+        <span class="doccomment">/// `.`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_DOT_ANYCHAR</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP_DOT_ANYCHAR</span> <span class="kw">as</span> <span class="ident">u64</span>),
+        <span class="doccomment">/// `*`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_ASTERISK_ZERO_INF</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP_ASTERISK_ZERO_INF</span> <span class="kw">as</span> <span class="ident">u64</span>),
+        <span class="doccomment">/// `+`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_PLUS_ONE_INF</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP_PLUS_ONE_INF</span> <span class="kw">as</span> <span class="ident">u64</span>),
+        <span class="doccomment">/// `?`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_QMARK_ZERO_ONE</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP_QMARK_ZERO_ONE</span> <span class="kw">as</span> <span class="ident">u64</span>),
+        <span class="doccomment">/// `{lower,upper}`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_BRACE_INTERVAL</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP_BRACE_INTERVAL</span> <span class="kw">as</span> <span class="ident">u64</span>),
+        <span class="doccomment">/// `\{lower,upper\}`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_ESC_BRACE_INTERVAL</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP_ESC_BRACE_INTERVAL</span> <span class="kw">as</span> <span class="ident">u64</span>),
+        <span class="doccomment">/// `|`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_VBAR_ALT</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP_VBAR_ALT</span> <span class="kw">as</span> <span class="ident">u64</span>),
+        <span class="doccomment">/// `\|`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_ESC_VBAR_ALT</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP_ESC_VBAR_ALT</span> <span class="kw">as</span> <span class="ident">u64</span>),
+        <span class="doccomment">/// `(...)`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_LPAREN_SUBEXP</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP_LPAREN_SUBEXP</span> <span class="kw">as</span> <span class="ident">u64</span>),
+        <span class="doccomment">/// `\(...\)`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_ESC_LPAREN_SUBEXP</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP_ESC_LPAREN_SUBEXP</span> <span class="kw">as</span> <span class="ident">u64</span>),
+        <span class="doccomment">/// `\A, \Z, \z`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_ESC_AZ_BUF_ANCHOR</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP_ESC_AZ_BUF_ANCHOR</span> <span class="kw">as</span> <span class="ident">u64</span>),
+        <span class="doccomment">/// `\G`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_ESC_CAPITAL_G_BEGIN_ANCHOR</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP_ESC_CAPITAL_G_BEGIN_ANCHOR</span> <span class="kw">as</span> <span class="ident">u64</span>),
+        <span class="doccomment">/// `\num`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_DECIMAL_BACKREF</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP_DECIMAL_BACKREF</span> <span class="kw">as</span> <span class="ident">u64</span>),
+        <span class="doccomment">/// `[...]`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_BRACKET_CC</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP_BRACKET_CC</span> <span class="kw">as</span> <span class="ident">u64</span>),
+        <span class="doccomment">/// `\w, \W`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_ESC_W_WORD</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP_ESC_W_WORD</span> <span class="kw">as</span> <span class="ident">u64</span>),
+        <span class="doccomment">/// `\&lt;. \&gt;`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_ESC_LTGT_WORD_BEGIN_END</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP_ESC_LTGT_WORD_BEGIN_END</span> <span class="kw">as</span> <span class="ident">u64</span>),
+        <span class="doccomment">/// `\b, \B`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_ESC_B_WORD_BOUND</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP_ESC_B_WORD_BOUND</span> <span class="kw">as</span> <span class="ident">u64</span>),
+        <span class="doccomment">/// `\s, \S`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_ESC_S_WHITE_SPACE</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP_ESC_S_WHITE_SPACE</span> <span class="kw">as</span> <span class="ident">u64</span>),
+        <span class="doccomment">/// `\d, \D`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_ESC_D_DIGIT</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP_ESC_D_DIGIT</span> <span class="kw">as</span> <span class="ident">u64</span>),
+        <span class="doccomment">/// `^, $`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_LINE_ANCHOR</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP_LINE_ANCHOR</span> <span class="kw">as</span> <span class="ident">u64</span>),
+        <span class="doccomment">/// `[:xxxx:]`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_POSIX_BRACKET</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP_POSIX_BRACKET</span> <span class="kw">as</span> <span class="ident">u64</span>),
+        <span class="doccomment">/// `??,*?,+?,{n,m}?`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_QMARK_NON_GREEDY</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP_QMARK_NON_GREEDY</span> <span class="kw">as</span> <span class="ident">u64</span>),
+        <span class="doccomment">/// `\n,\r,\t,\a ...`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_ESC_CONTROL_CHARS</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP_ESC_CONTROL_CHARS</span> <span class="kw">as</span> <span class="ident">u64</span>),
+        <span class="doccomment">/// `\cx`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_ESC_C_CONTROL</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP_ESC_C_CONTROL</span> <span class="kw">as</span> <span class="ident">u64</span>),
+        <span class="doccomment">/// `\OOO`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_ESC_OCTAL3</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP_ESC_OCTAL3</span> <span class="kw">as</span> <span class="ident">u64</span>),
+        <span class="doccomment">/// `\xHH`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_ESC_X_HEX2</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP_ESC_X_HEX2</span> <span class="kw">as</span> <span class="ident">u64</span>),
+        <span class="doccomment">/// `\x{7HHHHHHH}`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_ESC_X_BRACE_HEX8</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP_ESC_X_BRACE_HEX8</span> <span class="kw">as</span> <span class="ident">u64</span>),
+        <span class="doccomment">/// `\Q...\E`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_ESC_CAPITAL_Q_QUOTE</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP2_ESC_CAPITAL_Q_QUOTE</span> <span class="kw">as</span> <span class="ident">u64</span>) <span class="op">&lt;&lt;</span> <span class="number">32</span>,
+        <span class="doccomment">/// `(?...)`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_QMARK_GROUP_EFFECT</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP2_QMARK_GROUP_EFFECT</span> <span class="kw">as</span> <span class="ident">u64</span>) <span class="op">&lt;&lt;</span> <span class="number">32</span>,
+        <span class="doccomment">/// `(?imsx),(?-imsx)`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_OPTION_PERL</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP2_OPTION_PERL</span> <span class="kw">as</span> <span class="ident">u64</span>) <span class="op">&lt;&lt;</span> <span class="number">32</span>,
+        <span class="doccomment">/// `(?imx), (?-imx)`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_OPTION_RUBY</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP2_OPTION_RUBY</span> <span class="kw">as</span> <span class="ident">u64</span>) <span class="op">&lt;&lt;</span> <span class="number">32</span>,
+        <span class="doccomment">/// `?+,*+,++`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_PLUS_POSSESSIVE_REPEAT</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP2_PLUS_POSSESSIVE_REPEAT</span> <span class="kw">as</span> <span class="ident">u64</span>) <span class="op">&lt;&lt;</span> <span class="number">32</span>,
+        <span class="doccomment">/// `{n,m}+`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_PLUS_POSSESSIVE_INTERVAL</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP2_PLUS_POSSESSIVE_INTERVAL</span> <span class="kw">as</span> <span class="ident">u64</span>) <span class="op">&lt;&lt;</span> <span class="number">32</span>,
+        <span class="doccomment">/// `[...&amp;&amp;..[..]..]`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_CCLASS_SET_OP</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP2_CCLASS_SET_OP</span> <span class="kw">as</span> <span class="ident">u64</span>) <span class="op">&lt;&lt;</span> <span class="number">32</span>,
+        <span class="doccomment">/// `(?&lt;name&gt;...)`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_QMARK_LT_NAMED_GROUP</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP2_QMARK_LT_NAMED_GROUP</span> <span class="kw">as</span> <span class="ident">u64</span>) <span class="op">&lt;&lt;</span> <span class="number">32</span>,
+        <span class="doccomment">/// `\k&lt;name&gt;`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_ESC_K_NAMED_BACKREF</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP2_ESC_K_NAMED_BACKREF</span> <span class="kw">as</span> <span class="ident">u64</span>) <span class="op">&lt;&lt;</span> <span class="number">32</span>,
+        <span class="doccomment">/// `\g&lt;name&gt;, \g&lt;n&gt;`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_ESC_G_SUBEXP_CALL</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP2_ESC_G_SUBEXP_CALL</span> <span class="kw">as</span> <span class="ident">u64</span>) <span class="op">&lt;&lt;</span> <span class="number">32</span>,
+        <span class="doccomment">/// `(?@..),(?@&lt;x&gt;..)`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_ATMARK_CAPTURE_HISTORY</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP2_ATMARK_CAPTURE_HISTORY</span> <span class="kw">as</span> <span class="ident">u64</span>) <span class="op">&lt;&lt;</span> <span class="number">32</span>,
+        <span class="doccomment">/// `\C-x`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_ESC_CAPITAL_C_BAR_CONTROL</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP2_ESC_CAPITAL_C_BAR_CONTROL</span> <span class="kw">as</span> <span class="ident">u64</span>) <span class="op">&lt;&lt;</span> <span class="number">32</span>,
+        <span class="doccomment">/// `\M-x`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_ESC_CAPITAL_M_BAR_META</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP2_ESC_CAPITAL_M_BAR_META</span> <span class="kw">as</span> <span class="ident">u64</span>) <span class="op">&lt;&lt;</span> <span class="number">32</span>,
+        <span class="doccomment">/// `\v as VTAB`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_ESC_V_VTAB</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP2_ESC_V_VTAB</span> <span class="kw">as</span> <span class="ident">u64</span>) <span class="op">&lt;&lt;</span> <span class="number">32</span>,
+        <span class="doccomment">/// `\uHHHH`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_ESC_U_HEX4</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP2_ESC_U_HEX4</span> <span class="kw">as</span> <span class="ident">u64</span>) <span class="op">&lt;&lt;</span> <span class="number">32</span>,
+        <span class="doccomment">/// `\`, \&#39;`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_ESC_GNU_BUF_ANCHOR</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP2_ESC_GNU_BUF_ANCHOR</span> <span class="kw">as</span> <span class="ident">u64</span>) <span class="op">&lt;&lt;</span> <span class="number">32</span>,
+        <span class="doccomment">/// `\p{...}, \P{...}`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_ESC_P_BRACE_CHAR_PROPERTY</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP2_ESC_P_BRACE_CHAR_PROPERTY</span> <span class="kw">as</span> <span class="ident">u64</span>) <span class="op">&lt;&lt;</span> <span class="number">32</span>,
+        <span class="doccomment">/// `\p{^..}, \P{^..}`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_ESC_P_BRACE_CIRCUMFLEX_NOT</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP2_ESC_P_BRACE_CIRCUMFLEX_NOT</span> <span class="kw">as</span> <span class="ident">u64</span>) <span class="op">&lt;&lt;</span> <span class="number">32</span>,
+        <span class="doccomment">/// `\h, \H`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_ESC_H_XDIGIT</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP2_ESC_H_XDIGIT</span> <span class="kw">as</span> <span class="ident">u64</span>) <span class="op">&lt;&lt;</span> <span class="number">32</span>,
+        <span class="doccomment">/// `\`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_INEFFECTIVE_ESCAPE</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP2_INEFFECTIVE_ESCAPE</span> <span class="kw">as</span> <span class="ident">u64</span>) <span class="op">&lt;&lt;</span> <span class="number">32</span>
     }
 }
 
-<span class='macro'>bitflags</span><span class='macro'>!</span> {
-    <span class='kw'>pub</span> <span class='ident'>flags</span> <span class='ident'>SyntaxBehavior</span>: <span class='ident'>onig_sys</span>::<span class='ident'>OnigSyntaxBehavior</span> {
-        <span class='doccomment'>/// `?, *, +, {n,m}`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_BEHAVIOR_CONTEXT_INDEP_REPEAT_OPS</span>
-            <span class='op'>=</span> <span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_CONTEXT_INDEP_REPEAT_OPS</span>,
-        <span class='doccomment'>/// `error or ignore`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_BEHAVIOR_CONTEXT_INVALID_REPEAT_OPS</span>
-            <span class='op'>=</span> <span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_CONTEXT_INVALID_REPEAT_OPS</span>,
-        <span class='doccomment'>/// `...)...`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_BEHAVIOR_ALLOW_UNMATCHED_CLOSE_SUBEXP</span>
-            <span class='op'>=</span> <span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_ALLOW_UNMATCHED_CLOSE_SUBEXP</span>,
-        <span class='doccomment'>/// `{???`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_BEHAVIOR_ALLOW_INVALID_INTERVAL</span>
-            <span class='op'>=</span> <span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_ALLOW_INVALID_INTERVAL</span>,
-        <span class='doccomment'>/// `{,n} =&gt; {0,n}`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_BEHAVIOR_ALLOW_INTERVAL_LOW_ABBREV</span>
-            <span class='op'>=</span> <span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_ALLOW_INTERVAL_LOW_ABBREV</span>,
-        <span class='doccomment'>/// `/(\1)/,/\1()/ ..`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_BEHAVIOR_STRICT_CHECK_BACKREF</span>
-            <span class='op'>=</span> <span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_STRICT_CHECK_BACKREF</span>,
-        <span class='doccomment'>/// `(?&lt;=a|bc)`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_BEHAVIOR_DIFFERENT_LEN_ALT_LOOK_BEHIND</span>
-            <span class='op'>=</span> <span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_DIFFERENT_LEN_ALT_LOOK_BEHIND</span>,
-        <span class='doccomment'>/// See Oniguruma documenation</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_BEHAVIOR_CAPTURE_ONLY_NAMED_GROUP</span>
-            <span class='op'>=</span> <span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_CAPTURE_ONLY_NAMED_GROUP</span>,
-        <span class='doccomment'>/// `(?&lt;x&gt;)(?&lt;x&gt;)`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_BEHAVIOR_ALLOW_MULTIPLEX_DEFINITION_NAME</span>
-            <span class='op'>=</span> <span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_ALLOW_MULTIPLEX_DEFINITION_NAME</span>,
-        <span class='doccomment'>/// `a{n}?=(?:a{n})?`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_BEHAVIOR_FIXED_INTERVAL_IS_GREEDY_ONLY</span>
-            <span class='op'>=</span> <span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_FIXED_INTERVAL_IS_GREEDY_ONLY</span>,
-        <span class='doccomment'>/// `[^...]`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_BEHAVIOR_NOT_NEWLINE_IN_NEGATIVE_CC</span>
-            <span class='op'>=</span> <span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_NOT_NEWLINE_IN_NEGATIVE_CC</span>,
-        <span class='doccomment'>/// `[..\w..] etc..`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_BEHAVIOR_BACKSLASH_ESCAPE_IN_CC</span>
-            <span class='op'>=</span> <span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_BACKSLASH_ESCAPE_IN_CC</span>,
-        <span class='doccomment'>/// `[0-9-a]=[0-9\-a]`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_BEHAVIOR_ALLOW_DOUBLE_RANGE_OP_IN_CC</span>
-            <span class='op'>=</span> <span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_ALLOW_DOUBLE_RANGE_OP_IN_CC</span>,
-        <span class='doccomment'>/// `[,-,]`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_BEHAVIOR_WARN_CC_OP_NOT_ESCAPED</span>
-            <span class='op'>=</span> <span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_WARN_CC_OP_NOT_ESCAPED</span>,
-        <span class='doccomment'>/// `(?:a*)+`</span>
-        <span class='kw'>const</span> <span class='ident'>SYNTAX_BEHAVIOR_WARN_REDUNDANT_NESTED_REPEAT</span>
-            <span class='op'>=</span> <span class='ident'>onig_sys</span>::<span class='ident'>ONIG_SYN_WARN_REDUNDANT_NESTED_REPEAT</span>
+<span class="macro">bitflags</span><span class="macro">!</span> {
+    <span class="kw">pub</span> <span class="ident">flags</span> <span class="ident">SyntaxBehavior</span>: <span class="ident">onig_sys</span>::<span class="ident">OnigSyntaxBehavior</span> {
+        <span class="doccomment">/// `?, *, +, {n,m}`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_BEHAVIOR_CONTEXT_INDEP_REPEAT_OPS</span>
+            <span class="op">=</span> <span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_CONTEXT_INDEP_REPEAT_OPS</span>,
+        <span class="doccomment">/// `error or ignore`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_BEHAVIOR_CONTEXT_INVALID_REPEAT_OPS</span>
+            <span class="op">=</span> <span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_CONTEXT_INVALID_REPEAT_OPS</span>,
+        <span class="doccomment">/// `...)...`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_BEHAVIOR_ALLOW_UNMATCHED_CLOSE_SUBEXP</span>
+            <span class="op">=</span> <span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_ALLOW_UNMATCHED_CLOSE_SUBEXP</span>,
+        <span class="doccomment">/// `{???`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_BEHAVIOR_ALLOW_INVALID_INTERVAL</span>
+            <span class="op">=</span> <span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_ALLOW_INVALID_INTERVAL</span>,
+        <span class="doccomment">/// `{,n} =&gt; {0,n}`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_BEHAVIOR_ALLOW_INTERVAL_LOW_ABBREV</span>
+            <span class="op">=</span> <span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_ALLOW_INTERVAL_LOW_ABBREV</span>,
+        <span class="doccomment">/// `/(\1)/,/\1()/ ..`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_BEHAVIOR_STRICT_CHECK_BACKREF</span>
+            <span class="op">=</span> <span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_STRICT_CHECK_BACKREF</span>,
+        <span class="doccomment">/// `(?&lt;=a|bc)`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_BEHAVIOR_DIFFERENT_LEN_ALT_LOOK_BEHIND</span>
+            <span class="op">=</span> <span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_DIFFERENT_LEN_ALT_LOOK_BEHIND</span>,
+        <span class="doccomment">/// See Oniguruma documenation</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_BEHAVIOR_CAPTURE_ONLY_NAMED_GROUP</span>
+            <span class="op">=</span> <span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_CAPTURE_ONLY_NAMED_GROUP</span>,
+        <span class="doccomment">/// `(?&lt;x&gt;)(?&lt;x&gt;)`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_BEHAVIOR_ALLOW_MULTIPLEX_DEFINITION_NAME</span>
+            <span class="op">=</span> <span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_ALLOW_MULTIPLEX_DEFINITION_NAME</span>,
+        <span class="doccomment">/// `a{n}?=(?:a{n})?`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_BEHAVIOR_FIXED_INTERVAL_IS_GREEDY_ONLY</span>
+            <span class="op">=</span> <span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_FIXED_INTERVAL_IS_GREEDY_ONLY</span>,
+        <span class="doccomment">/// `[^...]`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_BEHAVIOR_NOT_NEWLINE_IN_NEGATIVE_CC</span>
+            <span class="op">=</span> <span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_NOT_NEWLINE_IN_NEGATIVE_CC</span>,
+        <span class="doccomment">/// `[..\w..] etc..`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_BEHAVIOR_BACKSLASH_ESCAPE_IN_CC</span>
+            <span class="op">=</span> <span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_BACKSLASH_ESCAPE_IN_CC</span>,
+        <span class="doccomment">/// `[0-9-a]=[0-9\-a]`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_BEHAVIOR_ALLOW_DOUBLE_RANGE_OP_IN_CC</span>
+            <span class="op">=</span> <span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_ALLOW_DOUBLE_RANGE_OP_IN_CC</span>,
+        <span class="doccomment">/// `[,-,]`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_BEHAVIOR_WARN_CC_OP_NOT_ESCAPED</span>
+            <span class="op">=</span> <span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_WARN_CC_OP_NOT_ESCAPED</span>,
+        <span class="doccomment">/// `(?:a*)+`</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_BEHAVIOR_WARN_REDUNDANT_NESTED_REPEAT</span>
+            <span class="op">=</span> <span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_WARN_REDUNDANT_NESTED_REPEAT</span>
     }
 }
 </pre>

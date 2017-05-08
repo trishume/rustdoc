@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc struct">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,25 +43,25 @@
         </form>
     </nav>
 
-    <section id='main' class="content struct">
-<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>syntect</a>::<wbr><a href='index.html'>parsing</a>::<wbr><a class='struct' href=''>ScopeRepository</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>syntect</a>::<wbr><a href='index.html'>parsing</a>::<wbr><a class="struct" href=''>ScopeRepository</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/syntect/parsing/scope.rs.html#60-63' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../src/syntect/parsing/scope.rs.html#62-65' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct ScopeRepository { /* fields omitted */ }</pre><div class='docblock'><p>The structure used to keep of the mapping between scope atom numbers
 and their string names. It is only exposed in case you want to lock
 <code>SCOPE_REPO</code> and then allocate a whole bunch of scopes at once
 without thrashing the lock. It is recommended you just use <code>Scope::new()</code></p>
 
 <p>Only <code>Scope</code>s created by the same repository have valid comparison results.</p>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../syntect/parsing/struct.ScopeRepository.html' title='syntect::parsing::ScopeRepository'>ScopeRepository</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/syntect/parsing/scope.rs.html#125-177' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.build' class='method'><span id='build.v' class='invisible'><code>fn <a href='#method.build' class='fnname'>build</a>(&amp;mut self, s: &amp;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../../syntect/parsing/struct.Scope.html' title='syntect::parsing::Scope'>Scope</a>, <a class='enum' href='../../syntect/parsing/enum.ParseScopeError.html' title='syntect::parsing::ParseScopeError'>ParseScopeError</a>&gt;</code></span></h4>
-<h4 id='method.to_string' class='method'><span id='to_string.v' class='invisible'><code>fn <a href='#method.to_string' class='fnname'>to_string</a>(&amp;self, scope: <a class='struct' href='../../syntect/parsing/struct.Scope.html' title='syntect::parsing::Scope'>Scope</a>) -&gt; <a class='struct' href='https://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a></code></span></h4>
-<h4 id='method.atom_str' class='method'><span id='atom_str.v' class='invisible'><code>fn <a href='#method.atom_str' class='fnname'>atom_str</a>(&amp;self, atom_number: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u16.html'>u16</a>) -&gt; &amp;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a></code></span></h4>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class="struct" href="../../syntect/parsing/struct.ScopeRepository.html" title="struct syntect::parsing::ScopeRepository">ScopeRepository</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/syntect/parsing/scope.rs.html#127-179' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.build' class="method"><span id='build.v' class='invisible'><code>fn <a href='#method.build' class='fnname'>build</a>(&amp;mut self, s: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="../../syntect/parsing/struct.Scope.html" title="struct syntect::parsing::Scope">Scope</a>, <a class="enum" href="../../syntect/parsing/enum.ParseScopeError.html" title="enum syntect::parsing::ParseScopeError">ParseScopeError</a>&gt;</code></span></h4>
+<h4 id='method.to_string' class="method"><span id='to_string.v' class='invisible'><code>fn <a href='#method.to_string' class='fnname'>to_string</a>(&amp;self, scope: <a class="struct" href="../../syntect/parsing/struct.Scope.html" title="struct syntect::parsing::Scope">Scope</a>) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a></code></span></h4>
+<h4 id='method.atom_str' class="method"><span id='atom_str.v' class='invisible'><code>fn <a href='#method.atom_str' class='fnname'>atom_str</a>(&amp;self, atom_number: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>) -&gt; &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a></code></span></h4>
 <div class='docblock'><p>Return the string for an atom number returned by <code>Scope#atom_at</code></p>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../syntect/parsing/struct.ScopeRepository.html' title='syntect::parsing::ScopeRepository'>ScopeRepository</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/syntect/parsing/scope.rs.html#59' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.fmt' class='method'><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></span></h4>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="struct" href="../../syntect/parsing/struct.ScopeRepository.html" title="struct syntect::parsing::ScopeRepository">ScopeRepository</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/syntect/parsing/scope.rs.html#61' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
 <div class='docblock'><p>Formats the value using the given formatter.</p>
 </div></div></section>
     <section id='search' class="content hidden"></section>

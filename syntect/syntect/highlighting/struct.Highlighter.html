@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc struct">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,8 +43,8 @@
         </form>
     </nav>
 
-    <section id='main' class="content struct">
-<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>syntect</a>::<wbr><a href='index.html'>highlighting</a>::<wbr><a class='struct' href=''>Highlighter</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>syntect</a>::<wbr><a href='index.html'>highlighting</a>::<wbr><a class="struct" href=''>Highlighter</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
@@ -56,12 +56,12 @@ or setting up some kind of accelerator structure.</p>
 
 <p>So for now this does very little but eventually if you keep it around between
 highlighting runs it will preserve its cache.</p>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class='struct' href='../../syntect/highlighting/struct.Highlighter.html' title='syntect::highlighting::Highlighter'>Highlighter</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/syntect/highlighting/highlighter.rs.html#149-242' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.new' class='method'><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>(theme: &amp;'a <a class='struct' href='../../syntect/highlighting/struct.Theme.html' title='syntect::highlighting::Theme'>Theme</a>) -&gt; <a class='struct' href='../../syntect/highlighting/struct.Highlighter.html' title='syntect::highlighting::Highlighter'>Highlighter</a>&lt;'a&gt;</code></span></h4>
-<h4 id='method.get_default' class='method'><span id='get_default.v' class='invisible'><code>fn <a href='#method.get_default' class='fnname'>get_default</a>(&amp;self) -&gt; <a class='struct' href='../../syntect/highlighting/struct.Style.html' title='syntect::highlighting::Style'>Style</a></code></span></h4>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="struct" href="../../syntect/highlighting/struct.Highlighter.html" title="struct syntect::highlighting::Highlighter">Highlighter</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/syntect/highlighting/highlighter.rs.html#149-242' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.new' class="method"><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>(theme: &amp;'a <a class="struct" href="../../syntect/highlighting/struct.Theme.html" title="struct syntect::highlighting::Theme">Theme</a>) -&gt; <a class="struct" href="../../syntect/highlighting/struct.Highlighter.html" title="struct syntect::highlighting::Highlighter">Highlighter</a>&lt;'a&gt;</code></span></h4>
+<h4 id='method.get_default' class="method"><span id='get_default.v' class='invisible'><code>fn <a href='#method.get_default' class='fnname'>get_default</a>(&amp;self) -&gt; <a class="struct" href="../../syntect/highlighting/struct.Style.html" title="struct syntect::highlighting::Style">Style</a></code></span></h4>
 <div class='docblock'><p>The default style in the absence of any matched rules.
 Basically what plain text gets highlighted as.</p>
-</div><h4 id='method.get_style' class='method'><span id='get_style.v' class='invisible'><code>fn <a href='#method.get_style' class='fnname'>get_style</a>(&amp;self, path: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[</a><a class='struct' href='../../syntect/parsing/struct.Scope.html' title='syntect::parsing::Scope'>Scope</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) -&gt; <a class='struct' href='../../syntect/highlighting/struct.StyleModifier.html' title='syntect::highlighting::StyleModifier'>StyleModifier</a></code></span></h4>
+</div><h4 id='method.get_style' class="method"><span id='get_style.v' class='invisible'><code>fn <a href='#method.get_style' class='fnname'>get_style</a>(&amp;self, path: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="struct" href="../../syntect/parsing/struct.Scope.html" title="struct syntect::parsing::Scope">Scope</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>) -&gt; <a class="struct" href="../../syntect/highlighting/struct.StyleModifier.html" title="struct syntect::highlighting::StyleModifier">StyleModifier</a></code></span></h4>
 <div class='docblock'><p>Figures out which scope selector in the theme best matches this scope stack.
 It only returns any changes to the style that should be applied when the top element
 is pushed on to the stack. These actually aren&#39;t guaranteed to be different than the current
@@ -71,12 +71,12 @@ default and working your way up the stack in order to get the correct style.</p>
 <p>Don&#39;t worry if this sounds complex, you shouldn&#39;t need to use this method.
 It&#39;s only public because I default to making things public for power users unless
 I have a good argument nobody will ever need to use the method.</p>
-</div><h4 id='method.get_new_style' class='method'><span id='get_new_style.v' class='invisible'><code>fn <a href='#method.get_new_style' class='fnname'>get_new_style</a>(&amp;self, path: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[</a><a class='struct' href='../../syntect/parsing/struct.Scope.html' title='syntect::parsing::Scope'>Scope</a><a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>) -&gt; <a class='struct' href='../../syntect/highlighting/struct.StyleModifier.html' title='syntect::highlighting::StyleModifier'>StyleModifier</a></code></span></h4>
+</div><h4 id='method.get_new_style' class="method"><span id='get_new_style.v' class='invisible'><code>fn <a href='#method.get_new_style' class='fnname'>get_new_style</a>(&amp;self, path: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="struct" href="../../syntect/parsing/struct.Scope.html" title="struct syntect::parsing::Scope">Scope</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>) -&gt; <a class="struct" href="../../syntect/highlighting/struct.StyleModifier.html" title="struct syntect::highlighting::StyleModifier">StyleModifier</a></code></span></h4>
 <div class='docblock'><p>Like get_style but only guarantees returning any new style
 if the last element of <code>path</code> was just pushed on to the stack.
 Panics if <code>path</code> is empty.</p>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../syntect/highlighting/struct.Highlighter.html' title='syntect::highlighting::Highlighter'>Highlighter</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/syntect/highlighting/highlighter.rs.html#20' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.fmt' class='method'><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></span></h4>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="struct" href="../../syntect/highlighting/struct.Highlighter.html" title="struct syntect::highlighting::Highlighter">Highlighter</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/syntect/highlighting/highlighter.rs.html#20' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
 <div class='docblock'><p>Formats the value using the given formatter.</p>
 </div></div></section>
     <section id='search' class="content hidden"></section>

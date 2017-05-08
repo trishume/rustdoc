@@ -17,7 +17,7 @@
     
     
 </head>
-<body class="rustdoc">
+<body class="rustdoc source">
     <!--[if lte IE 8]>
     <div class="warning">
         This old browser is unsupported and will most likely display funky
@@ -43,7 +43,7 @@
         </form>
     </nav>
 
-    <section id='main' class="content source"><pre class="line-numbers"><span id="1">  1</span>
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -639,601 +639,633 @@
 <span id="594">594</span>
 <span id="595">595</span>
 <span id="596">596</span>
-</pre><pre class='rust '>
-<span class='comment'>// see DESIGN.md</span>
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>collections</span>::<span class='ident'>HashMap</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>u16</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>Mutex</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>u64</span>;
-<span class='kw'>use</span> <span class='ident'>rustc_serialize</span>::{<span class='ident'>Encodable</span>, <span class='ident'>Encoder</span>, <span class='ident'>Decodable</span>, <span class='ident'>Decoder</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cmp</span>::{<span class='ident'>Ordering</span>, <span class='ident'>min</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>mem</span>;
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+</pre><pre class="rust ">
+<span class="comment">// see DESIGN.md</span>
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashMap</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">u16</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::<span class="ident">Mutex</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">str</span>::<span class="ident">FromStr</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">u64</span>;
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cmp</span>::{<span class="ident">Ordering</span>, <span class="ident">min</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>;
 
-<span class='doccomment'>/// Multiplier on the power of 2 for MatchPower.</span>
-<span class='doccomment'>/// Only useful if you compute your own MatchPower scores.</span>
-<span class='kw'>pub</span> <span class='kw'>const</span> <span class='ident'>ATOM_LEN_BITS</span>: <span class='ident'>u16</span> <span class='op'>=</span> <span class='number'>3</span>;
+<span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Deserializer</span>, <span class="ident">Serialize</span>, <span class="ident">Serializer</span>};
+<span class="kw">use</span> <span class="ident">serde</span>::<span class="ident">de</span>::{<span class="ident">Error</span>, <span class="ident">Visitor</span>};
 
-<span class='macro'>lazy_static</span><span class='macro'>!</span> {
-    <span class='doccomment'>/// The global scope repo, exposed in case you want to minimize locking and unlocking.</span>
-    <span class='doccomment'>/// Shouldn&#39;t be necessary for you to use. See the `ScopeRepository` docs.</span>
-    <span class='kw'>pub</span> <span class='kw'>static</span> <span class='kw-2'>ref</span> <span class='ident'>SCOPE_REPO</span>: <span class='ident'>Mutex</span><span class='op'>&lt;</span><span class='ident'>ScopeRepository</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>Mutex</span>::<span class='ident'>new</span>(<span class='ident'>ScopeRepository</span>::<span class='ident'>new</span>());
+<span class="doccomment">/// Multiplier on the power of 2 for MatchPower.</span>
+<span class="doccomment">/// Only useful if you compute your own MatchPower scores.</span>
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">ATOM_LEN_BITS</span>: <span class="ident">u16</span> <span class="op">=</span> <span class="number">3</span>;
+
+<span class="macro">lazy_static</span><span class="macro">!</span> {
+    <span class="doccomment">/// The global scope repo, exposed in case you want to minimize locking and unlocking.</span>
+    <span class="doccomment">/// Shouldn&#39;t be necessary for you to use. See the `ScopeRepository` docs.</span>
+    <span class="kw">pub</span> <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">SCOPE_REPO</span>: <span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">ScopeRepository</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">ScopeRepository</span>::<span class="ident">new</span>());
 }
 
-<span class='doccomment'>/// A hierarchy of atoms with semi-standardized names</span>
-<span class='doccomment'>/// used to accord semantic information to a specific piece of text.</span>
-<span class='doccomment'>/// Generally written with the atoms separated by dots.</span>
-<span class='doccomment'>/// By convention atoms are all lowercase alphanumeric.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Example scopes: `text.plain`, `punctuation.definition.string.begin.ruby`,</span>
-<span class='doccomment'>/// `meta.function.parameters.rust`</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// `syntect` uses an optimized format for storing these that allows super fast comparison</span>
-<span class='doccomment'>/// and determining if one scope is a prefix of another. It also always takes 16 bytes of space.</span>
-<span class='doccomment'>/// It accomplishes this by using a global repository to store string values and using bit-packed</span>
-<span class='doccomment'>/// 16 bit numbers to represent and compare atoms. Like &quot;atoms&quot; or &quot;symbols&quot; in other languages.</span>
-<span class='doccomment'>/// This means that while comparing and prefix are fast, extracting a string is relatively slower</span>
-<span class='doccomment'>/// but ideally should be very rare.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Copy</span>, <span class='ident'>Default</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Scope</span> {
-    <span class='ident'>a</span>: <span class='ident'>u64</span>,
-    <span class='ident'>b</span>: <span class='ident'>u64</span>,
+<span class="doccomment">/// A hierarchy of atoms with semi-standardized names</span>
+<span class="doccomment">/// used to accord semantic information to a specific piece of text.</span>
+<span class="doccomment">/// Generally written with the atoms separated by dots.</span>
+<span class="doccomment">/// By convention atoms are all lowercase alphanumeric.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Example scopes: `text.plain`, `punctuation.definition.string.begin.ruby`,</span>
+<span class="doccomment">/// `meta.function.parameters.rust`</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// `syntect` uses an optimized format for storing these that allows super fast comparison</span>
+<span class="doccomment">/// and determining if one scope is a prefix of another. It also always takes 16 bytes of space.</span>
+<span class="doccomment">/// It accomplishes this by using a global repository to store string values and using bit-packed</span>
+<span class="doccomment">/// 16 bit numbers to represent and compare atoms. Like &quot;atoms&quot; or &quot;symbols&quot; in other languages.</span>
+<span class="doccomment">/// This means that while comparing and prefix are fast, extracting a string is relatively slower</span>
+<span class="doccomment">/// but ideally should be very rare.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Copy</span>, <span class="ident">Default</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Scope</span> {
+    <span class="ident">a</span>: <span class="ident">u64</span>,
+    <span class="ident">b</span>: <span class="ident">u64</span>,
 }
 
-<span class='doccomment'>/// Not all strings are valid scopes</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ParseScopeError</span> {
-    <span class='doccomment'>/// Due to a limitation of the current optimized internal representation</span>
-    <span class='doccomment'>/// scopes can be at most 8 atoms long</span>
-    <span class='ident'>TooLong</span>,
-    <span class='doccomment'>/// The internal representation uses 16 bits per atom, so if all scopes ever</span>
-    <span class='doccomment'>/// used by the program have more than 2^16-2 atoms, things break</span>
-    <span class='ident'>TooManyAtoms</span>,
+<span class="doccomment">/// Not all strings are valid scopes</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ParseScopeError</span> {
+    <span class="doccomment">/// Due to a limitation of the current optimized internal representation</span>
+    <span class="doccomment">/// scopes can be at most 8 atoms long</span>
+    <span class="ident">TooLong</span>,
+    <span class="doccomment">/// The internal representation uses 16 bits per atom, so if all scopes ever</span>
+    <span class="doccomment">/// used by the program have more than 2^16-2 atoms, things break</span>
+    <span class="ident">TooManyAtoms</span>,
 }
 
-<span class='doccomment'>/// The structure used to keep of the mapping between scope atom numbers</span>
-<span class='doccomment'>/// and their string names. It is only exposed in case you want to lock</span>
-<span class='doccomment'>/// `SCOPE_REPO` and then allocate a whole bunch of scopes at once</span>
-<span class='doccomment'>/// without thrashing the lock. It is recommended you just use `Scope::new()`</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Only `Scope`s created by the same repository have valid comparison results.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ScopeRepository</span> {
-    <span class='ident'>atoms</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>,
-    <span class='ident'>atom_index_map</span>: <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>usize</span><span class='op'>&gt;</span>,
+<span class="doccomment">/// The structure used to keep of the mapping between scope atom numbers</span>
+<span class="doccomment">/// and their string names. It is only exposed in case you want to lock</span>
+<span class="doccomment">/// `SCOPE_REPO` and then allocate a whole bunch of scopes at once</span>
+<span class="doccomment">/// without thrashing the lock. It is recommended you just use `Scope::new()`</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Only `Scope`s created by the same repository have valid comparison results.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ScopeRepository</span> {
+    <span class="ident">atoms</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="ident">atom_index_map</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">usize</span><span class="op">&gt;</span>,
 }
 
-<span class='doccomment'>/// A stack/sequence of scopes. This is used both to represent hierarchies for a given</span>
-<span class='doccomment'>/// token of text, as well as in `ScopeSelectors`. Press `ctrl+shift+p` in Sublime Text</span>
-<span class='doccomment'>/// to see the scope stack at a given point.</span>
-<span class='doccomment'>/// Also see [the TextMate docs](https://manual.macromates.com/en/scope_selectors).</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// Example for a JS string inside a script tag in a Rails `ERB` file:</span>
-<span class='doccomment'>/// `text.html.ruby text.html.basic source.js.embedded.html string.quoted.double.js`</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>, <span class='ident'>Default</span>, <span class='ident'>RustcEncodable</span>, <span class='ident'>RustcDecodable</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>ScopeStack</span> {
-    <span class='ident'>clear_stack</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Scope</span><span class='op'>&gt;&gt;</span>,
-    <span class='ident'>scopes</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Scope</span><span class='op'>&gt;</span>,
+<span class="doccomment">/// A stack/sequence of scopes. This is used both to represent hierarchies for a given</span>
+<span class="doccomment">/// token of text, as well as in `ScopeSelectors`. Press `ctrl+shift+p` in Sublime Text</span>
+<span class="doccomment">/// to see the scope stack at a given point.</span>
+<span class="doccomment">/// Also see [the TextMate docs](https://manual.macromates.com/en/scope_selectors).</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Example for a JS string inside a script tag in a Rails `ERB` file:</span>
+<span class="doccomment">/// `text.html.ruby text.html.basic source.js.embedded.html string.quoted.double.js`</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Default</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ScopeStack</span> {
+    <span class="ident">clear_stack</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Scope</span><span class="op">&gt;&gt;</span>,
+    <span class="ident">scopes</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Scope</span><span class="op">&gt;</span>,
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>Copy</span>, <span class='ident'>RustcEncodable</span>, <span class='ident'>RustcDecodable</span>, <span class='ident'>Eq</span>, <span class='ident'>PartialEq</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ClearAmount</span> {
-    <span class='ident'>TopN</span>(<span class='ident'>usize</span>),
-    <span class='ident'>All</span>,
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ClearAmount</span> {
+    <span class="ident">TopN</span>(<span class="ident">usize</span>),
+    <span class="ident">All</span>,
 }
 
-<span class='doccomment'>/// A change to a scope stack. Generally `Noop` is only used internally and you don&#39;t have</span>
-<span class='doccomment'>/// to worry about ever getting one back from a public function.</span>
-<span class='doccomment'>/// Use `ScopeStack#apply` to apply this change.</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>ScopeStackOp</span> {
-    <span class='ident'>Push</span>(<span class='ident'>Scope</span>),
-    <span class='ident'>Pop</span>(<span class='ident'>usize</span>),
-    <span class='doccomment'>/// used for the clear_scopes feature</span>
-    <span class='ident'>Clear</span>(<span class='ident'>ClearAmount</span>),
-    <span class='doccomment'>/// restores cleared scopes</span>
-    <span class='ident'>Restore</span>,
-    <span class='ident'>Noop</span>,
+<span class="doccomment">/// A change to a scope stack. Generally `Noop` is only used internally and you don&#39;t have</span>
+<span class="doccomment">/// to worry about ever getting one back from a public function.</span>
+<span class="doccomment">/// Use `ScopeStack#apply` to apply this change.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ScopeStackOp</span> {
+    <span class="ident">Push</span>(<span class="ident">Scope</span>),
+    <span class="ident">Pop</span>(<span class="ident">usize</span>),
+    <span class="doccomment">/// used for the clear_scopes feature</span>
+    <span class="ident">Clear</span>(<span class="ident">ClearAmount</span>),
+    <span class="doccomment">/// restores cleared scopes</span>
+    <span class="ident">Restore</span>,
+    <span class="ident">Noop</span>,
 }
 
-<span class='doccomment'>/// Used for `ScopeStack#apply_and_get_basic_ops`</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialEq</span>, <span class='ident'>Eq</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>BasicScopeStackOp</span> {
-    <span class='ident'>Push</span>(<span class='ident'>Scope</span>),
-    <span class='ident'>Pop</span>,
+<span class="doccomment">/// Used for `ScopeStack#apply_and_get_basic_ops`</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">BasicScopeStackOp</span> {
+    <span class="ident">Push</span>(<span class="ident">Scope</span>),
+    <span class="ident">Pop</span>,
 }
 
-<span class='kw'>fn</span> <span class='ident'>pack_as_u16s</span>(<span class='ident'>atoms</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>usize</span>]) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Scope</span>, <span class='ident'>ParseScopeError</span><span class='op'>&gt;</span> {
-    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>res</span> <span class='op'>=</span> <span class='ident'>Scope</span> { <span class='ident'>a</span>: <span class='number'>0</span>, <span class='ident'>b</span>: <span class='number'>0</span> };
+<span class="kw">fn</span> <span class="ident">pack_as_u16s</span>(<span class="ident">atoms</span>: <span class="kw-2">&amp;</span>[<span class="ident">usize</span>]) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Scope</span>, <span class="ident">ParseScopeError</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">Scope</span> { <span class="ident">a</span>: <span class="number">0</span>, <span class="ident">b</span>: <span class="number">0</span> };
 
-    <span class='kw'>for</span> (<span class='ident'>i</span>, <span class='kw-2'>&amp;</span><span class='ident'>n</span>) <span class='kw'>in</span> <span class='ident'>atoms</span>.<span class='ident'>iter</span>().<span class='ident'>enumerate</span>() {
-        <span class='kw'>if</span> <span class='ident'>n</span> <span class='op'>&gt;=</span> (<span class='ident'>u16</span>::<span class='ident'>MAX</span> <span class='kw'>as</span> <span class='ident'>usize</span>) <span class='op'>-</span> <span class='number'>2</span> {
-            <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>ParseScopeError</span>::<span class='ident'>TooManyAtoms</span>);
+    <span class="kw">for</span> (<span class="ident">i</span>, <span class="kw-2">&amp;</span><span class="ident">n</span>) <span class="kw">in</span> <span class="ident">atoms</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
+        <span class="kw">if</span> <span class="ident">n</span> <span class="op">&gt;=</span> (<span class="ident">u16</span>::<span class="ident">MAX</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">-</span> <span class="number">2</span> {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ParseScopeError</span>::<span class="ident">TooManyAtoms</span>);
         }
-        <span class='kw'>let</span> <span class='ident'>small</span> <span class='op'>=</span> (<span class='ident'>n</span> <span class='op'>+</span> <span class='number'>1</span>) <span class='kw'>as</span> <span class='ident'>u64</span>; <span class='comment'>// +1 since we reserve 0 for unused</span>
+        <span class="kw">let</span> <span class="ident">small</span> <span class="op">=</span> (<span class="ident">n</span> <span class="op">+</span> <span class="number">1</span>) <span class="kw">as</span> <span class="ident">u64</span>; <span class="comment">// +1 since we reserve 0 for unused</span>
 
-        <span class='kw'>if</span> <span class='ident'>i</span> <span class='op'>&lt;</span> <span class='number'>4</span> {
-            <span class='kw'>let</span> <span class='ident'>shift</span> <span class='op'>=</span> (<span class='number'>3</span> <span class='op'>-</span> <span class='ident'>i</span>) <span class='op'>*</span> <span class='number'>16</span>;
-            <span class='ident'>res</span>.<span class='ident'>a</span> <span class='op'>|=</span> <span class='ident'>small</span> <span class='op'>&lt;&lt;</span> <span class='ident'>shift</span>;
-        } <span class='kw'>else</span> {
-            <span class='kw'>let</span> <span class='ident'>shift</span> <span class='op'>=</span> (<span class='number'>7</span> <span class='op'>-</span> <span class='ident'>i</span>) <span class='op'>*</span> <span class='number'>16</span>;
-            <span class='ident'>res</span>.<span class='ident'>b</span> <span class='op'>|=</span> <span class='ident'>small</span> <span class='op'>&lt;&lt;</span> <span class='ident'>shift</span>;
+        <span class="kw">if</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="number">4</span> {
+            <span class="kw">let</span> <span class="ident">shift</span> <span class="op">=</span> (<span class="number">3</span> <span class="op">-</span> <span class="ident">i</span>) <span class="op">*</span> <span class="number">16</span>;
+            <span class="ident">res</span>.<span class="ident">a</span> <span class="op">|=</span> <span class="ident">small</span> <span class="op">&lt;&lt;</span> <span class="ident">shift</span>;
+        } <span class="kw">else</span> {
+            <span class="kw">let</span> <span class="ident">shift</span> <span class="op">=</span> (<span class="number">7</span> <span class="op">-</span> <span class="ident">i</span>) <span class="op">*</span> <span class="number">16</span>;
+            <span class="ident">res</span>.<span class="ident">b</span> <span class="op">|=</span> <span class="ident">small</span> <span class="op">&lt;&lt;</span> <span class="ident">shift</span>;
         }
     }
-    <span class='prelude-val'>Ok</span>(<span class='ident'>res</span>)
+    <span class="prelude-val">Ok</span>(<span class="ident">res</span>)
 }
 
-<span class='kw'>impl</span> <span class='ident'>ScopeRepository</span> {
-    <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='ident'>ScopeRepository</span> {
-        <span class='ident'>ScopeRepository</span> {
-            <span class='ident'>atoms</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
-            <span class='ident'>atom_index_map</span>: <span class='ident'>HashMap</span>::<span class='ident'>new</span>(),
+<span class="kw">impl</span> <span class="ident">ScopeRepository</span> {
+    <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="ident">ScopeRepository</span> {
+        <span class="ident">ScopeRepository</span> {
+            <span class="ident">atoms</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
+            <span class="ident">atom_index_map</span>: <span class="ident">HashMap</span>::<span class="ident">new</span>(),
         }
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>build</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Scope</span>, <span class='ident'>ParseScopeError</span><span class='op'>&gt;</span> {
-        <span class='kw'>if</span> <span class='ident'>s</span>.<span class='ident'>is_empty</span>() {
-            <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(<span class='ident'>Scope</span> { <span class='ident'>a</span>: <span class='number'>0</span>, <span class='ident'>b</span>: <span class='number'>0</span> });
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">build</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Scope</span>, <span class="ident">ParseScopeError</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">is_empty</span>() {
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">Scope</span> { <span class="ident">a</span>: <span class="number">0</span>, <span class="ident">b</span>: <span class="number">0</span> });
         }
-        <span class='kw'>let</span> <span class='ident'>parts</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>usize</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>s</span>.<span class='ident'>split</span>(<span class='string'>&#39;.&#39;</span>).<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>a</span><span class='op'>|</span> <span class='self'>self</span>.<span class='ident'>atom_to_index</span>(<span class='ident'>a</span>)).<span class='ident'>collect</span>();
-        <span class='kw'>if</span> <span class='ident'>parts</span>.<span class='ident'>len</span>() <span class='op'>&gt;</span> <span class='number'>8</span> {
-            <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>ParseScopeError</span>::<span class='ident'>TooManyAtoms</span>);
+        <span class="kw">let</span> <span class="ident">parts</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">split</span>(<span class="string">&#39;.&#39;</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">atom_to_index</span>(<span class="ident">a</span>)).<span class="ident">collect</span>();
+        <span class="kw">if</span> <span class="ident">parts</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="number">8</span> {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ParseScopeError</span>::<span class="ident">TooManyAtoms</span>);
         }
-        <span class='ident'>pack_as_u16s</span>(<span class='kw-2'>&amp;</span><span class='ident'>parts</span>[..])
+        <span class="ident">pack_as_u16s</span>(<span class="kw-2">&amp;</span><span class="ident">parts</span>[..])
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>to_string</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>scope</span>: <span class='ident'>Scope</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>new</span>();
-        <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='number'>8</span> {
-            <span class='kw'>let</span> <span class='ident'>atom_number</span> <span class='op'>=</span> <span class='ident'>scope</span>.<span class='ident'>atom_at</span>(<span class='ident'>i</span>);
-            <span class='comment'>// println!(&quot;atom {} of {:x}-{:x} = {:x}&quot;,</span>
-            <span class='comment'>//     i, scope.a, scope.b, atom_number);</span>
-            <span class='kw'>if</span> <span class='ident'>atom_number</span> <span class='op'>==</span> <span class='number'>0</span> {
-                <span class='kw'>break</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">scope</span>: <span class="ident">Scope</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">new</span>();
+        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">8</span> {
+            <span class="kw">let</span> <span class="ident">atom_number</span> <span class="op">=</span> <span class="ident">scope</span>.<span class="ident">atom_at</span>(<span class="ident">i</span>);
+            <span class="comment">// println!(&quot;atom {} of {:x}-{:x} = {:x}&quot;,</span>
+            <span class="comment">//     i, scope.a, scope.b, atom_number);</span>
+            <span class="kw">if</span> <span class="ident">atom_number</span> <span class="op">==</span> <span class="number">0</span> {
+                <span class="kw">break</span>;
             }
-            <span class='kw'>if</span> <span class='ident'>i</span> <span class='op'>!=</span> <span class='number'>0</span> {
-                <span class='ident'>s</span>.<span class='ident'>push_str</span>(<span class='string'>&quot;.&quot;</span>);
+            <span class="kw">if</span> <span class="ident">i</span> <span class="op">!=</span> <span class="number">0</span> {
+                <span class="ident">s</span>.<span class="ident">push_str</span>(<span class="string">&quot;.&quot;</span>);
             }
-            <span class='ident'>s</span>.<span class='ident'>push_str</span>(<span class='self'>self</span>.<span class='ident'>atom_str</span>(<span class='ident'>atom_number</span>));
+            <span class="ident">s</span>.<span class="ident">push_str</span>(<span class="self">self</span>.<span class="ident">atom_str</span>(<span class="ident">atom_number</span>));
         }
-        <span class='ident'>s</span>
+        <span class="ident">s</span>
     }
 
-    <span class='kw'>fn</span> <span class='ident'>atom_to_index</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>atom</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
-        <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>index</span>) <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>atom_index_map</span>.<span class='ident'>get</span>(<span class='ident'>atom</span>) {
-            <span class='kw'>return</span> <span class='kw-2'>*</span><span class='ident'>index</span>;
+    <span class="kw">fn</span> <span class="ident">atom_to_index</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">atom</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">index</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">atom_index_map</span>.<span class="ident">get</span>(<span class="ident">atom</span>) {
+            <span class="kw">return</span> <span class="kw-2">*</span><span class="ident">index</span>;
         }
 
-        <span class='self'>self</span>.<span class='ident'>atoms</span>.<span class='ident'>push</span>(<span class='ident'>atom</span>.<span class='ident'>to_owned</span>());
-        <span class='kw'>let</span> <span class='ident'>index</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>atoms</span>.<span class='ident'>len</span>() <span class='op'>-</span> <span class='number'>1</span>;
-        <span class='self'>self</span>.<span class='ident'>atom_index_map</span>.<span class='ident'>insert</span>(<span class='ident'>atom</span>.<span class='ident'>to_owned</span>(), <span class='ident'>index</span>);
+        <span class="self">self</span>.<span class="ident">atoms</span>.<span class="ident">push</span>(<span class="ident">atom</span>.<span class="ident">to_owned</span>());
+        <span class="kw">let</span> <span class="ident">index</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">atoms</span>.<span class="ident">len</span>() <span class="op">-</span> <span class="number">1</span>;
+        <span class="self">self</span>.<span class="ident">atom_index_map</span>.<span class="ident">insert</span>(<span class="ident">atom</span>.<span class="ident">to_owned</span>(), <span class="ident">index</span>);
 
-        <span class='ident'>index</span>
+        <span class="ident">index</span>
     }
 
-    <span class='doccomment'>/// Return the string for an atom number returned by `Scope#atom_at`</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>atom_str</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>atom_number</span>: <span class='ident'>u16</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>str</span> {
-        <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>atoms</span>[(<span class='ident'>atom_number</span> <span class='op'>-</span> <span class='number'>1</span>) <span class='kw'>as</span> <span class='ident'>usize</span>]
+    <span class="doccomment">/// Return the string for an atom number returned by `Scope#atom_at`</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">atom_str</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">atom_number</span>: <span class="ident">u16</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span> {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">atoms</span>[(<span class="ident">atom_number</span> <span class="op">-</span> <span class="number">1</span>) <span class="kw">as</span> <span class="ident">usize</span>]
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>Scope</span> {
-    <span class='doccomment'>/// Parses a `Scope` from a series of atoms separated by</span>
-    <span class='doccomment'>/// `.` characters. Example: `Scope::new(&quot;meta.rails.controller&quot;)`</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Scope</span>, <span class='ident'>ParseScopeError</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>repo</span> <span class='op'>=</span> <span class='ident'>SCOPE_REPO</span>.<span class='ident'>lock</span>().<span class='ident'>unwrap</span>();
-        <span class='ident'>repo</span>.<span class='ident'>build</span>(<span class='ident'>s</span>.<span class='ident'>trim</span>())
+<span class="kw">impl</span> <span class="ident">Scope</span> {
+    <span class="doccomment">/// Parses a `Scope` from a series of atoms separated by</span>
+    <span class="doccomment">/// `.` characters. Example: `Scope::new(&quot;meta.rails.controller&quot;)`</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Scope</span>, <span class="ident">ParseScopeError</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">repo</span> <span class="op">=</span> <span class="ident">SCOPE_REPO</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
+        <span class="ident">repo</span>.<span class="ident">build</span>(<span class="ident">s</span>.<span class="ident">trim</span>())
     }
 
-    <span class='doccomment'>/// Gets the atom number at a given index.</span>
-    <span class='doccomment'>/// I can&#39;t think of any reason you&#39;d find this useful.</span>
-    <span class='doccomment'>/// It is used internally for turning a scope back into a string.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>atom_at</span>(<span class='self'>self</span>, <span class='ident'>index</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='ident'>u16</span> {
-        <span class='kw'>let</span> <span class='ident'>shifted</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>index</span> <span class='op'>&lt;</span> <span class='number'>4</span> {
-            (<span class='self'>self</span>.<span class='ident'>a</span> <span class='op'>&gt;&gt;</span> ((<span class='number'>3</span> <span class='op'>-</span> <span class='ident'>index</span>) <span class='op'>*</span> <span class='number'>16</span>))
-        } <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>index</span> <span class='op'>&lt;</span> <span class='number'>8</span> {
-            (<span class='self'>self</span>.<span class='ident'>b</span> <span class='op'>&gt;&gt;</span> ((<span class='number'>7</span> <span class='op'>-</span> <span class='ident'>index</span>) <span class='op'>*</span> <span class='number'>16</span>))
-        } <span class='kw'>else</span> {
-            <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;atom index out of bounds {:?}&quot;</span>, <span class='ident'>index</span>);
+    <span class="doccomment">/// Gets the atom number at a given index.</span>
+    <span class="doccomment">/// I can&#39;t think of any reason you&#39;d find this useful.</span>
+    <span class="doccomment">/// It is used internally for turning a scope back into a string.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">atom_at</span>(<span class="self">self</span>, <span class="ident">index</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">u16</span> {
+        <span class="kw">let</span> <span class="ident">shifted</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">index</span> <span class="op">&lt;</span> <span class="number">4</span> {
+            (<span class="self">self</span>.<span class="ident">a</span> <span class="op">&gt;&gt;</span> ((<span class="number">3</span> <span class="op">-</span> <span class="ident">index</span>) <span class="op">*</span> <span class="number">16</span>))
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">index</span> <span class="op">&lt;</span> <span class="number">8</span> {
+            (<span class="self">self</span>.<span class="ident">b</span> <span class="op">&gt;&gt;</span> ((<span class="number">7</span> <span class="op">-</span> <span class="ident">index</span>) <span class="op">*</span> <span class="number">16</span>))
+        } <span class="kw">else</span> {
+            <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;atom index out of bounds {:?}&quot;</span>, <span class="ident">index</span>);
         };
-        (<span class='ident'>shifted</span> <span class='op'>&amp;</span> <span class='number'>0xFFFF</span>) <span class='kw'>as</span> <span class='ident'>u16</span>
+        (<span class="ident">shifted</span> <span class="op">&amp;</span> <span class="number">0xFFFF</span>) <span class="kw">as</span> <span class="ident">u16</span>
     }
 
-    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>missing_atoms</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>u32</span> {
-        <span class='kw'>let</span> <span class='ident'>trail</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>b</span> <span class='op'>==</span> <span class='number'>0</span> {
-            <span class='self'>self</span>.<span class='ident'>a</span>.<span class='ident'>trailing_zeros</span>() <span class='op'>+</span> <span class='number'>64</span>
-        } <span class='kw'>else</span> {
-            <span class='self'>self</span>.<span class='ident'>b</span>.<span class='ident'>trailing_zeros</span>()
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">fn</span> <span class="ident">missing_atoms</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> {
+        <span class="kw">let</span> <span class="ident">trail</span> <span class="op">=</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">b</span> <span class="op">==</span> <span class="number">0</span> {
+            <span class="self">self</span>.<span class="ident">a</span>.<span class="ident">trailing_zeros</span>() <span class="op">+</span> <span class="number">64</span>
+        } <span class="kw">else</span> {
+            <span class="self">self</span>.<span class="ident">b</span>.<span class="ident">trailing_zeros</span>()
         };
-        <span class='ident'>trail</span> <span class='op'>/</span> <span class='number'>16</span>
+        <span class="ident">trail</span> <span class="op">/</span> <span class="number">16</span>
     }
 
-    <span class='doccomment'>/// return the number of atoms in the scope</span>
-    <span class='attribute'>#[<span class='ident'>inline</span>(<span class='ident'>always</span>)]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>len</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>u32</span> {
-        <span class='number'>8</span> <span class='op'>-</span> <span class='self'>self</span>.<span class='ident'>missing_atoms</span>()
+    <span class="doccomment">/// return the number of atoms in the scope</span>
+    <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">len</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> {
+        <span class="number">8</span> <span class="op">-</span> <span class="self">self</span>.<span class="ident">missing_atoms</span>()
     }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_empty</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='self'>self</span>.<span class='ident'>len</span>() <span class='op'>==</span> <span class='number'>0</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="self">self</span>.<span class="ident">len</span>() <span class="op">==</span> <span class="number">0</span>
     }
 
-    <span class='doccomment'>/// returns a string representation of this scope, this requires locking a</span>
-    <span class='doccomment'>/// global repo and shouldn&#39;t be done frequently.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>build_string</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span> {
-        <span class='kw'>let</span> <span class='ident'>repo</span> <span class='op'>=</span> <span class='ident'>SCOPE_REPO</span>.<span class='ident'>lock</span>().<span class='ident'>unwrap</span>();
-        <span class='ident'>repo</span>.<span class='ident'>to_string</span>(<span class='self'>self</span>)
+    <span class="doccomment">/// returns a string representation of this scope, this requires locking a</span>
+    <span class="doccomment">/// global repo and shouldn&#39;t be done frequently.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">build_string</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
+        <span class="kw">let</span> <span class="ident">repo</span> <span class="op">=</span> <span class="ident">SCOPE_REPO</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
+        <span class="ident">repo</span>.<span class="ident">to_string</span>(<span class="self">self</span>)
     }
 
-    <span class='doccomment'>/// Tests if this scope is a prefix of another scope.</span>
-    <span class='doccomment'>/// Note that the empty scope is always a prefix.</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// This operation uses bitwise operations and is very fast</span>
-    <span class='doccomment'>/// # Examples</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// use syntect::parsing::Scope;</span>
-    <span class='doccomment'>/// assert!( Scope::new(&quot;string&quot;).unwrap()</span>
-    <span class='doccomment'>///         .is_prefix_of(Scope::new(&quot;string.quoted&quot;).unwrap()));</span>
-    <span class='doccomment'>/// assert!( Scope::new(&quot;string.quoted&quot;).unwrap()</span>
-    <span class='doccomment'>///         .is_prefix_of(Scope::new(&quot;string.quoted&quot;).unwrap()));</span>
-    <span class='doccomment'>/// assert!( Scope::new(&quot;&quot;).unwrap()</span>
-    <span class='doccomment'>///         .is_prefix_of(Scope::new(&quot;meta.rails.controller&quot;).unwrap()));</span>
-    <span class='doccomment'>/// assert!(!Scope::new(&quot;source.php&quot;).unwrap()</span>
-    <span class='doccomment'>///         .is_prefix_of(Scope::new(&quot;source&quot;).unwrap()));</span>
-    <span class='doccomment'>/// assert!(!Scope::new(&quot;source.php&quot;).unwrap()</span>
-    <span class='doccomment'>///         .is_prefix_of(Scope::new(&quot;source.ruby&quot;).unwrap()));</span>
-    <span class='doccomment'>/// assert!(!Scope::new(&quot;meta.php&quot;).unwrap()</span>
-    <span class='doccomment'>///         .is_prefix_of(Scope::new(&quot;source.php&quot;).unwrap()));</span>
-    <span class='doccomment'>/// assert!(!Scope::new(&quot;meta.php&quot;).unwrap()</span>
-    <span class='doccomment'>///         .is_prefix_of(Scope::new(&quot;source.php.wow&quot;).unwrap()));</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_prefix_of</span>(<span class='self'>self</span>, <span class='ident'>s</span>: <span class='ident'>Scope</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='kw'>let</span> <span class='ident'>pref_missing</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>missing_atoms</span>();
+    <span class="doccomment">/// Tests if this scope is a prefix of another scope.</span>
+    <span class="doccomment">/// Note that the empty scope is always a prefix.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This operation uses bitwise operations and is very fast</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use syntect::parsing::Scope;</span>
+    <span class="doccomment">/// assert!( Scope::new(&quot;string&quot;).unwrap()</span>
+    <span class="doccomment">///         .is_prefix_of(Scope::new(&quot;string.quoted&quot;).unwrap()));</span>
+    <span class="doccomment">/// assert!( Scope::new(&quot;string.quoted&quot;).unwrap()</span>
+    <span class="doccomment">///         .is_prefix_of(Scope::new(&quot;string.quoted&quot;).unwrap()));</span>
+    <span class="doccomment">/// assert!( Scope::new(&quot;&quot;).unwrap()</span>
+    <span class="doccomment">///         .is_prefix_of(Scope::new(&quot;meta.rails.controller&quot;).unwrap()));</span>
+    <span class="doccomment">/// assert!(!Scope::new(&quot;source.php&quot;).unwrap()</span>
+    <span class="doccomment">///         .is_prefix_of(Scope::new(&quot;source&quot;).unwrap()));</span>
+    <span class="doccomment">/// assert!(!Scope::new(&quot;source.php&quot;).unwrap()</span>
+    <span class="doccomment">///         .is_prefix_of(Scope::new(&quot;source.ruby&quot;).unwrap()));</span>
+    <span class="doccomment">/// assert!(!Scope::new(&quot;meta.php&quot;).unwrap()</span>
+    <span class="doccomment">///         .is_prefix_of(Scope::new(&quot;source.php&quot;).unwrap()));</span>
+    <span class="doccomment">/// assert!(!Scope::new(&quot;meta.php&quot;).unwrap()</span>
+    <span class="doccomment">///         .is_prefix_of(Scope::new(&quot;source.php.wow&quot;).unwrap()));</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_prefix_of</span>(<span class="self">self</span>, <span class="ident">s</span>: <span class="ident">Scope</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="kw">let</span> <span class="ident">pref_missing</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">missing_atoms</span>();
 
-        <span class='comment'>// TODO: test optimization - use checked shl and then mult carry flag as int by -1</span>
-        <span class='kw'>let</span> <span class='ident'>mask</span>: (<span class='ident'>u64</span>, <span class='ident'>u64</span>) <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>pref_missing</span> <span class='op'>==</span> <span class='number'>8</span> {
-            (<span class='number'>0</span>, <span class='number'>0</span>)
-        } <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>pref_missing</span> <span class='op'>==</span> <span class='number'>4</span> {
-            (<span class='ident'>u64</span>::<span class='ident'>MAX</span>, <span class='number'>0</span>)
-        } <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>pref_missing</span> <span class='op'>&gt;</span> <span class='number'>4</span> {
-            (<span class='ident'>u64</span>::<span class='ident'>MAX</span> <span class='op'>&lt;&lt;</span> ((<span class='ident'>pref_missing</span> <span class='op'>-</span> <span class='number'>4</span>) <span class='op'>*</span> <span class='number'>16</span>), <span class='number'>0</span>)
-        } <span class='kw'>else</span> {
-            (<span class='ident'>u64</span>::<span class='ident'>MAX</span>, <span class='ident'>u64</span>::<span class='ident'>MAX</span> <span class='op'>&lt;&lt;</span> (<span class='ident'>pref_missing</span> <span class='op'>*</span> <span class='number'>16</span>))
+        <span class="comment">// TODO: test optimization - use checked shl and then mult carry flag as int by -1</span>
+        <span class="kw">let</span> <span class="ident">mask</span>: (<span class="ident">u64</span>, <span class="ident">u64</span>) <span class="op">=</span> <span class="kw">if</span> <span class="ident">pref_missing</span> <span class="op">==</span> <span class="number">8</span> {
+            (<span class="number">0</span>, <span class="number">0</span>)
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">pref_missing</span> <span class="op">==</span> <span class="number">4</span> {
+            (<span class="ident">u64</span>::<span class="ident">MAX</span>, <span class="number">0</span>)
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">pref_missing</span> <span class="op">&gt;</span> <span class="number">4</span> {
+            (<span class="ident">u64</span>::<span class="ident">MAX</span> <span class="op">&lt;&lt;</span> ((<span class="ident">pref_missing</span> <span class="op">-</span> <span class="number">4</span>) <span class="op">*</span> <span class="number">16</span>), <span class="number">0</span>)
+        } <span class="kw">else</span> {
+            (<span class="ident">u64</span>::<span class="ident">MAX</span>, <span class="ident">u64</span>::<span class="ident">MAX</span> <span class="op">&lt;&lt;</span> (<span class="ident">pref_missing</span> <span class="op">*</span> <span class="number">16</span>))
         };
 
-        <span class='comment'>// xor to find the difference</span>
-        <span class='kw'>let</span> <span class='ident'>ax</span> <span class='op'>=</span> (<span class='self'>self</span>.<span class='ident'>a</span> <span class='op'>^</span> <span class='ident'>s</span>.<span class='ident'>a</span>) <span class='op'>&amp;</span> <span class='ident'>mask</span>.<span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='ident'>bx</span> <span class='op'>=</span> (<span class='self'>self</span>.<span class='ident'>b</span> <span class='op'>^</span> <span class='ident'>s</span>.<span class='ident'>b</span>) <span class='op'>&amp;</span> <span class='ident'>mask</span>.<span class='number'>1</span>;
-        <span class='comment'>// println!(&quot;{:x}-{:x} is_pref {:x}-{:x}: missing {} mask {:x}-{:x} xor {:x}-{:x}&quot;,</span>
-        <span class='comment'>//     self.a, self.b, s.a, s.b, pref_missing, mask.0, mask.1, ax, bx);</span>
+        <span class="comment">// xor to find the difference</span>
+        <span class="kw">let</span> <span class="ident">ax</span> <span class="op">=</span> (<span class="self">self</span>.<span class="ident">a</span> <span class="op">^</span> <span class="ident">s</span>.<span class="ident">a</span>) <span class="op">&amp;</span> <span class="ident">mask</span>.<span class="number">0</span>;
+        <span class="kw">let</span> <span class="ident">bx</span> <span class="op">=</span> (<span class="self">self</span>.<span class="ident">b</span> <span class="op">^</span> <span class="ident">s</span>.<span class="ident">b</span>) <span class="op">&amp;</span> <span class="ident">mask</span>.<span class="number">1</span>;
+        <span class="comment">// println!(&quot;{:x}-{:x} is_pref {:x}-{:x}: missing {} mask {:x}-{:x} xor {:x}-{:x}&quot;,</span>
+        <span class="comment">//     self.a, self.b, s.a, s.b, pref_missing, mask.0, mask.1, ax, bx);</span>
 
-        <span class='ident'>ax</span> <span class='op'>==</span> <span class='number'>0</span> <span class='op'>&amp;&amp;</span> <span class='ident'>bx</span> <span class='op'>==</span> <span class='number'>0</span>
+        <span class="ident">ax</span> <span class="op">==</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="ident">bx</span> <span class="op">==</span> <span class="number">0</span>
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>FromStr</span> <span class='kw'>for</span> <span class='ident'>Scope</span> {
-    <span class='kw'>type</span> <span class='prelude-val'>Err</span> <span class='op'>=</span> <span class='ident'>ParseScopeError</span>;
+<span class="kw">impl</span> <span class="ident">FromStr</span> <span class="kw">for</span> <span class="ident">Scope</span> {
+    <span class="kw">type</span> <span class="prelude-val">Err</span> <span class="op">=</span> <span class="ident">ParseScopeError</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>from_str</span>(<span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Scope</span>, <span class='ident'>ParseScopeError</span><span class='op'>&gt;</span> {
-        <span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='ident'>s</span>)
+    <span class="kw">fn</span> <span class="ident">from_str</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Scope</span>, <span class="ident">ParseScopeError</span><span class="op">&gt;</span> {
+        <span class="ident">Scope</span>::<span class="ident">new</span>(<span class="ident">s</span>)
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>fmt</span>::<span class='ident'>Display</span> <span class='kw'>for</span> <span class='ident'>Scope</span> {
-    <span class='kw'>fn</span> <span class='ident'>fmt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>f</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>fmt</span>::<span class='ident'>Formatter</span>) <span class='op'>-&gt;</span> <span class='ident'>fmt</span>::<span class='prelude-ty'>Result</span> {
-        <span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>build_string</span>();
-        <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;{}&quot;</span>, <span class='ident'>s</span>)
+<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">Scope</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">build_string</span>();
+        <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">s</span>)
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>fmt</span>::<span class='ident'>Debug</span> <span class='kw'>for</span> <span class='ident'>Scope</span> {
-    <span class='kw'>fn</span> <span class='ident'>fmt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>f</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>fmt</span>::<span class='ident'>Formatter</span>) <span class='op'>-&gt;</span> <span class='ident'>fmt</span>::<span class='prelude-ty'>Result</span> {
-        <span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>build_string</span>();
-        <span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;&lt;{}&gt;&quot;</span>, <span class='ident'>s</span>)
+<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">Scope</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">build_string</span>();
+        <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;&lt;{}&gt;&quot;</span>, <span class="ident">s</span>)
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>Encodable</span> <span class='kw'>for</span> <span class='ident'>Scope</span> {
-    <span class='kw'>fn</span> <span class='ident'>encode</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>Encoder</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span>(), <span class='ident'>S</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>st</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>build_string</span>();
-        <span class='ident'>s</span>.<span class='ident'>emit_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>st</span>)
+<span class="kw">impl</span> <span class="ident">Serialize</span> <span class="kw">for</span> <span class="ident">Scope</span> {
+    <span class="kw">fn</span> <span class="ident">serialize</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">serializer</span>: <span class="ident">S</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S</span>::<span class="prelude-val">Ok</span>, <span class="ident">S</span>::<span class="ident">Error</span><span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">S</span>: <span class="ident">Serializer</span> {
+        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">build_string</span>();
+        <span class="ident">serializer</span>.<span class="ident">serialize_str</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>)
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>Decodable</span> <span class='kw'>for</span> <span class='ident'>Scope</span> {
-    <span class='kw'>fn</span> <span class='ident'>decode</span><span class='op'>&lt;</span><span class='ident'>D</span>: <span class='ident'>Decoder</span><span class='op'>&gt;</span>(<span class='ident'>d</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>D</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Scope</span>, <span class='ident'>D</span>::<span class='ident'>Error</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='ident'>s</span>: <span class='ident'>String</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>d</span>.<span class='ident'>read_str</span>());
-        <span class='prelude-val'>Ok</span>(<span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='ident'>s</span>).<span class='ident'>unwrap</span>())
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Scope</span> {
+    <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">D</span>: <span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> {
+
+        <span class="kw">struct</span> <span class="ident">ScopeVisitor</span>;
+
+        <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">Visitor</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ScopeVisitor</span> {
+            <span class="kw">type</span> <span class="ident">Value</span> <span class="op">=</span> <span class="ident">Scope</span>;
+
+            <span class="kw">fn</span> <span class="ident">expecting</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">formatter</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+                <span class="ident">formatter</span>.<span class="ident">write_str</span>(<span class="string">&quot;a string&quot;</span>)
+            }
+
+            <span class="kw">fn</span> <span class="ident">visit_str</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">v</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Scope</span>, <span class="ident">E</span><span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">E</span>: <span class="ident">Error</span> {
+                <span class="ident">Scope</span>::<span class="ident">new</span>(<span class="ident">v</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">Error</span>::<span class="ident">custom</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Invalid scope: {:?}&quot;</span>, <span class="ident">e</span>)))
+            }
+        }
+
+        <span class="ident">deserializer</span>.<span class="ident">deserialize_str</span>(<span class="ident">ScopeVisitor</span>)
     }
 }
 
-<span class='doccomment'>/// Wrapper to get around the fact Rust f64 doesn&#39;t implement Ord</span>
-<span class='doccomment'>/// and there is no non-NaN float type</span>
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Copy</span>, <span class='ident'>Clone</span>, <span class='ident'>PartialOrd</span>, <span class='ident'>PartialEq</span>)]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>MatchPower</span>(<span class='kw'>pub</span> <span class='ident'>f64</span>);
-<span class='kw'>impl</span> <span class='ident'>Eq</span> <span class='kw'>for</span> <span class='ident'>MatchPower</span> {}
-<span class='kw'>impl</span> <span class='ident'>Ord</span> <span class='kw'>for</span> <span class='ident'>MatchPower</span> {
-    <span class='kw'>fn</span> <span class='ident'>cmp</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>Ordering</span> {
-        <span class='self'>self</span>.<span class='ident'>partial_cmp</span>(<span class='ident'>other</span>).<span class='ident'>unwrap</span>()
+<span class="doccomment">/// Wrapper to get around the fact Rust f64 doesn&#39;t implement Ord</span>
+<span class="doccomment">/// and there is no non-NaN float type</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">PartialOrd</span>, <span class="ident">PartialEq</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MatchPower</span>(<span class="kw">pub</span> <span class="ident">f64</span>);
+<span class="kw">impl</span> <span class="ident">Eq</span> <span class="kw">for</span> <span class="ident">MatchPower</span> {}
+<span class="kw">impl</span> <span class="ident">Ord</span> <span class="kw">for</span> <span class="ident">MatchPower</span> {
+    <span class="kw">fn</span> <span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">Ordering</span> {
+        <span class="self">self</span>.<span class="ident">partial_cmp</span>(<span class="ident">other</span>).<span class="ident">unwrap</span>()
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>ScopeStack</span> {
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='ident'>ScopeStack</span> {
-        <span class='ident'>ScopeStack</span> {
-            <span class='ident'>clear_stack</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
-            <span class='ident'>scopes</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>()
+<span class="kw">impl</span> <span class="ident">ScopeStack</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="ident">ScopeStack</span> {
+        <span class="ident">ScopeStack</span> {
+            <span class="ident">clear_stack</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
+            <span class="ident">scopes</span>: <span class="ident">Vec</span>::<span class="ident">new</span>()
         }
     }
 
-    <span class='doccomment'>/// Note: creating a ScopeStack with this doesn&#39;t contain information</span>
-    <span class='doccomment'>/// on what to do when clear_scopes contexts end.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>from_vec</span>(<span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Scope</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>ScopeStack</span> {
-        <span class='ident'>ScopeStack</span> {
-            <span class='ident'>clear_stack</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>(),
-            <span class='ident'>scopes</span>: <span class='ident'>v</span>
+    <span class="doccomment">/// Note: creating a ScopeStack with this doesn&#39;t contain information</span>
+    <span class="doccomment">/// on what to do when clear_scopes contexts end.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_vec</span>(<span class="ident">v</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Scope</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">ScopeStack</span> {
+        <span class="ident">ScopeStack</span> {
+            <span class="ident">clear_stack</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
+            <span class="ident">scopes</span>: <span class="ident">v</span>
         }
     }
 
-    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>push</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>s</span>: <span class='ident'>Scope</span>) {
-        <span class='self'>self</span>.<span class='ident'>scopes</span>.<span class='ident'>push</span>(<span class='ident'>s</span>);
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">push</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">s</span>: <span class="ident">Scope</span>) {
+        <span class="self">self</span>.<span class="ident">scopes</span>.<span class="ident">push</span>(<span class="ident">s</span>);
     }
 
-    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>pop</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
-        <span class='self'>self</span>.<span class='ident'>scopes</span>.<span class='ident'>pop</span>();
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">pop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
+        <span class="self">self</span>.<span class="ident">scopes</span>.<span class="ident">pop</span>();
     }
 
-    <span class='doccomment'>/// Modifies this stack according to the operation given</span>
-    <span class='doccomment'>/// use this to create a stack from a `Vec` of changes</span>
-    <span class='doccomment'>/// given by the parser.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>apply</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>op</span>: <span class='kw-2'>&amp;</span><span class='ident'>ScopeStackOp</span>) {
-        <span class='self'>self</span>.<span class='ident'>apply_with_hook</span>(<span class='ident'>op</span>, <span class='op'>|</span>_,_<span class='op'>|</span>{})
+    <span class="doccomment">/// Modifies this stack according to the operation given</span>
+    <span class="doccomment">/// use this to create a stack from a `Vec` of changes</span>
+    <span class="doccomment">/// given by the parser.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">apply</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">op</span>: <span class="kw-2">&amp;</span><span class="ident">ScopeStackOp</span>) {
+        <span class="self">self</span>.<span class="ident">apply_with_hook</span>(<span class="ident">op</span>, <span class="op">|</span>_,_<span class="op">|</span>{})
     }
 
-    <span class='doccomment'>/// Modifies this stack according to the operation given and calls the hook for each basic operation.</span>
-    <span class='doccomment'>/// Like `apply` but calls `hook` for every basic modification (as defined by `BasicScopeStackOp`).</span>
-    <span class='doccomment'>/// Use this to do things only when the scope stack changes.</span>
-    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>apply_with_hook</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>op</span>: <span class='kw-2'>&amp;</span><span class='ident'>ScopeStackOp</span>, <span class='kw-2'>mut</span> <span class='ident'>hook</span>: <span class='ident'>F</span>)
-        <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>FnMut</span>(<span class='ident'>BasicScopeStackOp</span>, <span class='kw-2'>&amp;</span>[<span class='ident'>Scope</span>])
+    <span class="doccomment">/// Modifies this stack according to the operation given and calls the hook for each basic operation.</span>
+    <span class="doccomment">/// Like `apply` but calls `hook` for every basic modification (as defined by `BasicScopeStackOp`).</span>
+    <span class="doccomment">/// Use this to do things only when the scope stack changes.</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">apply_with_hook</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">op</span>: <span class="kw-2">&amp;</span><span class="ident">ScopeStackOp</span>, <span class="kw-2">mut</span> <span class="ident">hook</span>: <span class="ident">F</span>)
+        <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="ident">BasicScopeStackOp</span>, <span class="kw-2">&amp;</span>[<span class="ident">Scope</span>])
     {
-        <span class='kw'>match</span> <span class='kw-2'>*</span><span class='ident'>op</span> {
-            <span class='ident'>ScopeStackOp</span>::<span class='ident'>Push</span>(<span class='ident'>scope</span>) <span class='op'>=&gt;</span> {
-                <span class='self'>self</span>.<span class='ident'>scopes</span>.<span class='ident'>push</span>(<span class='ident'>scope</span>);
-                <span class='ident'>hook</span>(<span class='ident'>BasicScopeStackOp</span>::<span class='ident'>Push</span>(<span class='ident'>scope</span>), <span class='self'>self</span>.<span class='ident'>as_slice</span>());
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="ident">op</span> {
+            <span class="ident">ScopeStackOp</span>::<span class="ident">Push</span>(<span class="ident">scope</span>) <span class="op">=&gt;</span> {
+                <span class="self">self</span>.<span class="ident">scopes</span>.<span class="ident">push</span>(<span class="ident">scope</span>);
+                <span class="ident">hook</span>(<span class="ident">BasicScopeStackOp</span>::<span class="ident">Push</span>(<span class="ident">scope</span>), <span class="self">self</span>.<span class="ident">as_slice</span>());
             }
-            <span class='ident'>ScopeStackOp</span>::<span class='ident'>Pop</span>(<span class='ident'>count</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>for</span> _ <span class='kw'>in</span> <span class='number'>0</span>..<span class='ident'>count</span> {
-                    <span class='self'>self</span>.<span class='ident'>scopes</span>.<span class='ident'>pop</span>();
-                    <span class='ident'>hook</span>(<span class='ident'>BasicScopeStackOp</span>::<span class='ident'>Pop</span>, <span class='self'>self</span>.<span class='ident'>as_slice</span>());
+            <span class="ident">ScopeStackOp</span>::<span class="ident">Pop</span>(<span class="ident">count</span>) <span class="op">=&gt;</span> {
+                <span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span>..<span class="ident">count</span> {
+                    <span class="self">self</span>.<span class="ident">scopes</span>.<span class="ident">pop</span>();
+                    <span class="ident">hook</span>(<span class="ident">BasicScopeStackOp</span>::<span class="ident">Pop</span>, <span class="self">self</span>.<span class="ident">as_slice</span>());
                 }
             }
-            <span class='ident'>ScopeStackOp</span>::<span class='ident'>Clear</span>(<span class='ident'>amount</span>) <span class='op'>=&gt;</span> {
-                <span class='kw'>let</span> <span class='ident'>cleared</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>amount</span> {
-                    <span class='ident'>ClearAmount</span>::<span class='ident'>TopN</span>(<span class='ident'>n</span>) <span class='op'>=&gt;</span> {
-                        <span class='comment'>// don&#39;t try to clear more scopes than are on the stack </span>
-                        <span class='kw'>let</span> <span class='ident'>to_leave</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>scopes</span>.<span class='ident'>len</span>() <span class='op'>-</span> <span class='ident'>min</span>(<span class='ident'>n</span>, <span class='self'>self</span>.<span class='ident'>scopes</span>.<span class='ident'>len</span>());
-                        <span class='self'>self</span>.<span class='ident'>scopes</span>.<span class='ident'>split_off</span>(<span class='ident'>to_leave</span>)
+            <span class="ident">ScopeStackOp</span>::<span class="ident">Clear</span>(<span class="ident">amount</span>) <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="ident">cleared</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">amount</span> {
+                    <span class="ident">ClearAmount</span>::<span class="ident">TopN</span>(<span class="ident">n</span>) <span class="op">=&gt;</span> {
+                        <span class="comment">// don&#39;t try to clear more scopes than are on the stack </span>
+                        <span class="kw">let</span> <span class="ident">to_leave</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">scopes</span>.<span class="ident">len</span>() <span class="op">-</span> <span class="ident">min</span>(<span class="ident">n</span>, <span class="self">self</span>.<span class="ident">scopes</span>.<span class="ident">len</span>());
+                        <span class="self">self</span>.<span class="ident">scopes</span>.<span class="ident">split_off</span>(<span class="ident">to_leave</span>)
                     }
-                    <span class='ident'>ClearAmount</span>::<span class='ident'>All</span> <span class='op'>=&gt;</span> {
-                        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>cleared</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
-                        <span class='ident'>mem</span>::<span class='ident'>swap</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>cleared</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>scopes</span>);
-                        <span class='ident'>cleared</span>
+                    <span class="ident">ClearAmount</span>::<span class="ident">All</span> <span class="op">=&gt;</span> {
+                        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cleared</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+                        <span class="ident">mem</span>::<span class="ident">swap</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">cleared</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">scopes</span>);
+                        <span class="ident">cleared</span>
                     }
                 };
-                <span class='kw'>let</span> <span class='ident'>clear_amount</span> <span class='op'>=</span> <span class='ident'>cleared</span>.<span class='ident'>len</span>();
-                <span class='self'>self</span>.<span class='ident'>clear_stack</span>.<span class='ident'>push</span>(<span class='ident'>cleared</span>);
-                <span class='kw'>for</span> _ <span class='kw'>in</span> <span class='number'>0</span>..<span class='ident'>clear_amount</span> {
-                    <span class='ident'>hook</span>(<span class='ident'>BasicScopeStackOp</span>::<span class='ident'>Pop</span>, <span class='self'>self</span>.<span class='ident'>as_slice</span>());
+                <span class="kw">let</span> <span class="ident">clear_amount</span> <span class="op">=</span> <span class="ident">cleared</span>.<span class="ident">len</span>();
+                <span class="self">self</span>.<span class="ident">clear_stack</span>.<span class="ident">push</span>(<span class="ident">cleared</span>);
+                <span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span>..<span class="ident">clear_amount</span> {
+                    <span class="ident">hook</span>(<span class="ident">BasicScopeStackOp</span>::<span class="ident">Pop</span>, <span class="self">self</span>.<span class="ident">as_slice</span>());
                 }
             }
-            <span class='ident'>ScopeStackOp</span>::<span class='ident'>Restore</span> <span class='op'>=&gt;</span> {
-                <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>clear_stack</span>.<span class='ident'>pop</span>() {
-                    <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>to_push</span>) <span class='op'>=&gt;</span> {
-                        <span class='kw'>for</span> <span class='ident'>s</span> <span class='kw'>in</span> <span class='ident'>to_push</span> {
-                            <span class='self'>self</span>.<span class='ident'>scopes</span>.<span class='ident'>push</span>(<span class='kw-2'>*</span><span class='ident'>s</span>);
-                            <span class='ident'>hook</span>(<span class='ident'>BasicScopeStackOp</span>::<span class='ident'>Push</span>(<span class='kw-2'>*</span><span class='ident'>s</span>), <span class='self'>self</span>.<span class='ident'>as_slice</span>());
+            <span class="ident">ScopeStackOp</span>::<span class="ident">Restore</span> <span class="op">=&gt;</span> {
+                <span class="kw">match</span> <span class="self">self</span>.<span class="ident">clear_stack</span>.<span class="ident">pop</span>() {
+                    <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">to_push</span>) <span class="op">=&gt;</span> {
+                        <span class="kw">for</span> <span class="ident">s</span> <span class="kw">in</span> <span class="ident">to_push</span> {
+                            <span class="self">self</span>.<span class="ident">scopes</span>.<span class="ident">push</span>(<span class="kw-2">*</span><span class="ident">s</span>);
+                            <span class="ident">hook</span>(<span class="ident">BasicScopeStackOp</span>::<span class="ident">Push</span>(<span class="kw-2">*</span><span class="ident">s</span>), <span class="self">self</span>.<span class="ident">as_slice</span>());
                         }
                     }
-                    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;tried to restore cleared scopes, but none were cleared&quot;</span>),
+                    <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;tried to restore cleared scopes, but none were cleared&quot;</span>),
                 }
             }
-            <span class='ident'>ScopeStackOp</span>::<span class='ident'>Noop</span> <span class='op'>=&gt;</span> (),
+            <span class="ident">ScopeStackOp</span>::<span class="ident">Noop</span> <span class="op">=&gt;</span> (),
         }
     }
 
-    <span class='doccomment'>/// Prints out each scope in the stack separated by spaces</span>
-    <span class='doccomment'>/// and then a newline. Top of the stack at the end.</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>debug_print</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>repo</span>: <span class='kw-2'>&amp;</span><span class='ident'>ScopeRepository</span>) {
-        <span class='kw'>for</span> <span class='ident'>s</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>scopes</span> {
-            <span class='macro'>print</span><span class='macro'>!</span>(<span class='string'>&quot;{} &quot;</span>, <span class='ident'>repo</span>.<span class='ident'>to_string</span>(<span class='kw-2'>*</span><span class='ident'>s</span>));
+    <span class="doccomment">/// Prints out each scope in the stack separated by spaces</span>
+    <span class="doccomment">/// and then a newline. Top of the stack at the end.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">debug_print</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">repo</span>: <span class="kw-2">&amp;</span><span class="ident">ScopeRepository</span>) {
+        <span class="kw">for</span> <span class="ident">s</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">scopes</span> {
+            <span class="macro">print</span><span class="macro">!</span>(<span class="string">&quot;{} &quot;</span>, <span class="ident">repo</span>.<span class="ident">to_string</span>(<span class="kw-2">*</span><span class="ident">s</span>));
         }
-        <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;&quot;</span>);
+        <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;&quot;</span>);
     }
 
-    <span class='doccomment'>/// Return the bottom n elements of the stack.</span>
-    <span class='doccomment'>/// Equivalent to &amp;scopes[0..n] on a Vec</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>bottom_n</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>n</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span>[<span class='ident'>Scope</span>] {
-        <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>scopes</span>[<span class='number'>0</span>..<span class='ident'>n</span>]
+    <span class="doccomment">/// Return the bottom n elements of the stack.</span>
+    <span class="doccomment">/// Equivalent to &amp;scopes[0..n] on a Vec</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">bottom_n</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">n</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">Scope</span>] {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">scopes</span>[<span class="number">0</span>..<span class="ident">n</span>]
     }
 
-    <span class='doccomment'>/// Return a slice of the scopes in this stack</span>
-    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>as_slice</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span>[<span class='ident'>Scope</span>] {
-        <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>scopes</span>[..]
+    <span class="doccomment">/// Return a slice of the scopes in this stack</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_slice</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">Scope</span>] {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">scopes</span>[..]
     }
 
-    <span class='doccomment'>/// Return the height/length of this stack</span>
-    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>len</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
-        <span class='self'>self</span>.<span class='ident'>scopes</span>.<span class='ident'>len</span>()
+    <span class="doccomment">/// Return the height/length of this stack</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+        <span class="self">self</span>.<span class="ident">scopes</span>.<span class="ident">len</span>()
     }
 
-    <span class='attribute'>#[<span class='ident'>inline</span>]</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_empty</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-        <span class='self'>self</span>.<span class='ident'>len</span>() <span class='op'>==</span> <span class='number'>0</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="self">self</span>.<span class="ident">len</span>() <span class="op">==</span> <span class="number">0</span>
     }
 
-    <span class='doccomment'>/// checks if this stack as a selector matches the given stack</span>
-    <span class='doccomment'>/// if so it returns a match score, higher match scores are stronger</span>
-    <span class='doccomment'>/// matches. Scores are ordered according to the rules found</span>
-    <span class='doccomment'>/// at https://manual.macromates.com/en/scope_selectors</span>
-    <span class='doccomment'>///</span>
-    <span class='doccomment'>/// It accomplishes this ordering through some floating point math</span>
-    <span class='doccomment'>/// ensuring deeper and longer matches matter.</span>
-    <span class='doccomment'>/// Unfortunately it is only guaranteed to return perfectly accurate results</span>
-    <span class='doccomment'>/// up to stack depths of 17, but it should be reasonably good even afterwards.</span>
-    <span class='doccomment'>/// Textmate has the exact same limitation, dunno about Sublime.</span>
-    <span class='doccomment'>/// # Examples</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='doccomment'>/// use syntect::parsing::{ScopeStack, MatchPower};</span>
-    <span class='doccomment'>/// use std::str::FromStr;</span>
-    <span class='doccomment'>/// assert_eq!(ScopeStack::from_str(&quot;a.b c e.f&quot;).unwrap()</span>
-    <span class='doccomment'>///     .does_match(ScopeStack::from_str(&quot;a.b c.d e.f.g&quot;).unwrap().as_slice()),</span>
-    <span class='doccomment'>///     Some(MatchPower(0o212u64 as f64)));</span>
-    <span class='doccomment'>/// assert_eq!(ScopeStack::from_str(&quot;a c.d.e&quot;).unwrap()</span>
-    <span class='doccomment'>///     .does_match(ScopeStack::from_str(&quot;a.b c.d e.f.g&quot;).unwrap().as_slice()),</span>
-    <span class='doccomment'>///     None);</span>
-    <span class='doccomment'>/// ```</span>
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>does_match</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>stack</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>Scope</span>]) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>MatchPower</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>sel_index</span>: <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>0</span>;
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>score</span>: <span class='ident'>f64</span> <span class='op'>=</span> <span class='number'>0.0</span>;
-        <span class='kw'>for</span> (<span class='ident'>i</span>, <span class='ident'>scope</span>) <span class='kw'>in</span> <span class='ident'>stack</span>.<span class='ident'>iter</span>().<span class='ident'>enumerate</span>() {
-            <span class='kw'>let</span> <span class='ident'>sel_scope</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>scopes</span>[<span class='ident'>sel_index</span>];
-            <span class='kw'>if</span> <span class='ident'>sel_scope</span>.<span class='ident'>is_prefix_of</span>(<span class='kw-2'>*</span><span class='ident'>scope</span>) {
-                <span class='kw'>let</span> <span class='ident'>len</span> <span class='op'>=</span> <span class='ident'>sel_scope</span>.<span class='ident'>len</span>();
-                <span class='comment'>// equivalent to score |= len &lt;&lt; (ATOM_LEN_BITS*i) on a large unsigned</span>
-                <span class='ident'>score</span> <span class='op'>+=</span> (<span class='ident'>len</span> <span class='kw'>as</span> <span class='ident'>f64</span>) <span class='op'>*</span> ((<span class='ident'>ATOM_LEN_BITS</span> <span class='op'>*</span> (<span class='ident'>i</span> <span class='kw'>as</span> <span class='ident'>u16</span>)) <span class='kw'>as</span> <span class='ident'>f64</span>).<span class='ident'>exp2</span>();
-                <span class='ident'>sel_index</span> <span class='op'>+=</span> <span class='number'>1</span>;
-                <span class='kw'>if</span> <span class='ident'>sel_index</span> <span class='op'>&gt;=</span> <span class='self'>self</span>.<span class='ident'>scopes</span>.<span class='ident'>len</span>() {
-                    <span class='kw'>return</span> <span class='prelude-val'>Some</span>(<span class='ident'>MatchPower</span>(<span class='ident'>score</span>));
+    <span class="doccomment">/// checks if this stack as a selector matches the given stack</span>
+    <span class="doccomment">/// if so it returns a match score, higher match scores are stronger</span>
+    <span class="doccomment">/// matches. Scores are ordered according to the rules found</span>
+    <span class="doccomment">/// at https://manual.macromates.com/en/scope_selectors</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// It accomplishes this ordering through some floating point math</span>
+    <span class="doccomment">/// ensuring deeper and longer matches matter.</span>
+    <span class="doccomment">/// Unfortunately it is only guaranteed to return perfectly accurate results</span>
+    <span class="doccomment">/// up to stack depths of 17, but it should be reasonably good even afterwards.</span>
+    <span class="doccomment">/// Textmate has the exact same limitation, dunno about Sublime.</span>
+    <span class="doccomment">/// # Examples</span>
+    <span class="doccomment">/// ```</span>
+    <span class="doccomment">/// use syntect::parsing::{ScopeStack, MatchPower};</span>
+    <span class="doccomment">/// use std::str::FromStr;</span>
+    <span class="doccomment">/// assert_eq!(ScopeStack::from_str(&quot;a.b c e.f&quot;).unwrap()</span>
+    <span class="doccomment">///     .does_match(ScopeStack::from_str(&quot;a.b c.d e.f.g&quot;).unwrap().as_slice()),</span>
+    <span class="doccomment">///     Some(MatchPower(0o212u64 as f64)));</span>
+    <span class="doccomment">/// assert_eq!(ScopeStack::from_str(&quot;a c.d.e&quot;).unwrap()</span>
+    <span class="doccomment">///     .does_match(ScopeStack::from_str(&quot;a.b c.d e.f.g&quot;).unwrap().as_slice()),</span>
+    <span class="doccomment">///     None);</span>
+    <span class="doccomment">/// ```</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">does_match</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">stack</span>: <span class="kw-2">&amp;</span>[<span class="ident">Scope</span>]) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">MatchPower</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">sel_index</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">score</span>: <span class="ident">f64</span> <span class="op">=</span> <span class="number">0.0</span>;
+        <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">scope</span>) <span class="kw">in</span> <span class="ident">stack</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
+            <span class="kw">let</span> <span class="ident">sel_scope</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">scopes</span>[<span class="ident">sel_index</span>];
+            <span class="kw">if</span> <span class="ident">sel_scope</span>.<span class="ident">is_prefix_of</span>(<span class="kw-2">*</span><span class="ident">scope</span>) {
+                <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">sel_scope</span>.<span class="ident">len</span>();
+                <span class="comment">// equivalent to score |= len &lt;&lt; (ATOM_LEN_BITS*i) on a large unsigned</span>
+                <span class="ident">score</span> <span class="op">+=</span> (<span class="ident">len</span> <span class="kw">as</span> <span class="ident">f64</span>) <span class="op">*</span> ((<span class="ident">ATOM_LEN_BITS</span> <span class="op">*</span> (<span class="ident">i</span> <span class="kw">as</span> <span class="ident">u16</span>)) <span class="kw">as</span> <span class="ident">f64</span>).<span class="ident">exp2</span>();
+                <span class="ident">sel_index</span> <span class="op">+=</span> <span class="number">1</span>;
+                <span class="kw">if</span> <span class="ident">sel_index</span> <span class="op">&gt;=</span> <span class="self">self</span>.<span class="ident">scopes</span>.<span class="ident">len</span>() {
+                    <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="ident">MatchPower</span>(<span class="ident">score</span>));
                 }
             }
         }
-        <span class='prelude-val'>None</span>
+        <span class="prelude-val">None</span>
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>FromStr</span> <span class='kw'>for</span> <span class='ident'>ScopeStack</span> {
-    <span class='kw'>type</span> <span class='prelude-val'>Err</span> <span class='op'>=</span> <span class='ident'>ParseScopeError</span>;
+<span class="kw">impl</span> <span class="ident">FromStr</span> <span class="kw">for</span> <span class="ident">ScopeStack</span> {
+    <span class="kw">type</span> <span class="prelude-val">Err</span> <span class="op">=</span> <span class="ident">ParseScopeError</span>;
 
-    <span class='doccomment'>/// Parses a scope stack from a whitespace separated list of scopes.</span>
-    <span class='kw'>fn</span> <span class='ident'>from_str</span>(<span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>ScopeStack</span>, <span class='ident'>ParseScopeError</span><span class='op'>&gt;</span> {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>scopes</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
-        <span class='kw'>for</span> <span class='ident'>name</span> <span class='kw'>in</span> <span class='ident'>s</span>.<span class='ident'>split_whitespace</span>() {
-            <span class='ident'>scopes</span>.<span class='ident'>push</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>Scope</span>::<span class='ident'>from_str</span>(<span class='ident'>name</span>)))
+    <span class="doccomment">/// Parses a scope stack from a whitespace separated list of scopes.</span>
+    <span class="kw">fn</span> <span class="ident">from_str</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ScopeStack</span>, <span class="ident">ParseScopeError</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">scopes</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
+        <span class="kw">for</span> <span class="ident">name</span> <span class="kw">in</span> <span class="ident">s</span>.<span class="ident">split_whitespace</span>() {
+            <span class="ident">scopes</span>.<span class="ident">push</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="ident">Scope</span>::<span class="ident">from_str</span>(<span class="ident">name</span>)))
         }
-        <span class='prelude-val'>Ok</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_vec</span>(<span class='ident'>scopes</span>))
+        <span class="prelude-val">Ok</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_vec</span>(<span class="ident">scopes</span>))
     }
 }
 
-<span class='kw'>impl</span> <span class='ident'>fmt</span>::<span class='ident'>Display</span> <span class='kw'>for</span> <span class='ident'>ScopeStack</span> {
-    <span class='kw'>fn</span> <span class='ident'>fmt</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>f</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>fmt</span>::<span class='ident'>Formatter</span>) <span class='op'>-&gt;</span> <span class='ident'>fmt</span>::<span class='prelude-ty'>Result</span> {
-        <span class='kw'>for</span> <span class='ident'>s</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>scopes</span> {
-            <span class='macro'>try</span><span class='macro'>!</span>(<span class='macro'>write</span><span class='macro'>!</span>(<span class='ident'>f</span>, <span class='string'>&quot;{} &quot;</span>, <span class='ident'>s</span>));
+<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">ScopeStack</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+        <span class="kw">for</span> <span class="ident">s</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">scopes</span> {
+            <span class="macro">try</span><span class="macro">!</span>(<span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{} &quot;</span>, <span class="ident">s</span>));
         }
-        <span class='prelude-val'>Ok</span>(())
+        <span class="prelude-val">Ok</span>(())
     }
 }
 
-<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
-<span class='kw'>mod</span> <span class='ident'>tests</span> {
-    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='kw-2'>*</span>;
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>misc</span>() {
-        <span class='comment'>// use std::mem;</span>
-        <span class='comment'>// use std::rc::{Rc};</span>
-        <span class='comment'>// use scope::*;</span>
-        <span class='comment'>// assert_eq!(8, mem::size_of::&lt;Rc&lt;Scope&gt;&gt;());</span>
-        <span class='comment'>// assert_eq!(Scope::new(&quot;source.php&quot;), Scope::new(&quot;source.php&quot;));</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">mod</span> <span class="ident">tests</span> {
+    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">misc</span>() {
+        <span class="comment">// use std::mem;</span>
+        <span class="comment">// use std::rc::{Rc};</span>
+        <span class="comment">// use scope::*;</span>
+        <span class="comment">// assert_eq!(8, mem::size_of::&lt;Rc&lt;Scope&gt;&gt;());</span>
+        <span class="comment">// assert_eq!(Scope::new(&quot;source.php&quot;), Scope::new(&quot;source.php&quot;));</span>
     }
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>repo_works</span>() {
-        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>repo</span> <span class='op'>=</span> <span class='ident'>ScopeRepository</span>::<span class='ident'>new</span>();
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>repo</span>.<span class='ident'>build</span>(<span class='string'>&quot;source.php&quot;</span>).<span class='ident'>unwrap</span>(),
-                   <span class='ident'>repo</span>.<span class='ident'>build</span>(<span class='string'>&quot;source.php&quot;</span>).<span class='ident'>unwrap</span>());
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>repo</span>.<span class='ident'>build</span>(<span class='string'>&quot;source.php.wow.hi.bob.troll.clock.5&quot;</span>).<span class='ident'>unwrap</span>(),
-                   <span class='ident'>repo</span>.<span class='ident'>build</span>(<span class='string'>&quot;source.php.wow.hi.bob.troll.clock.5&quot;</span>).<span class='ident'>unwrap</span>());
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>repo</span>.<span class='ident'>build</span>(<span class='string'>&quot;&quot;</span>).<span class='ident'>unwrap</span>(), <span class='ident'>repo</span>.<span class='ident'>build</span>(<span class='string'>&quot;&quot;</span>).<span class='ident'>unwrap</span>());
-        <span class='kw'>let</span> <span class='ident'>s1</span> <span class='op'>=</span> <span class='ident'>repo</span>.<span class='ident'>build</span>(<span class='string'>&quot;&quot;</span>).<span class='ident'>unwrap</span>();
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>repo</span>.<span class='ident'>to_string</span>(<span class='ident'>s1</span>), <span class='string'>&quot;&quot;</span>);
-        <span class='kw'>let</span> <span class='ident'>s2</span> <span class='op'>=</span> <span class='ident'>repo</span>.<span class='ident'>build</span>(<span class='string'>&quot;source.php.wow&quot;</span>).<span class='ident'>unwrap</span>();
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>repo</span>.<span class='ident'>to_string</span>(<span class='ident'>s2</span>), <span class='string'>&quot;source.php.wow&quot;</span>);
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>repo</span>.<span class='ident'>build</span>(<span class='string'>&quot;source.php&quot;</span>).<span class='ident'>unwrap</span>() <span class='op'>!=</span> <span class='ident'>repo</span>.<span class='ident'>build</span>(<span class='string'>&quot;source.perl&quot;</span>).<span class='ident'>unwrap</span>());
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>repo</span>.<span class='ident'>build</span>(<span class='string'>&quot;source.php&quot;</span>).<span class='ident'>unwrap</span>() <span class='op'>!=</span> <span class='ident'>repo</span>.<span class='ident'>build</span>(<span class='string'>&quot;source.php.wagon&quot;</span>).<span class='ident'>unwrap</span>());
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">repo_works</span>() {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">repo</span> <span class="op">=</span> <span class="ident">ScopeRepository</span>::<span class="ident">new</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">repo</span>.<span class="ident">build</span>(<span class="string">&quot;source.php&quot;</span>).<span class="ident">unwrap</span>(),
+                   <span class="ident">repo</span>.<span class="ident">build</span>(<span class="string">&quot;source.php&quot;</span>).<span class="ident">unwrap</span>());
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">repo</span>.<span class="ident">build</span>(<span class="string">&quot;source.php.wow.hi.bob.troll.clock.5&quot;</span>).<span class="ident">unwrap</span>(),
+                   <span class="ident">repo</span>.<span class="ident">build</span>(<span class="string">&quot;source.php.wow.hi.bob.troll.clock.5&quot;</span>).<span class="ident">unwrap</span>());
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">repo</span>.<span class="ident">build</span>(<span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>(), <span class="ident">repo</span>.<span class="ident">build</span>(<span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>());
+        <span class="kw">let</span> <span class="ident">s1</span> <span class="op">=</span> <span class="ident">repo</span>.<span class="ident">build</span>(<span class="string">&quot;&quot;</span>).<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">repo</span>.<span class="ident">to_string</span>(<span class="ident">s1</span>), <span class="string">&quot;&quot;</span>);
+        <span class="kw">let</span> <span class="ident">s2</span> <span class="op">=</span> <span class="ident">repo</span>.<span class="ident">build</span>(<span class="string">&quot;source.php.wow&quot;</span>).<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">repo</span>.<span class="ident">to_string</span>(<span class="ident">s2</span>), <span class="string">&quot;source.php.wow&quot;</span>);
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">repo</span>.<span class="ident">build</span>(<span class="string">&quot;source.php&quot;</span>).<span class="ident">unwrap</span>() <span class="op">!=</span> <span class="ident">repo</span>.<span class="ident">build</span>(<span class="string">&quot;source.perl&quot;</span>).<span class="ident">unwrap</span>());
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">repo</span>.<span class="ident">build</span>(<span class="string">&quot;source.php&quot;</span>).<span class="ident">unwrap</span>() <span class="op">!=</span> <span class="ident">repo</span>.<span class="ident">build</span>(<span class="string">&quot;source.php.wagon&quot;</span>).<span class="ident">unwrap</span>());
     }
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>global_repo_works</span>() {
-        <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>;
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;source.php&quot;</span>).<span class='ident'>unwrap</span>(),
-                   <span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;source.php&quot;</span>).<span class='ident'>unwrap</span>());
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>Scope</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;1.2.3.4.5.6.7.8&quot;</span>).<span class='ident'>is_ok</span>());
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>Scope</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;1.2.3.4.5.6.7.8.9&quot;</span>).<span class='ident'>is_err</span>());
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">global_repo_works</span>() {
+        <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">str</span>::<span class="ident">FromStr</span>;
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Scope</span>::<span class="ident">new</span>(<span class="string">&quot;source.php&quot;</span>).<span class="ident">unwrap</span>(),
+                   <span class="ident">Scope</span>::<span class="ident">new</span>(<span class="string">&quot;source.php&quot;</span>).<span class="ident">unwrap</span>());
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">Scope</span>::<span class="ident">from_str</span>(<span class="string">&quot;1.2.3.4.5.6.7.8&quot;</span>).<span class="ident">is_ok</span>());
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">Scope</span>::<span class="ident">from_str</span>(<span class="string">&quot;1.2.3.4.5.6.7.8.9&quot;</span>).<span class="ident">is_err</span>());
     }
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>prefixes_work</span>() {
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;1.2.3.4.5.6.7.8&quot;</span>)
-            .<span class='ident'>unwrap</span>()
-            .<span class='ident'>is_prefix_of</span>(<span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;1.2.3.4.5.6.7.8&quot;</span>).<span class='ident'>unwrap</span>()));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;1.2.3.4.5.6&quot;</span>)
-            .<span class='ident'>unwrap</span>()
-            .<span class='ident'>is_prefix_of</span>(<span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;1.2.3.4.5.6.7.8&quot;</span>).<span class='ident'>unwrap</span>()));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;1.2.3.4&quot;</span>)
-            .<span class='ident'>unwrap</span>()
-            .<span class='ident'>is_prefix_of</span>(<span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;1.2.3.4.5.6.7.8&quot;</span>).<span class='ident'>unwrap</span>()));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;1.2.3.4.5.6.a&quot;</span>)
-            .<span class='ident'>unwrap</span>()
-            .<span class='ident'>is_prefix_of</span>(<span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;1.2.3.4.5.6.7.8&quot;</span>).<span class='ident'>unwrap</span>()));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;1.2.a.4.5.6.7&quot;</span>)
-            .<span class='ident'>unwrap</span>()
-            .<span class='ident'>is_prefix_of</span>(<span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;1.2.3.4.5.6.7.8&quot;</span>).<span class='ident'>unwrap</span>()));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;1.2.a.4.5.6.7&quot;</span>)
-            .<span class='ident'>unwrap</span>()
-            .<span class='ident'>is_prefix_of</span>(<span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;1.2.3.4.5&quot;</span>).<span class='ident'>unwrap</span>()));
-        <span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;1.2.a&quot;</span>)
-            .<span class='ident'>unwrap</span>()
-            .<span class='ident'>is_prefix_of</span>(<span class='ident'>Scope</span>::<span class='ident'>new</span>(<span class='string'>&quot;1.2.3.4.5.6.7.8&quot;</span>).<span class='ident'>unwrap</span>()));
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">prefixes_work</span>() {
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">Scope</span>::<span class="ident">new</span>(<span class="string">&quot;1.2.3.4.5.6.7.8&quot;</span>)
+            .<span class="ident">unwrap</span>()
+            .<span class="ident">is_prefix_of</span>(<span class="ident">Scope</span>::<span class="ident">new</span>(<span class="string">&quot;1.2.3.4.5.6.7.8&quot;</span>).<span class="ident">unwrap</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">Scope</span>::<span class="ident">new</span>(<span class="string">&quot;1.2.3.4.5.6&quot;</span>)
+            .<span class="ident">unwrap</span>()
+            .<span class="ident">is_prefix_of</span>(<span class="ident">Scope</span>::<span class="ident">new</span>(<span class="string">&quot;1.2.3.4.5.6.7.8&quot;</span>).<span class="ident">unwrap</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">Scope</span>::<span class="ident">new</span>(<span class="string">&quot;1.2.3.4&quot;</span>)
+            .<span class="ident">unwrap</span>()
+            .<span class="ident">is_prefix_of</span>(<span class="ident">Scope</span>::<span class="ident">new</span>(<span class="string">&quot;1.2.3.4.5.6.7.8&quot;</span>).<span class="ident">unwrap</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">Scope</span>::<span class="ident">new</span>(<span class="string">&quot;1.2.3.4.5.6.a&quot;</span>)
+            .<span class="ident">unwrap</span>()
+            .<span class="ident">is_prefix_of</span>(<span class="ident">Scope</span>::<span class="ident">new</span>(<span class="string">&quot;1.2.3.4.5.6.7.8&quot;</span>).<span class="ident">unwrap</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">Scope</span>::<span class="ident">new</span>(<span class="string">&quot;1.2.a.4.5.6.7&quot;</span>)
+            .<span class="ident">unwrap</span>()
+            .<span class="ident">is_prefix_of</span>(<span class="ident">Scope</span>::<span class="ident">new</span>(<span class="string">&quot;1.2.3.4.5.6.7.8&quot;</span>).<span class="ident">unwrap</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">Scope</span>::<span class="ident">new</span>(<span class="string">&quot;1.2.a.4.5.6.7&quot;</span>)
+            .<span class="ident">unwrap</span>()
+            .<span class="ident">is_prefix_of</span>(<span class="ident">Scope</span>::<span class="ident">new</span>(<span class="string">&quot;1.2.3.4.5&quot;</span>).<span class="ident">unwrap</span>()));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">Scope</span>::<span class="ident">new</span>(<span class="string">&quot;1.2.a&quot;</span>)
+            .<span class="ident">unwrap</span>()
+            .<span class="ident">is_prefix_of</span>(<span class="ident">Scope</span>::<span class="ident">new</span>(<span class="string">&quot;1.2.3.4.5.6.7.8&quot;</span>).<span class="ident">unwrap</span>()));
     }
-    <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>matching_works</span>() {
-        <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>;
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;string&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;string.quoted&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>Some</span>(<span class='ident'>MatchPower</span>(<span class='number'>0o1u64</span> <span class='kw'>as</span> <span class='ident'>f64</span>)));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;source&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;string.quoted&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>None</span>);
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b e.f&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d e.f.g&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>Some</span>(<span class='ident'>MatchPower</span>(<span class='number'>0o202u64</span> <span class='kw'>as</span> <span class='ident'>f64</span>)));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;c e.f&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d e.f.g&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>Some</span>(<span class='ident'>MatchPower</span>(<span class='number'>0o210u64</span> <span class='kw'>as</span> <span class='ident'>f64</span>)));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;c.d e.f&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d e.f.g&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>Some</span>(<span class='ident'>MatchPower</span>(<span class='number'>0o220u64</span> <span class='kw'>as</span> <span class='ident'>f64</span>)));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c e.f&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d e.f.g&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>Some</span>(<span class='ident'>MatchPower</span>(<span class='number'>0o212u64</span> <span class='kw'>as</span> <span class='ident'>f64</span>)));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a c.d&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d e.f.g&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>Some</span>(<span class='ident'>MatchPower</span>(<span class='number'>0o021u64</span> <span class='kw'>as</span> <span class='ident'>f64</span>)));
-        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a c.d.e&quot;</span>)
-                       .<span class='ident'>unwrap</span>()
-                       .<span class='ident'>does_match</span>(<span class='ident'>ScopeStack</span>::<span class='ident'>from_str</span>(<span class='string'>&quot;a.b c.d e.f.g&quot;</span>).<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>()),
-                   <span class='prelude-val'>None</span>);
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">matching_works</span>() {
+        <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">str</span>::<span class="ident">FromStr</span>;
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;string&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;string.quoted&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">Some</span>(<span class="ident">MatchPower</span>(<span class="number">0o1u64</span> <span class="kw">as</span> <span class="ident">f64</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;source&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;string.quoted&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">None</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b e.f&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c.d e.f.g&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">Some</span>(<span class="ident">MatchPower</span>(<span class="number">0o202u64</span> <span class="kw">as</span> <span class="ident">f64</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;c e.f&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c.d e.f.g&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">Some</span>(<span class="ident">MatchPower</span>(<span class="number">0o210u64</span> <span class="kw">as</span> <span class="ident">f64</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;c.d e.f&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c.d e.f.g&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">Some</span>(<span class="ident">MatchPower</span>(<span class="number">0o220u64</span> <span class="kw">as</span> <span class="ident">f64</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c e.f&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c.d e.f.g&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">Some</span>(<span class="ident">MatchPower</span>(<span class="number">0o212u64</span> <span class="kw">as</span> <span class="ident">f64</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a c.d&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c.d e.f.g&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">Some</span>(<span class="ident">MatchPower</span>(<span class="number">0o021u64</span> <span class="kw">as</span> <span class="ident">f64</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a c.d.e&quot;</span>)
+                       .<span class="ident">unwrap</span>()
+                       .<span class="ident">does_match</span>(<span class="ident">ScopeStack</span>::<span class="ident">from_str</span>(<span class="string">&quot;a.b c.d e.f.g&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>()),
+                   <span class="prelude-val">None</span>);
     }
 }
 </pre>

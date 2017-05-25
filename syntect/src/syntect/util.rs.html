@@ -103,11 +103,14 @@
 <span id="58">58</span>
 <span id="59">59</span>
 <span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! Convenient utility methods, mostly for printing `syntect` data structures</span>
 <span class="doccomment">//! prettily to the terminal.</span>
 <span class="kw">use</span> <span class="ident">highlighting</span>::<span class="ident">Style</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Write</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;parsing&quot;</span>)]</span>
 <span class="kw">use</span> <span class="ident">parsing</span>::<span class="ident">ScopeStackOp</span>;
 
 <span class="doccomment">/// Formats the styled fragments using 24-bit colour</span>
@@ -145,6 +148,7 @@
 
 <span class="doccomment">/// Print out the various push and pop operations in a vector</span>
 <span class="doccomment">/// with visual alignment to the line. Obviously for debugging.</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;parsing&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">debug_print_ops</span>(<span class="ident">line</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">ops</span>: <span class="kw-2">&amp;</span>[(<span class="ident">usize</span>, <span class="ident">ScopeStackOp</span>)]) {
     <span class="kw">for</span> <span class="kw-2">&amp;</span>(<span class="ident">i</span>, <span class="kw-2">ref</span> <span class="ident">op</span>) <span class="kw">in</span> <span class="ident">ops</span>.<span class="ident">iter</span>() {
         <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">line</span>.<span class="ident">trim_right</span>());

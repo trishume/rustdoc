@@ -184,7 +184,7 @@
 <span class="kw">use</span> <span class="ident">bincode</span>::{<span class="ident">ErrorKind</span>, <span class="ident">Infinite</span>, <span class="prelude-ty">Result</span>, <span class="ident">deserialize_from</span>, <span class="ident">serialize_into</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fs</span>::<span class="ident">File</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">io</span>::{<span class="ident">BufReader</span>, <span class="ident">BufWriter</span>};
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;assets&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;parsing&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;assets&quot;</span>))]</span>
 <span class="kw">use</span> <span class="ident">parsing</span>::<span class="ident">SyntaxSet</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;assets&quot;</span>)]</span>
 <span class="kw">use</span> <span class="ident">highlighting</span>::<span class="ident">ThemeSet</span>;
@@ -229,7 +229,7 @@
     <span class="ident">deserialize_from</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">decoder</span>, <span class="ident">Infinite</span>)
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;assets&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;parsing&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;assets&quot;</span>))]</span>
 <span class="kw">impl</span> <span class="ident">SyntaxSet</span> {
     <span class="doccomment">/// Instantiates a new syntax set from a binary dump of</span>
     <span class="doccomment">/// Sublime Text&#39;s default open source syntax definitions and then links it.</span>

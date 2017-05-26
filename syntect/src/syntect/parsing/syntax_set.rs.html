@@ -485,6 +485,7 @@
 <span id="440">440</span>
 <span id="441">441</span>
 <span id="442">442</span>
+<span id="443">443</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">syntax_definition</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">scope</span>::<span class="kw-2">*</span>;
@@ -510,8 +511,9 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// Linking replaces the references between syntaxes with direct</span>
 <span class="doccomment">/// pointers. See `link_syntaxes` for more.</span>
-<span class="doccomment">/// Linking, followed by adding more unlinked syntaxes with `load_syntaxes`</span>
-<span class="doccomment">/// and then linking again is allowed.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Re-linking— linking, adding more unlinked syntaxes with `load_syntaxes`,</span>
+<span class="doccomment">/// and then linking again—is allowed.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SyntaxSet</span> {
     <span class="ident">syntaxes</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">SyntaxDefinition</span><span class="op">&gt;</span>,

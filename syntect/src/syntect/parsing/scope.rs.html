@@ -693,7 +693,7 @@
 <span class="doccomment">/// 16 bit numbers to represent and compare atoms. Like &quot;atoms&quot; or &quot;symbols&quot; in other languages.</span>
 <span class="doccomment">/// This means that while comparing and prefix are fast, extracting a string is relatively slower</span>
 <span class="doccomment">/// but ideally should be very rare.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Copy</span>, <span class="ident">Default</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Copy</span>, <span class="ident">Default</span>, <span class="ident">Hash</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Scope</span> {
     <span class="ident">a</span>: <span class="ident">u64</span>,
     <span class="ident">b</span>: <span class="ident">u64</span>,
@@ -710,7 +710,7 @@
     <span class="ident">TooManyAtoms</span>,
 }
 
-<span class="doccomment">/// The structure used to keep of the mapping between scope atom numbers</span>
+<span class="doccomment">/// The structure used to keep track of the mapping between scope atom numbers</span>
 <span class="doccomment">/// and their string names. It is only exposed in case you want to lock</span>
 <span class="doccomment">/// `SCOPE_REPO` and then allocate a whole bunch of scopes at once</span>
 <span class="doccomment">/// without thrashing the lock. It is recommended you just use `Scope::new()`</span>

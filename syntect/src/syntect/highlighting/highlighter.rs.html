@@ -328,6 +328,19 @@
 <span id="283">283</span>
 <span id="284">284</span>
 <span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! Iterators and data structures for transforming parsing information into styled text.</span>
 
@@ -569,6 +582,19 @@
             <span class="ident">background</span>: <span class="prelude-val">None</span>,
             <span class="ident">font_style</span>: <span class="prelude-val">None</span>,
         }
+    }
+
+    <span class="doccomment">/// Returns the fully resolved style for the given stack.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This operation is convenient but expensive. For reasonable performance,</span>
+    <span class="doccomment">/// the caller should be caching results.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">style_for_stack</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">stack</span>: <span class="kw-2">&amp;</span>[<span class="ident">Scope</span>]) <span class="op">-&gt;</span> <span class="ident">Style</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">style</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">get_default</span>();
+        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">stack</span>.<span class="ident">len</span>() {
+            <span class="kw">let</span> <span class="ident">style_mod</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">get_style</span>(<span class="kw-2">&amp;</span><span class="ident">stack</span>[<span class="number">0</span>..<span class="ident">i</span><span class="op">+</span><span class="number">1</span>]);
+            <span class="ident">style</span> <span class="op">=</span> <span class="ident">style</span>.<span class="ident">apply</span>(<span class="ident">style_mod</span>);
+        }
+        <span class="ident">style</span>
     }
 }
 

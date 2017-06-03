@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/onig_sys-63.0.0/src/constants.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/onig_sys-63.0.1/src/constants.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>constants.rs.html -- source</title>
@@ -291,8 +291,6 @@
 <span id="246">246</span>
 <span id="247">247</span>
 <span id="248">248</span>
-<span id="249">249</span>
-<span id="250">250</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">libc</span>::{<span class="ident">c_int</span>, <span class="ident">c_uint</span>};
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">OnigCtype</span>, <span class="ident">OnigOptionType</span>, <span class="ident">OnigDistance</span>, <span class="ident">OnigCaseFoldType</span>, <span class="ident">OnigSyntaxOp</span>,
@@ -326,7 +324,7 @@
 
 <span class="comment">// Options</span>
 <span class="macro">define_consts</span><span class="macro">!</span>(<span class="ident">OnigOptionType</span>,
-    <span class="comment">// Compile time</span>
+<span class="comment">// Compile time</span>
     <span class="ident">ONIG_OPTION_DEFAULT</span>            <span class="op">=</span> <span class="ident">ONIG_OPTION_NONE</span>;
     <span class="ident">ONIG_OPTION_NONE</span>               <span class="op">=</span> <span class="number">0</span>;
     <span class="ident">ONIG_OPTION_IGNORECASE</span>         <span class="op">=</span> <span class="number">1</span>;
@@ -338,7 +336,7 @@
     <span class="ident">ONIG_OPTION_NEGATE_SINGLELINE</span>  <span class="op">=</span> <span class="ident">ONIG_OPTION_FIND_NOT_EMPTY</span>     <span class="op">&lt;&lt;</span> <span class="number">1</span>;
     <span class="ident">ONIG_OPTION_DONT_CAPTURE_GROUP</span> <span class="op">=</span> <span class="ident">ONIG_OPTION_NEGATE_SINGLELINE</span>  <span class="op">&lt;&lt;</span> <span class="number">1</span>;
     <span class="ident">ONIG_OPTION_CAPTURE_GROUP</span>      <span class="op">=</span> <span class="ident">ONIG_OPTION_DONT_CAPTURE_GROUP</span> <span class="op">&lt;&lt;</span> <span class="number">1</span>;
-    <span class="comment">// Search time</span>
+<span class="comment">// Search time</span>
     <span class="ident">ONIG_OPTION_NOTBOL</span>             <span class="op">=</span> <span class="ident">ONIG_OPTION_CAPTURE_GROUP</span>      <span class="op">&lt;&lt;</span> <span class="number">1</span>;
     <span class="ident">ONIG_OPTION_NOTEOL</span>             <span class="op">=</span> <span class="ident">ONIG_OPTION_NOTBOL</span>             <span class="op">&lt;&lt;</span> <span class="number">1</span>;
     <span class="ident">ONIG_OPTION_POSIX_REGION</span>       <span class="op">=</span> <span class="ident">ONIG_OPTION_NOTEOL</span>             <span class="op">&lt;&lt;</span> <span class="number">1</span>;
@@ -518,9 +516,7 @@
 );
 
 <span class="comment">// Infinite distance</span>
-<span class="macro">define_consts</span><span class="macro">!</span>(<span class="ident">OnigDistance</span>,
-    <span class="ident">ONIG_INFINITE_DISTANCE</span> <span class="op">=</span> <span class="op">!</span><span class="number">0</span>
-);
+<span class="macro">define_consts</span><span class="macro">!</span>(<span class="ident">OnigDistance</span>, <span class="ident">ONIG_INFINITE_DISTANCE</span> <span class="op">=</span> <span class="op">!</span><span class="number">0</span>);
 
 <span class="comment">// Case fold flags</span>
 <span class="macro">define_consts</span><span class="macro">!</span>(<span class="ident">OnigCaseFoldType</span>,

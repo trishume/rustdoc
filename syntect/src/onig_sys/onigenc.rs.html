@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/onig_sys-63.0.0/src/onigenc.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/onig_sys-63.0.1/src/onigenc.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>onigenc.rs.html -- source</title>
@@ -175,7 +175,6 @@
 <span id="130">130</span>
 <span id="131">131</span>
 <span id="132">132</span>
-<span id="133">133</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! Onig Encoding API</span>
 <span class="doccomment">//!</span>
@@ -214,7 +213,7 @@
                              <span class="ident">s</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OnigUChar</span>,
                              <span class="ident">n</span>: <span class="ident">c_int</span>)
                              <span class="op">-&gt;</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OnigUChar</span>;
-    
+
     <span class="doccomment">/// Onigenc Set Default Encoding</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// ```c</span>
@@ -228,14 +227,14 @@
     <span class="doccomment">/// OnigEncoding onigenc_get_default_encoding(void);</span>
     <span class="doccomment">/// ```</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">onigenc_get_default_encoding</span>() <span class="op">-&gt;</span> <span class="ident">OnigEncoding</span>;
-    
+
     <span class="doccomment">/// Onigenc Set Default Case Conversion Table</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// ```c</span>
     <span class="doccomment">/// void  onigenc_set_default_caseconv_table(const OnigUChar* table);</span>
     <span class="doccomment">/// ```</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">onigenc_set_default_caseconv_table</span>(<span class="ident">table</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OnigUChar</span>);
-    
+
     <span class="doccomment">/// Onigenc Get Right Adjust Char Head With Prev</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// ```c</span>
@@ -244,12 +243,11 @@
     <span class="doccomment">///     const OnigUChar* start,</span>
     <span class="doccomment">///     const OnigUChar* s,</span>
     <span class="doccomment">///     const OnigUChar** prev);</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">onigenc_get_right_adjust_char_head_with_prev</span>(
-        <span class="ident">enc</span>: <span class="ident">OnigEncoding</span>,
-        <span class="ident">start</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OnigUChar</span>,
-        <span class="ident">s</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OnigUChar</span>,
-        <span class="ident">prev</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OnigUChar</span>)
-        <span class="op">-&gt;</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OnigUChar</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">onigenc_get_right_adjust_char_head_with_prev</span>(<span class="ident">enc</span>: <span class="ident">OnigEncoding</span>,
+                                                        <span class="ident">start</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OnigUChar</span>,
+                                                        <span class="ident">s</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OnigUChar</span>,
+                                                        <span class="ident">prev</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OnigUChar</span>)
+                                                        <span class="op">-&gt;</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">OnigUChar</span>;
 
     <span class="doccomment">///   Return previous character head address.</span>
     <span class="doccomment">///</span>

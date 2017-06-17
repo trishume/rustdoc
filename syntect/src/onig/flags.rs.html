@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/onig-1.2.4/src/flags.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/onig-1.3.0/src/flags.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>flags.rs.html -- source</title>
@@ -293,8 +293,35 @@
 <span id="248">248</span>
 <span id="249">249</span>
 <span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">onig_sys</span>;
+<span class="kw">use</span> <span class="ident">libc</span>;
 
 <span class="macro">bitflags</span><span class="macro">!</span> {
     <span class="doccomment">/// Regex parsing and compilation options.</span>
@@ -432,6 +459,9 @@
         <span class="doccomment">/// `\x{7HHHHHHH}`</span>
         <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_ESC_X_BRACE_HEX8</span>
             <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP_ESC_X_BRACE_HEX8</span> <span class="kw">as</span> <span class="ident">u64</span>),
+        <span class="doccomment">/// Variable meta characters</span>
+        <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_VARIABLE_META_CHARACTERS</span>
+            <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP_VARIABLE_META_CHARACTERS</span> <span class="kw">as</span> <span class="ident">u64</span>),
         <span class="doccomment">/// `\Q...\E`</span>
         <span class="kw">const</span> <span class="ident">SYNTAX_OPERATOR_ESC_CAPITAL_Q_QUOTE</span>
             <span class="op">=</span> (<span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_OP2_ESC_CAPITAL_Q_QUOTE</span> <span class="kw">as</span> <span class="ident">u64</span>) <span class="op">&lt;&lt;</span> <span class="number">32</span>,
@@ -542,6 +572,28 @@
         <span class="doccomment">/// `(?:a*)+`</span>
         <span class="kw">const</span> <span class="ident">SYNTAX_BEHAVIOR_WARN_REDUNDANT_NESTED_REPEAT</span>
             <span class="op">=</span> <span class="ident">onig_sys</span>::<span class="ident">ONIG_SYN_WARN_REDUNDANT_NESTED_REPEAT</span>
+    }
+}
+
+<span class="macro">bitflags</span><span class="macro">!</span> {
+    <span class="kw">pub</span> <span class="ident">flags</span> <span class="ident">TraverseCallbackAt</span>: <span class="ident">libc</span>::<span class="ident">c_int</span> {
+        <span class="kw">const</span> <span class="ident">CALLBACK_AT_FIRST</span> <span class="op">=</span>
+            <span class="ident">onig_sys</span>::<span class="ident">ONIG_TRAVERSE_CALLBACK_AT_FIRST</span>,
+        <span class="kw">const</span> <span class="ident">CALLBACK_AT_LAST</span> <span class="op">=</span>
+            <span class="ident">onig_sys</span>::<span class="ident">ONIG_TRAVERSE_CALLBACK_AT_LAST</span>,
+        <span class="kw">const</span> <span class="ident">CALLBACK_AT_BOTH</span> <span class="op">=</span>
+            <span class="ident">onig_sys</span>::<span class="ident">ONIG_TRAVERSE_CALLBACK_AT_BOTH</span>
+    }
+}
+
+<span class="macro">bitflags</span><span class="macro">!</span> {
+    <span class="kw">pub</span> <span class="ident">flags</span> <span class="ident">MetaCharType</span>: <span class="ident">libc</span>::<span class="ident">c_uint</span> {
+        <span class="kw">const</span> <span class="ident">META_CHAR_ESCAPE</span> <span class="op">=</span> <span class="ident">onig_sys</span>::<span class="ident">ONIG_META_CHAR_ESCAPE</span>,
+        <span class="kw">const</span> <span class="ident">META_CHAR_ANYCHAR</span> <span class="op">=</span>  <span class="ident">onig_sys</span>::<span class="ident">ONIG_META_CHAR_ANYCHAR</span>,
+        <span class="kw">const</span> <span class="ident">META_CHAR_ANYTIME</span> <span class="op">=</span>  <span class="ident">onig_sys</span>::<span class="ident">ONIG_META_CHAR_ANYTIME</span>,
+        <span class="kw">const</span> <span class="ident">META_CHAR_ZERO_OR_ONE_TIME</span> <span class="op">=</span>  <span class="ident">onig_sys</span>::<span class="ident">ONIG_META_CHAR_ZERO_OR_ONE_TIME</span>,
+        <span class="kw">const</span> <span class="ident">META_CHAR_ONE_OR_MORE_TIME</span> <span class="op">=</span>  <span class="ident">onig_sys</span>::<span class="ident">ONIG_META_CHAR_ONE_OR_MORE_TIME</span>,
+        <span class="kw">const</span> <span class="ident">META_CHAR_ANYCHAR_ANYTIME</span> <span class="op">=</span>  <span class="ident">onig_sys</span>::<span class="ident">ONIG_META_CHAR_ANYCHAR_ANYTIME</span>
     }
 }
 </pre>

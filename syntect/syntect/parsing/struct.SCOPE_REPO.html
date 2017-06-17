@@ -29,7 +29,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'><a href='../index.html'>syntect</a>::<wbr><a href='index.html'>parsing</a></p><script>window.sidebarCurrent = {name: 'SCOPE_REPO', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'>Struct SCOPE_REPO</p><div class="block items"><ul><li><a href="#deref-methods">Methods from __Deref&lt;Target=Mutex<ScopeRepository>&gt;</a></li><li><a href="#implementations">Trait Implementations</a></li></ul></div><p class='location'><a href='../index.html'>syntect</a>::<wbr><a href='index.html'>parsing</a></p><script>window.sidebarCurrent = {name: 'SCOPE_REPO', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
     <nav class="sub">
@@ -51,11 +51,11 @@
                </span></span></h1>
 <pre class='rust struct'>pub struct SCOPE_REPO { /* fields omitted */ }</pre><div class='docblock'><p>The global scope repo, exposed in case you want to minimize locking and unlocking.
 Shouldn&#39;t be necessary for you to use. See the <code>ScopeRepository</code> docs.</p>
-</div><h2 id='deref-methods'>Methods from <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Deref.html" title="trait core::ops::Deref">__Deref</a>&lt;Target=<a class="struct" href="https://doc.rust-lang.org/nightly/std/sync/mutex/struct.Mutex.html" title="struct std::sync::mutex::Mutex">Mutex</a>&lt;<a class="struct" href="../../syntect/parsing/struct.ScopeRepository.html" title="struct syntect::parsing::ScopeRepository">ScopeRepository</a>&gt;&gt;</h2><div class='impl-items'></div><div class='impl-items'><h4 id='method.lock' class="method"><span id='lock.v' class='invisible'><code>fn <a href='#method.lock' class='fnname'>lock</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/std/sync/mutex/struct.MutexGuard.html" title="struct std::sync::mutex::MutexGuard">MutexGuard</a>&lt;T&gt;, <a class="struct" href="https://doc.rust-lang.org/nightly/std/sys_common/poison/struct.PoisonError.html" title="struct std::sys_common::poison::PoisonError">PoisonError</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/std/sync/mutex/struct.MutexGuard.html" title="struct std::sync::mutex::MutexGuard">MutexGuard</a>&lt;T&gt;&gt;&gt;</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+</div><h2 id='deref-methods'>Methods from <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/trait.Deref.html" title="trait core::ops::Deref">__Deref</a>&lt;Target = <a class="struct" href="https://doc.rust-lang.org/nightly/std/sync/mutex/struct.Mutex.html" title="struct std::sync::mutex::Mutex">Mutex</a>&lt;<a class="struct" href="../../syntect/parsing/struct.ScopeRepository.html" title="struct syntect::parsing::ScopeRepository">ScopeRepository</a>&gt;&gt;</h2><div class='impl-items'></div><div class='impl-items'><h4 id='method.lock' class="method"><span id='lock.v' class='invisible'><code>fn <a href='#method.lock' class='fnname'>lock</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/std/sync/mutex/struct.MutexGuard.html" title="struct std::sync::mutex::MutexGuard">MutexGuard</a>&lt;T&gt;, <a class="struct" href="https://doc.rust-lang.org/nightly/std/sys_common/poison/struct.PoisonError.html" title="struct std::sys_common::poison::PoisonError">PoisonError</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/std/sync/mutex/struct.MutexGuard.html" title="struct std::sync::mutex::MutexGuard">MutexGuard</a>&lt;T&gt;&gt;&gt;</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
 <div class='docblock'><p>Acquires a mutex, blocking the current thread until it is able to do so.</p>
 
 <p>This function will block the local thread until it is available to acquire
-the mutex. Upon returning, the thread is the only thread with the mutex
+the mutex. Upon returning, the thread is the only thread with the lock
 held. An RAII guard is returned to allow scoped unlock of the lock. When
 the guard goes out of scope, the mutex will be unlocked.</p>
 
@@ -115,9 +115,9 @@ acquired.</p>
 }).<span class="ident">join</span>().<span class="ident">expect</span>(<span class="string">&quot;thread::spawn failed&quot;</span>);
 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">mutex</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>(), <span class="number">10</span>);</pre>
 </div><h4 id='method.is_poisoned' class="method"><span id='is_poisoned.v' class='invisible'><code>fn <a href='#method.is_poisoned' class='fnname'>is_poisoned</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><div class='since' title='Stable since Rust version 1.2.0'>1.2.0</div></span></h4>
-<div class='docblock'><p>Determines whether the lock is poisoned.</p>
+<div class='docblock'><p>Determines whether the mutex is poisoned.</p>
 
-<p>If another thread is active, the lock can still become poisoned at any
+<p>If another thread is active, the mutex can still become poisoned at any
 time. You should not trust a <code>false</code> value for program correctness
 without additional synchronization.</p>
 

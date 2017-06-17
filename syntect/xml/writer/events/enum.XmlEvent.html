@@ -29,7 +29,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'><a href='../../index.html'>xml</a>::<wbr><a href='../index.html'>writer</a>::<wbr><a href='index.html'>events</a></p><script>window.sidebarCurrent = {name: 'XmlEvent', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'>Enum XmlEvent</p><div class="block items"><ul><li><a href="#variants">Variants</a></li><li><a href="#methods">Methods</a></li><li><a href="#implementations">Trait Implementations</a></li></ul></div><p class='location'><a href='../../index.html'>xml</a>::<wbr><a href='../index.html'>writer</a>::<wbr><a href='index.html'>events</a></p><script>window.sidebarCurrent = {name: 'XmlEvent', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
     <nav class="sub">
@@ -74,7 +74,7 @@
 
 <p>Objects of this enum are consumed by <code>EventWriter</code>. They correspond to different parts of
 an XML document.</p>
-</div><h2 class='variants'>Variants</h2>
+</div><h2 id='variants' class='variants'>Variants</h2>
 <span id='variant.StartDocument' class='variant'><span id='StartDocument.v' class='invisible'><code>StartDocument</code></span></span><div class='docblock'><p>Corresponds to XML document declaration.</p>
 
 <p>This event should always be written before any other event. If it is not written
@@ -133,7 +133,7 @@ that is, every character invalid for PCDATA will appear as a character entity.</
 </div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a&gt; <a class="enum" href="../../../xml/writer/events/enum.XmlEvent.html" title="enum xml::writer::events::XmlEvent">XmlEvent</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/xml/writer/events.rs.html#96-142' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.processing_instruction' class="method"><span id='processing_instruction.v' class='invisible'><code>fn <a href='#method.processing_instruction' class='fnname'>processing_instruction</a>(name: &amp;'a <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>, data: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;&amp;'a <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>&gt;) -&gt; <a class="enum" href="../../../xml/writer/events/enum.XmlEvent.html" title="enum xml::writer::events::XmlEvent">XmlEvent</a>&lt;'a&gt;</code></span></h4>
 <div class='docblock'><p>Returns an writer event for a processing instruction.</p>
-</div><h4 id='method.start_element' class="method"><span id='start_element.v' class='invisible'><code>fn <a href='#method.start_element' class='fnname'>start_element</a>&lt;S&gt;(name: S) -&gt; <a class="struct" href="../../../xml/writer/events/struct.StartElementBuilder.html" title="struct xml::writer::events::StartElementBuilder">StartElementBuilder</a>&lt;'a&gt; <span class="where fmt-newline">where S: <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;<a class="struct" href="../../../xml/name/struct.Name.html" title="struct xml::name::Name">Name</a>&lt;'a&gt;&gt;</span></code></span></h4>
+</div><h4 id='method.start_element' class="method"><span id='start_element.v' class='invisible'><code>fn <a href='#method.start_element' class='fnname'>start_element</a>&lt;S&gt;(name: S) -&gt; <a class="struct" href="../../../xml/writer/events/struct.StartElementBuilder.html" title="struct xml::writer::events::StartElementBuilder">StartElementBuilder</a>&lt;'a&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;S: <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;<a class="struct" href="../../../xml/name/struct.Name.html" title="struct xml::name::Name">Name</a>&lt;'a&gt;&gt;,&nbsp;</span></code></span></h4>
 <div class='docblock'><p>Returns a builder for a starting element.</p>
 
 <p>This builder can then be used to tweak attributes and namespace starting at

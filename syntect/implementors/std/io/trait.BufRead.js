@@ -7,7 +7,7 @@ implementors["onig"] = [];
 implementors["regex_syntax"] = [];
 implementors["serde"] = [];
 implementors["syn"] = [];
-implementors["syntect"] = ["impl&lt;R&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/std/io/trait.BufRead.html\" title=\"trait std::io::BufRead\">BufRead</a> for <a class=\"struct\" href=\"flate2/crc/struct.CrcReader.html\" title=\"struct flate2::crc::CrcReader\">CrcReader</a>&lt;R&gt; <span class=\"where fmt-newline\">where R: <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/std/io/trait.BufRead.html\" title=\"trait std::io::BufRead\">BufRead</a></span>",];
+implementors["syntect"] = ["impl&lt;R&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/std/io/trait.BufRead.html\" title=\"trait std::io::BufRead\">BufRead</a> for <a class=\"struct\" href=\"flate2/crc/struct.CrcReader.html\" title=\"struct flate2::crc::CrcReader\">CrcReader</a>&lt;R&gt; <span class=\"where fmt-newline\">where<br>&nbsp;&nbsp;&nbsp;&nbsp;R: <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/std/io/trait.BufRead.html\" title=\"trait std::io::BufRead\">BufRead</a>,&nbsp;</span>",];
 
             if (window.register_implementors) {
                 window.register_implementors(implementors);

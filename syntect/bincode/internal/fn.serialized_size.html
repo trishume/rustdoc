@@ -49,7 +49,7 @@
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a class='srclink' href='../../src/bincode/internal.rs.html#184-193' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn serialized_size&lt;T:&nbsp;?<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>&gt;(value: &amp;T) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u64.html">u64</a> <span class="where fmt-newline">where T: <a class="trait" href="../../serde/ser/trait.Serialize.html" title="trait serde::ser::Serialize">Serialize</a></span></pre><div class='docblock'><p>Returns the size that an object would be if serialized using bincode.</p>
+<pre class='rust fn'>pub fn serialized_size&lt;T:&nbsp;?<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>&gt;(value: &amp;T) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u64.html">u64</a> <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: <a class="trait" href="../../serde/ser/trait.Serialize.html" title="trait serde::ser::Serialize">Serialize</a>,&nbsp;</span></pre><div class='docblock'><p>Returns the size that an object would be if serialized using bincode.</p>
 
 <p>This is used internally as part of the check for encode_into, but it can
 be useful for preallocating buffers if thats your style.</p>

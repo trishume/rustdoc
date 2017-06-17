@@ -29,7 +29,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'><a href='index.html'>chrono</a></p><script>window.sidebarCurrent = {name: 'Weekday', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'>Enum Weekday</p><div class="block items"><ul><li><a href="#variants">Variants</a></li><li><a href="#methods">Methods</a></li><li><a href="#implementations">Trait Implementations</a></li></ul></div><p class='location'><a href='index.html'>chrono</a></p><script>window.sidebarCurrent = {name: 'Weekday', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
     <nav class="sub">
@@ -62,7 +62,7 @@
 <p>The order of the days of week depends on the context.
 (This is why this type does <em>not</em> implement <code>PartialOrd</code> or <code>Ord</code> traits.)
 One should prefer <code>*_from_monday</code> or <code>*_from_sunday</code> methods to get the correct result.</p>
-</div><h2 class='variants'>Variants</h2>
+</div><h2 id='variants' class='variants'>Variants</h2>
 <span id='variant.Mon' class='variant'><span id='Mon.v' class='invisible'><code>Mon</code></span></span><div class='docblock'><p>Monday.</p>
 </div><span id='variant.Tue' class='variant'><span id='Tue.v' class='invisible'><code>Tue</code></span></span><div class='docblock'><p>Tuesday.</p>
 </div><span id='variant.Wed' class='variant'><span id='Wed.v' class='invisible'><code>Wed</code></span></span><div class='docblock'><p>Wednesday.</p>
@@ -291,9 +291,9 @@ One should prefer <code>*_from_monday</code> or <code>*_from_sunday</code> metho
 <div class='docblock'><p>Formats the value using the given formatter.</p>
 </div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html" title="trait core::hash::Hash">Hash</a> for <a class="enum" href="../chrono/enum.Weekday.html" title="enum chrono::Weekday">Weekday</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/chrono/lib.rs.html#414' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.hash' class="method"><span id='hash.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html#tymethod.hash' class='fnname'>hash</a>&lt;__H:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/hash/trait.Hasher.html" title="trait core::hash::Hasher">Hasher</a>&gt;(&amp;self, __arg_0: &amp;mut __H)</code></span></h4>
-<div class='docblock'><p>Feeds this value into the state given, updating the hasher as necessary.</p>
-</div><h4 id='method.hash_slice' class="method"><span id='hash_slice.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html#method.hash_slice' class='fnname'>hash_slice</a>&lt;H&gt;(data: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[Self]</a>, state: &amp;mut H) <span class="where fmt-newline">where H: <a class="trait" href="https://doc.rust-lang.org/nightly/core/hash/trait.Hasher.html" title="trait core::hash::Hasher">Hasher</a></span></code><div class='since' title='Stable since Rust version 1.3.0'>1.3.0</div></span></h4>
-<div class='docblock'><p>Feeds a slice of this type into the state provided.</p>
+<div class='docblock'><p>Feeds this value into the given [<code>Hasher</code>]. <a href="https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html#tymethod.hash">Read more</a></p>
+</div><h4 id='method.hash_slice' class="method"><span id='hash_slice.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html#method.hash_slice' class='fnname'>hash_slice</a>&lt;H&gt;(data: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[Self]</a>, state: &amp;mut H) <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;H: <a class="trait" href="https://doc.rust-lang.org/nightly/core/hash/trait.Hasher.html" title="trait core::hash::Hasher">Hasher</a>,&nbsp;</span></code><div class='since' title='Stable since Rust version 1.3.0'>1.3.0</div></span></h4>
+<div class='docblock'><p>Feeds a slice of this type into the given [<code>Hasher</code>]. <a href="https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html#method.hash_slice">Read more</a></p>
 </div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="../num_traits/cast/trait.FromPrimitive.html" title="trait num_traits::cast::FromPrimitive">FromPrimitive</a> for <a class="enum" href="../chrono/enum.Weekday.html" title="enum chrono::Weekday">Weekday</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/chrono/lib.rs.html#546-574' title='goto source code'>[src]</a></span></h3>
 <div class='docblock'><p>Any weekday can be represented as an integer from 0 to 6, which equals to
 <a href="#method.num_days_from_monday"><code>Weekday::num_days_from_monday</code></a> in this implementation.

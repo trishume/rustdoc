@@ -29,7 +29,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'><a href='../index.html'>syntect</a>::<wbr><a href='index.html'>parsing</a></p><script>window.sidebarCurrent = {name: 'ScopeStackOp', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'>Enum ScopeStackOp</p><div class="block items"><ul><li><a href="#variants">Variants</a></li><li><a href="#implementations">Trait Implementations</a></li></ul></div><p class='location'><a href='../index.html'>syntect</a>::<wbr><a href='index.html'>parsing</a></p><script>window.sidebarCurrent = {name: 'ScopeStackOp', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
     <nav class="sub">
@@ -58,7 +58,7 @@
 }</pre><div class='docblock'><p>A change to a scope stack. Generally <code>Noop</code> is only used internally and you don&#39;t have
 to worry about ever getting one back from a public function.
 Use <code>ScopeStack#apply</code> to apply this change.</p>
-</div><h2 class='variants'>Variants</h2>
+</div><h2 id='variants' class='variants'>Variants</h2>
 <span id='variant.Push' class='variant'><span id='Push.v' class='invisible'><code>Push(<a class="struct" href="../../syntect/parsing/struct.Scope.html" title="struct syntect::parsing::Scope">Scope</a>)</code></span></span><span id='variant.Pop' class='variant'><span id='Pop.v' class='invisible'><code>Pop(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>)</code></span></span><span id='variant.Clear' class='variant'><span id='Clear.v' class='invisible'><code>Clear(<a class="enum" href="../../syntect/parsing/enum.ClearAmount.html" title="enum syntect::parsing::ClearAmount">ClearAmount</a>)</code></span></span><div class='docblock'><p>used for the clear_scopes feature</p>
 </div><span id='variant.Restore' class='variant'><span id='Restore.v' class='invisible'><code>Restore</code></span></span><div class='docblock'><p>restores cleared scopes</p>
 </div><span id='variant.Noop' class='variant'><span id='Noop.v' class='invisible'><code>Noop</code></span></span><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="enum" href="../../syntect/parsing/enum.ScopeStackOp.html" title="enum syntect::parsing::ScopeStackOp">ScopeStackOp</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/syntect/parsing/scope.rs.html#89' title='goto source code'>[src]</a></span></h3>

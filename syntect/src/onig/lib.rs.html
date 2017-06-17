@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/onig-1.2.4/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/onig-1.3.0/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
@@ -891,8 +891,8 @@
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">buffers</span>::{<span class="ident">EncodedChars</span>, <span class="ident">EncodedBytes</span>};
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">replace</span>::<span class="ident">Replacer</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">tree</span>::{<span class="ident">CaptureTreeNode</span>, <span class="ident">CaptureTreeNodeIter</span>};
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">syntax</span>::<span class="ident">Syntax</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">utils</span>::{<span class="ident">version</span>, <span class="ident">copyright</span>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">syntax</span>::{<span class="ident">Syntax</span>, <span class="ident">MetaChar</span>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">utils</span>::{<span class="ident">version</span>, <span class="ident">copyright</span>, <span class="ident">define_user_property</span>};
 
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">error</span>, <span class="ident">fmt</span>, <span class="ident">str</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::<span class="ident">Mutex</span>;

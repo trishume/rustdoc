@@ -29,7 +29,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'><a href='../index.html'>xml</a>::<wbr><a href='index.html'>writer</a></p><script>window.sidebarCurrent = {name: 'Error', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'>Enum Error</p><div class="block items"><ul><li><a href="#variants">Variants</a></li><li><a href="#implementations">Trait Implementations</a></li></ul></div><p class='location'><a href='../index.html'>xml</a>::<wbr><a href='index.html'>writer</a></p><script>window.sidebarCurrent = {name: 'Error', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
     <nav class="sub">
@@ -56,7 +56,7 @@
     EndElementNameIsNotEqualToLastStartElementName,
     EndElementNameIsNotSpecified,
 }</pre><div class='docblock'><p>An error which may be returned by <code>XmlWriter</code> when writing XML events.</p>
-</div><h2 class='variants'>Variants</h2>
+</div><h2 id='variants' class='variants'>Variants</h2>
 <span id='variant.Io' class='variant'><span id='Io.v' class='invisible'><code>Io(<a class="struct" href="https://doc.rust-lang.org/nightly/std/io/error/struct.Error.html" title="struct std::io::error::Error">Error</a>)</code></span></span><div class='docblock'><p>An I/O error occured in the underlying <code>Write</code> instance.</p>
 </div><span id='variant.DocumentStartAlreadyEmitted' class='variant'><span id='DocumentStartAlreadyEmitted.v' class='invisible'><code>DocumentStartAlreadyEmitted</code></span></span><div class='docblock'><p>Document declaration has already been written to the output stream.</p>
 </div><span id='variant.LastElementNameNotAvailable' class='variant'><span id='LastElementNameNotAvailable.v' class='invisible'><code>LastElementNameNotAvailable</code></span></span><div class='docblock'><p>The name of the last opening element is not available.</p>

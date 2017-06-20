@@ -341,6 +341,23 @@
 <span id="296">296</span>
 <span id="297">297</span>
 <span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! Iterators and data structures for transforming parsing information into styled text.</span>
 
@@ -595,6 +612,23 @@
             <span class="ident">style</span> <span class="op">=</span> <span class="ident">style</span>.<span class="ident">apply</span>(<span class="ident">style_mod</span>);
         }
         <span class="ident">style</span>
+    }
+
+    <span class="doccomment">/// Returns a `StyleModifier` which, if applied to the default style,</span>
+    <span class="doccomment">/// would generate the fully resolved style for this stack.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This is made available to applications that are using syntect styles</span>
+    <span class="doccomment">/// in combination with style information from other sources.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This operation is convenient but expensive. For reasonable performance,</span>
+    <span class="doccomment">/// the caller should be caching results.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">style_mod_for_stack</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">stack</span>: <span class="kw-2">&amp;</span>[<span class="ident">Scope</span>]) <span class="op">-&gt;</span> <span class="ident">StyleModifier</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">style_mod</span> <span class="op">=</span> <span class="ident">StyleModifier</span>::<span class="ident">default</span>();
+        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">stack</span>.<span class="ident">len</span>() {
+            <span class="kw">let</span> <span class="ident">next_mod</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">get_style</span>(<span class="kw-2">&amp;</span><span class="ident">stack</span>[<span class="number">0</span>..<span class="ident">i</span><span class="op">+</span><span class="number">1</span>]);
+            <span class="ident">style_mod</span> <span class="op">=</span> <span class="ident">style_mod</span>.<span class="ident">apply</span>(<span class="ident">next_mod</span>);
+        }
+        <span class="ident">style_mod</span>
     }
 }
 

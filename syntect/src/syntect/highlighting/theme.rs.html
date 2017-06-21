@@ -466,6 +466,44 @@
 <span id="421">421</span>
 <span id="422">422</span>
 <span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
 </pre><pre class="rust ">
 <span class="doccomment">/// Code based on https://github.com/defuz/sublimate/blob/master/src/core/syntax/theme.rs</span>
 <span class="doccomment">/// released under the MIT license by @defuz</span>
@@ -494,15 +532,27 @@
 <span class="doccomment">/// Use this to make your editor UI match the highlighted text.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Default</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ThemeSettings</span> {
-    <span class="doccomment">/// Foreground color for the view.</span>
+    <span class="doccomment">/// The default color for text.</span>
     <span class="kw">pub</span> <span class="ident">foreground</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Color</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Backgound color of the view.</span>
+    <span class="doccomment">/// The default backgound color of the view.</span>
     <span class="kw">pub</span> <span class="ident">background</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Color</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Color of the caret.</span>
     <span class="kw">pub</span> <span class="ident">caret</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Color</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Color of the line the caret is in.</span>
     <span class="doccomment">/// Only used when the `higlight_line` setting is set to `true`.</span>
     <span class="kw">pub</span> <span class="ident">line_highlight</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Color</span><span class="op">&gt;</span>,
+
+    <span class="doccomment">/// The color to use for the squiggly underline drawn under misspelled words.</span>
+    <span class="kw">pub</span> <span class="ident">misspelling</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Color</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The color of the border drawn around the viewport area of the minimap.</span>
+    <span class="doccomment">/// Only used when the `draw_minimap_border` setting is enabled.</span>
+    <span class="kw">pub</span> <span class="ident">minimap_border</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Color</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// A color made available for use by the theme.</span>
+    <span class="kw">pub</span> <span class="ident">accent</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Color</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// CSS passed to popups.</span>
+    <span class="kw">pub</span> <span class="ident">popup_css</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// CSS passed to phantoms.</span>
+    <span class="kw">pub</span> <span class="ident">phantom_css</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
 
     <span class="doccomment">/// Color of bracketed sections of text when the caret is in a bracketed section.</span>
     <span class="doccomment">/// Only applied when the `match_brackets` setting is set to `true`.</span>
@@ -527,9 +577,11 @@
     <span class="doccomment">/// Only applied when the match_tags setting is set to `true`.</span>
     <span class="kw">pub</span> <span class="ident">tags_options</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">UnderlineOption</span><span class="op">&gt;</span>,
 
+    <span class="doccomment">/// The border color for &quot;other&quot; matches.</span>
+    <span class="kw">pub</span> <span class="ident">highlight</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Color</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Background color of regions matching the current search.</span>
     <span class="kw">pub</span> <span class="ident">find_highlight</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Color</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Background color of regions matching the current search.</span>
+    <span class="doccomment">/// Text color of regions matching the current search.</span>
     <span class="kw">pub</span> <span class="ident">find_highlight_foreground</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Color</span><span class="op">&gt;</span>,
 
     <span class="doccomment">/// Background color of the gutter.</span>
@@ -537,14 +589,25 @@
     <span class="doccomment">/// Foreground color of the gutter.</span>
     <span class="kw">pub</span> <span class="ident">gutter_foreground</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Color</span><span class="op">&gt;</span>,
 
-    <span class="doccomment">/// Color of the selection regions.</span>
+    <span class="doccomment">/// The background color of selected text.</span>
     <span class="kw">pub</span> <span class="ident">selection</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Color</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Background color of the selection regions.</span>
+    <span class="doccomment">/// A color that will override the scope-based text color of the selection.</span>
+    <span class="kw">pub</span> <span class="ident">selection_foreground</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Color</span><span class="op">&gt;</span>,
+
+    <span class="doccomment">/// Deprecated!</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This property is not part of the recognized tmTheme format. It may be</span>
+    <span class="doccomment">/// removed in a future release.</span>
     <span class="kw">pub</span> <span class="ident">selection_background</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Color</span><span class="op">&gt;</span>,
+
     <span class="doccomment">/// Color of the selection regions border.</span>
     <span class="kw">pub</span> <span class="ident">selection_border</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Color</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Color of inactive selections (inactive view).</span>
+    <span class="doccomment">/// The background color of a selection in a view that is not currently focused.</span>
     <span class="kw">pub</span> <span class="ident">inactive_selection</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Color</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// A color that will override the scope-based text color of the selection</span>
+    <span class="doccomment">/// in a view that is not currently focused.</span>
+    <span class="kw">pub</span> <span class="ident">inactive_selection_foreground</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Color</span><span class="op">&gt;</span>,
+
 
     <span class="doccomment">/// Color of the guides displayed to indicate nesting levels.</span>
     <span class="kw">pub</span> <span class="ident">guide</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Color</span><span class="op">&gt;</span>,
@@ -555,12 +618,16 @@
     <span class="doccomment">/// Only used if the `indent_guide_options` setting is set to `draw_active`.</span>
     <span class="kw">pub</span> <span class="ident">stack_guide</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Color</span><span class="op">&gt;</span>,
 
-    <span class="doccomment">/// Background color for regions added via `sublime.add_regions()`</span>
-    <span class="doccomment">/// with the `sublime.DRAW_OUTLINED` flag added.</span>
-    <span class="kw">pub</span> <span class="ident">highlight</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Color</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Foreground color for regions added via `sublime.add_regions()`</span>
     <span class="doccomment">/// with the `sublime.DRAW_OUTLINED` flag added.</span>
+    <span class="doccomment">/// </span>
+    <span class="doccomment">/// Deprecated!</span>
+    <span class="doccomment">/// This setting does not exist in any available documentation.</span>
+    <span class="doccomment">/// Use is discouraged, and it may be removed in a future release.</span>
     <span class="kw">pub</span> <span class="ident">highlight_foreground</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Color</span><span class="op">&gt;</span>,
+
+    <span class="doccomment">/// The color of the shadow used when a text area can be horizontally scrolled.</span>
+    <span class="kw">pub</span> <span class="ident">shadow</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Color</span><span class="op">&gt;</span>,
 }
 
 <span class="doccomment">/// A component of a theme meant to highlight a specific thing (e.g string literals)</span>
@@ -793,6 +860,13 @@
                 <span class="string">&quot;background&quot;</span> <span class="op">=&gt;</span> <span class="ident">settings</span>.<span class="ident">background</span> <span class="op">=</span> <span class="ident">Color</span>::<span class="ident">parse_settings</span>(<span class="ident">value</span>).<span class="ident">ok</span>(),
                 <span class="string">&quot;caret&quot;</span> <span class="op">=&gt;</span> <span class="ident">settings</span>.<span class="ident">caret</span> <span class="op">=</span> <span class="ident">Color</span>::<span class="ident">parse_settings</span>(<span class="ident">value</span>).<span class="ident">ok</span>(),
                 <span class="string">&quot;lineHighlight&quot;</span> <span class="op">=&gt;</span> <span class="ident">settings</span>.<span class="ident">line_highlight</span> <span class="op">=</span> <span class="ident">Color</span>::<span class="ident">parse_settings</span>(<span class="ident">value</span>).<span class="ident">ok</span>(),
+                <span class="string">&quot;misspelling&quot;</span> <span class="op">=&gt;</span> <span class="ident">settings</span>.<span class="ident">misspelling</span> <span class="op">=</span> <span class="ident">Color</span>::<span class="ident">parse_settings</span>(<span class="ident">value</span>).<span class="ident">ok</span>(),
+                <span class="string">&quot;minimapBorder&quot;</span> <span class="op">=&gt;</span> <span class="ident">settings</span>.<span class="ident">minimap_border</span> <span class="op">=</span> <span class="ident">Color</span>::<span class="ident">parse_settings</span>(<span class="ident">value</span>).<span class="ident">ok</span>(),
+                <span class="string">&quot;accent&quot;</span> <span class="op">=&gt;</span> <span class="ident">settings</span>.<span class="ident">accent</span> <span class="op">=</span> <span class="ident">Color</span>::<span class="ident">parse_settings</span>(<span class="ident">value</span>).<span class="ident">ok</span>(),
+
+                <span class="string">&quot;popupCss&quot;</span> <span class="op">=&gt;</span> <span class="ident">settings</span>.<span class="ident">popup_css</span> <span class="op">=</span> <span class="ident">value</span>.<span class="ident">as_str</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">to_owned</span>()),
+                <span class="string">&quot;phantomCss&quot;</span> <span class="op">=&gt;</span> <span class="ident">settings</span>.<span class="ident">phantom_css</span> <span class="op">=</span> <span class="ident">value</span>.<span class="ident">as_str</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">to_owned</span>()),
+
                 <span class="string">&quot;bracketContentsForeground&quot;</span> <span class="op">=&gt;</span> {
                     <span class="ident">settings</span>.<span class="ident">bracket_contents_foreground</span> <span class="op">=</span> <span class="ident">Color</span>::<span class="ident">parse_settings</span>(<span class="ident">value</span>).<span class="ident">ok</span>()
                 }
@@ -812,6 +886,7 @@
                 <span class="string">&quot;tagsOptions&quot;</span> <span class="op">=&gt;</span> {
                     <span class="ident">settings</span>.<span class="ident">tags_options</span> <span class="op">=</span> <span class="ident">UnderlineOption</span>::<span class="ident">parse_settings</span>(<span class="ident">value</span>).<span class="ident">ok</span>()
                 }
+                <span class="string">&quot;highlight&quot;</span> <span class="op">=&gt;</span> <span class="ident">settings</span>.<span class="ident">highlight</span> <span class="op">=</span> <span class="ident">Color</span>::<span class="ident">parse_settings</span>(<span class="ident">value</span>).<span class="ident">ok</span>(),
                 <span class="string">&quot;findHighlight&quot;</span> <span class="op">=&gt;</span> <span class="ident">settings</span>.<span class="ident">find_highlight</span> <span class="op">=</span> <span class="ident">Color</span>::<span class="ident">parse_settings</span>(<span class="ident">value</span>).<span class="ident">ok</span>(),
                 <span class="string">&quot;findHighlightForeground&quot;</span> <span class="op">=&gt;</span> {
                     <span class="ident">settings</span>.<span class="ident">find_highlight_foreground</span> <span class="op">=</span> <span class="ident">Color</span>::<span class="ident">parse_settings</span>(<span class="ident">value</span>).<span class="ident">ok</span>()
@@ -821,20 +896,21 @@
                     <span class="ident">settings</span>.<span class="ident">gutter_foreground</span> <span class="op">=</span> <span class="ident">Color</span>::<span class="ident">parse_settings</span>(<span class="ident">value</span>).<span class="ident">ok</span>()
                 }
                 <span class="string">&quot;selection&quot;</span> <span class="op">=&gt;</span> <span class="ident">settings</span>.<span class="ident">selection</span> <span class="op">=</span> <span class="ident">Color</span>::<span class="ident">parse_settings</span>(<span class="ident">value</span>).<span class="ident">ok</span>(),
-                <span class="string">&quot;selectionBackground&quot;</span> <span class="op">=&gt;</span> {
-                    <span class="ident">settings</span>.<span class="ident">selection_background</span> <span class="op">=</span> <span class="ident">Color</span>::<span class="ident">parse_settings</span>(<span class="ident">value</span>).<span class="ident">ok</span>()
+                <span class="string">&quot;selectionForeground&quot;</span> <span class="op">=&gt;</span> {
+                    <span class="ident">settings</span>.<span class="ident">selection_foreground</span> <span class="op">=</span> <span class="ident">Color</span>::<span class="ident">parse_settings</span>(<span class="ident">value</span>).<span class="ident">ok</span>()
                 }
                 <span class="string">&quot;selectionBorder&quot;</span> <span class="op">=&gt;</span> <span class="ident">settings</span>.<span class="ident">selection_border</span> <span class="op">=</span> <span class="ident">Color</span>::<span class="ident">parse_settings</span>(<span class="ident">value</span>).<span class="ident">ok</span>(),
                 <span class="string">&quot;inactiveSelection&quot;</span> <span class="op">=&gt;</span> {
                     <span class="ident">settings</span>.<span class="ident">inactive_selection</span> <span class="op">=</span> <span class="ident">Color</span>::<span class="ident">parse_settings</span>(<span class="ident">value</span>).<span class="ident">ok</span>()
                 }
+                <span class="string">&quot;inactiveSelectionForeground&quot;</span> <span class="op">=&gt;</span> {
+                    <span class="ident">settings</span>.<span class="ident">inactive_selection_foreground</span> <span class="op">=</span> <span class="ident">Color</span>::<span class="ident">parse_settings</span>(<span class="ident">value</span>).<span class="ident">ok</span>()
+                }
                 <span class="string">&quot;guide&quot;</span> <span class="op">=&gt;</span> <span class="ident">settings</span>.<span class="ident">guide</span> <span class="op">=</span> <span class="ident">Color</span>::<span class="ident">parse_settings</span>(<span class="ident">value</span>).<span class="ident">ok</span>(),
                 <span class="string">&quot;activeGuide&quot;</span> <span class="op">=&gt;</span> <span class="ident">settings</span>.<span class="ident">active_guide</span> <span class="op">=</span> <span class="ident">Color</span>::<span class="ident">parse_settings</span>(<span class="ident">value</span>).<span class="ident">ok</span>(),
                 <span class="string">&quot;stackGuide&quot;</span> <span class="op">=&gt;</span> <span class="ident">settings</span>.<span class="ident">stack_guide</span> <span class="op">=</span> <span class="ident">Color</span>::<span class="ident">parse_settings</span>(<span class="ident">value</span>).<span class="ident">ok</span>(),
-                <span class="string">&quot;highlight&quot;</span> <span class="op">=&gt;</span> <span class="ident">settings</span>.<span class="ident">highlight</span> <span class="op">=</span> <span class="ident">Color</span>::<span class="ident">parse_settings</span>(<span class="ident">value</span>).<span class="ident">ok</span>(),
-                <span class="string">&quot;highlightForeground&quot;</span> <span class="op">=&gt;</span> {
-                    <span class="ident">settings</span>.<span class="ident">highlight_foreground</span> <span class="op">=</span> <span class="ident">Color</span>::<span class="ident">parse_settings</span>(<span class="ident">value</span>).<span class="ident">ok</span>()
-                }
+                <span class="string">&quot;shadow&quot;</span> <span class="op">=&gt;</span> <span class="ident">settings</span>.<span class="ident">shadow</span> <span class="op">=</span> <span class="ident">Color</span>::<span class="ident">parse_settings</span>(<span class="ident">value</span>).<span class="ident">ok</span>(),
+                <span class="string">&quot;shadowWidth&quot;</span><span class="op">|</span> <span class="comment">// ignored</span>
                 <span class="string">&quot;invisibles&quot;</span> <span class="op">|</span> <span class="comment">// ignored</span>
                 _ <span class="op">=&gt;</span> (),
             }

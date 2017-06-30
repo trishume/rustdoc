@@ -632,13 +632,13 @@
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;assets&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;assets&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;parsing&quot;</span>, <span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;dump-load&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;dump-load-rs&quot;</span>)))]</span>
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
     <span class="kw">use</span> <span class="ident">highlighting</span>::{<span class="ident">ThemeSet</span>, <span class="ident">Style</span>, <span class="ident">Color</span>, <span class="ident">FontStyle</span>};
     <span class="kw">use</span> <span class="ident">parsing</span>::{ <span class="ident">SyntaxSet</span>, <span class="ident">ScopeStack</span>, <span class="ident">ParseState</span>};
-    
+
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">can_parse</span>() {
         <span class="kw">let</span> <span class="ident">ps</span> <span class="op">=</span> <span class="ident">SyntaxSet</span>::<span class="ident">load_from_folder</span>(<span class="string">&quot;testdata/Packages&quot;</span>).<span class="ident">unwrap</span>();

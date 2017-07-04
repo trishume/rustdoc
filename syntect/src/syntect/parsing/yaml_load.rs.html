@@ -515,14 +515,6 @@
 <span id="470">470</span>
 <span id="471">471</span>
 <span id="472">472</span>
-<span id="473">473</span>
-<span id="474">474</span>
-<span id="475">475</span>
-<span id="476">476</span>
-<span id="477">477</span>
-<span id="478">478</span>
-<span id="479">479</span>
-<span id="480">480</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">scope</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">syntax_definition</span>::<span class="kw-2">*</span>;
@@ -576,7 +568,6 @@
     <span class="ident">variables</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">String</span><span class="op">&gt;</span>,
     <span class="ident">variable_regex</span>: <span class="ident">Regex</span>,
     <span class="ident">backref_regex</span>: <span class="ident">Regex</span>,
-    <span class="ident">short_multibyte_regex</span>: <span class="ident">Regex</span>,
     <span class="ident">lines_include_newline</span>: <span class="ident">bool</span>,
 }
 
@@ -628,7 +619,6 @@ __main:
             <span class="ident">variables</span>: <span class="ident">variables</span>,
             <span class="ident">variable_regex</span>: <span class="ident">Regex</span>::<span class="ident">new</span>(<span class="string">r&quot;\{\{([A-Za-z0-9_]+)\}\}&quot;</span>).<span class="ident">unwrap</span>(),
             <span class="ident">backref_regex</span>: <span class="ident">Regex</span>::<span class="ident">new</span>(<span class="string">r&quot;\\\d&quot;</span>).<span class="ident">unwrap</span>(),
-            <span class="ident">short_multibyte_regex</span>: <span class="ident">Regex</span>::<span class="ident">new</span>(<span class="string">r&quot;\\x([a-fA-F][a-fA-F0-9])&quot;</span>).<span class="ident">unwrap</span>(),
             <span class="ident">lines_include_newline</span>: <span class="ident">lines_include_newline</span>,
         };
 
@@ -779,21 +769,15 @@ __main:
                            <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">MatchPattern</span>, <span class="ident">ParseSyntaxError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">raw_regex</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">get_key</span>(<span class="ident">map</span>, <span class="string">&quot;match&quot;</span>, <span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>.<span class="ident">as_str</span>()));
         <span class="kw">let</span> <span class="ident">regex_str_1</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">resolve_variables</span>(<span class="ident">raw_regex</span>, <span class="ident">state</span>);
-        <span class="comment">// bug triggered by CSS.sublime-syntax, dunno why this is necessary</span>
-        <span class="kw">let</span> <span class="ident">regex_str_2</span> <span class="op">=</span>
-            <span class="ident">state</span>.<span class="ident">short_multibyte_regex</span>.<span class="ident">replace_all</span>(<span class="kw-2">&amp;</span><span class="ident">regex_str_1</span>, <span class="op">|</span><span class="ident">caps</span>: <span class="kw-2">&amp;</span><span class="ident">Captures</span><span class="op">|</span> {
-                <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;\\x{{000000{}}}&quot;</span>, <span class="ident">caps</span>.<span class="ident">at</span>(<span class="number">1</span>).<span class="ident">unwrap_or</span>(<span class="string">&quot;&quot;</span>))
-            });
         <span class="comment">// if the passed in strings don&#39;t include newlines (unlike Sublime) we can&#39;t match on them</span>
         <span class="kw">let</span> <span class="ident">regex_str</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">lines_include_newline</span> {
-            <span class="ident">regex_str_2</span>
+            <span class="ident">regex_str_1</span>
         } <span class="kw">else</span> {
-            <span class="ident">regex_str_2</span>
+            <span class="ident">regex_str_1</span>
                 .<span class="ident">replace</span>(<span class="string">&quot;\\n?&quot;</span>,<span class="string">&quot;&quot;</span>) <span class="comment">// fails with invalid operand of repeat expression</span>
                 .<span class="ident">replace</span>(<span class="string">&quot;(?:\\n)?&quot;</span>,<span class="string">&quot;&quot;</span>) <span class="comment">// fails with invalid operand of repeat expression</span>
                 .<span class="ident">replace</span>(<span class="string">&quot;(?&lt;!\\n)&quot;</span>,<span class="string">&quot;&quot;</span>) <span class="comment">// fails with invalid pattern in look-behind</span>
                 .<span class="ident">replace</span>(<span class="string">&quot;(?&lt;=\\n)&quot;</span>,<span class="string">&quot;&quot;</span>) <span class="comment">// fails with invalid pattern in look-behind</span>
-                .<span class="ident">replace</span>(<span class="string">&quot;  :\\s&quot;</span>,<span class="string">&quot;  :(\\s|\\z)&quot;</span>) <span class="comment">// hack specific to YAML.sublime-syntax</span>
                 .<span class="ident">replace</span>(<span class="string">&quot;\\n&quot;</span>,<span class="string">&quot;\\z&quot;</span>)
         };
         <span class="comment">// println!(&quot;{:?}&quot;, regex_str);</span>

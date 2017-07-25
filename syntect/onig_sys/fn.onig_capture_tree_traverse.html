@@ -49,7 +49,7 @@
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a class='srclink' href='../src/onig_sys/lib.rs.html#828-832' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub unsafe extern fn onig_capture_tree_traverse(<br>&nbsp;&nbsp;&nbsp;&nbsp;region: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.pointer.html">*const </a><a class="struct" href="../onig_sys/struct.OnigRegion.html" title="struct onig_sys::OnigRegion">OnigRegion</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;at: <a class="type" href="../libc/type.c_int.html" title="type libc::c_int">c_int</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;func: <a class="type" href="../onig_sys/type.OnigCaptureTreeTraverseCallback.html" title="type onig_sys::OnigCaptureTreeTraverseCallback">OnigCaptureTreeTraverseCallback</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;arg: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.pointer.html">*mut </a><a class="enum" href="../libc/enum.c_void.html" title="enum libc::c_void">c_void</a><br>) -&gt; <a class="type" href="../libc/type.c_int.html" title="type libc::c_int">c_int</a></pre><div class='docblock'><p>Traverse and callback in capture history data tree.</p>
+<pre class='rust fn'>pub unsafe extern &quot;C&quot; fn onig_capture_tree_traverse(<br>&nbsp;&nbsp;&nbsp;&nbsp;region: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.pointer.html">*const </a><a class="struct" href="../onig_sys/struct.OnigRegion.html" title="struct onig_sys::OnigRegion">OnigRegion</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;at: <a class="type" href="../libc/type.c_int.html" title="type libc::c_int">c_int</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;func: <a class="type" href="../onig_sys/type.OnigCaptureTreeTraverseCallback.html" title="type onig_sys::OnigCaptureTreeTraverseCallback">OnigCaptureTreeTraverseCallback</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;arg: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.pointer.html">*mut </a><a class="enum" href="../libc/enum.c_void.html" title="enum libc::c_void">c_void</a><br>) -&gt; <a class="type" href="../libc/type.c_int.html" title="type libc::c_int">c_int</a></pre><div class='docblock'><p>Traverse and callback in capture history data tree.</p>
 
 <p><code>int onig_capture_tree_traverse(OnigRegion* region, int at, int(*func)(int,int,int,int,int,void*), void* arg)</code></p>
 
@@ -147,7 +147,6 @@
         window.rootPath = "../";
         window.currentCrate = "onig_sys";
     </script>
-    <script src="../jquery.js"></script>
     <script src="../main.js"></script>
     <script defer src="../search-index.js"></script>
 </body>

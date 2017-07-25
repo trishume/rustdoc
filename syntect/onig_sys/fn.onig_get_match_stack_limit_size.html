@@ -49,7 +49,7 @@
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a class='srclink' href='../src/onig_sys/lib.rs.html#953' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub unsafe extern fn onig_get_match_stack_limit_size() -&gt; <a class="type" href="../libc/type.c_uint.html" title="type libc::c_uint">c_uint</a></pre><div class='docblock'><p>Return the maximum number of stack size.
+<pre class='rust fn'>pub unsafe extern &quot;C&quot; fn onig_get_match_stack_limit_size() -&gt; <a class="type" href="../libc/type.c_uint.html" title="type libc::c_uint">c_uint</a></pre><div class='docblock'><p>Return the maximum number of stack size.
 (default: 0 == unlimited)</p>
 
 <p><code>unsigned int onig_get_match_stack_limit_size(void)</code></p>
@@ -110,7 +110,6 @@
         window.rootPath = "../";
         window.currentCrate = "onig_sys";
     </script>
-    <script src="../jquery.js"></script>
     <script src="../main.js"></script>
     <script defer src="../search-index.js"></script>
 </body>

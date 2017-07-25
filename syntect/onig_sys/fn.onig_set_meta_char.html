@@ -49,7 +49,7 @@
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a class='srclink' href='../src/onig_sys/lib.rs.html#932-935' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub unsafe extern fn onig_set_meta_char(<br>&nbsp;&nbsp;&nbsp;&nbsp;syntax: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.pointer.html">*mut </a><a class="struct" href="../onig_sys/struct.OnigSyntaxType.html" title="struct onig_sys::OnigSyntaxType">OnigSyntaxType</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;what: <a class="type" href="../libc/type.c_uint.html" title="type libc::c_uint">c_uint</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;code: <a class="type" href="../onig_sys/type.OnigCodePoint.html" title="type onig_sys::OnigCodePoint">OnigCodePoint</a><br>) -&gt; <a class="type" href="../libc/type.c_int.html" title="type libc::c_int">c_int</a></pre><div class='docblock'><p>Set a variable meta character to the code point value.
+<pre class='rust fn'>pub unsafe extern &quot;C&quot; fn onig_set_meta_char(<br>&nbsp;&nbsp;&nbsp;&nbsp;syntax: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.pointer.html">*mut </a><a class="struct" href="../onig_sys/struct.OnigSyntaxType.html" title="struct onig_sys::OnigSyntaxType">OnigSyntaxType</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;what: <a class="type" href="../libc/type.c_uint.html" title="type libc::c_uint">c_uint</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;code: <a class="type" href="../onig_sys/type.OnigCodePoint.html" title="type onig_sys::OnigCodePoint">OnigCodePoint</a><br>) -&gt; <a class="type" href="../libc/type.c_int.html" title="type libc::c_int">c_int</a></pre><div class='docblock'><p>Set a variable meta character to the code point value.
  Except for an escape character, this meta characters specification
  is not work, if ONIG_SYN_OP_VARIABLE_META_CHARACTERS is not effective
  by the syntax. (Build-in syntaxes are not effective.)</p>
@@ -128,7 +128,6 @@
         window.rootPath = "../";
         window.currentCrate = "onig_sys";
     </script>
-    <script src="../jquery.js"></script>
     <script src="../main.js"></script>
     <script defer src="../search-index.js"></script>
 </body>

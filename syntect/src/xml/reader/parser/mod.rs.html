@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/xml-rs-0.4.1/src/reader/parser/mod.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/xml-rs-0.6.1/src/reader/parser/mod.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>mod.rs.html -- source</title>
@@ -656,6 +656,15 @@
 <span id="611">611</span>
 <span id="612">612</span>
 <span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! Contains an implementation of pull-based XML parser.</span>
 
@@ -779,6 +788,9 @@
             <span class="ident">pop_namespace</span>: <span class="bool-val">false</span>
         }
     }
+
+    <span class="doccomment">/// Checks if this parser ignores the end of stream errors.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_ignoring_end_of_stream</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> { <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">ignore_end_of_stream</span> }
 }
 
 <span class="kw">impl</span> <span class="ident">Position</span> <span class="kw">for</span> <span class="ident">PullParser</span> {
@@ -956,7 +968,13 @@
                 <span class="macro">self_error</span><span class="macro">!</span>(<span class="self">self</span>; <span class="string">&quot;Unexpected end of stream&quot;</span>)  <span class="comment">// TODO: add expected hint?</span>
             }
         } <span class="kw">else</span> {
-            <span class="macro">self_error</span><span class="macro">!</span>(<span class="self">self</span>; <span class="string">&quot;Unexpected end of stream: still inside the root element&quot;</span>)
+            <span class="kw">if</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">ignore_end_of_stream</span> {
+                <span class="self">self</span>.<span class="ident">final_result</span> <span class="op">=</span> <span class="prelude-val">None</span>;
+                <span class="self">self</span>.<span class="ident">lexer</span>.<span class="ident">reset_eof_handled</span>();
+                <span class="kw">return</span> <span class="macro">self_error</span><span class="macro">!</span>(<span class="self">self</span>; <span class="string">&quot;Unexpected end of stream: still inside the root element&quot;</span>);
+            } <span class="kw">else</span> {
+                <span class="macro">self_error</span><span class="macro">!</span>(<span class="self">self</span>; <span class="string">&quot;Unexpected end of stream: still inside the root element&quot;</span>)
+            }
         };
         <span class="self">self</span>.<span class="ident">set_final_result</span>(<span class="ident">ev</span>)
     }

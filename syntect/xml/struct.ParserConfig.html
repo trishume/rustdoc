@@ -48,14 +48,15 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/xml/reader/config.rs.html#12-66' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../src/xml/reader/config.rs.html#12-78' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct ParserConfig {
     pub trim_whitespace: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>,
     pub whitespace_to_characters: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>,
     pub cdata_to_characters: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>,
     pub ignore_comments: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>,
     pub coalesce_characters: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>,
-    pub extra_entities: <a class="struct" href="https://doc.rust-lang.org/nightly/std/collections/hash/map/struct.HashMap.html" title="struct std::collections::hash::map::HashMap">HashMap</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a>, <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.char.html">char</a>&gt;,
+    pub extra_entities: <a class="struct" href="https://doc.rust-lang.org/nightly/std/collections/hash/map/struct.HashMap.html" title="struct std::collections::hash::map::HashMap">HashMap</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a>, <a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a>&gt;,
+    pub ignore_end_of_stream: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>,
 }</pre><div class='docblock'><p>Parser configuration structure.</p>
 
 <p>This structure contains various configuration options which affect
@@ -113,14 +114,27 @@ a single event, that is, their data will be concatenated.</p>
 events will always be separated by other events.</p>
 </div><span id='structfield.extra_entities' class="structfield">
                            <span id='extra_entities.v' class='invisible'>
-                           <code>extra_entities: <a class="struct" href="https://doc.rust-lang.org/nightly/std/collections/hash/map/struct.HashMap.html" title="struct std::collections::hash::map::HashMap">HashMap</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a>, <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.char.html">char</a>&gt;</code>
+                           <code>extra_entities: <a class="struct" href="https://doc.rust-lang.org/nightly/std/collections/hash/map/struct.HashMap.html" title="struct std::collections::hash::map::HashMap">HashMap</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a>, <a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a>&gt;</code>
                            </span></span><div class='docblock'><p>A map of extra entities recognized by the parser. Default is an empty map.</p>
 
 <p>By default the XML parser recognizes the entities defined in the XML spec. Sometimes,
 however, it is convenient to make the parser recognize additional entities which
 are also not available through the DTD definitions (especially given that at the moment
 DTD parsing is not supported).</p>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class="struct" href="../xml/struct.ParserConfig.html" title="struct xml::ParserConfig">ParserConfig</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/xml/reader/config.rs.html#68-135' title='goto source code'>[src]</a></span></h3>
+</div><span id='structfield.ignore_end_of_stream' class="structfield">
+                           <span id='ignore_end_of_stream.v' class='invisible'>
+                           <code>ignore_end_of_stream: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code>
+                           </span></span><div class='docblock'><p>Whether or not the parser should ignore the end of stream. Default is false.</p>
+
+<p>By default the parser will either error out when it encounters a premature end of
+stream or complete normally if the end of stream was expected. If you want to continue
+reading from a stream whose input is supplied progressively, you can set this option to true.
+In this case the parser will allow you to invoke the next() method even if a supposed end
+of stream has happened.</p>
+
+<p>Note that support for this functionality is incomplete; for example, the parser will fail if
+the premature end of stream happens inside PCDATA. Therefore, use this option at your own risk.</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class="struct" href="../xml/struct.ParserConfig.html" title="struct xml::ParserConfig">ParserConfig</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/xml/reader/config.rs.html#80-148' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.new' class="method"><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>() -&gt; <a class="struct" href="../xml/struct.ParserConfig.html" title="struct xml::ParserConfig">ParserConfig</a></code></span></h4>
 <div class='docblock'><p>Returns a new config with default values.</p>
 
@@ -151,7 +165,7 @@ DTD parsing is not supported).</p>
 
 <p>This method is exactly equivalent to calling <code>EventReader::new_with_config()</code> with
 this configuration object.</p>
-</div><h4 id='method.add_entity' class="method"><span id='add_entity.v' class='invisible'><code>fn <a href='#method.add_entity' class='fnname'>add_entity</a>&lt;S:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a>&gt;&gt;(self, entity: S, value: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.char.html">char</a>) -&gt; <a class="struct" href="../xml/struct.ParserConfig.html" title="struct xml::ParserConfig">ParserConfig</a></code></span></h4>
+</div><h4 id='method.add_entity' class="method"><span id='add_entity.v' class='invisible'><code>fn <a href='#method.add_entity' class='fnname'>add_entity</a>&lt;S:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a>&gt;, T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a>&gt;&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;self, <br>&nbsp;&nbsp;&nbsp;&nbsp;entity: S, <br>&nbsp;&nbsp;&nbsp;&nbsp;value: T<br>) -&gt; <a class="struct" href="../xml/struct.ParserConfig.html" title="struct xml::ParserConfig">ParserConfig</a></code></span></h4>
 <div class='docblock'><p>Adds a new entity mapping and returns an updated config object.</p>
 
 <p>This is a convenience method for adding external entities mappings to the XML parser.
@@ -163,9 +177,9 @@ An example:</p>
 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">source</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>] <span class="op">=</span> <span class="string">b&quot;...&quot;</span>;
 
 <span class="kw">let</span> <span class="ident">reader</span> <span class="op">=</span> <span class="ident">ParserConfig</span>::<span class="ident">new</span>()
-    .<span class="ident">add_entity</span>(<span class="string">&quot;nbsp&quot;</span>, <span class="string">&#39; &#39;</span>)
-    .<span class="ident">add_entity</span>(<span class="string">&quot;copy&quot;</span>, <span class="string">&#39;©&#39;</span>)
-    .<span class="ident">add_entity</span>(<span class="string">&quot;reg&quot;</span>, <span class="string">&#39;®&#39;</span>)
+    .<span class="ident">add_entity</span>(<span class="string">&quot;nbsp&quot;</span>, <span class="string">&quot; &quot;</span>)
+    .<span class="ident">add_entity</span>(<span class="string">&quot;copy&quot;</span>, <span class="string">&quot;©&quot;</span>)
+    .<span class="ident">add_entity</span>(<span class="string">&quot;reg&quot;</span>, <span class="string">&quot;®&quot;</span>)
     .<span class="ident">create_reader</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">source</span>);</pre>
 </div></div><h3 class='impl'><span class='in-band'><code>impl <a class="struct" href="../xml/struct.ParserConfig.html" title="struct xml::ParserConfig">ParserConfig</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/xml/macros.rs.html#16-22' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.trim_whitespace' class="method"><span id='trim_whitespace.v-1' class='invisible'><code>fn <a href='#method.trim_whitespace' class='fnname'>trim_whitespace</a>(self, value: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <a class="struct" href="../xml/struct.ParserConfig.html" title="struct xml::ParserConfig">ParserConfig</a></code></span></h4>
@@ -182,6 +196,9 @@ An example:</p>
 </div></div><h3 class='impl'><span class='in-band'><code>impl <a class="struct" href="../xml/struct.ParserConfig.html" title="struct xml::ParserConfig">ParserConfig</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/xml/macros.rs.html#16-22' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.coalesce_characters' class="method"><span id='coalesce_characters.v-1' class='invisible'><code>fn <a href='#method.coalesce_characters' class='fnname'>coalesce_characters</a>(self, value: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <a class="struct" href="../xml/struct.ParserConfig.html" title="struct xml::ParserConfig">ParserConfig</a></code></span></h4>
 <div class='docblock'><p>Sets the field to the provided value and returns updated config object.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="struct" href="../xml/struct.ParserConfig.html" title="struct xml::ParserConfig">ParserConfig</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/xml/macros.rs.html#16-22' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.ignore_end_of_stream' class="method"><span id='ignore_end_of_stream.v-1' class='invisible'><code>fn <a href='#method.ignore_end_of_stream' class='fnname'>ignore_end_of_stream</a>(self, value: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <a class="struct" href="../xml/struct.ParserConfig.html" title="struct xml::ParserConfig">ParserConfig</a></code></span></h4>
+<div class='docblock'><p>Sets the field to the provided value and returns updated config object.</p>
 </div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="struct" href="../xml/struct.ParserConfig.html" title="struct xml::ParserConfig">ParserConfig</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/xml/reader/config.rs.html#11' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.clone' class="method"><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class="struct" href="../xml/struct.ParserConfig.html" title="struct xml::ParserConfig">ParserConfig</a></code></span></h4>
 <div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
@@ -196,7 +213,7 @@ An example:</p>
 <div class='impl-items'></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="struct" href="../xml/struct.ParserConfig.html" title="struct xml::ParserConfig">ParserConfig</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/xml/reader/config.rs.html#11' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
 <div class='docblock'><p>Formats the value using the given formatter.</p>
-</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html" title="trait core::default::Default">Default</a> for <a class="struct" href="../xml/struct.ParserConfig.html" title="struct xml::ParserConfig">ParserConfig</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/xml/reader/config.rs.html#137-142' title='goto source code'>[src]</a></span></h3>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html" title="trait core::default::Default">Default</a> for <a class="struct" href="../xml/struct.ParserConfig.html" title="struct xml::ParserConfig">ParserConfig</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/xml/reader/config.rs.html#150-155' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.default' class="method"><span id='default.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/default/trait.Default.html#tymethod.default' class='fnname'>default</a>() -&gt; <a class="struct" href="../xml/struct.ParserConfig.html" title="struct xml::ParserConfig">ParserConfig</a></code></span></h4>
 <div class='docblock'><p>Returns the &quot;default value&quot; for a type. <a href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html#tymethod.default">Read more</a></p>
 </div></div></section>

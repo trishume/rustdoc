@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/onig-1.4.1/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/onig-1.6.1/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
@@ -773,6 +773,9 @@
 <span id="728">728</span>
 <span id="729">729</span>
 <span id="730">730</span>
+<span id="731">731</span>
+<span id="732">732</span>
+<span id="733">733</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! This crate provides a safe wrapper around the</span>
 <span class="doccomment">//! [Oniguruma](https://github.com/kkos/oniguruma) regular expression library.</span>
@@ -913,6 +916,9 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Regex</span> {
     <span class="ident">raw</span>: <span class="ident">onig_sys</span>::<span class="ident">OnigRegexMut</span>,
 }
+
+<span class="kw">unsafe</span> <span class="kw">impl</span> <span class="ident">Send</span> <span class="kw">for</span> <span class="ident">Regex</span> {}
+<span class="kw">unsafe</span> <span class="kw">impl</span> <span class="ident">Sync</span> <span class="kw">for</span> <span class="ident">Regex</span> {}
 
 <span class="kw">impl</span> <span class="ident">Error</span> {
     <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">code</span>: <span class="ident">c_int</span>, <span class="ident">info</span>: <span class="ident">onig_sys</span>::<span class="ident">OnigErrorInfo</span>) <span class="op">-&gt;</span> <span class="ident">Error</span> {

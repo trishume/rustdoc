@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/xml-rs-0.4.1/src/writer/emitter.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/xml-rs-0.6.1/src/writer/emitter.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>emitter.rs.html -- source</title>
@@ -620,10 +620,10 @@
 );
 
 <span class="macro">bitflags</span><span class="macro">!</span>(
-    <span class="ident">flags</span> <span class="ident">IndentFlags</span>: <span class="ident">u8</span> {
-        <span class="kw">const</span> <span class="ident">WROTE_NOTHING</span> <span class="op">=</span> <span class="number">0</span>,
-        <span class="kw">const</span> <span class="ident">WROTE_MARKUP</span>  <span class="op">=</span> <span class="number">1</span>,
-        <span class="kw">const</span> <span class="ident">WROTE_TEXT</span>    <span class="op">=</span> <span class="number">2</span>
+    <span class="kw">struct</span> <span class="ident">IndentFlags</span>: <span class="ident">u8</span> {
+        <span class="kw">const</span> <span class="ident">WROTE_NOTHING</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">const</span> <span class="ident">WROTE_MARKUP</span>  <span class="op">=</span> <span class="number">1</span>;
+        <span class="kw">const</span> <span class="ident">WROTE_TEXT</span>    <span class="op">=</span> <span class="number">2</span>;
     }
 );
 

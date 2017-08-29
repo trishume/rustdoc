@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/xml-rs-0.4.1/src/common.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/xml-rs-0.6.1/src/common.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>common.rs.html -- source</title>
@@ -178,6 +178,13 @@
 <span id="133">133</span>
 <span id="134">134</span>
 <span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! Contains common types and functions used throughout the library.</span>
 
@@ -283,6 +290,13 @@
         <span class="string">&#39;\x20&#39;</span> <span class="op">|</span> <span class="string">&#39;\x09&#39;</span> <span class="op">|</span> <span class="string">&#39;\x0d&#39;</span> <span class="op">|</span> <span class="string">&#39;\x0a&#39;</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
         _ <span class="op">=&gt;</span> <span class="bool-val">false</span>
     }
+}
+
+<span class="doccomment">/// Checks whether the given string is compound only by white space</span>
+<span class="doccomment">/// characters (`S`) using the previous is_whitespace_char to check</span>
+<span class="doccomment">/// all characters of this string</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_whitespace_str</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="ident">s</span>.<span class="ident">chars</span>().<span class="ident">all</span>(<span class="ident">is_whitespace_char</span>)
 }
 
 <span class="doccomment">/// Checks whether the given character is a name start character (`NameStartChar`)</span>

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/plist-0.2.2/src/plist.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/plist-0.2.3/src/plist.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>plist.rs.html -- source</title>
@@ -457,14 +457,14 @@
         <span class="kw">match</span> <span class="self">self</span> {
             <span class="ident">Plist</span>::<span class="ident">Array</span>(<span class="ident">array</span>) <span class="op">=&gt;</span> {
                 <span class="ident">events</span>.<span class="ident">push</span>(<span class="ident">PlistEvent</span>::<span class="ident">StartArray</span>(<span class="prelude-val">Some</span>(<span class="ident">array</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span>)));
-                <span class="kw">for</span> <span class="ident">value</span> <span class="kw">in</span> <span class="ident">array</span>.<span class="ident">into_iter</span>() {
+                <span class="kw">for</span> <span class="ident">value</span> <span class="kw">in</span> <span class="ident">array</span> {
                     <span class="ident">value</span>.<span class="ident">into_events_inner</span>(<span class="ident">events</span>);
                 }
                 <span class="ident">events</span>.<span class="ident">push</span>(<span class="ident">PlistEvent</span>::<span class="ident">EndArray</span>);
             }
             <span class="ident">Plist</span>::<span class="ident">Dictionary</span>(<span class="ident">dict</span>) <span class="op">=&gt;</span> {
                 <span class="ident">events</span>.<span class="ident">push</span>(<span class="ident">PlistEvent</span>::<span class="ident">StartDictionary</span>(<span class="prelude-val">Some</span>(<span class="ident">dict</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span>)));
-                <span class="kw">for</span> (<span class="ident">key</span>, <span class="ident">value</span>) <span class="kw">in</span> <span class="ident">dict</span>.<span class="ident">into_iter</span>() {
+                <span class="kw">for</span> (<span class="ident">key</span>, <span class="ident">value</span>) <span class="kw">in</span> <span class="ident">dict</span> {
                     <span class="ident">events</span>.<span class="ident">push</span>(<span class="ident">PlistEvent</span>::<span class="ident">StringValue</span>(<span class="ident">key</span>));
                     <span class="ident">value</span>.<span class="ident">into_events_inner</span>(<span class="ident">events</span>);
                 }
@@ -482,8 +482,8 @@
     <span class="doccomment">/// If the `Plist` is an Array, returns the associated Vec.</span>
     <span class="doccomment">/// Returns None otherwise.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_array</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Plist</span><span class="op">&gt;&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="kw-2">&amp;</span><span class="ident">Plist</span>::<span class="ident">Array</span>(<span class="kw-2">ref</span> <span class="ident">array</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">array</span>),
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">Plist</span>::<span class="ident">Array</span>(<span class="kw-2">ref</span> <span class="ident">array</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">array</span>),
             _ <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
         }
     }
@@ -491,8 +491,8 @@
     <span class="doccomment">/// If the `Plist` is an Array, returns the associated mutable Vec.</span>
     <span class="doccomment">/// Returns None otherwise.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_array_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Plist</span><span class="op">&gt;&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Plist</span>::<span class="ident">Array</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">array</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">array</span>),
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">Plist</span>::<span class="ident">Array</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">array</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">array</span>),
             _ <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
         }
     }
@@ -500,8 +500,8 @@
     <span class="doccomment">/// If the `Plist` is a Dictionary, returns the associated BTreeMap.</span>
     <span class="doccomment">/// Returns None otherwise.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_dictionary</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">Plist</span><span class="op">&gt;&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="kw-2">&amp;</span><span class="ident">Plist</span>::<span class="ident">Dictionary</span>(<span class="kw-2">ref</span> <span class="ident">map</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">map</span>),
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">Plist</span>::<span class="ident">Dictionary</span>(<span class="kw-2">ref</span> <span class="ident">map</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">map</span>),
             _ <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
         }
     }
@@ -509,8 +509,8 @@
     <span class="doccomment">/// If the `Plist` is a Dictionary, returns the associated mutable BTreeMap.</span>
     <span class="doccomment">/// Returns None otherwise.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_dictionary_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">BTreeMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">Plist</span><span class="op">&gt;&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Plist</span>::<span class="ident">Dictionary</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">map</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">map</span>),
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">Plist</span>::<span class="ident">Dictionary</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">map</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">map</span>),
             _ <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
         }
     }
@@ -518,8 +518,8 @@
     <span class="doccomment">/// If the `Plist` is a Boolean, returns the associated bool.</span>
     <span class="doccomment">/// Returns None otherwise.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_boolean</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="kw-2">&amp;</span><span class="ident">Plist</span>::<span class="ident">Boolean</span>(<span class="ident">v</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">v</span>),
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">Plist</span>::<span class="ident">Boolean</span>(<span class="ident">v</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">v</span>),
             _ <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
         }
     }
@@ -539,8 +539,8 @@
     <span class="doccomment">/// If the `Plist` is a Data, returns the associated Vec.</span>
     <span class="doccomment">/// Returns None otherwise.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="kw-2">&amp;</span><span class="ident">Plist</span>::<span class="ident">Data</span>(<span class="kw-2">ref</span> <span class="ident">data</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">data</span>),
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">Plist</span>::<span class="ident">Data</span>(<span class="kw-2">ref</span> <span class="ident">data</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">data</span>),
             _ <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
         }
     }
@@ -548,8 +548,8 @@
     <span class="doccomment">/// If the `Plist` is a Date, returns the associated DateTime.</span>
     <span class="doccomment">/// Returns None otherwise.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_date</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Date</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="kw-2">&amp;</span><span class="ident">Plist</span>::<span class="ident">Date</span>(<span class="kw-2">ref</span> <span class="ident">date</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">date</span>),
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">Plist</span>::<span class="ident">Date</span>(<span class="kw-2">ref</span> <span class="ident">date</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">date</span>),
             _ <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
         }
     }
@@ -557,8 +557,8 @@
     <span class="doccomment">/// If the `Plist` is a Real, returns the associated f64.</span>
     <span class="doccomment">/// Returns None otherwise.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_real</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">f64</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="kw-2">&amp;</span><span class="ident">Plist</span>::<span class="ident">Real</span>(<span class="ident">v</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">v</span>),
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">Plist</span>::<span class="ident">Real</span>(<span class="ident">v</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">v</span>),
             _ <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
         }
     }
@@ -566,8 +566,8 @@
     <span class="doccomment">/// If the `Plist` is an Integer, returns the associated i64.</span>
     <span class="doccomment">/// Returns None otherwise.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_integer</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="kw-2">&amp;</span><span class="ident">Plist</span>::<span class="ident">Integer</span>(<span class="ident">v</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">v</span>),
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">Plist</span>::<span class="ident">Integer</span>(<span class="ident">v</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">v</span>),
             _ <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
         }
     }
@@ -587,8 +587,8 @@
     <span class="doccomment">/// If the `Plist` is a String, returns the associated str.</span>
     <span class="doccomment">/// Returns None otherwise.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="kw-2">&amp;</span><span class="ident">Plist</span>::<span class="ident">String</span>(<span class="kw-2">ref</span> <span class="ident">v</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">v</span>),
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">Plist</span>::<span class="ident">String</span>(<span class="kw-2">ref</span> <span class="ident">v</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">v</span>),
             _ <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
         }
     }
@@ -757,7 +757,7 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_plist_access</span>() {
         <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">BTreeMap</span>;
-        <span class="kw">use</span> <span class="ident">chrono</span>::<span class="kw-2">*</span>;
+        <span class="kw">use</span> <span class="ident">chrono</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
         <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Date</span>;
 
         <span class="kw">let</span> <span class="ident">vec</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">Plist</span>::<span class="ident">Real</span>(<span class="number">0.0</span>)];
@@ -778,7 +778,7 @@
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Plist</span>::<span class="ident">Data</span>(<span class="ident">slice</span>.<span class="ident">to_vec</span>()).<span class="ident">into_data</span>(),
                    <span class="prelude-val">Some</span>(<span class="ident">slice</span>.<span class="ident">to_vec</span>()));
 
-        <span class="kw">let</span> <span class="ident">date</span>: <span class="ident">Date</span> <span class="op">=</span> <span class="ident">UTC</span>::<span class="ident">now</span>().<span class="ident">into</span>();
+        <span class="kw">let</span> <span class="ident">date</span>: <span class="ident">Date</span> <span class="op">=</span> <span class="ident">Utc</span>::<span class="ident">now</span>().<span class="ident">into</span>();
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Plist</span>::<span class="ident">Date</span>(<span class="ident">date</span>.<span class="ident">clone</span>()).<span class="ident">as_date</span>(), <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">date</span>));
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Plist</span>::<span class="ident">Real</span>(<span class="number">0.0</span>).<span class="ident">as_real</span>(), <span class="prelude-val">Some</span>(<span class="number">0.0</span>));

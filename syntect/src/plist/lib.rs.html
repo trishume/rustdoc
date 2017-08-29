@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/plist-0.2.2/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/plist-0.2.3/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
@@ -430,10 +430,10 @@
     <span class="kw">fn</span> <span class="ident">is_binary</span>(<span class="ident">reader</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">R</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span> {
         <span class="ident">reader</span>.<span class="ident">seek</span>(<span class="ident">SeekFrom</span>::<span class="ident">Start</span>(<span class="number">0</span>))<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">magic</span> <span class="op">=</span> [<span class="number">0</span>; <span class="number">8</span>];
-        <span class="ident">reader</span>.<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">magic</span>)<span class="question-mark">?</span>;
+        <span class="ident">reader</span>.<span class="ident">read_exact</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">magic</span>)<span class="question-mark">?</span>;
         <span class="ident">reader</span>.<span class="ident">seek</span>(<span class="ident">SeekFrom</span>::<span class="ident">Start</span>(<span class="number">0</span>))<span class="question-mark">?</span>;
 
-        <span class="prelude-val">Ok</span>(<span class="kw">if</span> <span class="kw-2">&amp;</span><span class="ident">magic</span> <span class="op">==</span> <span class="string">b&quot;bplist00&quot;</span> { <span class="bool-val">true</span> } <span class="kw">else</span> { <span class="bool-val">false</span> })
+        <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="ident">magic</span> <span class="op">==</span> <span class="string">b&quot;bplist00&quot;</span>)
     }
 }
 

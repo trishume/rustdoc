@@ -51,9 +51,9 @@
                </span><a class='srclink' href='../../../src/syntect/parsing/syntax_definition.rs.html#76-85' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct MatchPattern {
     pub has_captures: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>,
-    pub regex_str: <a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a>,
+    pub regex_str: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>,
     pub regex: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../../onig/struct.Regex.html" title="struct onig::Regex">Regex</a>&gt;,
-    pub scope: <a class="struct" href="https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html" title="struct collections::vec::Vec">Vec</a>&lt;<a class="struct" href="../../../syntect/parsing/struct.Scope.html" title="struct syntect::parsing::Scope">Scope</a>&gt;,
+    pub scope: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href="../../../syntect/parsing/struct.Scope.html" title="struct syntect::parsing::Scope">Scope</a>&gt;,
     pub captures: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="type" href="../../../syntect/parsing/syntax_definition/type.CaptureMapping.html" title="type syntect::parsing::syntax_definition::CaptureMapping">CaptureMapping</a>&gt;,
     pub operation: <a class="enum" href="../../../syntect/parsing/syntax_definition/enum.MatchOperation.html" title="enum syntect::parsing::syntax_definition::MatchOperation">MatchOperation</a>,
     pub with_prototype: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="type" href="../../../syntect/parsing/syntax_definition/type.ContextPtr.html" title="type syntect::parsing::syntax_definition::ContextPtr">ContextPtr</a>&gt;,
@@ -62,13 +62,13 @@
                            <code>has_captures: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code>
                            </span></span><span id='structfield.regex_str' class="structfield">
                            <span id='regex_str.v' class='invisible'>
-                           <code>regex_str: <a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a></code>
+                           <code>regex_str: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></code>
                            </span></span><span id='structfield.regex' class="structfield">
                            <span id='regex.v' class='invisible'>
                            <code>regex: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../../onig/struct.Regex.html" title="struct onig::Regex">Regex</a>&gt;</code>
                            </span></span><span id='structfield.scope' class="structfield">
                            <span id='scope.v' class='invisible'>
-                           <code>scope: <a class="struct" href="https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html" title="struct collections::vec::Vec">Vec</a>&lt;<a class="struct" href="../../../syntect/parsing/struct.Scope.html" title="struct syntect::parsing::Scope">Scope</a>&gt;</code>
+                           <code>scope: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href="../../../syntect/parsing/struct.Scope.html" title="struct syntect::parsing::Scope">Scope</a>&gt;</code>
                            </span></span><span id='structfield.captures' class="structfield">
                            <span id='captures.v' class='invisible'>
                            <code>captures: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="type" href="../../../syntect/parsing/syntax_definition/type.CaptureMapping.html" title="type syntect::parsing::syntax_definition::CaptureMapping">CaptureMapping</a>&gt;</code>
@@ -79,7 +79,7 @@
                            <span id='with_prototype.v' class='invisible'>
                            <code>with_prototype: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="type" href="../../../syntect/parsing/syntax_definition/type.ContextPtr.html" title="type syntect::parsing::syntax_definition::ContextPtr">ContextPtr</a>&gt;</code>
                            </span></span><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class="struct" href="../../../syntect/parsing/syntax_definition/struct.MatchPattern.html" title="struct syntect::parsing::syntax_definition::MatchPattern">MatchPattern</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/syntect/parsing/syntax_definition.rs.html#196-250' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.regex_with_substitutes' class="method"><span id='regex_with_substitutes.v' class='invisible'><code>fn <a href='#method.regex_with_substitutes' class='fnname'>regex_with_substitutes</a>(&amp;self, region: &amp;<a class="struct" href="../../../onig/region/struct.Region.html" title="struct onig::region::Region">Region</a>, s: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a></code></span></h4>
+<div class='impl-items'><h4 id='method.regex_with_substitutes' class="method"><span id='regex_with_substitutes.v' class='invisible'><code>fn <a href='#method.regex_with_substitutes' class='fnname'>regex_with_substitutes</a>(&amp;self, region: &amp;<a class="struct" href="../../../onig/region/struct.Region.html" title="struct onig::region::Region">Region</a>, s: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></code></span></h4>
 <div class='docblock'><p>substitutes back-refs in Regex with regions from s
 used for match patterns which refer to captures from the pattern
 that pushed them.</p>

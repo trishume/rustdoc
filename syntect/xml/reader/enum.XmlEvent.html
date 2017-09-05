@@ -52,26 +52,26 @@
 <pre class='rust enum'>pub enum XmlEvent {
     StartDocument {
         version: <a class="enum" href="../../xml/common/enum.XmlVersion.html" title="enum xml::common::XmlVersion">XmlVersion</a>,
-        encoding: <a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a>,
+        encoding: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>,
         standalone: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt;,
     },
     EndDocument,
     ProcessingInstruction {
-        name: <a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a>,
-        data: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a>&gt;,
+        name: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>,
+        data: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;,
     },
     StartElement {
         name: <a class="struct" href="../../xml/name/struct.OwnedName.html" title="struct xml::name::OwnedName">OwnedName</a>,
-        attributes: <a class="struct" href="https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html" title="struct collections::vec::Vec">Vec</a>&lt;<a class="struct" href="../../xml/attribute/struct.OwnedAttribute.html" title="struct xml::attribute::OwnedAttribute">OwnedAttribute</a>&gt;,
+        attributes: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href="../../xml/attribute/struct.OwnedAttribute.html" title="struct xml::attribute::OwnedAttribute">OwnedAttribute</a>&gt;,
         namespace: <a class="struct" href="../../xml/namespace/struct.Namespace.html" title="struct xml::namespace::Namespace">Namespace</a>,
     },
     EndElement {
         name: <a class="struct" href="../../xml/name/struct.OwnedName.html" title="struct xml::name::OwnedName">OwnedName</a>,
     },
-    CData(<a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a>),
-    Comment(<a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a>),
-    Characters(<a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a>),
-    Whitespace(<a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a>),
+    CData(<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>),
+    Comment(<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>),
+    Characters(<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>),
+    Whitespace(<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>),
 }</pre><div class='docblock'><p>An element of an XML input stream.</p>
 
 <p>Items of this enum are emitted by <code>reader::EventReader</code>. They correspond to different
@@ -86,7 +86,7 @@ even if the actual declaration is not present in the document.</p>
                            <table><tr><td id='variant.StartDocument.field.version'><span id='StartDocument.v.version.v' class='invisible'><code>version:&nbsp;<a class="enum" href="../../xml/common/enum.XmlVersion.html" title="enum xml::common::XmlVersion">XmlVersion</a></code></span></td><td><div class='docblock'><p>XML version.</p>
 
 <p>If XML declaration is not present, defaults to <code>Version10</code>.</p>
-</div></td></tr><tr><td id='variant.StartDocument.field.encoding'><span id='StartDocument.v.encoding.v' class='invisible'><code>encoding:&nbsp;<a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a></code></span></td><td><div class='docblock'><p>XML document encoding.</p>
+</div></td></tr><tr><td id='variant.StartDocument.field.encoding'><span id='StartDocument.v.encoding.v' class='invisible'><code>encoding:&nbsp;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></code></span></td><td><div class='docblock'><p>XML document encoding.</p>
 
 <p>If XML declaration is not present or does not contain <code>encoding</code> attribute,
 defaults to <code>&quot;UTF-8&quot;</code>. This field is currently used for no other purpose than
@@ -106,8 +106,8 @@ is emitted for the first time, it will always be emitted on next event pull atte
 is up to the application to process them.</p>
 </div><span class='docblock autohide sub-variant' id='variant.ProcessingInstruction.fields'><h3 class='fields'>Fields of <code>ProcessingInstruction</code></h3>
 
-                           <table><tr><td id='variant.ProcessingInstruction.field.name'><span id='ProcessingInstruction.v.name.v' class='invisible'><code>name:&nbsp;<a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a></code></span></td><td><div class='docblock'><p>Processing instruction target.</p>
-</div></td></tr><tr><td id='variant.ProcessingInstruction.field.data'><span id='ProcessingInstruction.v.data.v' class='invisible'><code>data:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a>&gt;</code></span></td><td><div class='docblock'><p>Processing instruction content.</p>
+                           <table><tr><td id='variant.ProcessingInstruction.field.name'><span id='ProcessingInstruction.v.name.v' class='invisible'><code>name:&nbsp;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></code></span></td><td><div class='docblock'><p>Processing instruction target.</p>
+</div></td></tr><tr><td id='variant.ProcessingInstruction.field.data'><span id='ProcessingInstruction.v.data.v' class='invisible'><code>data:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;</code></span></td><td><div class='docblock'><p>Processing instruction content.</p>
 </div></td></tr></table></span><span id='variant.StartElement' class='variant'><span id='StartElement.v' class='invisible'><code>StartElement</code></span></span><div class='docblock'><p>Denotes a beginning of an XML element.</p>
 
 <p>This event is emitted after parsing opening tags or after parsing bodiless tags. In the
@@ -115,7 +115,7 @@ latter case <code>EndElement</code> event immediately follows.</p>
 </div><span class='docblock autohide sub-variant' id='variant.StartElement.fields'><h3 class='fields'>Fields of <code>StartElement</code></h3>
 
                            <table><tr><td id='variant.StartElement.field.name'><span id='StartElement.v.name.v' class='invisible'><code>name:&nbsp;<a class="struct" href="../../xml/name/struct.OwnedName.html" title="struct xml::name::OwnedName">OwnedName</a></code></span></td><td><div class='docblock'><p>Qualified name of the element.</p>
-</div></td></tr><tr><td id='variant.StartElement.field.attributes'><span id='StartElement.v.attributes.v' class='invisible'><code>attributes:&nbsp;<a class="struct" href="https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html" title="struct collections::vec::Vec">Vec</a>&lt;<a class="struct" href="../../xml/attribute/struct.OwnedAttribute.html" title="struct xml::attribute::OwnedAttribute">OwnedAttribute</a>&gt;</code></span></td><td><div class='docblock'><p>A list of attributes associated with the element.</p>
+</div></td></tr><tr><td id='variant.StartElement.field.attributes'><span id='StartElement.v.attributes.v' class='invisible'><code>attributes:&nbsp;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href="../../xml/attribute/struct.OwnedAttribute.html" title="struct xml::attribute::OwnedAttribute">OwnedAttribute</a>&gt;</code></span></td><td><div class='docblock'><p>A list of attributes associated with the element.</p>
 
 <p>Currently attributes are not checked for duplicates (TODO)</p>
 </div></td></tr><tr><td id='variant.StartElement.field.namespace'><span id='StartElement.v.namespace.v' class='invisible'><code>namespace:&nbsp;<a class="struct" href="../../xml/namespace/struct.Namespace.html" title="struct xml::namespace::Namespace">Namespace</a></code></span></td><td><div class='docblock'><p>Contents of the namespace mapping at this point of the document.</p>
@@ -126,24 +126,24 @@ latter case it is emitted immediately after corresponding <code>StartElement</co
 </div><span class='docblock autohide sub-variant' id='variant.EndElement.fields'><h3 class='fields'>Fields of <code>EndElement</code></h3>
 
                            <table><tr><td id='variant.EndElement.field.name'><span id='EndElement.v.name.v' class='invisible'><code>name:&nbsp;<a class="struct" href="../../xml/name/struct.OwnedName.html" title="struct xml::name::OwnedName">OwnedName</a></code></span></td><td><div class='docblock'><p>Qualified name of the element.</p>
-</div></td></tr></table></span><span id='variant.CData' class='variant'><span id='CData.v' class='invisible'><code>CData(<a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a>)</code></span></span><div class='docblock'><p>Denotes CDATA content.</p>
+</div></td></tr></table></span><span id='variant.CData' class='variant'><span id='CData.v' class='invisible'><code>CData(<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>)</code></span></span><div class='docblock'><p>Denotes CDATA content.</p>
 
 <p>This event contains unparsed data. No unescaping will be performed.</p>
 
 <p>It is possible to configure a parser to emit <code>Characters</code> event instead of <code>CData</code>. See
 <code>pull::ParserConfiguration</code> structure for more information.</p>
-</div><span id='variant.Comment' class='variant'><span id='Comment.v' class='invisible'><code>Comment(<a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a>)</code></span></span><div class='docblock'><p>Denotes a comment.</p>
+</div><span id='variant.Comment' class='variant'><span id='Comment.v' class='invisible'><code>Comment(<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>)</code></span></span><div class='docblock'><p>Denotes a comment.</p>
 
 <p>It is possible to configure a parser to ignore comments, so this event will never be emitted.
 See <code>pull::ParserConfiguration</code> structure for more information.</p>
-</div><span id='variant.Characters' class='variant'><span id='Characters.v' class='invisible'><code>Characters(<a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a>)</code></span></span><div class='docblock'><p>Denotes character data outside of tags.</p>
+</div><span id='variant.Characters' class='variant'><span id='Characters.v' class='invisible'><code>Characters(<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>)</code></span></span><div class='docblock'><p>Denotes character data outside of tags.</p>
 
 <p>Contents of this event will always be unescaped, so no entities like <code>&amp;lt;</code> or <code>&amp;amp;</code> or <code>&amp;#123;</code>
 will appear in it.</p>
 
 <p>It is possible to configure a parser to trim leading and trailing whitespace for this event.
 See <code>pull::ParserConfiguration</code> structure for more information.</p>
-</div><span id='variant.Whitespace' class='variant'><span id='Whitespace.v' class='invisible'><code>Whitespace(<a class="struct" href="https://doc.rust-lang.org/nightly/collections/string/struct.String.html" title="struct collections::string::String">String</a>)</code></span></span><div class='docblock'><p>Denotes a chunk of whitespace outside of tags.</p>
+</div><span id='variant.Whitespace' class='variant'><span id='Whitespace.v' class='invisible'><code>Whitespace(<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>)</code></span></span><div class='docblock'><p>Denotes a chunk of whitespace outside of tags.</p>
 
 <p>It is possible to configure a parser to emit <code>Characters</code> event instead of <code>Whitespace</code>.
 See <code>pull::ParserConfiguration</code> structure for more information. When combined with whitespace

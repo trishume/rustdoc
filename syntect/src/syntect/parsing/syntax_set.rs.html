@@ -757,8 +757,8 @@
             <span class="ident">context</span>.<span class="ident">meta_include_prototype</span> <span class="op">=</span> <span class="bool-val">false</span>;
             <span class="kw">for</span> <span class="ident">pattern</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">context</span>.<span class="ident">patterns</span> {
                 <span class="kw">match</span> <span class="kw-2">*</span><span class="ident">pattern</span> {
-                    <span class="doccomment">/// Apparently inline blocks also don&#39;t include the prototype when within the prototype.</span>
-                    <span class="doccomment">/// This is really weird, but necessary to run the YAML syntax.</span>
+                    <span class="comment">// Apparently inline blocks also don&#39;t include the prototype when within the prototype.</span>
+                    <span class="comment">// This is really weird, but necessary to run the YAML syntax.</span>
                     <span class="ident">Pattern</span>::<span class="ident">Match</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">match_pat</span>) <span class="op">=&gt;</span> {
                         <span class="kw">let</span> <span class="ident">maybe_context_refs</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">match_pat</span>.<span class="ident">operation</span> {
                             <span class="ident">MatchOperation</span>::<span class="ident">Push</span>(<span class="kw-2">ref</span> <span class="ident">context_refs</span>) <span class="op">|</span>

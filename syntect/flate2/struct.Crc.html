@@ -29,7 +29,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'>Struct Crc</p><div class="block items"><ul><li><a href="#methods">Methods</a></li></ul></div><p class='location'><a href='index.html'>flate2</a></p><script>window.sidebarCurrent = {name: 'Crc', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'>Struct Crc</p><div class="block items"><ul><li><a href="#methods">Methods</a></li><li><a href="#implementations">Trait Implementations</a></li></ul></div><p class='location'><a href='index.html'>flate2</a></p><script>window.sidebarCurrent = {name: 'Crc', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
     <nav class="sub">
@@ -48,9 +48,9 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/flate2/crc.rs.html#10-13' title='goto source code'>[src]</a></span></h1>
-<pre class='rust struct'>pub struct Crc { /* fields omitted */ }</pre><div class='docblock'><p>The CRC calculated by a CrcReader.</p>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class="struct" href="../flate2/struct.Crc.html" title="struct flate2::Crc">Crc</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/flate2/crc.rs.html#21-61' title='goto source code'>[src]</a></span></h3>
+               </span><a class='srclink' href='../src/flate2/crc.rs.html#13-16' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Crc { /* fields omitted */ }</pre><div class='docblock'><p>The CRC calculated by a <a href="struct.CrcReader.html"><code>CrcReader</code></a>.</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class="struct" href="../flate2/struct.Crc.html" title="struct flate2::Crc">Crc</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/flate2/crc.rs.html#27-67' title='goto source code'>[src]</a></span></h3>
 <div class='impl-items'><h4 id='method.new' class="method"><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>() -&gt; <a class="struct" href="../flate2/struct.Crc.html" title="struct flate2::Crc">Crc</a></code></span></h4>
 <div class='docblock'><p>Create a new CRC.</p>
 </div><h4 id='method.sum' class="method"><span id='sum.v' class='invisible'><code>fn <a href='#method.sum' class='fnname'>sum</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a></code></span></h4>
@@ -64,6 +64,9 @@ This value is only accurate if the amount is lower than 2<sup>32.</sup></p>
 <div class='docblock'><p>Reset the CRC.</p>
 </div><h4 id='method.combine' class="method"><span id='combine.v' class='invisible'><code>fn <a href='#method.combine' class='fnname'>combine</a>(&amp;mut self, additional_crc: &amp;<a class="struct" href="../flate2/struct.Crc.html" title="struct flate2::Crc">Crc</a>)</code></span></h4>
 <div class='docblock'><p>Combine the CRC with the CRC for the subsequent block of bytes.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="struct" href="../flate2/struct.Crc.html" title="struct flate2::Crc">Crc</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/flate2/crc.rs.html#12' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
 </div></div></section>
     <section id='search' class="content hidden"></section>
 
